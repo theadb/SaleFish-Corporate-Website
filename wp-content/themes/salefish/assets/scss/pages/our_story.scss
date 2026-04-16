@@ -1,0 +1,135 @@
+.our_story {
+  .hero {
+    height: 100vh;
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 80%);
+    position: relative;
+
+    @include rs550 {
+      clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 90%);
+      height: 550px;
+    }
+
+    .hero_bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .wrapper {
+      width: calc(100% - 120px);
+      padding: 0 60px;
+      height: 100%;
+      position: relative;
+      max-width: 1800px;
+      margin: 0 auto;
+      @include rs768 {
+        padding: 0 20px;
+        width: calc(100% - 40px);
+      }
+
+      .wrap {
+        position: absolute;
+        top: 45%;
+        transform: translateY(-50%);
+
+        h1 {
+          color: #fff;
+          margin-bottom: 30px;
+        }
+      }
+    }
+  }
+
+  section {
+    h1 {
+      margin-bottom: 50px;
+    }
+
+    p {
+      margin-top: 30px;
+      width: 80%;
+
+      @include rs550 {
+        font-size: 1em;
+        width: 100%;
+      }
+    }
+  }
+
+  .hero_content {
+    width: calc(100% - 120px);
+    padding: 100px 60px 120px 60px;
+
+    @include rs768 {
+      width: calc(100% - 40px);
+      padding: 80px 20px 80px 20px;
+    }
+
+    .wrap {
+      max-width: 1800px;
+      margin: 0 auto;
+      h1 {
+        width: 80%;
+
+        @include rs550 {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .platform {
+    width: calc(100% - 120px);
+    padding: 100px 60px 160px 60px;
+    background: $gray;
+
+    @include rs768 {
+      width: calc(100% - 40px);
+      padding: 80px 20px 80px 20px;
+    }
+
+    .button {
+      margin-top: 3em;
+    }
+
+    .white_labeling {
+      display: block;
+      width: 50%;
+      margin: 0 auto;
+
+      @include rs768 {
+        margin-top: 40px;
+      }
+
+      @include rs550 {
+        width: 100%;
+      }
+    }
+  }
+
+  .security {
+    width: calc(100% - 120px);
+    padding: 100px 60px 160px 60px;
+
+    @include rs768 {
+      width: calc(100% - 40px);
+      padding: 80px 20px 80px 20px;
+    }
+
+    img {
+      width: 15vw;
+      width: 120px;
+      display: flex;
+      margin: 0 auto;
+      margin-top: 30px;
+    }
+  }
+
+  .contact {
+    .top_overlay {
+      background: #fff;
+    }
+  }
+}

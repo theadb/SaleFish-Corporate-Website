@@ -1,0 +1,265 @@
+import $ from "jquery";
+import parsley from "./tools/parsley";
+import flowtype from "./tools/flowtype";
+import mask from "./tools/jquery.mask";
+
+$(function () {
+  let page = $("main").attr("class");
+
+  $.fn.isInViewport = function () {
+    var elementTop = $(this).offset().top;
+    var elementBottom = elementTop + $(this).outerHeight();
+
+    var viewportTop = $(window).scrollTop();
+    var viewportBottom = viewportTop + $(window).height();
+
+    return elementBottom > viewportTop && elementTop < viewportBottom;
+  };
+
+  let pathname = $(location).attr("pathname");
+
+  let scroll = new SmoothScroll('a[href*="#"]', {
+    offset: function (anchor, toggle) {
+      return 70;
+    },
+  });
+
+  $("#phone").mask("000-000-0000");
+
+  $(".hamburger--emphatic").on("click", function () {
+    $(this).toggleClass("is-active");
+    $(".floating_menu").fadeToggle();
+  });
+  $(".sales_login").on("click", function () {
+    $(".sales_login_menu").fadeToggle();
+  });
+  $(".languages").on("click", function () {
+    $(".languages .down_arrow").toggleClass("active");
+    $(".languages_option").fadeToggle();
+  });
+  $(document).on("click", function (e) {
+    if ($(e.target).closest(".languages").length === 0) {
+      $(".languages_option").fadeOut();
+      $(".languages .down_arrow").removeClass("active");
+    }
+    if ($(e.target).closest(".sales_login").length === 0) {
+      $(".sales_login_menu").fadeOut();
+    }
+  });
+
+  $(".privacy_policy_menu").on("click", function () {
+    $(".privacy_policy").addClass("active");
+    $(".hamburger--emphatic").toggleClass("is-active");
+    $(".floating_menu").fadeToggle();
+    $("body").css("overflow", "hidden");
+  });
+
+  $(".close_privacy").on("click", function () {
+    $(".privacy_policy").removeClass("active");
+    $("body").css("overflow", "auto");
+  });
+
+  $(".terms_menu").on("click", function () {
+    $(".terms_popup").addClass("active");
+    $(".hamburger--emphatic").toggleClass("is-active");
+    $(".floating_menu").fadeToggle();
+    $("body").css("overflow", "hidden");
+  });
+
+  $(".close_terms").on("click", function () {
+    $(".terms_popup").removeClass("active");
+    $("body").css("overflow", "auto");
+  });
+
+  $(".privacy_policy_menu_footer").on("click", function () {
+    $(".privacy_policy").addClass("active");
+    $("body").css("overflow", "hidden");
+  });
+  $(".terms_menu_footer").on("click", function () {
+    $(".terms_popup").addClass("active");
+    $("body").css("overflow", "hidden");
+  });
+
+  $(window).on("scroll", function () {
+    if ($(window).scrollTop() > 1) {
+      $("header").addClass("active");
+      $(".floating_menu").css("top", "60px");
+      $(".sales_login_menu").css("top", "60px");
+      $(".privacy_policy").css({
+        top: "70px",
+        height: "calc(100% - 70px)",
+      });
+      $(".terms_popup").css({
+        top: "70px",
+        height: "calc(100% - 70px)",
+      });
+    } else {
+      //remove the background property so it comes transparent again (defined in your css)
+      $("header").removeClass("active");
+      $(".floating_menu").css("top", "70px");
+      $(".sales_login_menu").css("top", "70px");
+      $(".privacy_policy").css({
+        top: "100px",
+        height: "calc(100% - 100px)",
+      });
+      $(".terms_popup").css({
+        top: "100px",
+        height: "calc(100% - 100px)",
+      });
+    }
+  });
+
+  $(".floating_menu .mobile").on("click", function () {
+    $(".hamburger--emphatic").toggleClass("is-active");
+    $(".floating_menu").fadeToggle();
+  });
+
+  switch (pathname) {
+    case "/au/":
+      $(".flag_active").html(`
+					<img class="flag" src="/wp-content/themes/salefish/img/flags/australia.png">
+				`);
+      $(".languages_option").html(`
+					<ul>
+						<li>
+							<a href="/">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/canada.png">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
+							</a>
+						</li>
+						<li>
+							<a href="/de">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/germany.png">
+							</a>
+						</li>
+						<li>
+							<a href="/tr">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/turkey.png">
+							</a>
+						</li>
+					</ul>
+				`);
+      break;
+    case "/tr/":
+      $(".flag_active").html(`
+					<img class="flag" src="/wp-content/themes/salefish/img/flags/turkey.png">
+				`);
+      $(".languages_option").html(`
+					<ul>
+						<li>
+							<a href="/">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/canada.png">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
+							</a>
+						</li>
+						<li>
+							<a href="/au">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/australia.png">
+							</a>
+						</li>
+						<li>
+							<a href="/de">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/germany.png">
+							</a>
+						</li>
+					</ul>
+				`);
+      break;
+    case "/de/":
+      $(".flag_active").html(`
+					<img class="flag" src="/wp-content/themes/salefish/img/flags/germany.png">
+				`);
+      $(".languages_option").html(`
+					<ul>
+						<li>
+							<a href="/">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/canada.png">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
+							</a>
+						</li>
+						<li>
+							<a href="/au">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/australia.png">
+							</a>
+						</li>
+						<li>
+							<a href="/tr">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/turkey.png">
+							</a>
+						</li>
+					</ul>
+				`);
+      break;
+    default:
+      $(".flag_active").html(`
+					<img class="flag" src="/wp-content/themes/salefish/img/flags/canada.png">
+					<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
+				`);
+      $(".languages_option").html(`
+					<ul>
+						<li>
+							<a href="/au">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/australia.png">
+							</a>
+						</li>
+						<li>
+							<a href="/de">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/germany.png">
+							</a>
+						</li>
+						<li>
+							<a href="/tr">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/turkey.png">
+							</a>
+						</li>
+					</ul>
+				`);
+      break;
+  }
+
+  switch (pathname) {
+    case "/our-story/":
+      $(".our_story_nav a").addClass("active");
+      break;
+    case "/newsroom/":
+      $(".newsroom_nav a").addClass("active");
+      break;
+    case "/contact-us/":
+      $(".contact_us_nav a").addClass("active");
+      break;
+    case "/terms-of-use/":
+      $(".terms_of_use_nav a").addClass("active");
+      break;
+    case "/privacy-policy/":
+      $(".privacy_policy_nav a").addClass("active");
+      break;
+  }
+
+  $("#reg_form").parsley();
+
+  // REG FORM
+  $("#reg_form").on("submit", function (e) {
+    e.preventDefault();
+    let data = $("#reg_form").serialize();
+    console.log("data: ", data);
+    $.ajax({
+      url: ajaxurl,
+      type: "POST",
+      data: `action=mailchimp_register&${data}`,
+      success: function (data) {
+        data = JSON.parse(data);
+        console.log("data", data);
+        if (data.success) {
+          $(".thank_you_msg").fadeIn();
+        } else {
+          console.log("data", data);
+        }
+      },
+    });
+  });
+
+  // CLOSE THANK YOU MESSAGE
+  $(".close_thank_you_msg").on("click", function () {
+    $(".thank_you_msg").fadeOut();
+  });
+});

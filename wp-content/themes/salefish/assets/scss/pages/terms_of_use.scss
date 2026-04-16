@@ -1,0 +1,69 @@
+.terms,
+.policy {
+  .wrap {
+    margin: 0 60px;
+    width: calc(100% - 120px);
+    padding: 120px 0 80px 0;
+    @include rs768 {
+      width: calc(100% - 40px);
+      margin: 0 20px;
+      padding: 100px 0 60px 0;
+    }
+    h1 {
+      font-size: 3.75em;
+    }
+    h2 {
+      font-size: 2.75em;
+      margin: 40px 0;
+      @include rs550 {
+        margin: 30px 0;
+      }
+    }
+    h3 {
+      margin: 30px 0;
+      margin-top: 50px;
+      @include rs550 {
+        margin-top: 30px;
+      }
+    }
+    p {
+      font-size: 1.25em;
+      margin: 20px 0;
+    }
+    ul {
+      margin-top: 30px;
+      list-style: disc;
+      margin: 30px 40px;
+      @include rs550 {
+        margin: 20px 30px;
+      }
+      li {
+        font-family: $PL;
+        font-size: 1.25em;
+        margin: 20px 0;
+        line-height: 1.5;
+        @include rs550 {
+          margin: 15px 0;
+        }
+      }
+    }
+    a {
+      color: $dark_purple;
+    }
+  }
+}
+
+.page-template-page-terms-of-use,
+.page-template-page-privacy-policy {
+  footer {
+    padding-top: 40px;
+  }
+}
+.page-template-page-privacy-policy {
+  h1 {
+    margin-bottom: 60px;
+  }
+  h3 {
+    margin: 30px 0 !important;
+  }
+}

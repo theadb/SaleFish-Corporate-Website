@@ -1,0 +1,177 @@
+footer {
+  padding: 0 60px;
+  background: $gray;
+  padding-bottom: 2em;
+  display: none;
+
+  @include rs600 {
+    padding: 2em 20px;
+  }
+
+  .salefish {
+    .salefish_logo {
+      width: 150px;
+
+      @include rs550 {
+        width: 135px;
+      }
+    }
+  }
+
+  .links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2em;
+
+    @include rs768 {
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 4em;
+    }
+
+    .col {
+      @include rs768 {
+        width: 50%;
+        margin-bottom: 30px;
+      }
+
+      .title {
+        font-family: $PSB;
+        color: $dark_purple;
+      }
+
+      ul {
+        margin-top: 20px;
+
+        li {
+          margin: 20px 0;
+
+          @include rs550 {
+            margin: 15px 0;
+          }
+
+          a,
+          span {
+            font-size: 0.9em;
+            font-family: $PL;
+            color: $black;
+            text-decoration: none;
+            cursor: pointer;
+            @include rs550 {
+              font-size: 1em;
+            }
+          }
+        }
+      }
+
+      // img{
+      // 	margin-left: 40px;
+      // }
+      &.flex_img {
+        a {
+          width: 100%;
+        }
+
+        .certified {
+          display: none;
+
+          @include rs768 {
+            display: block;
+            margin-top: 10px;
+          }
+        }
+      }
+
+      &.certified {
+        .fish {
+          width: 150px;
+
+          @include rs550 {
+            width: 80%;
+          }
+        }
+      }
+
+      .plus_group {
+        width: 9vw;
+
+        @include rs550 {
+          width: 90px;
+        }
+      }
+
+      .certified {
+        width: 7vw;
+
+        @include rs550 {
+          width: 50px;
+        }
+      }
+    }
+  }
+
+  .bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 20px;
+
+    @include rs550 {
+      flex-direction: column;
+    }
+
+    .left {
+      width: 100%;
+
+      @include rs550 {
+        order: 2;
+      }
+
+      p {
+        color: $black;
+        font-size: 0.8em;
+        margin-top: 2em;
+
+        @include rs550 {
+          font-size: 1em;
+        }
+
+        a {
+          color: $black;
+          text-decoration: none;
+          transition: 300ms ease-in-out;
+
+          &:hover {
+            color: $dark_purple;
+          }
+        }
+
+        span {
+          @include rs550 {
+            display: block;
+          }
+        }
+
+        .heart {
+          height: 11px;
+        }
+      }
+    }
+
+    .right {
+      @include rs550 {
+        order: 1;
+        display: flex;
+        width: 100%;
+      }
+
+      .certified {
+        width: 100px;
+
+        @include rs768 {
+          display: none;
+        }
+      }
+    }
+  }
+}
