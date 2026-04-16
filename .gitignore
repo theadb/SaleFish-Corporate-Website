@@ -1,0 +1,28 @@
+# WordPress sensitive files
+wp-config.php
+wp-config-local.php
+
+# Uploads and generated files
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/cache/
+wp-content/boost-cache/
+wp-content/updraft/
+wp-content/backup*/
+
+# Logs
+*.log
+error_log
+
+# OS files
+.DS_Store
+__MACOSX/
+Thumbs.db
+
+# Large archives
+*.zip
+*.tar.gz
+*.sql
+
+# Node
+node_modules/

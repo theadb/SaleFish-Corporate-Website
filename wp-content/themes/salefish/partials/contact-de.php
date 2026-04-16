@@ -1,0 +1,34 @@
+<div class="bottom" id="contact_us">
+	<div class="form">
+		<div data-aos="fade-right">
+			<h3 style="text-transform: uppercase;">Optimieren Sie den Verkauf, beseitigen Sie Fehler und steigern Sie Ihr Geschäftsergebnis.</h3>
+			<h1 class="de_contact_title">Warten Sie nicht – Sie verlieren bereits an Boden.</h1>
+		</div>
+		<form id="reg_form" data-aos="fade-up">
+			<div class="row">
+
+				<div class="col">
+					<label for="name">VOLLSTÄNDIGER NAME</label>
+					<input type="text" placeholder="Erster Letzter" name="name" id="name" required>
+				</div>
+				<div class="col">
+					<label for="company">UNTERNEHMEN</label>
+					<input type="text" placeholder="Acme Ltd." name="company" id="company" required>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<label for="title">TITEL</label>
+					<input type="text" placeholder="Verkaufsleiter" name="title" id="title">
+				</div>
+				<div class="col">
+					<label for="email">EMAIL</label>
+					<input type="email" placeholder="name@developeremail.com" name="email" id="email" required>
+				</div>
+			</div>
+			<div class="row">
+				<input class="submit" type="submit" value="ZUR ANMELDUNG">
+			</div>
+		</form>
+	</div>
+</div>
