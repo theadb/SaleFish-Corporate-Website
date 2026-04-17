@@ -211,31 +211,28 @@ function salefish_autoresponder_email_html( string $first_name, string $form_typ
 }
 
 /**
- * Send the admin notification email.
- * Preview mode → andrewdb@salefish.app
- * Production  → hello@salefish.app
+ * Send the admin notification email to hello@salefish.app.
  */
 function salefish_send_notification( array $fields, string $form_type ): bool {
-	$preview = defined( 'SALEFISH_PREVIEW_MODE' ) && SALEFISH_PREVIEW_MODE;
-	$to      = $preview ? 'andrewdb@salefish.app' : 'hello@salefish.app';
-	$prefix  = $preview ? '[Preview] ' : '';
+	$to      = 'hello@salefish.app';
 	$label   = ucwords( $form_type ) . ' Registration';
-	$subject = "{$prefix}New {$label} — SaleFish";
+	$subject = "New {$label} — SaleFish";
 	$html    = salefish_notification_email_html( $fields, $form_type );
 	$headers = [
 		'Content-Type: text/html; charset=UTF-8',
 		'From: SaleFish <hello@salefish.app>',
 	];
-	return wp_mail( $to, $subject, $html, $headers );
+	$sent = wp_mail( $to, $subject, $html, $headers );
+	if ( $sent ) {
+		error_log( "[SaleFish] Notification email sent OK: {$subject} → {$to}" );
+	}
+	return $sent;
 }
 
 /**
  * Send the autoresponder to the registrant.
- * Preview mode → andrewdb@salefish.app instead of the registrant.
  */
 function salefish_send_autoresponder( string $to_email, string $first_name, string $form_type ): bool {
-	$preview = defined( 'SALEFISH_PREVIEW_MODE' ) && SALEFISH_PREVIEW_MODE;
-	$to      = $preview ? 'andrewdb@salefish.app' : $to_email;
 	$subject = 'We received your registration — SaleFish';
 	$html    = salefish_autoresponder_email_html( $first_name, $form_type );
 	$headers = [
@@ -243,5 +240,9 @@ function salefish_send_autoresponder( string $to_email, string $first_name, stri
 		'From: SaleFish <hello@salefish.app>',
 		'Reply-To: hello@salefish.app',
 	];
-	return wp_mail( $to, $subject, $html, $headers );
+	$sent = wp_mail( $to_email, $subject, $html, $headers );
+	if ( $sent ) {
+		error_log( "[SaleFish] Autoresponder sent OK → {$to_email}" );
+	}
+	return $sent;
 }
