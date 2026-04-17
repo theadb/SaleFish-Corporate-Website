@@ -38,7 +38,7 @@ $the_numbers = get_field('the_numbers');
 		style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <script>
-	let textArray = <?php echo json_encode($fade) ?> ;
+	let textArray = <?php echo wp_json_encode( $fade, JSON_HEX_TAG | JSON_HEX_AMP ); ?>;
 </script>
 
 <main class="home">
@@ -60,13 +60,13 @@ $the_numbers = get_field('the_numbers');
 				<div class="left" data-aos="fade-right" data-aos-delay="300">
 					<h3>AN EASIER WAY TO <span>SELL <label id="app_for_home">HOME SALES</label></span></h3>
 					<h1>
-						<?php echo $hero_header; ?>
+						<?php echo wp_kses_post( $hero_header ); ?>
 					</h1>
-					<a class="button" target="_blank" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">BOOK A FREE DEMO</a>
+					<a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">BOOK A FREE DEMO</a>
 				</div>
 				<div class="right" data-aos="zoom-in" data-aos-delay="300">
 					<img class="salefish_demo"
-						src="<?php echo $hero_image ?>"
+						src="<?php echo esc_url( $hero_image ); ?>"
 						alt="Salefish App Demo">
 				</div>
 			</div>
@@ -89,7 +89,7 @@ $the_numbers = get_field('the_numbers');
 							<?php foreach($builders as $builder): ?>
 							<div class="swiper-slide">
 								<img class="builder_logo builder_1"
-									src="<?php echo $builder;?>">
+									src="<?php echo esc_url( $builder ); ?>">
 							</div>
 							<?php endforeach; ?>
 						</div>
@@ -99,7 +99,7 @@ $the_numbers = get_field('the_numbers');
 							<?php foreach($builders as $builder): ?>
 							<div class="col">
 								<img class="builder_logo builder_1"
-									src="<?php echo $builder;?>">
+									src="<?php echo esc_url( $builder ); ?>">
 							</div>
 							<?php endforeach; ?>
 						</div>
@@ -126,10 +126,10 @@ $the_numbers = get_field('the_numbers');
 		<div class="top">
 			<div class="title" data-aos="fade-up">
 				<h1>
-					<?php echo $numbers_header['title']; ?>
+					<?php echo esc_html( $numbers_header['title'] ); ?>
 				</h1>
 				<p>
-					<?php echo $numbers_header['description']; ?>
+					<?php echo wp_kses_post( $numbers_header['description'] ); ?>
 				</p>
 			</div>
 			<div class="content">
@@ -144,13 +144,13 @@ foreach($the_numbers as $row):
     ?>
 				<div class="col">
 					<h1>
-						<?php echo $prefix ?> <span
-							data-number="<?php echo $number ?>"
-							id="count_<?php echo $counter ?>"></span>
-						<?php echo $suffix ?>
+						<?php echo esc_html( $prefix ); ?> <span
+							data-number="<?php echo esc_attr( $number ); ?>"
+							id="count_<?php echo esc_attr( $counter ); ?>"></span>
+						<?php echo esc_html( $suffix ); ?>
 					</h1>
 					<p>
-						<?php echo $description ?>
+						<?php echo wp_kses_post( $description ); ?>
 					</p>
 				</div>
 				<?php endforeach; ?>
@@ -182,7 +182,7 @@ foreach($the_numbers as $row):
 				</div>
 			</div>
 
-			<a class="button" target="_blank" target="_blank" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">BOOK A FREE DEMO</a>
+			<a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">BOOK A FREE DEMO</a>
 		</div>
 		<!-- PILLARS -->
 		<section class="pillars">
@@ -200,12 +200,12 @@ foreach($the_numbers as $row):
 						    ?>
 						<div class="swiper-slide">
 							<img class="pillar"
-								src="<?php echo $icon ?>">
+								src="<?php echo esc_url( $icon ); ?>">
 							<h1>
-								<?php echo $title ?>
+								<?php echo esc_html( $title ); ?>
 							</h1>
 							<p>
-								<?php echo $description ?>
+								<?php echo wp_kses_post( $description ); ?>
 							</p>
 						</div>
 						<?php endforeach; ?>

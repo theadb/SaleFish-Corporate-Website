@@ -6,7 +6,7 @@
 			</h3>
 			<h1>
             WANT IN? PICK YOUR LANE. <br/>
-            WE’LL HANDLE THE REST.
+            WE'LL HANDLE THE REST.
 			</h1>
 		</div>
 
@@ -56,4 +56,4 @@
 			</div>
 		</form>
 	</div>
-</div
+</div>

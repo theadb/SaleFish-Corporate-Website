@@ -33,23 +33,23 @@ $agents_header_button_link = $agents_header_button['link'];
 
 <main class="single_marketplace">
     <!-- HERO -->
-    <section class="hero" style="background: <?php echo $background_color; ?>">
+    <section class="hero" style="background: <?php echo esc_attr( $background_color ); ?>">
         <a href="/"><img class="salefish_logo" src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png" alt="Salefish"></a>
-        <div class="wrapper" style="background: <?php echo $background_color; ?>">
+        <div class="wrapper" style="background: <?php echo esc_attr( $background_color ); ?>">
             <div class="max_wrapper">
                 <div class="left" data-aos="fade-right" data-aos-delay="300">
                     <img class="broker_logo"
-                        src="<?php echo $logo; ?>">
-                    <h3> <?php echo $sub_title; ?></h3>
+                        src="<?php echo esc_url( $logo ); ?>">
+                    <h3><?php echo esc_html( $sub_title ); ?></h3>
                     <h1>
-                        <?php echo $hero_header; ?>
+                        <?php echo wp_kses_post( $hero_header ); ?>
                     </h1>
-                    <?php echo $hero_description; ?>
-                    <a class="button" target="_blank" href="https://marketplace.salefish.app/marketplace-welcome">SIGN UP NOW</a>
+                    <?php echo wp_kses_post( $hero_description ); ?>
+                    <a class="button" target="_blank" rel="noopener noreferrer" href="https://marketplace.salefish.app/marketplace-welcome">SIGN UP NOW</a>
                 </div>
                 <div class="right" data-aos="zoom-in" data-aos-delay="300">
                     <img class="salefish_demo"
-                        src="<?php echo $hero_image ?>"
+                        src="<?php echo esc_url( $hero_image ); ?>"
                         alt="Salefish App Demo">
                 </div>
             </div>
@@ -59,7 +59,7 @@ $agents_header_button_link = $agents_header_button['link'];
 
     <!-- BUILDER -->
     <div class="builders_overlay">
-        <section class="builders" style="background: <?php echo $background_color; ?>">
+        <section class="builders" style="background: <?php echo esc_attr( $background_color ); ?>">
             <div class="max_wrapper">
                 <div data-aos="fade-right">
                     <h3>SALEFISH NEW HOME & CONDO MARKETPLACE</h3>
@@ -72,7 +72,7 @@ $agents_header_button_link = $agents_header_button['link'];
                             <?php foreach($builders_developers as $builder): ?>
                             <div class="swiper-slide">
                                 <img class="builder_logo builder_1"
-                                    src="<?php echo $builder;?>">
+                                    src="<?php echo esc_url( $builder ); ?>">
                             </div>
                             <?php endforeach; ?>
                         </div>
@@ -82,7 +82,7 @@ $agents_header_button_link = $agents_header_button['link'];
                             <?php foreach($builders_developers as $builder): ?>
                             <div class="col">
                                 <img class="builder_logo builder_1"
-                                    src="<?php echo $builder;?>">
+                                    src="<?php echo esc_url( $builder ); ?>">
                             </div>
                             <?php endforeach; ?>
                         </div>
@@ -99,12 +99,12 @@ $agents_header_button_link = $agents_header_button['link'];
     <section class="agents">
         <div class="container">
             <div class="header" data-aos="fade-up" data-aos-delay="300">
-                <h1><?php echo $agents_header_title; ?></h1>
-                <p><?php echo $agents_header_content; ?></p>
+                <h1><?php echo esc_html( $agents_header_title ); ?></h1>
+                <p><?php echo wp_kses_post( $agents_header_content ); ?></p>
                 <?php if($agents_header_button_link):?>
                 <a class="button"
-                    href="<?php echo $agents_header_button_link; ?>">
-                    <?php echo $agents_header_button_text; ?>
+                    href="<?php echo esc_url( $agents_header_button_link ); ?>">
+                    <?php echo esc_html( $agents_header_button_text ); ?>
                 </a>
                 <?php endif; ?>
             </div>
@@ -117,12 +117,12 @@ $agents_header_button_link = $agents_header_button['link'];
                     ?>
                 <div class="item">
                     <div class="content_img" data-aos="fade-up" data-aos-delay="300">
-                        <img src="<?php echo $image; ?>">
+                        <img src="<?php echo esc_url( $image ); ?>">
                     </div>
                     <div class="info" data-aos="fade-right" data-aos-delay="300">
-                        <h3><?php echo $sub_title; ?></h3>
-                        <h2><?php echo $title; ?></h2>
-                        <p><?php echo $content; ?></p>
+                        <h3><?php echo esc_html( $sub_title ); ?></h3>
+                        <h2><?php echo esc_html( $title ); ?></h2>
+                        <p><?php echo wp_kses_post( $content ); ?></p>
                     </div>
                 </div>
                 <?php endforeach; ?>
@@ -135,8 +135,8 @@ $agents_header_button_link = $agents_header_button['link'];
 		<div class="top_overlay"></div>
 		<div class="middle_overlay"></div>
 		<div class="bottom_overlay"></div>
-		<div class="top"  style="background: <?php echo $background_color; ?>" >
-			<div class="top_content_center" style="background: <?php echo $background_color; ?>" data-aos="fade-up" data-aos-delay="300">
+		<div class="top"  style="background: <?php echo esc_attr( $background_color ); ?>" >
+			<div class="top_content_center" style="background: <?php echo esc_attr( $background_color ); ?>" data-aos="fade-up" data-aos-delay="300">
 				<h1>
 					NEED SUPPORT?
 				</h1>
@@ -145,7 +145,7 @@ $agents_header_button_link = $agents_header_button['link'];
                 SaleFish New Home & Condo Marketplace<br/>
                 and need help? We’ve got you covered.
 				</p>
-                <a class="button" target="_blank" href="https://chatting.page/salefish">GET LIVE CHAT SUPPORT</a>
+                <a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish">GET LIVE CHAT SUPPORT</a>
 
 			</div>
 		</div>

@@ -46,7 +46,6 @@ $(function () {
     );
     $(window).on("resize scroll", function () {
       if ($(".contact .content .col").isInViewport()) {
-        console.log("in view");
         setTimeout(() => {
           count_1.start();
           count_2.start();
@@ -58,7 +57,6 @@ $(function () {
     });
     $(window).on("resize scroll", function () {
       if ($(".contact .mobile_content").isInViewport()) {
-        console.log("in view");
         setTimeout(() => {
           count_1_mobile.start();
         }, 500);
@@ -155,8 +153,6 @@ $(function () {
   }
 
   if (pathname === "/" || pathname === "/au/") {
-    console.log("pathname: ", pathname);
-
     let i = 0;
     setInterval(() => {
       $("#app_for_home").fadeOut(400, function () {
