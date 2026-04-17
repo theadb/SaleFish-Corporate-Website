@@ -265,7 +265,7 @@
 
 <script>
 const BASEURL = '<?php bloginfo('template_directory'); ?>'
-const ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
+const ajaxurl = '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>';
 </script>
 
 <script type="text/javascript">

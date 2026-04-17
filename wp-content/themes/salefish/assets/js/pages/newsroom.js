@@ -49,7 +49,6 @@ $(function () {
 
     if (filter) {
       let anchor = document.querySelector("#articles");
-      console.log("anchor: ", anchor);
       scroll.animateScroll(anchor, {
         updateURL: false,
       });
@@ -61,13 +60,11 @@ $(function () {
     window.$grid.isotope();
 
     setTimeout(() => {
-      console.log("run");
       window.$grid.isotope();
     }, 3000);
 
     $(".ui.dropdown").dropdown({
       onChange(value, text, $choice) {
-        console.log("value: ", value);
         $grid.isotope({ filter: `.${value}` });
       },
     });
@@ -119,9 +116,9 @@ $(function () {
         data: {
           action: "load_more_post",
           paged: currentPage,
+          nonce: salefishAjax.loadMoreNonce,
         },
         success: function (res) {
-          console.log("res: ", res);
           if (currentPage >= res.max) {
             $("#load-more").fadeOut();
           }

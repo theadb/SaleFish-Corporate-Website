@@ -8,7 +8,7 @@
 			</h3>
 			<h1>
 				Upgrade your
-				new home and apartments sales
+				new home and apartment sales
 			</h1>
 		</div>
 
@@ -20,7 +20,7 @@
 					<input type="text" placeholder="First Last" name="name" id="name" required>
 				</div>
 				<div class="col">
-					<label for="demo">would you like a demo?</label>
+					<label for="demo">Would you like a demo?</label>
 					<select name="demo" id="demo" required>
 						<option value="Yes">Yes</option>
 						<option value="No">No</option>
@@ -45,7 +45,7 @@
 				</div>
 				<div class="col">
 					<label for="phone">Phone number</label>
-					<input type="text" placeholder="555-912-0088" name="phone" id="phone" required data-parsley-minlength="12"
+					<input type="tel" placeholder="555-912-0088" name="phone" id="phone" required data-parsley-minlength="12"
 						data-parsley-minlength-message="This value should be a valid phone number.">
 				</div>
 			</div>

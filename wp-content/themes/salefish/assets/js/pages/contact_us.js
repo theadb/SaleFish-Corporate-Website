@@ -1,5 +1,4 @@
 let page = $('main').attr('class');
-console.log('page: ', page);
 if (page === 'contact_us') {
 	let map;
 

@@ -7,7 +7,7 @@ $service_support_button_link = $service_support_button['link'];
 $counter = 0;
 ?>
 
-<div class="salefish_features" id="features"> 
+<div class="salefish_features" id="features">
     <div class="container">
         <div class="header" data-aos="fade-up">
             <h1>SaleFish-Funktionen</h1>
@@ -27,23 +27,23 @@ $counter = 0;
             <div class="feature">
                 <?php if ($is_even): ?>
                 <div class="content content_image" data-aos="fade-right">
-                    <img src="<?php echo $image; ?>">
+                    <img src="<?php echo esc_url( $image ); ?>">
                 </div>
                 <div class="content context_info" data-aos="fade-left">
-                    <h3><?php echo $sub_title; ?></h3>
-                    <h2><?php echo $title; ?></h2>
-                    <p><?php echo $content; ?></p>
-                    <!-- <a class="button" href="<?php echo $button_link; ?>" target="_blank" rel="noopener noreferrer"><?php echo $button_text; ?></a> -->
+                    <h3><?php echo esc_html( $sub_title ); ?></h3>
+                    <h2><?php echo esc_html( $title ); ?></h2>
+                    <p><?php echo wp_kses_post( $content ); ?></p>
+                    <!-- <a class="button" href="<?php echo esc_url( $button_link ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $button_text ); ?></a> -->
                 </div>
                 <?php else: ?>
                 <div class="content context_info" data-aos="fade-right">
-                    <h3><?php echo $sub_title; ?></h3>
-                    <h2><?php echo $title; ?></h2>
-                    <p><?php echo $content; ?></p>
-                    <!-- <a class="button" href="<?php echo $button_link; ?>" target="_blank" rel="noopener noreferrer"><?php echo $button_text; ?></a> -->
+                    <h3><?php echo esc_html( $sub_title ); ?></h3>
+                    <h2><?php echo esc_html( $title ); ?></h2>
+                    <p><?php echo wp_kses_post( $content ); ?></p>
+                    <!-- <a class="button" href="<?php echo esc_url( $button_link ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $button_text ); ?></a> -->
                 </div>
                 <div class="content content_image" data-aos="fade-left">
-                    <img src="<?php echo $image; ?>">
+                    <img src="<?php echo esc_url( $image ); ?>">
                 </div>
                 <?php endif; ?>
             </div>
@@ -52,13 +52,13 @@ $counter = 0;
             endforeach;
 ?>
             <div class="service_support" data-aos="fade-up">
-                <h3><?php echo $service_support['sub_title']; ?></h3>
-                <h2><?php echo $service_support['title']; ?></h2>
+                <h3><?php echo esc_html( $service_support['sub_title'] ); ?></h3>
+                <h2><?php echo esc_html( $service_support['title'] ); ?></h2>
                 <p>
-                    <?php echo $service_support['content']; ?>
+                    <?php echo wp_kses_post( $service_support['content'] ); ?>
                 </p>
-                <!-- <a class="button" href="<?php echo $service_support_button_link; ?>" target="_blank" rel="noopener noreferrer">
-                    <?php echo $service_support_button_text; ?> -->
+                <!-- <a class="button" href="<?php echo esc_url( $service_support_button_link ); ?>" target="_blank" rel="noopener noreferrer">
+                    <?php echo esc_html( $service_support_button_text ); ?> -->
                 </a>
             </div>
         </div>

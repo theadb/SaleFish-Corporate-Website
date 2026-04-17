@@ -30,7 +30,7 @@ get_header();
 				<h1>SALEFISH HQ</h1>
 				<a class="important-p"
 					href="https://www.google.com/maps/place/8395+Jane+St+%23203,+Concord,+ON+L4K+5Y2/@43.8121808,-79.5277303,17z/data=!3m1!4b1!4m5!3m4!1s0x882b2f0f9ebd82b9:0x617bae8e4bdb708b!8m2!3d43.8121808!4d-79.5277303"
-					target="_blank">
+					target="_blank" rel="noopener noreferrer">
 					8395 Jane Street, Suite 202 <br />
 					Vaughan, ON, L4K 5Y2 <br />
 					Canada <br />
@@ -74,7 +74,7 @@ get_header();
 					Our award-winning support team has you covered.
 				</p>
 			</div>
-			<a class="button" target="_blank" href="https://chatting.page/salefish">GET LIVE CHAT SUPPORT</a>
+			<a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish">GET LIVE CHAT SUPPORT</a>
 		</div>
 	</section>
 	<!-- END CONTACT -->
