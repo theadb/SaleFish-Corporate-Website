@@ -27,7 +27,7 @@ function salefish_configure_smtp( PHPMailer\PHPMailer\PHPMailer $mailer ): void 
 
 	// Default: use the server's sendmail binary (works on cPanel out of the box).
 	// Force the envelope sender to match the From header so SPF passes.
-	$mailer->Sender = 'hello@salefish.app';
+	$mailer->Sender = 'admin@salefish.app';
 }
 add_action( 'phpmailer_init', 'salefish_configure_smtp' );
 
