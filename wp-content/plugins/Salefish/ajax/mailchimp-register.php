@@ -16,6 +16,8 @@ function salefish_mailchimp_register() {
 		wp_send_json_error( 'Invalid email address.' );
 	}
 
+	$ctx = salefish_collect_context();
+
 	$parts      = explode( ' ', $name, 2 );
 	$first_name = $parts[0] ?? '';
 	$last_name  = $parts[1] ?? '';
@@ -38,10 +40,18 @@ function salefish_mailchimp_register() {
 		// Triggers AC autoresponder automation once SALEFISH_AC_AUTO_GENERAL is set in wp-config.php
 		$auto_id = defined( 'SALEFISH_AC_AUTO_GENERAL' ) ? (int) SALEFISH_AC_AUTO_GENERAL : 0;
 		$ac->add_to_automation( $contact_id, $auto_id );
+		$note = salefish_format_ac_note(
+			array_merge( [ 'name' => $name, 'email' => $email, 'phone' => $phone, 'company' => $company ], $ctx ),
+			'general'
+		);
+		$ac->add_note( $contact_id, $note );
 	}
 
 	salefish_send_notification(
-		[ 'name' => $name, 'email' => $email, 'phone' => $phone, 'company' => $company ],
+		array_merge(
+			[ 'name' => $name, 'email' => $email, 'phone' => $phone, 'company' => $company ],
+			$ctx
+		),
 		'general'
 	);
 
