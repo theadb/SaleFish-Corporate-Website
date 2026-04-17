@@ -17,10 +17,13 @@ function salefish_agents_register() {
 	$howhear          = sanitize_text_field( $_POST['howhear']           ?? '' );
 	$see_projects     = sanitize_text_field( $_POST['see_projects']      ?? '' );
 	$see_feature      = sanitize_text_field( $_POST['see_feature']       ?? '' );
+	$linkedin_url     = esc_url_raw(          $_POST['linkedin_url']      ?? '' );
 
 	if ( ! $email || ! is_email( $email ) ) {
 		wp_send_json_error( 'Invalid email address.' );
 	}
+
+	$ctx = salefish_collect_context();
 
 	$parts      = explode( ' ', $name, 2 );
 	$first_name = $parts[0] ?? '';
@@ -45,17 +48,45 @@ function salefish_agents_register() {
 		// Triggers AC autoresponder automation once SALEFISH_AC_AUTO_AGENT is set in wp-config.php
 		$auto_id = defined( 'SALEFISH_AC_AUTO_AGENT' ) ? (int) SALEFISH_AC_AUTO_AGENT : 0;
 		$ac->add_to_automation( $contact_id, $auto_id );
+		$note = salefish_format_ac_note(
+			array_merge(
+				[
+					'name'               => $name,
+					'email'              => $email,
+					'phone'              => $phone,
+					'company'            => $brokerage,
+					'website'            => $website_url,
+					'geographic_expertise' => $geo_expertise,
+					'property_expertise' => $property_exp,
+					'how_did_you_hear'   => $howhear,
+					'projects_to_see'    => $see_projects,
+					'features_wanted'    => $see_feature,
+					'linkedin_url'       => $linkedin_url,
+				],
+				$ctx
+			),
+			'agent'
+		);
+		$ac->add_note( $contact_id, $note );
 	}
 
 	salefish_send_notification(
-		[
-			'name'               => $name,
-			'email'              => $email,
-			'phone'              => $phone,
-			'company'            => $brokerage,
-			'geo_expertise'      => $geo_expertise,
-			'property_expertise' => $property_exp,
-		],
+		array_merge(
+			[
+				'name'               => $name,
+				'email'              => $email,
+				'phone'              => $phone,
+				'company'            => $brokerage,
+				'website'            => $website_url,
+				'geographic_expertise' => $geo_expertise,
+				'property_expertise' => $property_exp,
+				'how_did_you_hear'   => $howhear,
+				'projects_to_see'    => $see_projects,
+				'features_wanted'    => $see_feature,
+				'linkedin_url'       => $linkedin_url,
+			],
+			$ctx
+		),
 		'agent'
 	);
 

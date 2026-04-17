@@ -72,6 +72,13 @@ $register_header = get_field('register_header');
 				</div>
 			</div>
 			<div class="row">
+				<div class="col">
+					<label for="linkedin_url">LinkedIn Profile URL</label>
+					<input type="url" placeholder="https://www.linkedin.com/in/yourname" name="linkedin_url" id="linkedin_url">
+				</div>
+				<div class="col"></div>
+			</div>
+			<div class="row">
 				<input class="submit" type="submit" value="REGISTER">
 			</div>
 		</form>
