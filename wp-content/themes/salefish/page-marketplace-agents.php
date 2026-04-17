@@ -43,7 +43,7 @@ $builders_header_button_link = $builders_header_button['link'];
 ?>
 
 <script>
-	let textArray = <?php echo json_encode($fade) ?> ;
+	let textArray = <?php echo wp_json_encode( $fade, JSON_HEX_TAG | JSON_HEX_AMP ); ?>;
 </script>
 
 <main class="marketplace">
@@ -54,14 +54,14 @@ $builders_header_button_link = $builders_header_button['link'];
 				<div class="left" data-aos="fade-right" data-aos-delay="300">
 					<h3>AN EASIER WAY TO <span>SELL <label id="app_for_home">HOME SALES</label></span></h3>
 					<h1>
-						<?php echo $hero_header; ?>
+						<?php echo wp_kses_post( $hero_header ); ?>
 					</h1>
-					<?php echo $hero_description; ?>
-					<a class="button" target="_blank" href="https://marketplace.salefish.app/marketplace-welcome">SIGN UP NOW</a>
+					<?php echo wp_kses_post( $hero_description ); ?>
+					<a class="button" target="_blank" rel="noopener noreferrer" href="https://marketplace.salefish.app/marketplace-welcome">SIGN UP NOW</a>
 				</div>
 				<div class="right" data-aos="zoom-in" data-aos-delay="300">
 					<img class="salefish_demo"
-						src="<?php echo $hero_image ?>"
+						src="<?php echo esc_url( $hero_image ); ?>"
 						alt="Salefish App Demo">
 				</div>
 			</div>
@@ -84,7 +84,7 @@ $builders_header_button_link = $builders_header_button['link'];
 							<?php foreach($builders_developers as $builder): ?>
 							<div class="swiper-slide">
 								<img class="builder_logo builder_1"
-									src="<?php echo $builder;?>">
+									src="<?php echo esc_url( $builder ); ?>">
 							</div>
 							<?php endforeach; ?>
 						</div>
@@ -94,7 +94,7 @@ $builders_header_button_link = $builders_header_button['link'];
 							<?php foreach($builders_developers as $builder): ?>
 							<div class="col">
 								<img class="builder_logo builder_1"
-									src="<?php echo $builder;?>">
+									src="<?php echo esc_url( $builder ); ?>">
 							</div>
 							<?php endforeach; ?>
 						</div>
@@ -111,13 +111,13 @@ $builders_header_button_link = $builders_header_button['link'];
 	<section class="agents">
 		<div class="container">
 			<div class="header" data-aos="fade-up" data-aos-delay="300">
-				<h1><?php echo $agents_header_title; ?></h1>
-				<p><?php echo $agents_header_content; ?></p>
+				<h1><?php echo esc_html( $agents_header_title ); ?></h1>
+				<p><?php echo wp_kses_post( $agents_header_content ); ?></p>
 				<?php if($agents_header_button_link):?>
 				<a class="button"
-					href="<?php echo $agents_header_button_link; ?>"
+					href="<?php echo esc_url( $agents_header_button_link ); ?>"
 					target="_blank" rel="noopener noreferrer">
-					<?php echo $agents_header_button_text; ?>
+					<?php echo esc_html( $agents_header_button_text ); ?>
 				</a>
 				<?php endif; ?>
 			</div>
@@ -130,12 +130,12 @@ $builders_header_button_link = $builders_header_button['link'];
 				    ?>
 				<div class="item">
 					<div class="content_img">
-						<img data-aos="fade-up" data-aos-delay="300" src="<?php echo $image; ?>">
+						<img data-aos="fade-up" data-aos-delay="300" src="<?php echo esc_url( $image ); ?>">
 					</div>
 					<div class="info" data-aos="fade-right" data-aos-delay="300">
-						<h3><?php echo $sub_title; ?></h3>
-						<h2><?php echo $title; ?></h2>
-						<p><?php echo $content; ?></p>
+						<h3><?php echo esc_html( $sub_title ); ?></h3>
+						<h2><?php echo esc_html( $title ); ?></h2>
+						<p><?php echo wp_kses_post( $content ); ?></p>
 					</div>
 				</div>
 				<?php endforeach; ?>
@@ -164,7 +164,7 @@ $builders_header_button_link = $builders_header_button['link'];
 							<span>Senior Sales Manager</span>
 						</div>
 						<div class="cta_button">
-							<a class="button" target="_blank" href="https://meetings.hubspot.com/leck?uuid=7f030f11-cb6d-4b51-8a6f-9526667f6bd9">BOOK A FREE DEMO</a>
+							<a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/leck?uuid=7f030f11-cb6d-4b51-8a6f-9526667f6bd9">BOOK A FREE DEMO</a>
 							<a class="button hollow" href="tel:+16475425325">CALL</a>
 							<a class="button hollow" href="mailto:dannyl@salefish.app">EMAIL</a>
 						</div>
@@ -178,12 +178,12 @@ $builders_header_button_link = $builders_header_button['link'];
 	<section class="agents">
 		<div class="container">
 			<div class="header" data-aos="fade-up" data-aos-delay="300">
-				<h1><?php echo $builders_header_title; ?></h1>
-				<p><?php echo $builders_header_content; ?></p>
+				<h1><?php echo esc_html( $builders_header_title ); ?></h1>
+				<p><?php echo wp_kses_post( $builders_header_content ); ?></p>
 				<?php if($builders_header_button_link):?>
 				<a class="button"
-					href="<?php echo $builders_header_button_link; ?>">
-					<?php echo $builders_header_button_text; ?>
+					href="<?php echo esc_url( $builders_header_button_link ); ?>">
+					<?php echo esc_html( $builders_header_button_text ); ?>
 				</a>
 				<?php endif; ?>
 
@@ -197,12 +197,12 @@ $builders_header_button_link = $builders_header_button['link'];
 				    ?>
 				<div class="item">
 					<div class="content_img" data-aos="fade-up" data-aos-delay="300">
-						<img src="<?php echo $image; ?>">
+						<img src="<?php echo esc_url( $image ); ?>">
 					</div>
 					<div class="info" data-aos="fade-right" data-aos-delay="300">
-						<h3><?php echo $sub_title; ?></h3>
-						<h2><?php echo $title; ?></h2>
-						<p><?php echo $content; ?></p>
+						<h3><?php echo esc_html( $sub_title ); ?></h3>
+						<h2><?php echo esc_html( $title ); ?></h2>
+						<p><?php echo wp_kses_post( $content ); ?></p>
 					</div>
 				</div>
 				<?php endforeach; ?>
@@ -230,7 +230,7 @@ $builders_header_button_link = $builders_header_button['link'];
 							<span>DIRECTOR OF SALES AND CUSTOMER SUCCESS</span>
 						</div>
 						<div class="cta_button">
-							<a class="button" target="_blank" href="https://meetings.hubspot.com/cindy-lloyd?uuid=37b969b2-b6fe-40ea-9257-6cff0dfaae5b">BOOK A FREE DEMO</a>
+							<a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/cindy-lloyd?uuid=37b969b2-b6fe-40ea-9257-6cff0dfaae5b">BOOK A FREE DEMO</a>
 							<a class="button hollow" href="tel:+14167290773">CALL</a>
 							<a class="button hollow" href="mailto:clloyd@salefish.app">EMAIL</a>
 						</div>

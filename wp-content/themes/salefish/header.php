@@ -373,7 +373,7 @@
 					<li class="mobile partners_nav">
 						<a href="/partners">Partners</a>
 					</li>
-					<li class="mobile ontact_us_nav">
+					<li class="mobile contact_us_nav">
 						<a href="/contact-us">Contact Us</a>
 					</li>
 					<li class="our_story_nav">

@@ -6,7 +6,7 @@ $register_header = get_field('register_header');
 	<div class="form">
 		<div data-aos="fade-right">
 			<h3>
-				<?php echo $register_header['register_title'] ?>
+				<?php echo esc_html( $register_header['register_title'] ); ?>
 			</h3>
 		</div>
 
@@ -25,7 +25,7 @@ $register_header = get_field('register_header');
 			<div class="row">
 				<div class="col">
 					<label for="phone">Phone number</label>
-					<input type="text" placeholder="555-912-0088" name="phone" id="phone" 
+					<input type="tel" placeholder="555-912-0088" name="phone" id="phone"
 						data-parsley-minlength="12"
 						data-parsley-minlength-message="This value should be a valid phone number.">
 				</div>
@@ -67,7 +67,7 @@ $register_header = get_field('register_header');
 					<input type="text" placeholder="" name="see_projects" id="see_projects">
 				</div>
 				<div class="col">
-					<label for="see_feature">Features Would You Like to See</label>
+					<label for="see_feature">Features You Would Like to See</label>
 					<input type="text" placeholder="" name="see_feature" id="see_feature">
 				</div>
 			</div>

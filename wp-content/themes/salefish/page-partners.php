@@ -43,7 +43,7 @@ $builders_header_button_link = $builders_header_button['link'];
 ?>
 
 <script>
-    let textArray = <?php echo json_encode($fade) ?> ;
+    let textArray = <?php echo wp_json_encode( $fade, JSON_HEX_TAG | JSON_HEX_AMP ); ?>;
 </script>
 
 <main class="partners">

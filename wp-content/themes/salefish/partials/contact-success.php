@@ -7,10 +7,10 @@ $sub_header = get_field('sub_header');
 	<div class="form">
 		<div data-aos="fade-right">
 			<h3>
-				<?php echo $register_header['register_title'] ?>
+				<?php echo esc_html( $register_header['register_title'] ); ?>
 			</h3>
 			<h1>
-				<?php echo $register_header['sub_header'] ?>
+				<?php echo esc_html( $register_header['sub_header'] ); ?>
 
 			</h1>
 		</div>
