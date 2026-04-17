@@ -127,6 +127,28 @@ class Salefish_ActiveCampaign {
 		return true;
 	}
 
+	/**
+	 * Add a plain-text note to a contact.
+	 *
+	 * @param string $contact_id  AC contact ID.
+	 * @param string $note        Plain-text note body.
+	 */
+	public function add_note( string $contact_id, string $note ): bool {
+		$response = $this->request( 'POST', '/notes', [
+			'note' => [
+				'note'    => $note,
+				'relid'   => $contact_id,
+				'reltype' => 'Subscriber',
+			],
+		] );
+
+		if ( is_wp_error( $response ) ) {
+			error_log( 'SaleFish AC add_note: ' . $response->get_error_message() );
+			return false;
+		}
+		return true;
+	}
+
 	// -------------------------------------------------------------------------
 	// Private helpers
 	// -------------------------------------------------------------------------
