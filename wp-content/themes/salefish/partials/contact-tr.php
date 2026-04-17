@@ -21,7 +21,7 @@
 			
 				<div class="col">
 					<label for="phone">CEP TEL. NO.</label>
-					<input type="text" placeholder="555-912-0088" name="phone" id="phone" data-parsley-minlength="12"
+					<input type="tel" placeholder="555-912-0088" name="phone" id="phone" data-parsley-minlength="12"
 						data-parsley-minlength-message="This value should be a valid phone number.">
 				</div>
 				<div class="col">

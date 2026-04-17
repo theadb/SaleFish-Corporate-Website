@@ -37,7 +37,7 @@ $awards = get_field('awards');
                 $award = $row['award'];
                 ?>
             <div class="timeline-year">
-                <div class="year-marker"><?php echo $year; ?></div>
+                <div class="year-marker"><?php echo esc_html( $year ); ?></div>
                 <div class="content">
                     <?php foreach($award as $award_row):
                         $award_name = $award_row['award_name'];
@@ -49,18 +49,18 @@ $awards = get_field('awards');
                         $counter++;
                         ?>
                     <div
-                        class="award-container <?php echo $class; ?>">
+                        class="award-container <?php echo esc_attr( $class ); ?>">
                         <div class="award-box">
                             <h3
-                                style="background-color: <?php echo $banner_colour; ?>">
-                                <?php echo $award_name; ?>
+                                style="background-color: <?php echo esc_attr( $banner_colour ); ?>">
+                                <?php echo esc_html( $award_name ); ?>
                             </h3>
                             <div class="wrap">
-                                <p><?php echo $organization; ?></p>
-                                <span><?php echo $location; ?></span>
+                                <p><?php echo esc_html( $organization ); ?></p>
+                                <span><?php echo esc_html( $location ); ?></span>
                             </div>
                         </div>
-                        <div class="line_<?php echo $class; ?>">
+                        <div class="line_<?php echo esc_attr( $class ); ?>">
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -88,7 +88,7 @@ $awards = get_field('awards');
 					PRESIDENT & CO-FOUNDER
 				</p>
 			</div>
-			<a class="button" target="_blank" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">BOOK A FREE DEMO</a>
+			<a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">BOOK A FREE DEMO</a>
 		</div>
 		<?php get_template_part('/partials/contact-general'); ?>
 

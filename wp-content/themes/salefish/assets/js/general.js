@@ -236,23 +236,52 @@ $(function () {
   }
 
   $("#reg_form").parsley();
+  $("#agent_form").parsley();
+  $("#partner_form").parsley();
 
   // REG FORM
   $("#reg_form").on("submit", function (e) {
     e.preventDefault();
-    let data = $("#reg_form").serialize();
-    console.log("data: ", data);
     $.ajax({
-      url: ajaxurl,
+      url: salefishAjax.ajaxurl,
       type: "POST",
-      data: `action=mailchimp_register&${data}`,
-      success: function (data) {
-        data = JSON.parse(data);
-        console.log("data", data);
-        if (data.success) {
+      dataType: "json",
+      data: $(this).serialize() + "&action=mailchimp_register&nonce=" + salefishAjax.nonce,
+      success: function (res) {
+        if (res.success) {
           $(".thank_you_msg").fadeIn();
-        } else {
-          console.log("data", data);
+        }
+      },
+    });
+  });
+
+  // AGENT FORM
+  $("#agent_form").on("submit", function (e) {
+    e.preventDefault();
+    $.ajax({
+      url: salefishAjax.ajaxurl,
+      type: "POST",
+      dataType: "json",
+      data: $(this).serialize() + "&action=agents_register&nonce=" + salefishAjax.nonce,
+      success: function (res) {
+        if (res.success) {
+          $(".thank_you_msg").fadeIn();
+        }
+      },
+    });
+  });
+
+  // PARTNER FORM
+  $("#partner_form").on("submit", function (e) {
+    e.preventDefault();
+    $.ajax({
+      url: salefishAjax.ajaxurl,
+      type: "POST",
+      dataType: "json",
+      data: $(this).serialize() + "&action=partner_register&nonce=" + salefishAjax.nonce,
+      success: function (res) {
+        if (res.success) {
+          $(".thank_you_msg").fadeIn();
         }
       },
     });
