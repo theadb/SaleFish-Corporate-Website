@@ -1,0 +1,62 @@
+// SaleFish 2026 — Dark Mode Token Overrides
+// Applied when <html class="dark"> is present.
+// Toggled by the inline script in header.php + dark mode button.
+
+@layer base {
+  .dark {
+    --sf-elevate-1: rgba(255, 255, 255, 0.04);
+    --sf-elevate-2: rgba(255, 255, 255, 0.10);
+    --sf-button-outline: rgba(255, 255, 255, 0);
+
+    --sf-bg:             0 0% 9%;
+    --sf-fg:             0 0% 95%;
+    --sf-border:         0 0% 25%;
+
+    --sf-card:           0 0% 9%;
+    --sf-card-fg:        0 0% 95%;
+    --sf-card-border:    0 0% 28%;
+
+    --sf-primary:        252 44% 70%;
+    --sf-primary-fg:     0 0% 9%;
+
+    --sf-secondary:      0 0% 16%;
+    --sf-secondary-fg:   0 0% 90%;
+
+    --sf-muted:          0 0% 13%;
+    --sf-muted-fg:       0 0% 60%;
+
+    --sf-accent:         270 50% 80%;
+    --sf-accent-fg:      0 0% 9%;
+
+    --sf-destructive:    0 84% 60%;
+    --sf-destructive-fg: 0 0% 100%;
+
+    --sf-ring:           252 44% 75%;
+
+    // Ocean palette — lighter for dark backgrounds
+    --sf-ocean:          210 80% 60%;
+    --sf-ocean-fg:       0 0% 9%;
+    --sf-seaweed:        150 45% 55%;
+    --sf-seaweed-fg:     0 0% 9%;
+    --sf-clownfish:      48 90% 62%;
+    --sf-clownfish-fg:   0 0% 9%;
+    --sf-starfish:       45 85% 62%;
+    --sf-starfish-fg:    0 0% 9%;
+    --sf-coral:          355 70% 65%;
+    --sf-coral-fg:       0 0% 9%;
+    --sf-salmon:         10 80% 68%;
+    --sf-salmon-fg:      0 0% 9%;
+    --sf-seahorse:       180 55% 58%;
+    --sf-seahorse-fg:    0 0% 9%;
+
+    // Dark shadows — more opaque
+    --sf-shadow-sm:  0 1px 2px hsl(0 0% 0% / .40),
+                     0 2px 4px hsl(0 0% 0% / .50);
+    --sf-shadow:     0 1px 3px hsl(0 0% 0% / .50),
+                     0 4px 6px -2px hsl(0 0% 0% / .50);
+    --sf-shadow-md:  0 4px 6px -1px hsl(0 0% 0% / .50),
+                     0 2px 4px -2px hsl(0 0% 0% / .40);
+    --sf-shadow-lg:  0 10px 15px -3px hsl(0 0% 0% / .50),
+                     0 4px 6px -4px hsl(0 0% 0% / .40);
+  }
+}
