@@ -1,0 +1,93 @@
+// ============================================================
+// SaleFish 2026 — Design Tokens (Light Mode)
+// All values sourced from Plinthra (theadb/SaleFish-Plinthra)
+// ============================================================
+
+@layer base {
+  :root {
+    // ── Interaction overlays ────────────────────────────────
+    --sf-elevate-1: rgba(0, 0, 0, 0.02);
+    --sf-elevate-2: rgba(0, 0, 0, 0.05);
+    --sf-button-outline: rgba(0, 0, 0, 0.08);
+
+    // ── Core surfaces ───────────────────────────────────────
+    --sf-bg:             240 100% 99%;
+    --sf-fg:             0 0% 9%;
+    --sf-border:         240 20% 75%;
+
+    // ── Card ────────────────────────────────────────────────
+    --sf-card:           240 100% 99%;
+    --sf-card-fg:        0 0% 9%;
+    --sf-card-border:    240 20% 72%;
+
+    // ── Primary (brand purple) ──────────────────────────────
+    --sf-primary:        256 51% 36%;
+    --sf-primary-fg:     0 0% 100%;
+
+    // ── Secondary ───────────────────────────────────────────
+    --sf-secondary:      240 20% 94%;
+    --sf-secondary-fg:   210 20% 15%;
+
+    // ── Muted ───────────────────────────────────────────────
+    --sf-muted:          240 20% 95%;
+    --sf-muted-fg:       210 15% 35%;
+
+    // ── Accent ──────────────────────────────────────────────
+    --sf-accent:         270 50% 75%;
+    --sf-accent-fg:      210 20% 15%;
+
+    // ── Destructive ─────────────────────────────────────────
+    --sf-destructive:    0 84% 60%;
+    --sf-destructive-fg: 0 0% 100%;
+
+    // ── Focus ring ──────────────────────────────────────────
+    --sf-ring:           256 51% 30%;
+
+    // ── Ocean palette ───────────────────────────────────────
+    --sf-ocean:          210 100% 28%;
+    --sf-ocean-fg:       0 0% 100%;
+    --sf-seaweed:        150 85% 25%;
+    --sf-seaweed-fg:     0 0% 100%;
+    --sf-clownfish:      48 100% 26%;
+    --sf-clownfish-fg:   0 0% 100%;
+    --sf-starfish:       45 100% 26%;
+    --sf-starfish-fg:    0 0% 100%;
+    --sf-coral:          355 95% 30%;
+    --sf-coral-fg:       0 0% 100%;
+    --sf-salmon:         10 100% 32%;
+    --sf-salmon-fg:      0 0% 100%;
+    --sf-seahorse:       180 90% 25%;
+    --sf-seahorse-fg:    0 0% 100%;
+
+    // ── Fonts ────────────────────────────────────────────────
+    --sf-font-sans:   -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+                      'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue',
+                      Arial, sans-serif;
+    --sf-font-serif:  'New York', Georgia, serif;
+    --sf-font-mono:   'SF Mono', Monaco, Consolas, 'Courier New', monospace;
+
+    // ── Border radius (macOS 26 inspired) ───────────────────
+    --sf-radius-sm:  0.375rem;
+    --sf-radius:     0.5rem;
+    --sf-radius-lg:  1.625rem;
+
+    // ── Shadows (light) ─────────────────────────────────────
+    --sf-shadow-sm:  0 1px 2px hsl(0 0% 0% / .05),
+                     0 2px 4px hsl(0 0% 0% / .08);
+    --sf-shadow:     0 1px 3px hsl(0 0% 0% / .08),
+                     0 4px 6px -2px hsl(0 0% 0% / .08);
+    --sf-shadow-md:  0 4px 6px -1px hsl(0 0% 0% / .08),
+                     0 2px 4px -2px hsl(0 0% 0% / .05);
+    --sf-shadow-lg:  0 10px 15px -3px hsl(0 0% 0% / .08),
+                     0 4px 6px -4px hsl(0 0% 0% / .05);
+  }
+}
+
+// Legacy SCSS variable aliases — keeps existing page SCSS compiling without rewrites
+$dark_purple: hsl(var(--sf-primary));
+$light_purple: hsl(270 40% 60%);
+$gold:         hsl(38 80% 60%);
+$black:        hsl(var(--sf-fg));
+$gray:         hsl(var(--sf-secondary));
+$green:        hsl(var(--sf-seaweed));
+$red:          hsl(var(--sf-destructive));

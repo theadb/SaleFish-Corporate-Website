@@ -1,0 +1,8 @@
+// SaleFish 2026 — Typography
+// No @font-face declarations. System fonts load instantly with zero network requests.
+// $PR / $PSB / $PB / $PL kept as aliases so existing page SCSS compiles without changes.
+
+$PR:  var(--sf-font-sans);
+$PSB: var(--sf-font-sans);
+$PB:  var(--sf-font-sans);
+$PL:  var(--sf-font-sans);
