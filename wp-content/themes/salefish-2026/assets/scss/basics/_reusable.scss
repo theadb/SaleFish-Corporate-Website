@@ -50,7 +50,7 @@
     color: hsl(var(--sf-primary-fg));
   }
 
-  $sf-badge-colors: ocean, seaweed, clownfish, starfish, coral, salmon, seahorse;
+  $sf-badge-colors: "ocean", "seaweed", "clownfish", "starfish", "coral", "salmon", "seahorse";
 
   @each $color in $sf-badge-colors {
     .sf-badge--#{$color} {
