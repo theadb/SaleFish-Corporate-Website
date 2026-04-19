@@ -88,9 +88,8 @@
 	<div class="max_wrapper" data-aos="fade-down" data-aos-delay="200">
 		<div class="salefish">
 			<a href="/">
-				<img class="salefish_logo"
-					src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png"
-					alt="SaleFish">
+				<img class="salefish_logo sf-logo--light" src="<?php bloginfo('template_directory'); ?>/img/dark_salefish_logo.png" alt="SaleFish">
+				<img class="salefish_logo sf-logo--dark" src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png" alt="SaleFish">
 			</a>
 		</div>
 		<nav>
@@ -155,9 +154,8 @@
 	<div class="max_wrapper" data-aos="fade-down" data-aos-delay="200">
 		<div class="salefish">
 			<a href="/">
-				<img class="salefish_logo"
-					src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png"
-					alt="SaleFish">
+				<img class="salefish_logo sf-logo--light" src="<?php bloginfo('template_directory'); ?>/img/dark_salefish_logo.png" alt="SaleFish">
+				<img class="salefish_logo sf-logo--dark" src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png" alt="SaleFish">
 			</a>
 		</div>
 		<nav>
@@ -207,7 +205,10 @@
 <header class="de_header">
 	<div class="max_wrapper" data-aos="fade-down" data-aos-delay="200">
 		<div class="salefish">
-			<a href="/"><img class="salefish_logo" src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png" alt="SaleFish"></a>
+			<a href="/">
+				<img class="salefish_logo sf-logo--light" src="<?php bloginfo('template_directory'); ?>/img/dark_salefish_logo.png" alt="SaleFish">
+				<img class="salefish_logo sf-logo--dark" src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png" alt="SaleFish">
+			</a>
 		</div>
 		<nav>
 			<ul>
@@ -246,7 +247,10 @@
 <header class="tr_header">
 	<div class="max_wrapper" data-aos="fade-down" data-aos-delay="200">
 		<div class="salefish">
-			<a href="/"><img class="salefish_logo" src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png" alt="SaleFish"></a>
+			<a href="/">
+				<img class="salefish_logo sf-logo--light" src="<?php bloginfo('template_directory'); ?>/img/dark_salefish_logo.png" alt="SaleFish">
+				<img class="salefish_logo sf-logo--dark" src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png" alt="SaleFish">
+			</a>
 		</div>
 		<nav>
 			<ul>
