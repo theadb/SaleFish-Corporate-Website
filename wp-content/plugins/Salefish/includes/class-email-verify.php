@@ -39,13 +39,6 @@ class Salefish_Email_Verify {
 	public static function send_confirmation( string $email, string $token, string $type ): bool {
 		$verify_url = add_query_arg( 'salefish_verify', $token, home_url( '/' ) );
 
-		$type_labels = [
-			'agent'   => 'Real Estate Agent',
-			'partner' => 'Partner',
-			'general' => 'General',
-		];
-		$type_label = $type_labels[ $type ] ?? 'Registration';
-
 		$subject = 'Confirm your SaleFish registration';
 
 		$logo = defined( 'SALEFISH_EMAIL_LOGO' ) ? SALEFISH_EMAIL_LOGO : '';
@@ -64,8 +57,8 @@ class Salefish_Email_Verify {
 
 		$body .= '<tr><td style="padding:0 40px 40px;">';
 		$body .= '<h1 style="color:#ffffff;font-size:24px;font-weight:600;margin:0 0 16px;">One more step, you\'re almost in.</h1>';
-		$body .= '<p style="color:#a1a1a1;font-size:16px;line-height:1.6;margin:0 0 8px;">Thanks for registering as a <strong style="color:#ffffff;">' . esc_html( $type_label ) . '</strong> with SaleFish.</p>';
-		$body .= '<p style="color:#a1a1a1;font-size:16px;line-height:1.6;margin:0 0 30px;">Click the button below to confirm your email and complete your registration.</p>';
+		$body .= '<p style="color:#a1a1a1;font-size:16px;line-height:1.6;margin:0 0 8px;">Thanks for registering with SaleFish.</p>';
+		$body .= '<p style="color:#a1a1a1;font-size:16px;line-height:1.6;margin:0 0 30px;">Click the button below to confirm your email address and complete your registration.</p>';
 		$body .= '<table cellpadding="0" cellspacing="0" style="margin:0 0 30px;">';
 		$body .= '<tr><td style="background-color:#7c3aed;border-radius:6px;">';
 		$body .= '<a href="' . esc_url( $verify_url ) . '" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;letter-spacing:0.3px;">Confirm My Registration</a>';
