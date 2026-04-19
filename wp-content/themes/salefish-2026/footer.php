@@ -131,7 +131,7 @@
 			</div>
 		</div>
 		<div class="sf-footer__bottom">
-			<p>Made with ❤ by <a href="https://coolaidstudios.com/" target="_blank" rel="noopener noreferrer">COOLAID Studios Inc.</a> · <span>© <?php echo date("Y"); ?> SaleFish Inc. All rights reserved.</span></p>
+			<p><span>© <?php echo date("Y"); ?> SaleFish Inc. All rights reserved.</span></p>
 			<a href="https://ised-isde.canada.ca/site/cybersecure-canada/en" target="_blank" rel="noopener noreferrer">
 				<img class="certified" src="<?php bloginfo('template_directory'); ?>/img/cyber-essentials.png" alt="Cyber Essentials Certified">
 			</a>
