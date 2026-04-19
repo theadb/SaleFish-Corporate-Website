@@ -37,6 +37,7 @@
 			}
 		}());
 	</script>
+	<?php wp_head(); ?>
 </head>
 
 <style>
@@ -82,84 +83,62 @@
 </script>
 
 
-<header class="default" >
+<header class="default">
 	<div class="max_wrapper" data-aos="fade-down" data-aos-delay="200">
 		<div class="salefish">
 			<a href="/">
 				<img class="salefish_logo"
 					src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png"
-					alt="Salefish">
+					alt="SaleFish">
 			</a>
 		</div>
 		<nav>
-			<div class="languages">
-				<div class="flag_active">
-				</div>
-				<div class="arrow">
-					<img class="down_arrow"
-						src="<?php bloginfo('template_directory'); ?>/img/down_arrow.svg">
-				</div>
-				<div class="languages_option">
-					<ul>
-						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/australia.png">
-							</a>
-						</li>
-						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/germany.png">
-							</a>
-						</li>
-						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/turkey.png">
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
 			<ul>
 				<li class="features_nav">
-					<a href="/#features">FEATURES</a>
+					<a href="/#features">Features</a>
 				</li>
-			
 				<li class="newsroom_nav">
-					<a href="/newsroom">NEWSROOM</a>
+					<a href="/newsroom">Newsroom</a>
 				</li>
 				<li class="partners_nav">
-					<a href="/partners">PARTNERS</a>
+					<a href="/partners">Partners</a>
 				</li>
 				<li class="contact_us_nav">
-					<a href="/contact-us">CONTACT US</a>
+					<a href="/contact-us">Contact</a>
 				</li>
 				<li class="sales_login">
-					<span>LOGIN</span>
+					<span>Login</span>
 				</li>
 			</ul>
-			<button
-				class="sf-theme-toggle"
-				id="sf-theme-toggle"
-				aria-label="Toggle dark mode"
-				type="button">
-				<svg class="sf-icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-				</svg>
-				<svg class="sf-icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-					<circle cx="12" cy="12" r="5"/>
-					<line x1="12" y1="1" x2="12" y2="3"/>
-					<line x1="12" y1="21" x2="12" y2="23"/>
-					<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-					<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-					<line x1="1" y1="12" x2="3" y2="12"/>
-					<line x1="21" y1="12" x2="23" y2="12"/>
-					<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-					<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-				</svg>
-			</button>
+			<div class="sf-header-controls">
+				<div class="languages">
+					<button class="sf-header-icon-btn" aria-label="Select language" type="button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
+					</button>
+					<div class="languages_option">
+						<ul>
+							<li>
+								<a href="">
+									<img class="flag" src="<?php bloginfo('template_directory'); ?>/img/flags/australia.png" alt="English">
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<img class="flag" src="<?php bloginfo('template_directory'); ?>/img/flags/germany.png" alt="Deutsch">
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<img class="flag" src="<?php bloginfo('template_directory'); ?>/img/flags/turkey.png" alt="Türkçe">
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<button class="sf-header-icon-btn sf-theme-toggle" id="sf-theme-toggle" aria-label="Toggle dark mode" type="button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8a2.83 2.83 0 0 0 4 4 4 4 0 1 1-4-4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.9 4.9 1.4 1.4"/><path d="m17.7 17.7 1.4 1.4"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.3 17.7-1.4 1.4"/><path d="m19.1 4.9-1.4 1.4"/></svg>
+				</button>
+			</div>
 			<div class="menu">
 				<button class="hamburger hamburger--emphatic" type="button">
 					<span class="hamburger-box">
@@ -177,171 +156,86 @@
 			<a href="/">
 				<img class="salefish_logo"
 					src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png"
-					alt="Salefish">
+					alt="SaleFish">
 			</a>
 		</div>
 		<nav>
-			<div class="languages">
-				<div class="flag_active">
-				</div>
-				<div class="arrow">
-					<img class="down_arrow"
-						src="<?php bloginfo('template_directory'); ?>/img/down_arrow.svg">
-				</div>
-				<div class="languages_option">
-					<ul>
-						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/australia.png">
-							</a>
-						</li>
-						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/germany.png">
-							</a>
-						</li>
-						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/turkey.png">
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
 			<ul>
 				<li class="features_li">
-					<a href="/#features">FEATURES</a>
+					<a href="/#features">Features</a>
 				</li>
 				<li class="newsroom_nav">
-					<a href="/newsroom">NEWSROOM</a>
+					<a href="/newsroom">Newsroom</a>
 				</li>
 				<li class="partners_nav">
-					<a href="/partners">PARTNERS</a>
+					<a href="/partners">Partners</a>
 				</li>
 				<li class="contact_us_nav">
-					<a href="/contact-us">CONTACT US</a>
+					<a href="/contact-us">Contact</a>
 				</li>
 				<li class="sales_login">
-					<span>LOGIN</span>
+					<span>Login</span>
 				</li>
 			</ul>
-			<button
-				class="sf-theme-toggle"
-				id="sf-theme-toggle"
-				aria-label="Toggle dark mode"
-				type="button">
-				<svg class="sf-icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-				</svg>
-				<svg class="sf-icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-					<circle cx="12" cy="12" r="5"/>
-					<line x1="12" y1="1" x2="12" y2="3"/>
-					<line x1="12" y1="21" x2="12" y2="23"/>
-					<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-					<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-					<line x1="1" y1="12" x2="3" y2="12"/>
-					<line x1="21" y1="12" x2="23" y2="12"/>
-					<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-					<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-				</svg>
-			</button>
+			<div class="sf-header-controls">
+				<div class="languages">
+					<button class="sf-header-icon-btn" aria-label="Select language" type="button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
+					</button>
+					<div class="languages_option">
+						<ul>
+							<li><a href=""><img class="flag" src="<?php bloginfo('template_directory'); ?>/img/flags/australia.png" alt="English"></a></li>
+							<li><a href=""><img class="flag" src="<?php bloginfo('template_directory'); ?>/img/flags/germany.png" alt="Deutsch"></a></li>
+							<li><a href=""><img class="flag" src="<?php bloginfo('template_directory'); ?>/img/flags/turkey.png" alt="Türkçe"></a></li>
+						</ul>
+					</div>
+				</div>
+				<button class="sf-header-icon-btn sf-theme-toggle" id="sf-theme-toggle" aria-label="Toggle dark mode" type="button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8a2.83 2.83 0 0 0 4 4 4 4 0 1 1-4-4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.9 4.9 1.4 1.4"/><path d="m17.7 17.7 1.4 1.4"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.3 17.7-1.4 1.4"/><path d="m19.1 4.9-1.4 1.4"/></svg>
+				</button>
+			</div>
 			<div class="menu">
 				<button class="hamburger hamburger--emphatic" type="button">
-					<span class="hamburger-box">
-						<span class="hamburger-inner"></span>
-					</span>
+					<span class="hamburger-box"><span class="hamburger-inner"></span></span>
 				</button>
 			</div>
 		</nav>
 	</div>
-
 </header>
 
 <header class="de_header">
 	<div class="max_wrapper" data-aos="fade-down" data-aos-delay="200">
 		<div class="salefish">
-			<a href="/">
-				<img class="salefish_logo"
-					src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png"
-					alt="Salefish">
-			</a>
+			<a href="/"><img class="salefish_logo" src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png" alt="SaleFish"></a>
 		</div>
 		<nav>
-			<div class="languages">
-				<div class="flag_active">
-				</div>
-				<div class="arrow">
-					<img class="down_arrow"
-						src="<?php bloginfo('template_directory'); ?>/img/down_arrow.svg">
-				</div>
-				<div class="languages_option">
-					<ul>
-						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/australia.png">
-							</a>
-						</li>
-						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/germany.png">
-							</a>
-						</li>
-						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/turkey.png">
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
 			<ul>
-				<li class="features_li">
-					<a href="/#features">MERKMALE</a>
-				</li>
-				<li class="partners_nav">
-					<a href="/partners">PARTNER</a>
-				</li>
-				<li class="newsroom_nav">
-					<a href="/newsroom">NEWSRAUM</a>
-				</li>
-				<li class="contact_us_nav">
-					<a href="/contact-us">KONTAKTIERE UNS</a>
-				</li>
-				<li class="sales_login">
-					<span>EINLOGGEN</span>
-				</li>
+				<li class="features_li"><a href="/#features">MERKMALE</a></li>
+				<li class="partners_nav"><a href="/partners">PARTNER</a></li>
+				<li class="newsroom_nav"><a href="/newsroom">NEWSRAUM</a></li>
+				<li class="contact_us_nav"><a href="/contact-us">KONTAKTIERE UNS</a></li>
+				<li class="sales_login"><span>EINLOGGEN</span></li>
 			</ul>
-			<button
-				class="sf-theme-toggle"
-				id="sf-theme-toggle"
-				aria-label="Toggle dark mode"
-				type="button">
-				<svg class="sf-icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-				</svg>
-				<svg class="sf-icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-					<circle cx="12" cy="12" r="5"/>
-					<line x1="12" y1="1" x2="12" y2="3"/>
-					<line x1="12" y1="21" x2="12" y2="23"/>
-					<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-					<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-					<line x1="1" y1="12" x2="3" y2="12"/>
-					<line x1="21" y1="12" x2="23" y2="12"/>
-					<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-					<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-				</svg>
-			</button>
+			<div class="sf-header-controls">
+				<div class="languages">
+					<button class="sf-header-icon-btn" aria-label="Sprache wählen" type="button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
+					</button>
+					<div class="languages_option">
+						<ul>
+							<li><a href=""><img class="flag" src="<?php bloginfo('template_directory'); ?>/img/flags/australia.png" alt="English"></a></li>
+							<li><a href=""><img class="flag" src="<?php bloginfo('template_directory'); ?>/img/flags/germany.png" alt="Deutsch"></a></li>
+							<li><a href=""><img class="flag" src="<?php bloginfo('template_directory'); ?>/img/flags/turkey.png" alt="Türkçe"></a></li>
+						</ul>
+					</div>
+				</div>
+				<button class="sf-header-icon-btn sf-theme-toggle" id="sf-theme-toggle" aria-label="Dunkelmodus umschalten" type="button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8a2.83 2.83 0 0 0 4 4 4 4 0 1 1-4-4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.9 4.9 1.4 1.4"/><path d="m17.7 17.7 1.4 1.4"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.3 17.7-1.4 1.4"/><path d="m19.1 4.9-1.4 1.4"/></svg>
+				</button>
+			</div>
 			<div class="menu">
 				<button class="hamburger hamburger--emphatic" type="button">
-					<span class="hamburger-box">
-						<span class="hamburger-inner"></span>
-					</span>
+					<span class="hamburger-box"><span class="hamburger-inner"></span></span>
 				</button>
 			</div>
 		</nav>
@@ -351,91 +245,40 @@
 <header class="tr_header">
 	<div class="max_wrapper" data-aos="fade-down" data-aos-delay="200">
 		<div class="salefish">
-			<a href="/">
-				<img class="salefish_logo"
-					src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png"
-					alt="Salefish">
-			</a>
+			<a href="/"><img class="salefish_logo" src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png" alt="SaleFish"></a>
 		</div>
 		<nav>
-			<div class="languages">
-				<div class="flag_active">
-				</div>
-				<div class="arrow">
-					<img class="down_arrow"
-						src="<?php bloginfo('template_directory'); ?>/img/down_arrow.svg">
-				</div>
-				<div class="languages_option">
-					<ul>
-						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/australia.png">
-							</a>
-						</li>
-						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/germany.png">
-							</a>
-						</li>
-						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/turkey.png">
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
 			<ul>
-				<li class="features_li">
-					<a href="/#features">ÖZELLİKLERİ</a>
-				</li>
-
-				<li class="newsroom_nav">
-					<a href="/newsroom">HABERLER</a>
-				</li>
-				<li class="partners_nav">
-					<a href="/partners">ORTAKLAR</a>
-				</li>
-				<li class="contact_us_nav">
-					<a href="/tr/contact">BİZE ULAŞIN </a>
-				</li>
-				<li class="sales_login">
-					<span>GİRİŞ YAPMA</span>
-				</li>
+				<li class="features_li"><a href="/#features">ÖZELLİKLERİ</a></li>
+				<li class="newsroom_nav"><a href="/newsroom">HABERLER</a></li>
+				<li class="partners_nav"><a href="/partners">ORTAKLAR</a></li>
+				<li class="contact_us_nav"><a href="/tr/contact">BİZE ULAŞIN</a></li>
+				<li class="sales_login"><span>GİRİŞ YAPMA</span></li>
 			</ul>
-			<button
-				class="sf-theme-toggle"
-				id="sf-theme-toggle"
-				aria-label="Toggle dark mode"
-				type="button">
-				<svg class="sf-icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-				</svg>
-				<svg class="sf-icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-					<circle cx="12" cy="12" r="5"/>
-					<line x1="12" y1="1" x2="12" y2="3"/>
-					<line x1="12" y1="21" x2="12" y2="23"/>
-					<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-					<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-					<line x1="1" y1="12" x2="3" y2="12"/>
-					<line x1="21" y1="12" x2="23" y2="12"/>
-					<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-					<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-				</svg>
-			</button>
+			<div class="sf-header-controls">
+				<div class="languages">
+					<button class="sf-header-icon-btn" aria-label="Dil seç" type="button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
+					</button>
+					<div class="languages_option">
+						<ul>
+							<li><a href=""><img class="flag" src="<?php bloginfo('template_directory'); ?>/img/flags/australia.png" alt="English"></a></li>
+							<li><a href=""><img class="flag" src="<?php bloginfo('template_directory'); ?>/img/flags/germany.png" alt="Deutsch"></a></li>
+							<li><a href=""><img class="flag" src="<?php bloginfo('template_directory'); ?>/img/flags/turkey.png" alt="Türkçe"></a></li>
+						</ul>
+					</div>
+				</div>
+				<button class="sf-header-icon-btn sf-theme-toggle" id="sf-theme-toggle" aria-label="Karanlık modu aç/kapat" type="button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8a2.83 2.83 0 0 0 4 4 4 4 0 1 1-4-4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.9 4.9 1.4 1.4"/><path d="m17.7 17.7 1.4 1.4"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.3 17.7-1.4 1.4"/><path d="m19.1 4.9-1.4 1.4"/></svg>
+				</button>
+			</div>
 			<div class="menu">
 				<button class="hamburger hamburger--emphatic" type="button">
-					<span class="hamburger-box">
-						<span class="hamburger-inner"></span>
-					</span>
+					<span class="hamburger-box"><span class="hamburger-inner"></span></span>
 				</button>
 			</div>
 		</nav>
 	</div>
-
 </header>
 
 <script>
@@ -492,7 +335,7 @@
 						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise
 							Admin</a>
 					</li>
-					
+
 					<li>
 						<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">The Plus
 							Group</a>
@@ -533,19 +376,19 @@
 					<li class="mobile partners_nav">
 						<a href="/partners">Ortaklar</a>
 					</li>
-					
+
 					<li class="mobile contact_us_nav">
 						<a href="/tr/contact">Bi̇ze Ulaşin</a>
 					</li>
-	
+
 					<li class="our_story_nav">
 						<a href="/our-story">Bi̇zi̇m Hi̇kayemi̇zk</a>
 					</li>
-		
+
 					<li class="awards_nav">
 						<a href="/awards">Ödüller</a>
 					</li>
-			
+
 					<li class="mobile">
 						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App</a>
 					</li>
@@ -602,12 +445,12 @@
 					<li class="our_story_nav">
 						<a href="/our-story">Unsere Geschichte</a>
 					</li>
-				
+
 					<li class="awards_nav">
 						<a href="/awards">Auszeichnungen
 						</a>
 					</li>
-			
+
 					<li class="mobile">
 						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App</a>
 					</li>
@@ -623,7 +466,7 @@
 						<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">The Plus
 							Group</a>
 					</li>
-				
+
 					<li class="terms_of_use_nav">
 						<span class="terms_menu">Nutzungsbedingungen</span>
 					</li>
@@ -670,7 +513,7 @@
 			<i class="ri-close-line close_thank_you_msg"></i>
 			<h1>
 				Thanks for checking in! <br />
-				We’ll be in touch shortly.
+				We'll be in touch shortly.
 			</h1>
 			<p>
 				If you need immediate assistance, please give us a call
