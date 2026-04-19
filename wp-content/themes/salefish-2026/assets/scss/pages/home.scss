@@ -1,6 +1,29 @@
 // Homepage — Hero
 .home-hero {
   padding-top: calc(68px + 80px);
+  position: relative;
+  overflow: hidden;
+
+  // Subtle radial gradient halo behind content
+  &::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 900px;
+    height: 600px;
+    background: radial-gradient(
+      ellipse 70% 50% at 50% 0%,
+      hsl(var(--sf-primary) / 0.07) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  > .sf-container { position: relative; z-index: 1; }
 
   @include rs768 { padding-top: calc(60px + 60px); }
 
@@ -52,7 +75,21 @@
     max-width: 560px;
     height: auto;
     border-radius: var(--sf-radius-lg);
-    box-shadow: var(--sf-shadow-md);
+    box-shadow: 0 32px 64px -12px hsl(var(--sf-primary) / 0.22),
+                0 16px 32px -8px hsl(0 0% 0% / 0.12);
+    transform: perspective(1200px) rotateY(-6deg) rotateX(2deg);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+
+    &:hover {
+      transform: perspective(1200px) rotateY(-2deg) rotateX(1deg);
+      box-shadow: 0 40px 80px -16px hsl(var(--sf-primary) / 0.28),
+                  0 20px 40px -8px hsl(0 0% 0% / 0.14);
+    }
+
+    @include rs990 {
+      transform: none;
+      &:hover { transform: none; }
+    }
   }
 }
 
@@ -107,9 +144,8 @@
   }
 }
 
-// Stats strip
+// Stats strip — gradient applied via sf-gradient-primary class on the element
 .home-stats {
-  background: hsl(var(--sf-primary));
   padding: 80px 0;
 
   @include rs768 { padding: 60px 0; }
