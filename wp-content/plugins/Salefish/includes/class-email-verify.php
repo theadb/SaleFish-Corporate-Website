@@ -118,6 +118,7 @@ class Salefish_Email_Verify {
 		$pending = self::get( $token );
 
 		if ( ! $pending ) {
+			error_log( '[SaleFish] Verification failed — token not found: ' . substr( $token, 0, 8 ) . '...' );
 			wp_die(
 				'<p style="font-family:sans-serif;font-size:16px;color:#333;">This verification link has expired or is invalid. Please <a href="' . esc_url( home_url() ) . '">register again</a>.</p>',
 				'Link Expired',
@@ -125,8 +126,18 @@ class Salefish_Email_Verify {
 			);
 		}
 
-		self::delete( $token );
-		salefish_complete_registration( $pending['type'], $pending['fields'] );
+		// Complete registration BEFORE deleting the token so a failure lets the user retry.
+		try {
+			salefish_complete_registration( $pending['type'], $pending['fields'] );
+			self::delete( $token );
+		} catch ( \Throwable $e ) {
+			error_log( '[SaleFish] Registration completion error: ' . $e->getMessage() );
+			wp_die(
+				'<p style="font-family:sans-serif;font-size:16px;color:#333;">Something went wrong completing your registration. Please <a href="' . esc_url( home_url() ) . '">try clicking the link again</a> or contact us at <a href="mailto:hello@salefish.app">hello@salefish.app</a>.</p>',
+				'Registration Error',
+				[ 'response' => 500 ]
+			);
+		}
 
 		wp_redirect( add_query_arg( 'salefish_verified', '1', home_url( '/' ) ) );
 		exit;

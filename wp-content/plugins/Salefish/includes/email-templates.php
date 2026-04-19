@@ -99,12 +99,7 @@ function salefish_collect_context(): array {
  * @param string $form_type 'general' | 'agent' | 'partner'
  */
 function salefish_format_ac_note( array $fields, string $form_type ): string {
-	$labels = [
-		'general' => 'GENERAL REGISTRATION',
-		'agent'   => 'AGENT REGISTRATION',
-		'partner' => 'PARTNER REGISTRATION',
-	];
-	$title = $labels[ $form_type ] ?? 'REGISTRATION';
+	$title = 'REGISTRATION';
 
 	$skip_keys = [ 'action', 'nonce', '_ctx_ua' ];
 
@@ -161,12 +156,7 @@ function salefish_notification_email_html( array $fields, string $form_type ): s
 	$company = esc_html( $fields['company'] ?? '' );
 	$date    = ( new DateTime( 'now', new DateTimeZone('America/Toronto') ) )->format( 'l, F j, Y \a\t g:i A T' );
 
-	$labels = [
-		'general' => 'General Registration',
-		'agent'   => 'Agent Registration',
-		'partner' => 'Partner Registration',
-	];
-	$form_label = $labels[ $form_type ] ?? 'Registration';
+	$form_label = 'Registration';
 
 	// Separate _ctx_* fields from regular extra fields
 	$ctx_label_map = [
@@ -398,8 +388,7 @@ function salefish_autoresponder_email_html( string $first_name, string $form_typ
  */
 function salefish_send_notification( array $fields, string $form_type ): bool {
 	$to      = 'hello@salefish.app';
-	$label   = ucwords( $form_type ) . ' Registration';
-	$subject = "New {$label} — SaleFish";
+	$subject = 'New Registration — SaleFish';
 	$html    = salefish_notification_email_html( $fields, $form_type );
 	$headers = [
 		'Content-Type: text/html; charset=UTF-8',
@@ -446,16 +435,11 @@ function salefish_complete_registration( string $type, array $f ): void {
 		$auto_id = defined( 'SALEFISH_AC_AUTO_AGENT' ) ? (int) SALEFISH_AC_AUTO_AGENT : 0;
 		$ac->add_to_automation( $contact_id, $auto_id );
 		$note_data = array_merge( [
-			'name'                 => $f['name']              ?? '',
-			'email'                => $f['email']             ?? '',
-			'phone'                => $f['phone']             ?? '',
-			'company'              => $f['brokerage']         ?? '',
-			'website'              => $f['website_url']       ?? '',
-			'geographic_expertise' => $f['geo_expertise']     ?? '',
-			'property_expertise'   => $f['property_expertise'] ?? '',
-			'how_did_you_hear'     => $f['howhear']           ?? '',
-			'projects_to_see'      => $f['see_projects']      ?? '',
-			'features_wanted'      => $f['see_feature']       ?? '',
+			'name'    => $f['name']        ?? '',
+			'email'   => $f['email']       ?? '',
+			'phone'   => $f['phone']       ?? '',
+			'company' => $f['brokerage']   ?? '',
+			'website' => $f['website_url'] ?? '',
 		], $f['_ctx'] ?? [] );
 		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'agent' ) );
 		salefish_send_notification( $note_data, 'agent' );
