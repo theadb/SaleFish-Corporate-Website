@@ -4,6 +4,11 @@ import flowtype from "./tools/flowtype";
 import mask from "./tools/jquery.mask";
 
 $(function () {
+  if ( new URLSearchParams( window.location.search ).get( 'salefish_verified' ) === '1' ) {
+    $(".thank_you_msg").fadeIn();
+    history.replaceState( null, '', window.location.pathname );
+  }
+
   let page = $("main").attr("class");
 
   $.fn.isInViewport = function () {
