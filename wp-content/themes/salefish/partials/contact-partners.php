@@ -51,6 +51,10 @@
 					</select>
 				</div>
 			</div>
+			<div class="sf-hp-field" aria-hidden="true">
+				<label for="sf_hp_partner">Leave this field blank</label>
+				<input type="text" name="sf_hp" id="sf_hp_partner" tabindex="-1" autocomplete="off" value="">
+			</div>
 			<div class="row submit_row">
 				<input class="submit" type="submit" value="REGISTER">
 			</div>
