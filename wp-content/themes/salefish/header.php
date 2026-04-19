@@ -25,7 +25,7 @@
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="theme-color" content="#ffffff">
 	<link rel="stylesheet"
-		href="<?php bloginfo('template_directory'); ?>/dest/app.css">
+		href="<?php bloginfo('template_directory'); ?>/dest/app.css?ver=<?php echo wp_get_theme()->get('Version'); ?>"
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
 	<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
