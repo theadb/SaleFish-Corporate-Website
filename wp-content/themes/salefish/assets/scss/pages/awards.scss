@@ -1,0 +1,134 @@
+.awards {
+  .hero {
+    background: $dark_purple;
+    padding: 120px 60px 60px;
+    position: relative;
+    overflow: hidden;
+
+    @include rs768 {
+      padding: 100px 20px 40px;
+    }
+
+    .hero_bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #3a2575 0%, $dark_purple 60%, #5a3a9e 100%);
+      z-index: 0;
+    }
+
+    .top_msg {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1680px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+
+      @include rs768 {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .left {
+        flex: 1;
+        padding-right: 60px;
+
+        @include rs768 {
+          padding-right: 0;
+          margin-bottom: 30px;
+        }
+
+        h1 {
+          color: #fff;
+          margin-bottom: 20px;
+          line-height: 1.2;
+        }
+
+        h3 {
+          color: $gold;
+        }
+      }
+
+      .right {
+        flex-shrink: 0;
+
+        .trophy {
+          width: 300px;
+
+          @include rs768 {
+            width: 180px;
+          }
+        }
+      }
+    }
+  }
+
+  .timeline-container {
+    padding: 80px 60px;
+    max-width: 1800px;
+    margin: 0 auto;
+
+    @include rs768 {
+      padding: 40px 20px;
+    }
+
+    .timeline-title {
+      color: $dark_purple;
+      margin-bottom: 60px;
+      text-align: center;
+    }
+
+    .timeline {
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: $light_purple;
+        transform: translateX(-50%);
+
+        @include rs768 {
+          left: 20px;
+        }
+      }
+    }
+
+    .timeline-year {
+      margin-bottom: 40px;
+      position: relative;
+
+      .year-marker {
+        background: $dark_purple;
+        color: #fff;
+        font-size: 1.2em;
+        font-weight: 700;
+        padding: 8px 20px;
+        border-radius: 20px;
+        display: inline-block;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-bottom: 20px;
+        white-space: nowrap;
+
+        @include rs768 {
+          left: 0;
+          transform: none;
+          font-size: 1em;
+        }
+      }
+
+      .content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+      }
+    }
+  }
+}
