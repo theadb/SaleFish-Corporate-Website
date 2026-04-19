@@ -120,9 +120,12 @@
 				<li class="features_nav">
 					<a href="/#features">FEATURES</a>
 				</li>
-			
+
 				<li class="newsroom_nav">
 					<a href="/newsroom">NEWSROOM</a>
+				</li>
+				<li class="our_story_nav">
+					<a href="/our-story">OUR STORY</a>
 				</li>
 				<li class="partners_nav">
 					<a href="/partners">PARTNERS</a>
@@ -191,6 +194,9 @@
 				</li>
 				<li class="newsroom_nav">
 					<a href="/newsroom">NEWSROOM</a>
+				</li>
+				<li class="our_story_nav">
+					<a href="/our-story">OUR STORY</a>
 				</li>
 				<li class="partners_nav">
 					<a href="/partners">PARTNERS</a>

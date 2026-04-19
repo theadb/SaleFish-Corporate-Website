@@ -18,6 +18,11 @@ footer {
     }
   }
 
+  .de_links,
+  .tr_links {
+    display: none;
+  }
+
   .links {
     display: flex;
     justify-content: space-between;
@@ -173,5 +178,20 @@ footer {
         }
       }
     }
+  }
+}
+
+.page-template-page-homepage-de {
+  footer {
+    .us_links { display: none; }
+    .de_links { display: flex; }
+  }
+}
+
+.page-template-page-homepage-tr,
+.page-template-page-tr-contact {
+  footer {
+    .us_links { display: none; }
+    .tr_links { display: flex; }
   }
 }
