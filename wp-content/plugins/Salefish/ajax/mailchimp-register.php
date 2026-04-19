@@ -2,6 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 require_once plugin_dir_path( __FILE__ ) . '../includes/class-activecampaign.php';
+require_once plugin_dir_path( __FILE__ ) . '../includes/class-email-verify.php';
 require_once plugin_dir_path( __FILE__ ) . '../includes/email-templates.php';
 
 function salefish_mailchimp_register() {
@@ -20,44 +21,15 @@ function salefish_mailchimp_register() {
 		wp_send_json_error( 'Invalid email address.' );
 	}
 
-	$ctx = salefish_collect_context();
-
-	$parts      = explode( ' ', $name, 2 );
-	$first_name = $parts[0] ?? '';
-	$last_name  = $parts[1] ?? '';
-
-	$ac = new Salefish_ActiveCampaign();
-
-	$contact_id = $ac->upsert_contact( [
-		'email'      => $email,
-		'first_name' => $first_name,
-		'last_name'  => $last_name,
-		'phone'      => $phone,
+	$token = Salefish_Email_Verify::create( 'general', [
+		'name'    => $name,
+		'email'   => $email,
+		'phone'   => $phone,
+		'company' => $company,
+		'_ctx'    => salefish_collect_context(),
 	] );
 
-	if ( $contact_id ) {
-		$ac->subscribe_to_list( $contact_id );
-		$ac->add_tag( $contact_id, 'website-registration' );
-		if ( $company ) {
-			$ac->set_field( $contact_id, 2, $company );
-		}
-		// Triggers AC autoresponder automation once SALEFISH_AC_AUTO_GENERAL is set in wp-config.php
-		$auto_id = defined( 'SALEFISH_AC_AUTO_GENERAL' ) ? (int) SALEFISH_AC_AUTO_GENERAL : 0;
-		$ac->add_to_automation( $contact_id, $auto_id );
-		$note = salefish_format_ac_note(
-			array_merge( [ 'name' => $name, 'email' => $email, 'phone' => $phone, 'company' => $company ], $ctx ),
-			'general'
-		);
-		$ac->add_note( $contact_id, $note );
-	}
-
-	salefish_send_notification(
-		array_merge(
-			[ 'name' => $name, 'email' => $email, 'phone' => $phone, 'company' => $company ],
-			$ctx
-		),
-		'general'
-	);
+	Salefish_Email_Verify::send_confirmation( $email, $token, 'general' );
 
 	wp_send_json_success( 'Registered successfully.' );
 }
