@@ -12,6 +12,11 @@ function salefish_mailchimp_register() {
 		wp_send_json_success( 'Registered successfully.' );
 	}
 
+	$turnstile_token = sanitize_text_field( $_POST['cf-turnstile-response'] ?? '' );
+	if ( ! Salefish_Email_Verify::verify_turnstile( $turnstile_token ) ) {
+		wp_send_json_error( 'Please complete the security check.' );
+	}
+
 	$name    = sanitize_text_field( $_POST['name']    ?? '' );
 	$email   = sanitize_email(       $_POST['email']   ?? '' );
 	$phone   = sanitize_text_field( $_POST['phone']   ?? '' );

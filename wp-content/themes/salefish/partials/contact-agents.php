@@ -75,6 +75,11 @@ $register_header = get_field('register_header');
 				<label for="sf_hp_agent">Leave this field blank</label>
 				<input type="text" name="sf_hp" id="sf_hp_agent" tabindex="-1" autocomplete="off" value="">
 			</div>
+			<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
+			<div class="row">
+				<div class="cf-turnstile" data-sitekey="<?php echo esc_attr( SALEFISH_CF_TURNSTILE_SITEKEY ); ?>" data-theme="dark"></div>
+			</div>
+			<?php endif; ?>
 			<div class="row">
 				<input class="submit" type="submit" value="REGISTER">
 			</div>
