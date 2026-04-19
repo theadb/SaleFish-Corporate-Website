@@ -252,6 +252,9 @@
 	</div>
 
 </footer>
+<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<?php endif; ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
 	integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -259,7 +262,8 @@
 var salefishAjax = {
 	ajaxurl: '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>',
 	nonce: '<?php echo esc_js( wp_create_nonce( 'salefish_nonce' ) ); ?>',
-	loadMoreNonce: '<?php echo esc_js( wp_create_nonce( 'salefish_load_more' ) ); ?>'
+	loadMoreNonce: '<?php echo esc_js( wp_create_nonce( 'salefish_load_more' ) ); ?>',
+	turnstileSitekey: '<?php echo esc_js( defined( "SALEFISH_CF_TURNSTILE_SITEKEY" ) ? SALEFISH_CF_TURNSTILE_SITEKEY : "" ); ?>'
 };
 </script>
 <script src="<?php bloginfo('template_directory'); ?>/dest/app.js"></script>
