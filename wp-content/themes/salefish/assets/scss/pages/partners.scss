@@ -70,14 +70,7 @@
     }
 
     .wrapper_bottom {
-      position: absolute;
-      bottom: 12%;
-      left: 0;
-      width: calc(100% - 120px);
-      padding: 0 60px;
-      max-width: 1800px;
-      margin: 0 auto;
-      z-index: 1;
+      display: none;
 
       @include rs768 {
         display: none;
