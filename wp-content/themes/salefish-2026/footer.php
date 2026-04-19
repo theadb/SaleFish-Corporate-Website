@@ -149,6 +149,7 @@ var salefishAjax = {
 };
 </script>
 <script src="<?php bloginfo('template_directory'); ?>/dest/app.js"></script>
+<script>document.addEventListener('DOMContentLoaded', function () { AOS.init({ duration: 600, once: true, offset: 60 }); });</script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>

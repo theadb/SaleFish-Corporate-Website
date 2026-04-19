@@ -91,7 +91,7 @@ $the_numbers    = get_field('the_numbers');
 
 	<!-- STATS STRIP -->
 	<?php if ( $the_numbers ): ?>
-	<section class="home-stats">
+	<section class="home-stats sf-gradient-primary">
 		<div class="sf-container">
 			<?php if ( $numbers_header ): ?>
 			<div class="home-stats__header">

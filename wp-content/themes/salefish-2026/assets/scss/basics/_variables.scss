@@ -63,9 +63,8 @@
     --sf-seahorse-fg:    0 0% 100%;
 
     // ── Fonts ────────────────────────────────────────────────
-    --sf-font-sans:   -apple-system, BlinkMacSystemFont, 'SF Pro Display',
-                      'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue',
-                      Arial, sans-serif;
+    --sf-font-sans:   'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                      Roboto, 'Helvetica Neue', Arial, sans-serif;
     --sf-font-serif:  'New York', Georgia, serif;
     --sf-font-mono:   'SF Mono', Monaco, Consolas, 'Courier New', monospace;
 
@@ -75,14 +74,14 @@
     --sf-radius-lg:  1.625rem;
 
     // ── Shadows (light) ─────────────────────────────────────
-    --sf-shadow-sm:  0 1px 2px hsl(0 0% 0% / .05),
-                     0 2px 4px hsl(0 0% 0% / .08);
-    --sf-shadow:     0 1px 3px hsl(0 0% 0% / .08),
+    --sf-shadow-sm:  0 1px 3px hsl(0 0% 0% / .08),
+                     0 2px 6px hsl(0 0% 0% / .06);
+    --sf-shadow:     0 2px 8px -1px hsl(0 0% 0% / .12),
                      0 4px 6px -2px hsl(0 0% 0% / .08);
-    --sf-shadow-md:  0 4px 6px -1px hsl(0 0% 0% / .08),
-                     0 2px 4px -2px hsl(0 0% 0% / .05);
-    --sf-shadow-lg:  0 10px 15px -3px hsl(0 0% 0% / .08),
-                     0 4px 6px -4px hsl(0 0% 0% / .05);
+    --sf-shadow-md:  0 8px 20px -4px hsl(0 0% 0% / .14),
+                     0 4px 8px -4px hsl(0 0% 0% / .08);
+    --sf-shadow-lg:  0 20px 40px -8px hsl(0 0% 0% / .16),
+                     0 8px 16px -8px hsl(0 0% 0% / .10);
   }
 }
 
