@@ -18,7 +18,6 @@
     transition: background-color 0.2s ease, color 0.2s ease;
   }
 
-  // Noise texture overlay — premium material feel
   body::before {
     content: '';
     position: fixed;
@@ -36,8 +35,7 @@
     mix-blend-mode: overlay;
   }
 
-  img,
-  svg {
+  img, svg {
     image-rendering: -webkit-optimize-contrast;
   }
 
@@ -49,38 +47,34 @@
   h1 {
     font-family: var(--sf-font-sans);
     font-weight: 700;
-    font-size: 4em;
+    font-size: clamp(2rem, 5vw, 3.5rem);
     line-height: 1.1;
-    letter-spacing: -0.01em;
-
-    @include rs550 { font-size: 2.7em; }
+    letter-spacing: -0.02em;
+    color: hsl(var(--sf-fg));
   }
 
   h2 {
     font-family: var(--sf-font-sans);
     font-weight: 700;
-    font-size: 3.75em;
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
     line-height: 1.2;
-    letter-spacing: -0.01em;
-
-    @include rs550 { font-size: 2.2em; }
+    letter-spacing: -0.015em;
+    color: hsl(var(--sf-fg));
   }
 
   h3 {
     font-family: var(--sf-font-sans);
     font-weight: 600;
-    font-size: 1.05em;
+    font-size: 1rem;
     line-height: 1.5;
-
-    @include rs550 { font-size: 1.1em; }
+    color: hsl(var(--sf-fg));
   }
 
   p {
     font-family: var(--sf-font-sans);
-    font-size: 1.75em;
+    font-size: 1rem;
     line-height: 1.6;
-
-    @include rs550 { font-size: 1.85em; }
+    color: hsl(var(--sf-muted-fg));
   }
 
   a {
@@ -103,9 +97,68 @@
   margin: 0 auto;
 }
 
-main {
-  overflow-x: hidden;
+.sf-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+
+  @include rs768 { padding: 0 20px; }
 }
+
+.sf-section {
+  padding: 80px 0;
+
+  @include rs768 { padding: 60px 0; }
+  @include rs550 { padding: 40px 0; }
+}
+
+.sf-section--sm {
+  padding: 48px 0;
+
+  @include rs768 { padding: 32px 0; }
+}
+
+.sf-prose {
+  font-family: var(--sf-font-sans);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: hsl(var(--sf-fg));
+  max-width: 68ch;
+
+  h1, h2, h3, h4 {
+    color: hsl(var(--sf-fg));
+    margin: 1.5em 0 0.5em;
+    line-height: 1.3;
+  }
+
+  p { margin: 0 0 1em; color: hsl(var(--sf-fg)); }
+
+  a { color: hsl(var(--sf-primary)); text-decoration: underline; }
+
+  blockquote {
+    border-left: 3px solid hsl(var(--sf-primary));
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    color: hsl(var(--sf-muted-fg));
+    font-style: italic;
+  }
+
+  ul, ol { padding-left: 1.5rem; margin: 0 0 1em; }
+
+  li { margin-bottom: 0.4em; }
+
+  img { border-radius: var(--sf-radius); max-width: 100%; }
+
+  pre, code {
+    font-family: monospace;
+    background: hsl(var(--sf-muted) / 0.5);
+    border-radius: var(--sf-radius);
+    padding: 2px 6px;
+    font-size: 0.875rem;
+  }
+}
+
+main { overflow-x: hidden; }
 
 .loading {
   position: fixed;
