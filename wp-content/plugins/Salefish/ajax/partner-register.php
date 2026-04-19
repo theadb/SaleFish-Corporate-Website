@@ -7,6 +7,10 @@ require_once plugin_dir_path( __FILE__ ) . '../includes/email-templates.php';
 function salefish_partner_register() {
 	check_ajax_referer( 'salefish_nonce', 'nonce' );
 
+	if ( ! empty( $_POST['sf_hp'] ) ) {
+		wp_send_json_success( 'Registered successfully.' );
+	}
+
 	$name       = sanitize_text_field( $_POST['name']        ?? '' );
 	$email      = sanitize_email(       $_POST['email']       ?? '' );
 	$phone      = sanitize_text_field( $_POST['phone']       ?? '' );
