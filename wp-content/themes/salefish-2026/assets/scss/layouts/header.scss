@@ -7,7 +7,7 @@ header {
   height: 68px;
   display: flex;
   align-items: center;
-  background: hsl(var(--sf-background) / 0.85);
+  background: hsl(var(--sf-bg) / 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid hsl(var(--sf-border));
