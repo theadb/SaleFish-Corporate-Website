@@ -23,6 +23,10 @@ Thumbs.db
 *.zip
 *.tar.gz
 *.sql
+*.gz
+
+# Database backups (kept locally only)
+db-backups/
 
 # Node
 node_modules/
