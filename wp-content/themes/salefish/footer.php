@@ -237,8 +237,6 @@
 					</a>
 				</div>
 				<p>
-					Made with <img class="heart" src="<?php bloginfo('template_directory'); ?>/img/heart.png" alt="Heart">
-					by <a href="https://coolaidstudios.com/" target="_blank" rel="noopener noreferrer">COOLAID Studios Inc.</a>
 					<span>© <?php echo date("Y"); ?> SaleFish Inc. All rights reserved.</span>
 				</p>
 			</div>
