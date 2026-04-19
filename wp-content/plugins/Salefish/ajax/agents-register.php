@@ -17,33 +17,23 @@ function salefish_agents_register() {
 		wp_send_json_error( 'Please complete the security check.' );
 	}
 
-	$name          = sanitize_text_field( $_POST['name']               ?? '' );
-	$email         = sanitize_email(       $_POST['email']              ?? '' );
-	$phone         = sanitize_text_field( $_POST['phone']              ?? '' );
-	$brokerage     = sanitize_text_field( $_POST['brokerage']          ?? '' );
-	$website_url   = esc_url_raw(          $_POST['website_url']        ?? '' );
-	$geo_expertise = sanitize_text_field( $_POST['geo_expertise']      ?? '' );
-	$property_exp  = sanitize_text_field( $_POST['property_expertise'] ?? '' );
-	$howhear       = sanitize_text_field( $_POST['howhear']            ?? '' );
-	$see_projects  = sanitize_text_field( $_POST['see_projects']       ?? '' );
-	$see_feature   = sanitize_text_field( $_POST['see_feature']        ?? '' );
+	$name        = sanitize_text_field( $_POST['name']        ?? '' );
+	$email       = sanitize_email(       $_POST['email']       ?? '' );
+	$phone       = sanitize_text_field( $_POST['phone']       ?? '' );
+	$brokerage   = sanitize_text_field( $_POST['brokerage']   ?? '' );
+	$website_url = esc_url_raw(          $_POST['website_url'] ?? '' );
 
 	if ( ! $email || ! is_email( $email ) ) {
 		wp_send_json_error( 'Invalid email address.' );
 	}
 
 	$token = Salefish_Email_Verify::create( 'agent', [
-		'name'                 => $name,
-		'email'                => $email,
-		'phone'                => $phone,
-		'brokerage'            => $brokerage,
-		'website_url'          => $website_url,
-		'geo_expertise'        => $geo_expertise,
-		'property_expertise'   => $property_exp,
-		'howhear'              => $howhear,
-		'see_projects'         => $see_projects,
-		'see_feature'          => $see_feature,
-		'_ctx'                 => salefish_collect_context(),
+		'name'        => $name,
+		'email'       => $email,
+		'phone'       => $phone,
+		'brokerage'   => $brokerage,
+		'website_url' => $website_url,
+		'_ctx'        => salefish_collect_context(),
 	] );
 
 	Salefish_Email_Verify::send_confirmation( $email, $token, 'agent' );

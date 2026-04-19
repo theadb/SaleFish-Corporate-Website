@@ -39,37 +39,6 @@ $register_header = get_field('register_header');
 					<label for="website_url">Brokerage Website URL</label>
 					<input type="text" placeholder="" name="website_url" id="website_url">
 				</div>
-				<div class="col">
-					<label for="geo_expertise">Geographic Area of Expertise</label>
-					<input type="text" placeholder="" name="geo_expertise" id="geo_expertise">
-				</div>
-
-			</div>
-			<div class="row">
-				<div class="col">
-					<label for="property_expertise">Property Expertise</label>
-					<select name="property_expertise" id="property_expertise">
-						<option value="All">All</option>
-						<option value="Single Family Homes">Single Family Homes</option>
-						<option value="Townhomes">Townhomes</option>
-						<option value="Condos">Condos</option>
-					</select>
-				</div>
-				<div class="col">
-					<label for="howhear">How Did You Hear About Us?</label>
-					<input type="text" placeholder="" name="howhear" id="howhear">
-				</div>
-
-			</div>
-			<div class="row">
-				<div class="col">
-					<label for="see_projects">Specific Projects You Want to See</label>
-					<input type="text" placeholder="" name="see_projects" id="see_projects">
-				</div>
-				<div class="col">
-					<label for="see_feature">Features You Would Like to See</label>
-					<input type="text" placeholder="" name="see_feature" id="see_feature">
-				</div>
 			</div>
 			<div class="sf-hp-field" aria-hidden="true">
 				<label for="sf_hp_agent">Leave this field blank</label>
