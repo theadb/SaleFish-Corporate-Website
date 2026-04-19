@@ -413,6 +413,93 @@ function salefish_send_notification( array $fields, string $form_type ): bool {
 }
 
 /**
+ * Complete an email-verified registration: add to AC and send internal notification.
+ * Called by Salefish_Email_Verify::handle_verification() after the user clicks the link.
+ */
+function salefish_complete_registration( string $type, array $f ): void {
+	require_once plugin_dir_path( __FILE__ ) . 'class-activecampaign.php';
+
+	$parts      = explode( ' ', $f['name'] ?? '', 2 );
+	$first_name = $parts[0] ?? '';
+	$last_name  = $parts[1] ?? '';
+
+	$ac         = new Salefish_ActiveCampaign();
+	$contact_id = $ac->upsert_contact( [
+		'email'      => $f['email']  ?? '',
+		'first_name' => $first_name,
+		'last_name'  => $last_name,
+		'phone'      => $f['phone']  ?? '',
+	] );
+
+	if ( ! $contact_id ) {
+		return;
+	}
+
+	$ac->subscribe_to_list( $contact_id );
+
+	if ( $type === 'agent' ) {
+		$ac->add_tag( $contact_id, 'agent-registration' );
+		$ac->set_field( $contact_id, 1, 'Real Estate Agent' );
+		if ( ! empty( $f['brokerage'] ) ) {
+			$ac->set_field( $contact_id, 2, $f['brokerage'] );
+		}
+		$auto_id = defined( 'SALEFISH_AC_AUTO_AGENT' ) ? (int) SALEFISH_AC_AUTO_AGENT : 0;
+		$ac->add_to_automation( $contact_id, $auto_id );
+		$note_data = array_merge( [
+			'name'                 => $f['name']              ?? '',
+			'email'                => $f['email']             ?? '',
+			'phone'                => $f['phone']             ?? '',
+			'company'              => $f['brokerage']         ?? '',
+			'website'              => $f['website_url']       ?? '',
+			'geographic_expertise' => $f['geo_expertise']     ?? '',
+			'property_expertise'   => $f['property_expertise'] ?? '',
+			'how_did_you_hear'     => $f['howhear']           ?? '',
+			'projects_to_see'      => $f['see_projects']      ?? '',
+			'features_wanted'      => $f['see_feature']       ?? '',
+		], $f['_ctx'] ?? [] );
+		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'agent' ) );
+		salefish_send_notification( $note_data, 'agent' );
+
+	} elseif ( $type === 'partner' ) {
+		$ac->add_tag( $contact_id, 'partner-registration' );
+		if ( ! empty( $f['want_to_do'] ) ) {
+			$ac->set_field( $contact_id, 1, $f['want_to_do'] );
+		}
+		if ( ! empty( $f['company'] ) ) {
+			$ac->set_field( $contact_id, 2, $f['company'] );
+		}
+		$auto_id = defined( 'SALEFISH_AC_AUTO_PARTNER' ) ? (int) SALEFISH_AC_AUTO_PARTNER : 0;
+		$ac->add_to_automation( $contact_id, $auto_id );
+		$note_data = array_merge( [
+			'name'       => $f['name']       ?? '',
+			'email'      => $f['email']      ?? '',
+			'phone'      => $f['phone']      ?? '',
+			'company'    => $f['company']    ?? '',
+			'want_to_do' => $f['want_to_do'] ?? '',
+			'clients'    => $f['clients']    ?? '',
+		], $f['_ctx'] ?? [] );
+		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'partner' ) );
+		salefish_send_notification( $note_data, 'partner' );
+
+	} elseif ( $type === 'general' ) {
+		$ac->add_tag( $contact_id, 'website-registration' );
+		if ( ! empty( $f['company'] ) ) {
+			$ac->set_field( $contact_id, 2, $f['company'] );
+		}
+		$auto_id = defined( 'SALEFISH_AC_AUTO_GENERAL' ) ? (int) SALEFISH_AC_AUTO_GENERAL : 0;
+		$ac->add_to_automation( $contact_id, $auto_id );
+		$note_data = array_merge( [
+			'name'    => $f['name']    ?? '',
+			'email'   => $f['email']   ?? '',
+			'phone'   => $f['phone']   ?? '',
+			'company' => $f['company'] ?? '',
+		], $f['_ctx'] ?? [] );
+		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'general' ) );
+		salefish_send_notification( $note_data, 'general' );
+	}
+}
+
+/**
  * Send the autoresponder to the registrant.
  */
 function salefish_send_autoresponder( string $to_email, string $first_name, string $form_type ): bool {
