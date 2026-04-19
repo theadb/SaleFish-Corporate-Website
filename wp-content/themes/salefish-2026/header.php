@@ -100,6 +100,9 @@
 				<li class="newsroom_nav">
 					<a href="/newsroom">Newsroom</a>
 				</li>
+				<li class="our_story_nav">
+					<a href="/our-story">Our Story</a>
+				</li>
 				<li class="partners_nav">
 					<a href="/partners">Partners</a>
 				</li>
@@ -165,6 +168,9 @@
 				</li>
 				<li class="newsroom_nav">
 					<a href="/newsroom">Newsroom</a>
+				</li>
+				<li class="our_story_nav">
+					<a href="/our-story">Our Story</a>
 				</li>
 				<li class="partners_nav">
 					<a href="/partners">Partners</a>
