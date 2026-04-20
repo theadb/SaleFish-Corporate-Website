@@ -99,6 +99,52 @@ get_header();
 				</div><!-- .blog-featured__secondary -->
 
 			</div><!-- .blog-featured__grid -->
+
+			<?php
+			$sticky_ids     = get_option( 'sticky_posts' );
+			$sticky_posts   = ! empty( $sticky_ids ) ? get_posts([
+				'post__in'       => $sticky_ids,
+				'post_type'      => 'post',
+				'post_status'    => 'publish',
+				'posts_per_page' => 6,
+				'orderby'        => 'date',
+				'order'          => 'DESC',
+			]) : [];
+			if ( ! empty( $sticky_posts ) ) : ?>
+			<div class="blog-sticky">
+				<p class="blog-section-label">Featured Blog Posts</p>
+				<div class="blog-sticky__grid">
+					<?php foreach ( $sticky_posts as $i => $sp ) :
+						$sp_id       = $sp->ID;
+						$sp_cats     = get_the_category( $sp_id );
+						$sp_cat_slug = $sp_cats ? $sp_cats[0]->category_nicename : '';
+						$sp_cat_name = $sp_cats ? $sp_cats[0]->cat_name          : '';
+						$sp_thumb    = get_the_post_thumbnail( $sp_id, 'thumbnail' );
+						$sp_link     = get_permalink( $sp_id );
+						$sp_date     = get_the_date( 'M j, Y', $sp_id );
+						$sp_author   = get_the_author_meta( 'display_name', $sp->post_author );
+						$sp_video    = $sp_cat_slug === 'videos';
+					?>
+					<a href="<?php echo $sp_video ? esc_url( $sp->post_content ) : esc_url( $sp_link ); ?>"
+					   class="blog-sticky__card blog-card-animate"
+					   style="animation-delay: <?php echo $i * 0.07; ?>s"
+					   <?php echo $sp_video ? 'data-fancybox' : ''; ?>>
+						<?php if ( $sp_thumb ) : ?>
+						<div class="blog-sticky__card-image"><?php echo $sp_thumb; ?></div>
+						<?php endif; ?>
+						<div class="blog-sticky__card-body">
+							<?php if ( $sp_cat_name ) : ?>
+							<span class="sf-badge sf-badge--<?php echo esc_attr( $sp_cat_slug ); ?>"><?php echo esc_html( $sp_cat_name ); ?></span>
+							<?php endif; ?>
+							<h3 class="blog-sticky__card-title"><?php echo esc_html( get_the_title( $sp_id ) ); ?></h3>
+							<p class="blog-sticky__card-meta"><?php echo esc_html( $sp_date ); ?> &middot; <?php echo esc_html( $sp_author ); ?></p>
+							<span class="blog-sticky__card-link"><?php echo $sp_video ? 'Watch Video' : 'Read More'; ?></span>
+						</div>
+					</a>
+					<?php endforeach; ?>
+				</div>
+			</div>
+			<?php endif; ?>
 		</div>
 	</section>
 	<?php endif; ?>
@@ -112,12 +158,11 @@ get_header();
 				<button class="blog-filter__btn active" data-filter="all">All Articles</button>
 				<button class="blog-filter__btn" data-filter="success-stories">Success Stories</button>
 				<button class="blog-filter__btn" data-filter="press">Press</button>
-				<button class="blog-filter__btn" data-filter="blog">Blog</button>
 				<button class="blog-filter__btn" data-filter="videos">Videos</button>
 			</div>
 
 			<div class="blog-grid">
-				<?php foreach ( $articles as $article ) :
+				<?php $card_i = 0; foreach ( $articles as $article ) :
 					$id       = $article->ID;
 					$title    = get_the_title( $id );
 					$thumb    = get_the_post_thumbnail( $id, 'medium_large' );
@@ -127,25 +172,30 @@ get_header();
 					$cat_name = $cats ? $cats[0]->cat_name : '';
 					$cat_slug = $cats ? $cats[0]->category_nicename : '';
 					$content  = $article->post_content;
+					$author   = get_the_author_meta( 'display_name', $article->post_author );
+					$featured = is_sticky( $id );
 					$is_video = $cat_slug === 'videos';
 				?>
 				<a href="<?php echo $is_video ? esc_url( $content ) : esc_url( $link ); ?>"
-				   class="sf-card blog-card"
+				   class="sf-card blog-card blog-card-animate"
+				   style="animation-delay: <?php echo ($card_i * 0.07); ?>s"
 				   data-category="<?php echo esc_attr( $cat_slug ); ?>"
 				   <?php echo $is_video ? 'data-fancybox' : ''; ?>>
 					<?php if ( $thumb ) : ?>
 					<div class="blog-card__image"><?php echo $thumb; ?></div>
 					<?php endif; ?>
 					<div class="blog-card__body">
+						<?php if ( $featured ) : ?><span class="sf-badge sf-badge--featured">Featured</span><?php endif; ?>
 						<?php if ( $cat_name ) : ?>
 						<span class="sf-badge sf-badge--<?php echo esc_attr( $cat_slug ); ?> blog-card__cat"><?php echo esc_html( $cat_name ); ?></span>
 						<?php endif; ?>
 						<span class="blog-card__date">Published: <?php echo esc_html( $date ); ?></span>
+						<span class="blog-card__author">By <?php echo esc_html( $author ); ?></span>
 						<h3 class="blog-card__title"><?php echo esc_html( $title ); ?></h3>
 						<span class="blog-card__link"><?php echo $is_video ? 'Watch Video' : 'Read More'; ?></span>
 					</div>
 				</a>
-				<?php endforeach; ?>
+				<?php $card_i++; endforeach; ?>
 			</div><!-- .blog-grid -->
 
 			<div class="blog-loadmore">
@@ -176,15 +226,17 @@ get_header();
     var cat_name = post.cat_name || '';
     var is_video = cat_slug === 'videos';
     var card     = document.createElement('a');
-    card.href      = is_video ? (post.link || '#') : (post.link || '#');
+    card.href      = is_video ? (post.content || post.link || '#') : (post.link || '#');
     card.className = 'sf-card blog-card';
     card.setAttribute('data-category', cat_slug);
     if (is_video) card.setAttribute('data-fancybox', '');
     card.innerHTML =
       (post.thumb ? '<div class="blog-card__image">' + post.thumb + '</div>' : '') +
       '<div class="blog-card__body">' +
+        (post.is_featured ? '<span class="sf-badge sf-badge--featured">Featured</span>' : '') +
         (cat_name ? '<span class="sf-badge sf-badge--' + cat_slug + ' blog-card__cat">' + cat_name + '</span>' : '') +
         (post.date ? '<span class="blog-card__date">Published: ' + post.date + '</span>' : '') +
+        (post.author ? '<span class="blog-card__author">By ' + post.author + '</span>' : '') +
         '<h3 class="blog-card__title">' + post.title + '</h3>' +
         '<span class="blog-card__link">' + (is_video ? 'Watch Video' : 'Read More') + '</span>' +
       '</div>';

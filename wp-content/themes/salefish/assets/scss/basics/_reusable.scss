@@ -309,6 +309,8 @@
   }
   .blog_header {
     display: flex;
+    .salefish_logo { content: url('/wp-content/themes/salefish/img/dark_salefish_logo.png'); }
+    .down_arrow    { content: url('/wp-content/themes/salefish/img/purple_down_arrow.svg'); }
     nav {
       ul {
         li {
