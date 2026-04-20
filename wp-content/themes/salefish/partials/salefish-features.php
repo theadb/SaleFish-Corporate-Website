@@ -3,7 +3,7 @@ $features = get_field('features', 'option');
 $service_support = get_field('service_support', 'option');
 $service_support_button = $service_support['button'];
 $service_support_button_text = mb_convert_case($service_support_button['text'], MB_CASE_TITLE, 'UTF-8');
-$service_support_button_link = $service_support_button['link'];
+$service_support_button_link = 'https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c';
 $counter = 0;
 ?>
 
@@ -22,7 +22,7 @@ $counter = 0;
                 $content = $row['content'];
                 $button = $row['button'];
                 $button_text = mb_convert_case($button['text'], MB_CASE_TITLE, 'UTF-8');
-                $button_link= $button['link'];
+                $button_link = 'https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c';
                 ?>
             <div class="feature">
                 <?php if ($is_even): ?>
