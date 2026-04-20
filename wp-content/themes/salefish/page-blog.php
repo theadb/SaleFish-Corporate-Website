@@ -101,18 +101,29 @@ get_header();
 			</div><!-- .blog-featured__grid -->
 
 			<?php
-			$sticky_ids     = get_option( 'sticky_posts' );
-			$sticky_posts   = ! empty( $sticky_ids ) ? get_posts([
+			$sticky_ids    = get_option( 'sticky_posts' );
+			$sticky_posts  = ! empty( $sticky_ids ) ? get_posts( [
 				'post__in'       => $sticky_ids,
 				'post_type'      => 'post',
 				'post_status'    => 'publish',
 				'posts_per_page' => 6,
 				'orderby'        => 'date',
 				'order'          => 'DESC',
-			]) : [];
+			] ) : [];
+			// Fall back to 3 most recent posts if no sticky posts are set
+			if ( empty( $sticky_posts ) ) {
+				$sticky_posts = get_posts( [
+					'post_type'      => 'post',
+					'post_status'    => 'publish',
+					'posts_per_page' => 3,
+					'orderby'        => 'date',
+					'order'          => 'DESC',
+				] );
+			}
+			$sticky_label = ! empty( $sticky_ids ) ? 'Featured Blog Posts' : 'More Blog Posts';
 			if ( ! empty( $sticky_posts ) ) : ?>
 			<div class="blog-sticky">
-				<p class="blog-section-label">Featured Blog Posts</p>
+				<p class="blog-section-label"><?php echo esc_html( $sticky_label ); ?></p>
 				<div class="blog-sticky__grid">
 					<?php foreach ( $sticky_posts as $i => $sp ) :
 						$sp_id       = $sp->ID;
