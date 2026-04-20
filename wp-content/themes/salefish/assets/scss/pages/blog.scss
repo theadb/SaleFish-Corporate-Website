@@ -101,10 +101,10 @@
 // ─── FEATURED POSTS ────────────────────────────────────────────────────────
 .blog-featured {
   background: hsl(var(--sf-bg));
-  padding-top: 0;
+  padding-top: 48px;
   padding-bottom: 64px;
 
-  @include rs768 { padding-bottom: 48px; }
+  @include rs768 { padding-top: 32px; padding-bottom: 48px; }
 
   .sf-container { position: relative; z-index: 1; }
 
@@ -159,6 +159,8 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+
+      .sf-badge { align-self: flex-start; }
     }
   }
 
@@ -228,6 +230,8 @@
       flex-direction: column;
       gap: 8px;
       justify-content: center;
+
+      .sf-badge { align-self: flex-start; }
     }
 
     &-title {
