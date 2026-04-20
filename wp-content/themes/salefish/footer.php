@@ -78,13 +78,6 @@
 					<img class="plus_group" src="<?php bloginfo('template_directory'); ?>/img/plus_group.png" alt="Plus Group">
 
 				</a>
-				<a href="https://ised-isde.canada.ca/site/cybersecure-canada/en" target="_blank" rel="noopener noreferrer">
-					<img class="certified" src="<?php bloginfo('template_directory'); ?>/img/certified.png" alt="Certified">
-				</a>
-			</div>
-			<div class="col certified">
-				<img class="fish" src="<?php echo get_template_directory_uri(); ?>/img/fish.gif" alt="Fish gif">
-
 			</div>
 		</div>
 		<div class="links de_links">
@@ -147,13 +140,6 @@
 					<img class="plus_group" src="<?php bloginfo('template_directory'); ?>/img/plus_group.png" alt="Plus Group">
 
 				</a>
-				<a href="https://ised-isde.canada.ca/site/cybersecure-canada/en" target="_blank" rel="noopener noreferrer">
-					<img class="certified" src="<?php bloginfo('template_directory'); ?>/img/certified.png" alt="Certified">
-				</a>
-			</div>
-			<div class="col certified">
-				<img class="fish" src="<?php echo get_template_directory_uri(); ?>/img/fish.gif" alt="Fish gif">
-
 			</div>
 		</div>
 		<div class="links tr_links">
@@ -216,13 +202,6 @@
 					<img class="plus_group" src="<?php bloginfo('template_directory'); ?>/img/plus_group.png" alt="Plus Group">
 
 				</a>
-				<a href="https://ised-isde.canada.ca/site/cybersecure-canada/en" target="_blank" rel="noopener noreferrer">
-					<img class="certified" src="<?php bloginfo('template_directory'); ?>/img/certified.png" alt="Certified">
-				</a>
-			</div>
-			<div class="col certified">
-				<img class="fish" src="<?php echo get_template_directory_uri(); ?>/img/fish.gif" alt="Fish gif">
-
 			</div>
 		</div>
 		<div class="bottom">
@@ -239,12 +218,6 @@
 				<p>
 					<span>© <?php echo date("Y"); ?> SaleFish Inc. All rights reserved.</span>
 				</p>
-			</div>
-			<div class="right">
-				<a href="https://ised-isde.canada.ca/site/cybersecure-canada/en" target="_blank" rel="noopener noreferrer">
-					<img class="certified" src="<?php bloginfo('template_directory'); ?>/img/cyber-essentials.png" alt="Certified">
-				</a>
-
 			</div>
 		</div>
 	</div>
