@@ -84,7 +84,7 @@
   font-family: var(--sf-font-sans);
   font-size: 0.82rem;
   font-weight: 600;
-  color: hsl(var(--sf-primary));
+  color: $dark_purple;
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -270,9 +270,9 @@
     }
 
     &.active {
-      background: hsl(var(--sf-primary));
-      color: hsl(var(--sf-primary-fg));
-      border-color: hsl(var(--sf-primary));
+      background: $dark_purple;
+      color: #fff;
+      border-color: $dark_purple;
     }
   }
 }
@@ -345,7 +345,7 @@
     font-family: var(--sf-font-sans);
     font-size: 0.82rem;
     font-weight: 600;
-    color: hsl(var(--sf-primary));
+    color: $dark_purple;
     margin-top: auto;
     display: inline-flex;
     align-items: center;
@@ -363,6 +363,18 @@
 .blog-loadmore {
   display: flex;
   justify-content: center;
+
+  .sf-btn {
+    background: $gold;
+    color: $black;
+    border-color: transparent;
+    font-family: $PSB;
+    font-size: 0.875rem;
+    border-radius: 5px;
+    padding: 10px 40px;
+
+    &:hover { opacity: 0.9; }
+  }
 }
 
 .fancybox-toolbar {

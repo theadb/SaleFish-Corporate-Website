@@ -3,19 +3,19 @@
 // blog design. Scoped so nothing here conflicts with legacy SCSS.
 
 :root {
-  --sf-bg:             240 100% 99%;
+  --sf-bg:             220 22% 96%;
   --sf-fg:             0 0% 9%;
-  --sf-border:         240 20% 75%;
-  --sf-card:           240 100% 99%;
-  --sf-card-fg:        0 0% 9%;
-  --sf-card-border:    240 20% 72%;
-  --sf-card-gradient:  linear-gradient(180deg, hsl(240 100% 100%) 0%, hsl(240 20% 96%) 100%);
+  --sf-border:         220 13% 87%;
+  --sf-card:           0 0% 100%;
+  --sf-card-fg:        0 0% 28%;
+  --sf-card-border:    220 13% 88%;
+  --sf-card-gradient:  linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 22% 96%) 100%);
   --sf-primary:        256 51% 36%;
   --sf-primary-fg:     0 0% 100%;
-  --sf-secondary:      240 20% 94%;
-  --sf-secondary-fg:   210 20% 15%;
-  --sf-muted:          240 20% 95%;
-  --sf-muted-fg:       210 15% 35%;
+  --sf-secondary:      220 22% 96%;
+  --sf-secondary-fg:   0 0% 28%;
+  --sf-muted:          220 22% 95%;
+  --sf-muted-fg:       0 0% 38%;
   --sf-accent:         270 50% 75%;
   --sf-ring:           256 51% 30%;
   --sf-ocean:          210 100% 28%;
