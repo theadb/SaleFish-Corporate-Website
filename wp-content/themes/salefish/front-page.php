@@ -10,10 +10,9 @@ get_header();
 $fade_msg = get_field('fade_messages');
 $fade = array();
 foreach ($fade_msg as $msg) {
-    $text = $msg['text'];
-    array_push($fade, $text);
+    array_push($fade, mb_convert_case($msg['text'], MB_CASE_TITLE, 'UTF-8'));
 }
-$hero_header = get_field('hero_header');
+$hero_header = mb_convert_case(get_field('hero_header'), MB_CASE_TITLE, 'UTF-8');
 $hero_image = get_field('hero_image');
 
 // BUILDERS
@@ -58,11 +57,11 @@ $the_numbers = get_field('the_numbers');
 		<div class="wrapper">
 			<div class="max_wrapper">
 				<div class="left" data-aos="fade-right" data-aos-delay="300">
-					<h3>AN EASIER WAY TO <span>SELL <label id="app_for_home">HOME SALES</label></span></h3>
+					<h3>An Easier Way to <span>Sell <label id="app_for_home">Home Sales</label></span></h3>
 					<h1>
 						<?php echo wp_kses_post( $hero_header ); ?>
 					</h1>
-					<a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">BOOK A FREE DEMO</a>
+					<a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">Book a Free Demo</a>
 				</div>
 				<div class="right" data-aos="zoom-in" data-aos-delay="300">
 					<img class="salefish_demo"
@@ -79,8 +78,8 @@ $the_numbers = get_field('the_numbers');
 	 	<section class="builders">
 			<div class="max_wrapper">
 				<div data-aos="fade-right">
-					<h3>THE REAL ESTATE LEADERS</h3>
-					<h3 class="bold">BEATING YOU BECAUSE OF SALEFISH:</h3>
+					<h3>The Real Estate Leaders</h3>
+					<h3 class="bold">Beating You Because of SaleFish:</h3>
 				</div>
 
 				<div data-aos="fade-zoom-in" class="builders_wrap">
@@ -116,6 +115,46 @@ $the_numbers = get_field('the_numbers');
 	<?php get_template_part('/partials/salefish-features'); ?>
 	<!-- END FEATURES -->
 
+	<!-- PILLARS -->
+	<section class="pillars">
+		<div class="max_wrapper">
+			<div data-aos="fade-right">
+				<h1>The SaleFish Pillars</h1>
+				<p class="subheader">We Build Tools for People Who Expect to Win.</p>
+			</div>
+			<div class="swiper pillarsSwiper" data-aos="fade-zoom-in">
+				<div class="swiper-wrapper">
+					<?php foreach($pillars as $row):
+					    $icon = $row['icon'];
+					    $title = ucwords( strtolower( $row['title'] ) );
+					    $description = $row['description'];
+					    ?>
+					<div class="swiper-slide">
+						<img class="pillar"
+							src="<?php echo esc_url( $icon ); ?>">
+						<h1>
+							<?php echo esc_html( $title ); ?>
+						</h1>
+						<p>
+							<?php echo wp_kses_post( $description ); ?>
+						</p>
+					</div>
+					<?php endforeach; ?>
+				</div>
+				<div class="controls">
+					<div class="arrow">
+						<img class="left_arrow"
+							src="<?php bloginfo('template_directory'); ?>/img/left_arrow.png">
+					</div>
+					<div class="arrow">
+						<img class="right_arrow"
+							src="<?php bloginfo('template_directory'); ?>/img/right_arrow.png">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- END PILLARS -->
 
 	<!-- CONTACT -->
 	<section class="contact">
@@ -126,7 +165,7 @@ $the_numbers = get_field('the_numbers');
 		<div class="top">
 			<div class="title" data-aos="fade-up">
 				<h1>
-					<?php echo esc_html( $numbers_header['title'] ); ?>
+					<?php echo esc_html( mb_convert_case($numbers_header['title'], MB_CASE_TITLE, 'UTF-8') ); ?>
 				</h1>
 				<p>
 					<?php echo wp_kses_post( $numbers_header['description'] ); ?>
@@ -182,50 +221,8 @@ foreach($the_numbers as $row):
 				</div>
 			</div>
 
-			<a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">BOOK A FREE DEMO</a>
+			<a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">Book a Free Demo</a>
 		</div>
-		<!-- PILLARS -->
-		<section class="pillars">
-			<div class="max_wrapper">
-				<div data-aos="fade-right">
-					<h1>THE SALEFISH PILLARS</h1>
-					<p class="subheader">We Build Tools for People Who Expect to Win.</p>
-				</div>
-				<div class="swiper pillarsSwiper" data-aos="fade-zoom-in">
-					<div class="swiper-wrapper">
-						<?php foreach($pillars as $row):
-						    $icon = $row['icon'];
-						    $title = $row['title'];
-						    $description = $row['description'];
-						    ?>
-						<div class="swiper-slide">
-							<img class="pillar"
-								src="<?php echo esc_url( $icon ); ?>">
-							<h1>
-								<?php echo esc_html( $title ); ?>
-							</h1>
-							<p>
-								<?php echo wp_kses_post( $description ); ?>
-							</p>
-						</div>
-						<?php endforeach; ?>
-					</div>
-					<div class="controls">
-						<div class="arrow">
-							<img class="left_arrow"
-								src="<?php bloginfo('template_directory'); ?>/img/left_arrow.png">
-						</div>
-						<div class="arrow">
-							<img class="right_arrow"
-								src="<?php bloginfo('template_directory'); ?>/img/right_arrow.png">
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</section>
-		<!-- END PILLARS -->
-
 		<?php get_template_part('/partials/contact-general'); ?>
 	</section>
 	<!-- END CONTACT -->

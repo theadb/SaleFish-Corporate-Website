@@ -1,0 +1,40 @@
+@mixin rs1200 {
+  @media screen and (max-width: 1200px) {
+    @content;
+  }
+}
+@mixin rs990 {
+  @media screen and (max-width: 990px) {
+    @content;
+  }
+}
+
+@mixin rs768 {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin rs600 {
+  @media screen and (max-width: 600px) {
+    @content;
+  }
+}
+
+@mixin rs550 {
+  @media screen and (max-width: 550px) {
+    @content;
+  }
+}
+
+@mixin rs375 {
+  @media screen and (max-width: 375px) {
+    @content;
+  }
+}
+
+@mixin minrs1400 {
+  @media screen and (min-width: 1400px) {
+    @content;
+  }
+}

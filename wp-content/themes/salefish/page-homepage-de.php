@@ -196,7 +196,7 @@ foreach($the_numbers as $row):
 					<div class="swiper-wrapper">
 						<?php foreach($pillars as $row):
 						    $icon = $row['icon'];
-						    $title = $row['title'];
+						    $title = ucwords( strtolower( $row['title'] ) );
 						    $description = $row['description'];
 						    ?>
 						<div class="swiper-slide">
