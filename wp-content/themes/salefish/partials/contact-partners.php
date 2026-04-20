@@ -2,11 +2,11 @@
 	<div class="form">
 		<div data-aos="fade-right">
 			<h3>
-            GOT CLIENTS, CODE, OR JUST GREAT CONTACTS? SALEFISH MAKES IT EASY TO EARN AND INTEGRATE.
+            Got Clients, Code, or Just Great Contacts? SaleFish Makes It Easy to Earn and Integrate.
 			</h3>
 			<h1>
-            WANT IN? PICK YOUR LANE. <br/>
-            WE'LL HANDLE THE REST.
+            Want In? Pick Your Lane. <br/>
+            We'll Handle the Rest.
 			</h1>
 		</div>
 
@@ -14,21 +14,21 @@
 			<div class="row">
 
 				<div class="col">
-					<label for="name">NAME</label>
+					<label for="name">Name</label>
 					<input type="text" placeholder="First Last" name="name" id="name" required>
 				</div>
 				<div class="col">
-					<label for="company">COMPANY</label>
+					<label for="company">Company</label>
 					<input type="text" placeholder="Acme Ltd." name="company" id="company">
 				</div>
 			</div>
 			<div class="row">
 				<div class="col">
-					<label for="phone">PHONE NUMBER</label>
+					<label for="phone">Phone Number</label>
 					<input type="tel" placeholder="555-912-0088" name="phone" id="phone">
 				</div>
 				<div class="col">
-					<label for="email">EMAIL</label>
+					<label for="email">Email</label>
 					<input type="email" placeholder="name@company.com" name="email" id="email" required>
 				</div>
 			</div>
@@ -61,7 +61,7 @@
 			</div>
 			<?php endif; ?>
 			<div class="row submit_row">
-				<input class="submit" type="submit" value="REGISTER">
+				<input class="submit" type="submit" value="Register">
 			</div>
 		</form>
 	</div>

@@ -2,7 +2,7 @@
     <div class="top_overlay"><div class="width"></div></div>
     <div class="container">
         <div class="max_width">
-            <h1>NEED MORE INFO?</h1>
+            <h1>Need More Info?</h1>
             <p>Contact us for a free assessment of 
             your current sales process and tech stack.</p>
 
@@ -14,9 +14,9 @@
                         <span>Senior Sales Manager</span>
                     </div>
                     <div class="cta_button">
-                        <a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/leck?uuid=289b3186-c32a-4bc0-afac-e97ff844e66d">BOOK A FREE DEMO</a>
-							<a class="button hollow" href="tel:+16475425325">CALL</a>
-							<a class="button hollow" href="mailto:dannyl@salefish.app">EMAIL</a>
+                        <a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/leck?uuid=289b3186-c32a-4bc0-afac-e97ff844e66d">Book a Free Demo</a>
+							<a class="button hollow" href="tel:+16475425325">Call</a>
+							<a class="button hollow" href="mailto:dannyl@salefish.app">Email</a>
                     </div>
                 </div>
             </div>
