@@ -331,6 +331,8 @@
       }
     }
     &.active {
+      .salefish_logo { content: url('/wp-content/themes/salefish/img/salefish_logo.png'); }
+      .down_arrow    { content: url('/wp-content/themes/salefish/img/down_arrow.svg'); }
       nav {
         ul {
           li {
