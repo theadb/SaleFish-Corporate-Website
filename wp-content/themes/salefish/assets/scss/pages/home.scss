@@ -673,6 +673,12 @@
           align-items: center;
           justify-content: center;
 
+          @include rs768 {
+            order: 2;
+            width: 80%;
+            margin: 0 auto;
+          }
+
           img {
             max-width: 100%;
             max-height: 500px;
@@ -686,6 +692,9 @@
         }
 
         &.context_info {
+          @include rs768 {
+            order: 1;
+          }
           h3 {
             color: $gold;
             font-family: $PSB;
