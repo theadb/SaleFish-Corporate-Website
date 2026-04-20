@@ -422,14 +422,14 @@
 }
 
 // HEADER
-.page-template-page-newsroom,
+.page-template-page-blog,
 .post-template-default,
 .page-template-page-terms-of-use,
 .page-template-page-privacy-policy {
   .default {
     display: none;
   }
-  .newsroom_header {
+  .blog_header {
     display: flex;
     nav {
       ul {

@@ -226,8 +226,8 @@ $(function () {
     case "/our-story/":
       $(".our_story_nav a").addClass("active");
       break;
-    case "/newsroom/":
-      $(".newsroom_nav a").addClass("active");
+    case "/blog/":
+      $(".blog_nav a").addClass("active");
       break;
     case "/contact-us/":
       $(".contact_us_nav a").addClass("active");

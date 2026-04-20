@@ -22,8 +22,8 @@ get_header();
 		<div class="single-post__container">
 
 			<div class="single-post__back">
-				<a href="/newsroom">
-					&larr; Back to Newsroom
+				<a href="/blog">
+					&larr; Back to the Blog
 				</a>
 			</div>
 
