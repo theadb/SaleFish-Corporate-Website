@@ -74,13 +74,9 @@ $(function () {
         prevEl: ".pillarsSwiper .left_arrow",
       },
       breakpoints: {
-        1100: {
-          slidesPerView: 2,
-          spaceBetween: 10,
-        },
-        1400: {
-          slidesPerView: 2.5,
-          spaceBetween: 10,
+        769: {
+          enabled: false,
+          loop: false,
         },
       },
     });
