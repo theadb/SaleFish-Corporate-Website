@@ -493,9 +493,10 @@
 }
 
 .sf-badge--featured {
-  background: linear-gradient(135deg, $gold 0%, darken($gold, 10%) 100%);
-  color: $black;
-  border-color: transparent;
+  align-self: flex-start;
+  background: rgba($green, 0.12);
+  color: darken($green, 10%);
+  border-color: rgba($green, 0.3);
 }
 
 .fancybox-toolbar {
