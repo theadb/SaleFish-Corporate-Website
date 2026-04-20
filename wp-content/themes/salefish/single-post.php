@@ -25,7 +25,7 @@ $share_title  = urlencode( $title );
 $share_desc   = urlencode( wp_trim_words( get_the_excerpt(), 20, '...' ) );
 
 // Featured sticky posts (exclude current post)
-$sticky_ids = get_option( 'sticky_posts' );
+$sticky_ids      = get_option( 'sticky_posts' );
 $sticky_ids_excl = array_diff( (array) $sticky_ids, [ $id ] );
 $featured_posts  = ! empty( $sticky_ids_excl )
 	? get_posts( [
@@ -37,18 +37,6 @@ $featured_posts  = ! empty( $sticky_ids_excl )
 		'order'          => 'DESC',
 	] )
 	: [];
-// Fall back to 3 most recent posts (excluding current) if no sticky posts
-if ( empty( $featured_posts ) ) {
-	$featured_posts = get_posts( [
-		'post_type'      => 'post',
-		'post_status'    => 'publish',
-		'posts_per_page' => 3,
-		'orderby'        => 'date',
-		'order'          => 'DESC',
-		'exclude'        => [ $id ],
-	] );
-}
-$featured_label = ! empty( $sticky_ids ) ? 'Featured Blog Posts' : 'More From The Blog';
 
 get_header();
 ?>
@@ -173,7 +161,7 @@ get_header();
 	<div class="sp-featured-wrap">
 		<div class="max_wrapper">
 			<div class="blog-sticky">
-				<p class="blog-section-label"><?php echo esc_html( $featured_label ); ?></p>
+				<p class="blog-section-label">Featured Blog Posts</p>
 				<div class="blog-sticky__grid">
 					<?php foreach ( $featured_posts as $i => $sp ) :
 						$sp_id       = $sp->ID;
