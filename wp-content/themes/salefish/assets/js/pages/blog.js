@@ -2,7 +2,6 @@ import dropdown from "../tools/dropdown";
 import transition from "../tools/transition";
 
 $(function () {
-  let scroll = new SmoothScroll();
   let page = $("main").attr("class");
 
   $("[data-fancybox]").fancybox({
@@ -42,7 +41,7 @@ $(function () {
 
     if (filter) {
       let anchor = document.querySelector("#articles");
-      scroll.animateScroll(anchor, { updateURL: false });
+      if (anchor) anchor.scrollIntoView({ behavior: "smooth" });
     }
 
     // Button-based filter (replaces Semantic UI dropdown + Isotope)
