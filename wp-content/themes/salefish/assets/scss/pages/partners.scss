@@ -121,6 +121,7 @@
       p {
         width: 70%;
         margin: 0 auto 15px auto;
+        font-size: 1rem;
         line-height: 1.5;
 
         @include rs768 {
@@ -174,6 +175,7 @@
           }
 
           p {
+            font-size: 1rem;
             margin-bottom: 30px;
             line-height: 1.5;
           }
