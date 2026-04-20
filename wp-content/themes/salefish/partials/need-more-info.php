@@ -14,7 +14,7 @@
                         <span>Senior Sales Manager</span>
                     </div>
                     <div class="cta_button">
-                        <a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/leck?uuid=289b3186-c32a-4bc0-afac-e97ff844e66d">Book a Free Demo</a>
+                        <a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">Book a Free Demo</a>
 							<a class="button hollow" href="tel:+16475425325">Call</a>
 							<a class="button hollow" href="mailto:dannyl@salefish.app">Email</a>
                     </div>
