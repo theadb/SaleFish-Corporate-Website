@@ -31,9 +31,13 @@ $(function () {
 
   $("#phone").mask("000-000-0000");
 
+  let activeMenu = pathname.startsWith("/de") ? ".floating_menu_de"
+    : pathname.startsWith("/tr") ? ".floating_menu_tr"
+    : ".floating_menu_en";
+
   $(".hamburger--emphatic").on("click", function () {
     $(this).toggleClass("is-active");
-    $(".floating_menu").fadeToggle();
+    $(activeMenu).fadeToggle();
   });
   $(".sales_login").on("click", function () {
     $(".sales_login_menu").fadeToggle();
@@ -55,7 +59,7 @@ $(function () {
   $(".privacy_policy_menu").on("click", function () {
     $(".privacy_policy").addClass("active");
     $(".hamburger--emphatic").toggleClass("is-active");
-    $(".floating_menu").fadeToggle();
+    $(activeMenu).fadeToggle();
     $("body").css("overflow", "hidden");
   });
 
@@ -67,7 +71,7 @@ $(function () {
   $(".terms_menu").on("click", function () {
     $(".terms_popup").addClass("active");
     $(".hamburger--emphatic").toggleClass("is-active");
-    $(".floating_menu").fadeToggle();
+    $(activeMenu).fadeToggle();
     $("body").css("overflow", "hidden");
   });
 
@@ -116,7 +120,7 @@ $(function () {
 
   $(".floating_menu .mobile").on("click", function () {
     $(".hamburger--emphatic").toggleClass("is-active");
-    $(".floating_menu").fadeToggle();
+    $(activeMenu).fadeToggle();
   });
 
   switch (pathname) {
@@ -227,6 +231,7 @@ $(function () {
       $(".our_story_nav a").addClass("active");
       break;
     case "/blog/":
+    case "/blog":
       $(".blog_nav a").addClass("active");
       break;
     case "/contact-us/":
@@ -237,6 +242,12 @@ $(function () {
       break;
     case "/privacy-policy/":
       $(".privacy_policy_nav a").addClass("active");
+      break;
+    case "/features/":
+      $(".features_nav a").addClass("active");
+      break;
+    case "/partners/":
+      $(".partners_nav a").addClass("active");
       break;
   }
 

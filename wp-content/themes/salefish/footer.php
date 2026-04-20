@@ -15,7 +15,7 @@
 		</div>
 		<div class="links us_links">
 			<div class="col">
-				<div class="title">SALEFISH PLATFORM LINKS</div>
+				<div class="title">SaleFish Platform Links</div>
 				<ul>
 					<li>
 						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App</a>
@@ -33,7 +33,7 @@
 				</ul>
 			</div>
 			<div class="col">
-				<div class="title">BLOG</div>
+				<div class="title">Blog</div>
 				<ul>
 					<li>
 						<a href="/blog?filter=success-stories">Success Stories</a>
@@ -50,7 +50,7 @@
 				</ul>
 			</div>
 			<div class="col">
-				<div class="title">COMPANY</div>
+				<div class="title">Company</div>
 				<ul>
 					<li>
 						<a href="https://salefish.app/#features">Features</a>
@@ -89,7 +89,7 @@
 		</div>
 		<div class="links de_links">
 			<div class="col">
-				<div class="title">SALEFISH PLATFORM LINKS</div>
+				<div class="title">SaleFish Platform Links</div>
 				<ul>
 					<li>
 						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Verkaufs-App</a>
@@ -111,7 +111,7 @@
 				</ul>
 			</div>
 			<div class="col">
-				<div class="title">BLOG</div>
+				<div class="title">Blog</div>
 				<ul>
 					<li>
 						<a href="/blog?filter=success-stories">Erfolgsgeschichten</a>
@@ -128,7 +128,7 @@
 				</ul>
 			</div>
 			<div class="col">
-				<div class="title">GESELLSCHAFT</div>
+				<div class="title">Gesellschaft</div>
 				<ul>
 					<li>
 						<a href="/our-story">Unsere Geschichte</a>
@@ -158,7 +158,7 @@
 		</div>
 		<div class="links tr_links">
 			<div class="col">
-				<div class="title">APLİKASYON LİNKLERİ</div>
+				<div class="title">Aplikasyon Linkleri</div>
 				<ul>
 					<li>
 						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Satış Aplikasyonu</a>
@@ -180,7 +180,7 @@
 				</ul>
 			</div>
 			<div class="col">
-				<div class="title">HABERLER</div>
+				<div class="title">Haberler</div>
 				<ul>
 					<li>
 						<a href="/blog?filter=success-stories">Başarı Hikayeleri</a>
@@ -197,7 +197,7 @@
 				</ul>
 			</div>
 			<div class="col">
-				<div class="title">KURUMSAL</div>
+				<div class="title">Kurumsal</div>
 				<ul>
 					<li>
 						<a href="/our-story">Hikayemiz</a>

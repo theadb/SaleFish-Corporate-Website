@@ -8,7 +8,6 @@
   font-family: $PSB;
   font-size: 0.85em;
   text-align: center;
-  text-transform: uppercase;
 }
 
 // CONTACT
@@ -212,7 +211,6 @@
               font-family: $PL;
               color: #fff;
               font-size: 0.85em;
-              text-transform: uppercase;
               @include rs550 {
                 font-size: 1em;
               }
@@ -273,8 +271,12 @@
     text-decoration: none;
     margin-right: 40px;
     display: flex;
+    padding: 8px;
+    margin-right: 32px;
+    margin-left: -8px;
+    border-radius: 4px;
     @include rs550 {
-      margin-right: 30px;
+      margin-right: 22px;
     }
     .social_logo {
       width: 25px;
@@ -299,6 +301,7 @@
 
 // HEADER
 .page-template-page-blog,
+.page-template-page-newsroom,
 .post-template-default,
 .page-template-page-terms-of-use,
 .page-template-page-privacy-policy {

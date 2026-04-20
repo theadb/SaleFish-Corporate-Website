@@ -1,10 +1,11 @@
-import dropdown from "../tools/dropdown";
-import transition from "../tools/transition";
+import isotope from "isotope-layout/dist/isotope.pkgd";
 
 $(function () {
+  let scroll = new SmoothScroll();
   let page = $("main").attr("class");
 
   $("[data-fancybox]").fancybox({
+    // Options will go here
     buttons: ["close"],
     wheel: false,
     transitionEffect: "slide",
@@ -13,7 +14,7 @@ $(function () {
     clickContent: false,
   });
 
-  const getUrlParameter = function (sParam) {
+  const getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = window.location.search.substring(1),
       sURLVariables = sPageURL.split("&"),
       sParameterName,
@@ -21,6 +22,7 @@ $(function () {
 
     for (i = 0; i < sURLVariables.length; i++) {
       sParameterName = sURLVariables[i].split("=");
+
       if (sParameterName[0] === sParam) {
         return sParameterName[1] === undefined
           ? true
@@ -29,7 +31,6 @@ $(function () {
     }
     return false;
   };
-
   if (page === "blog") {
     $("header .salefish_logo").attr(
       "src",
@@ -41,28 +42,28 @@ $(function () {
 
     if (filter) {
       let anchor = document.querySelector("#articles");
-      if (anchor) anchor.scrollIntoView({ behavior: "smooth" });
+      scroll.animateScroll(anchor, {
+        updateURL: false,
+      });
     }
 
-    // Button-based filter (replaces Semantic UI dropdown + Isotope)
-    $(".filter-tab").on("click", function () {
-      const selected = $(this).data("filter");
+    window.$grid = $(".blog_articles").isotope({
+      itemSelector: ".item",
+    });
+    window.$grid.isotope();
 
-      $(".filter-tab").removeClass("active");
-      $(this).addClass("active");
+    setTimeout(() => {
+      window.$grid.isotope();
+    }, 3000);
 
-      if (selected === "all") {
-        $(".items .item").show();
-      } else {
-        $(".items .item").hide();
-        $('.items .item[data-category="' + selected + '"]').show();
-      }
+    $("#blog-filter").on("change", function () {
+      let value = $(this).val();
+      $grid.isotope({ filter: value === "all" ? "*" : `.${value}` });
     });
 
-    // Apply URL filter parameter on page load
     if (filter && filter !== "all") {
-      const $btn = $(".filter-tab[data-filter='" + filter + "']");
-      if ($btn.length) $btn.trigger("click");
+      $("#blog-filter").val(filter);
+      $grid.isotope({ filter: `.${filter}` });
     }
 
     $(window).on("scroll", function () {
@@ -100,43 +101,36 @@ $(function () {
           }
 
           res.posts.forEach((post) => {
-            let { category, link, thumb, title, date } = post;
-            const cat_slug = category[0].category_nicename;
-            const cat_name = category[0].name;
-            const pub_date = date || "";
-            const is_video = cat_slug === "videos";
-            const href = is_video ? link : link;
+            let {
+              category: category,
+              link: link,
+              thumb: thumb,
+              title: title,
+            } = post;
 
-            $(".blog_articles").append(`
-              <a href="${href}" class="item ${cat_slug} all" data-category="${cat_slug}"${is_video ? ' data-fancybox' : ''}>
-                ${thumb ? `<div class="img_container">${thumb}</div>` : ""}
-                <div class="item-body">
-                  <span class="cat-badge ${cat_slug}">${cat_name}</span>
-                  ${pub_date ? `<span class="post-date">Published: ${pub_date}</span>` : ""}
-                  <h3 class="post-title">${title}</h3>
-                  <span class="read-more">${is_video ? "Watch Video" : "Read More"}</span>
-                </div>
-              </a>
+            $(".article_items .items").append(`
+            <a href="${link}">
+            	<div class="item blog all" style="position: absolute; left: 45px; top: 50px;">
+            		<div>
+            			<h3 class="${category[0].category_nicename}">
+            				${category[0].name}
+									</h3>
+            			<p>
+										${title}
+									</p>
+            		</div>
+								${thumb}
+								<span class="button ${category[0].category_nicename}">READ MORE</span>
+            	</div>
+            </a>
             `);
           });
 
-          // Re-apply active filter to newly appended items
-          const activeFilter = $(".filter-tab.active").data("filter");
-          if (activeFilter && activeFilter !== "all") {
-            $('.items .item[data-category!="' + activeFilter + '"]').hide();
-          }
-
-          // Re-init fancybox for any newly added video items
-          $("[data-fancybox]").fancybox({
-            buttons: ["close"],
-            wheel: false,
-            transitionEffect: "slide",
-            toolbar: false,
-            arrows: true,
-            clickContent: false,
-          });
+          $grid.isotope("reloadItems").isotope();
         },
       });
     });
   }
 });
+
+export const blog = {};

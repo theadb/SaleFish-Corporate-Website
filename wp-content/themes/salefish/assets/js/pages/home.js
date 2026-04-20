@@ -96,7 +96,7 @@ $(function () {
         $(".popup").fadeIn();
         $(".selling_popup_container").fadeIn();
       }
-    }, 2500);
+    }, 5000);
 
     $(".selling_popup_container").on("click", function (e) {
       if (e.target !== this) {

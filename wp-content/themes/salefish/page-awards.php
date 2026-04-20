@@ -17,10 +17,10 @@ $awards = get_field('awards');
         <div class="top_msg">
             <div class="left" data-aos="fade-right">
                 <h1>
-                    IF YOU'RE THE BEST IN THE BUSINESS, YOU DON'T NEED TO TELL PEOPLE
+                    If You're the Best in the Business, You Don't Need to Tell People
                 </h1>
                 <h3>
-                    THEY'LL TELL YOU.
+                    They'll Tell You.
                 </h3>
             </div>
             <div class="right" data-aos="fade-in">
@@ -30,7 +30,7 @@ $awards = get_field('awards');
         </div>
     </section>
     <div class="timeline-container">
-        <h2 class="timeline-title">OUR TROPHY CASE</h2>
+        <h2 class="timeline-title">Our Trophy Case</h2>
         <div class="timeline">
             <?php foreach($awards as $row):
                 $year = $row['year'];

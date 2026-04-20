@@ -1,13 +1,11 @@
 .blog {
-
-  // ─── HERO ──────────────────────────────────────────────────────────────────
+  // HERO
   .hero {
-    background: #fff;
-    padding-top: 80px;
     position: relative;
-
-    &::after {
-      content: '';
+    padding-top: 80px;
+    background: #fff;
+    &:after {
+      content: "";
       position: absolute;
       width: 100%;
       height: 100%;
@@ -16,359 +14,300 @@
       background: #fff;
       clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 80%);
 
-      @include rs768 { clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 88%); }
-      @include rs550 { clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 93%); }
+      @include rs768 {
+        clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 90%);
+      }
+
+      @include rs550 {
+        clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 95%);
+      }
     }
 
-    .hero__inner {
-      max-width: 1400px;
+    .wrapper {
+      max-width: 1800px;
       margin: 0 auto;
-      padding: 100px 60px 160px;
+      padding-left: 60px;
+      padding-top: 100px;
+      display: flex;
       position: relative;
-      z-index: 2;
 
-      @include rs768 { padding: 80px 30px 140px; }
-      @include rs550 { padding: 60px 20px 120px; }
-
-      h3 {
-        font-family: $PL;
-        color: $dark_purple;
-        font-size: 0.82em;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        margin-bottom: 10px;
-      }
-
-      h1 {
-        font-family: $PB;
-        color: $dark_purple;
-        font-size: clamp(2.4rem, 5.5vw, 4.5rem);
-        line-height: 1.05;
-        margin: 0 0 18px;
-      }
-
-      p {
-        font-family: $PL;
-        color: #999;
-        font-style: italic;
-        font-size: 1.1em;
-        margin: 0;
-      }
-    }
-  }
-
-  // ─── SHARED CARD ELEMENTS ──────────────────────────────────────────────────
-  .cat-badge {
-    display: inline-block;
-    font-family: $PSB;
-    font-size: 0.68em;
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    padding: 4px 12px;
-    border-radius: 99px;
-    align-self: flex-start;
-
-    &.success-stories { background: rgba($green, 0.14); color: darken($green, 8%); }
-    &.blog             { background: rgba($gold, 0.28); color: darken($gold, 32%); }
-    &.press            { background: rgba($red, 0.14); color: $red; }
-    &.videos           { background: rgba($light_purple, 0.22); color: $dark_purple; }
-  }
-
-  .post-date {
-    font-family: $PL;
-    font-size: 0.76em;
-    color: #aaa;
-    letter-spacing: 0.02em;
-  }
-
-  .post-title {
-    font-family: $PSB;
-    color: $black;
-    line-height: 1.35;
-    margin: 0;
-  }
-
-  .post-excerpt {
-    font-family: $PL;
-    font-size: 0.88em;
-    color: #888;
-    line-height: 1.65;
-    margin: 2px 0 0;
-  }
-
-  .read-more {
-    font-family: $PSB;
-    font-size: 0.82em;
-    color: $dark_purple;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    margin-top: 6px;
-    text-decoration: none;
-
-    &::after {
-      content: '→';
-      transition: transform 0.2s ease;
-    }
-
-    &:hover::after { transform: translateX(4px); }
-  }
-
-  // ─── FEATURED POSTS ────────────────────────────────────────────────────────
-  .featured {
-    background: $gray;
-    padding: 0 0 70px;
-    margin-top: -80px;
-    position: relative;
-    z-index: 2;
-
-    @include rs768 { padding-bottom: 50px; margin-top: -60px; }
-
-    .max_wrapper {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 60px;
-
-      @include rs768 { padding: 0 24px; }
-    }
-
-    .section-label {
-      font-family: $PSB;
-      color: $dark_purple;
-      font-size: 0.7em;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      padding-top: 70px;
-      margin-bottom: 22px;
-
-      @include rs768 { padding-top: 50px; }
-    }
-
-    .featured-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      align-items: start;
-
-      @include rs768 { grid-template-columns: 1fr; }
-    }
-
-    // Large main featured post
-    .featured-main {
-      border-radius: 14px;
-      overflow: hidden;
-      background: #fff;
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-      color: $black;
-      box-shadow: 0 2px 14px rgba(0, 0, 0, 0.07);
-      transition: box-shadow 0.25s ease, transform 0.25s ease;
-
-      &:hover {
-        box-shadow: 0 10px 32px rgba(0, 0, 0, 0.13);
-        transform: translateY(-3px);
-      }
-
-      &__image {
-        height: 280px;
-        overflow: hidden;
-
-        @include rs990 { height: 220px; }
-
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-          transition: transform 0.4s ease;
-        }
-      }
-
-      &:hover &__image img { transform: scale(1.04); }
-
-      &__body {
-        padding: 28px 28px 32px;
-        display: flex;
+      @include rs768 {
         flex-direction: column;
-        gap: 10px;
-
-        .post-title { font-size: 1.35em; }
-      }
-    }
-
-    // Secondary stacked side posts
-    .featured-secondary {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .featured-side {
-      border-radius: 12px;
-      overflow: hidden;
-      background: #fff;
-      display: grid;
-      grid-template-columns: 160px 1fr;
-      text-decoration: none;
-      color: $black;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-      transition: box-shadow 0.25s ease, transform 0.25s ease;
-
-      @include rs550 { grid-template-columns: 110px 1fr; }
-
-      &.no-image { grid-template-columns: 1fr; }
-
-      &:hover {
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        transform: translateY(-2px);
+        padding-top: 60px;
+        padding-left: 20px;
       }
 
-      &__image {
-        overflow: hidden;
+      @include rs550 {
+        padding-top: 40px;
+      }
 
-        img {
+      .left {
+        position: relative;
+        width: 50%;
+        z-index: 2;
+
+        @include rs768 {
           width: 100%;
-          height: 100%;
-          min-height: 140px;
-          object-fit: cover;
-          display: block;
-          transition: transform 0.4s ease;
         }
-      }
 
-      &:hover &__image img { transform: scale(1.05); }
-
-      &__body {
-        padding: 20px 22px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        justify-content: center;
-
-        .post-title { font-size: 1em; }
-      }
-    }
-  }
-
-  // ─── ARTICLES ──────────────────────────────────────────────────────────────
-  .articles {
-    background: $gray;
-    padding: 10px 0 80px;
-
-    .max_wrapper {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 60px;
-
-      @include rs768 { padding: 0 24px; }
-    }
-
-    // Filter pill tabs
-    .filter-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 30px 0 36px;
-    }
-
-    .filter-tab {
-      font-family: $PL;
-      font-size: 0.84em;
-      color: $black;
-      background: #fff;
-      border: 1.5px solid rgba($dark_purple, 0.2);
-      border-radius: 99px;
-      padding: 8px 20px;
-      cursor: pointer;
-      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
-
-      &:hover {
-        background: rgba($dark_purple, 0.05);
-        border-color: $dark_purple;
-        color: $dark_purple;
-      }
-
-      &.active {
-        background: $dark_purple;
-        color: #fff;
-        border-color: $dark_purple;
-      }
-    }
-
-    // Card grid
-    .items {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-
-      @include rs990 { grid-template-columns: 1fr 1fr; }
-      @include rs550 { grid-template-columns: 1fr; }
-    }
-
-    a.item {
-      background: #fff;
-      border-radius: 12px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-      color: $black;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      transition: box-shadow 0.25s ease, transform 0.25s ease;
-
-      &:hover {
-        box-shadow: 0 8px 26px rgba(0, 0, 0, 0.12);
-        transform: translateY(-3px);
-      }
-
-      &[style*="display: none"],
-      &.hidden { display: none !important; }
-
-      .img_container {
-        height: 200px;
-        overflow: hidden;
-
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-          transition: transform 0.35s ease;
-        }
-      }
-
-      &:hover .img_container img { transform: scale(1.05); }
-
-      .item-body {
-        padding: 20px 22px 26px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        flex: 1;
-
-        .post-title { font-size: 1em; }
-
-        .read-more { margin-top: auto; }
-      }
-    }
-
-    .btn__wrapper {
-      display: flex;
-      justify-content: center;
-      margin-top: 48px;
-
-      a {
-        text-decoration: none;
-        color: $dark_purple;
-        font-family: $PL;
-        display: flex;
-        align-items: center;
-
-        i {
-          font-size: 20px;
+        h3 {
           color: $dark_purple;
-          margin-left: 5px;
+        }
+
+        h1 {
+          color: $dark_purple;
+
+          // font-size: max(5vw, 30px);
+        }
+
+        .button {
+          margin-top: 20px;
+        }
+      }
+
+      .right {
+        position: relative;
+        width: 50%;
+        z-index: 2;
+        display: flex;
+        justify-content: flex-end;
+        height: 35vw;
+        margin-top: 60px;
+        margin-left: 20px;
+        max-height: 700px;
+
+        @include rs768 {
+          width: 100%;
+          height: auto;
+        }
+
+        @include rs550 {
+          margin-top: 30px;
+        }
+
+        img {
+          height: 100%;
+          margin-right: -100px;
+
+          @include rs768 {
+            height: auto;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  .articles {
+    position: relative;
+    margin-top: 30px;
+
+    .filter {
+      padding: 100px 0;
+      position: relative;
+
+      @include rs768 {
+        padding: 40px 0;
+      }
+
+      @include rs550 {
+        padding: 20px 0 40px 0;
+      }
+
+      .cut {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: $dark_purple;
+        z-index: -1;
+        clip-path: polygon(0 0, 100% 15%, 100% 100%, 0 100%);
+      }
+
+      .wrap {
+        padding: 0 60px;
+        width: calc(100% - 120px);
+
+        @include rs768 {
+          padding: 50px 20px;
+          width: calc(100% - 40px);
+        }
+
+        h3 {
+          color: #fff;
+        }
+
+        select.blog-filter {
+          background: #fff;
+          padding: 15px 20px;
+          border: none;
+          border-radius: 5px;
+          margin-top: 20px;
+          width: 30vw;
+          font-family: $PL;
+          color: $black;
+          font-size: 1.25em;
+          cursor: pointer;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23333' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 20px center;
+          padding-right: 50px;
+          outline: none;
+          box-shadow: none;
+
+          @include rs550 {
+            width: calc(100% - 40px);
+          }
+        }
+      }
+    }
+
+    .article_items {
+      background: $gray;
+      padding: 30px 0;
+      position: relative;
+
+      .cut {
+        position: absolute;
+        top: -2px;
+        left: 0;
+        width: 100%;
+        height: 85px;
+        background: $dark_purple;
+        z-index: 2;
+        clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 22%);
+      }
+
+      .items {
+        padding: 50px 45px;
+        width: calc(100% - 90px);
+        margin-top: -150px;
+        @include rs768 {
+          padding: 50px 5px;
+          width: calc(100% - 10px);
+        }
+
+        @include rs550 {
+          margin-top: -140px;
+        }
+
+        a {
+          text-decoration: none;
+          color: $black;
+          &.load_more {
+            opacity: 0;
+            visibility: hidden;
+            height: 0;
+          }
+        }
+
+        .item {
+          background: #fff;
+          border-radius: 10px;
+          padding: 40px 30px;
+          position: relative;
+          width: calc(33.33% - 120px);
+          z-index: 3;
+          margin: 15px;
+          min-height: 400px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 40vw;
+          @include rs1200 {
+            width: calc(50% - 135px);
+            height: 50vw;
+          }
+          @include rs990 {
+            height: 60vw;
+          }
+
+          @include rs768 {
+            margin-top: 15px;
+            margin-bottom: 0;
+            padding: 30px 20px;
+            width: calc(100% - 80px);
+            height: auto;
+          }
+
+          h3 {
+            &.success-stories {
+              color: $green;
+            }
+
+            &.blog {
+              color: $gold;
+            }
+
+            &.press {
+              color: $red;
+            }
+
+            &.videos {
+              color: $light_purple;
+            }
+          }
+
+          p {
+            margin: 25px 0;
+            font-size: 1.5em;
+
+            @include rs990 {
+              font-size: 1.25em;
+            }
+            @include rs550 {
+              font-size: 1em;
+            }
+          }
+
+          img {
+            width: 100%;
+            height: auto;
+            max-height: 250px;
+            object-fit: contain;
+          }
+
+          .button {
+            color: #fff;
+            margin-top: 25px;
+            align-self: flex-start;
+
+            &.success-stories {
+              background: $green;
+            }
+
+            &.blog {
+              background: $gold;
+            }
+
+            &.press {
+              background: $red;
+            }
+
+            &.videos {
+              background: $light_purple;
+            }
+          }
+        }
+      }
+
+      .btn__wrapper {
+        display: flex;
+        justify-content: center;
+        a {
+          text-decoration: none;
+          color: $dark_purple;
+          font-family: $PL;
+          display: flex;
+          align-items: center;
+          i {
+            font-size: 20px;
+            color: $dark_purple;
+            margin-left: 5px;
+          }
         }
       }
     }

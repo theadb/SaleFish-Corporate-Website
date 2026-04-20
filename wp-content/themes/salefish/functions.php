@@ -7,6 +7,7 @@
  * @package _pc
  */
 
+
 if (! function_exists('_pc_setup')) :
     /**
      * Sets up theme defaults and registers support for various WordPress features.
@@ -216,7 +217,6 @@ function load_more_post()
                 'thumb' => $thumb,
                 'link' => $link,
                 'title' => $title,
-                'date' => get_the_date( 'M j, Y', $id ),
             ];
         }
         wp_reset_postdata();
@@ -275,3 +275,83 @@ add_action('wp_ajax_nopriv_load_more_post', 'load_more_post');
 // }
 // add_action('wp_ajax_load_more_post', 'load_more_post');
 // add_action('wp_ajax_nopriv_load_more_post', 'load_more_post');
+function salefish_blog_redirect() {
+    $request_uri = $_SERVER['REQUEST_URI'];
+    if ( strpos( $request_uri, '/newsroom' ) === 0 ) {
+        $new_uri = '/blog' . substr( $request_uri, strlen( '/newsroom' ) );
+        wp_redirect( $new_uri, 301 );
+        exit;
+    }
+}
+add_action( 'template_redirect', 'salefish_blog_redirect' );
+
+// Prevent WordPress _wp_old_slug from redirecting /blog to /newsroom/
+add_filter( 'redirect_canonical', function( $redirect_url, $requested_url ) {
+    if ( strpos( $requested_url, '/blog' ) !== false ) {
+        return false;
+    }
+    return $redirect_url;
+}, 1, 2 );
+
+// Suppress wp_old_slug_redirect when visiting /blog
+add_filter( 'old_slug_redirect_post_id', function( $id ) {
+    if ( isset( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], '/blog' ) === 0 ) {
+        return 0;
+    }
+    return $id;
+} );
+
+// One-time migration: fix blog page slug, template, and remove stale old slug
+add_action( 'init', function() {
+    if ( get_option( 'salefish_blog_migration_v2' ) ) {
+        return;
+    }
+    global $wpdb;
+
+    // Update page template from page-newsroom.php to page-blog.php
+    $wpdb->update(
+        $wpdb->postmeta,
+        array( 'meta_value' => 'page-blog.php' ),
+        array( 'meta_key' => '_wp_page_template', 'meta_value' => 'page-newsroom.php' )
+    );
+
+    // Find the page that should be the blog (has template page-blog.php or slug newsroom)
+    $blog_page = $wpdb->get_row(
+        "SELECT ID, post_name FROM {$wpdb->posts}
+         WHERE post_status = 'publish' AND post_type = 'page'
+         AND post_name = 'newsroom'
+         LIMIT 1"
+    );
+
+    if ( $blog_page ) {
+        // Fix the slug to 'blog'
+        $wpdb->update(
+            $wpdb->posts,
+            array( 'post_name' => 'blog' ),
+            array( 'ID' => $blog_page->ID )
+        );
+
+        // Remove the _wp_old_slug = 'blog' meta that causes the redirect loop
+        $wpdb->delete(
+            $wpdb->postmeta,
+            array( 'post_id' => $blog_page->ID, 'meta_key' => '_wp_old_slug', 'meta_value' => 'blog' )
+        );
+
+        // Store newsroom as an old slug so /newsroom/ still redirects to /blog/
+        $existing = $wpdb->get_var( $wpdb->prepare(
+            "SELECT meta_id FROM {$wpdb->postmeta}
+             WHERE post_id = %d AND meta_key = '_wp_old_slug' AND meta_value = 'newsroom'",
+            $blog_page->ID
+        ) );
+        if ( ! $existing ) {
+            $wpdb->insert(
+                $wpdb->postmeta,
+                array( 'post_id' => $blog_page->ID, 'meta_key' => '_wp_old_slug', 'meta_value' => 'newsroom' )
+            );
+        }
+
+        clean_post_cache( $blog_page->ID );
+    }
+
+    update_option( 'salefish_blog_migration_v2', 1 );
+} );

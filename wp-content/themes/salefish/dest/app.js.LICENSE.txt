@@ -1,11 +1,27 @@
 /*!
- * # Semantic UI 2.4.1 - Transition
- * http://github.com/semantic-org/semantic-ui/
+ * Isotope PACKAGED v3.0.6
  *
+ * Licensed GPLv3 for open source use
+ * or Isotope Commercial License for commercial use
  *
- * Released under the MIT license
- * http://opensource.org/licenses/MIT
+ * https://isotope.metafizzy.co
+ * Copyright 2010-2018 Metafizzy
+ */
+
+/*!
+ * Isotope v3.0.6
  *
+ * Licensed GPLv3 for open source use
+ * or Isotope Commercial License for commercial use
+ *
+ * https://isotope.metafizzy.co
+ * Copyright 2010-2018 Metafizzy
+ */
+
+/*!
+ * Outlayer v2.1.1
+ * the brains and guts of a layout library
+ * MIT license
  */
 
 /*!
