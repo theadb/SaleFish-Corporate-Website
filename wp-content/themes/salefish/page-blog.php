@@ -132,6 +132,7 @@ get_header();
 						<div class="blog-sticky__card-image"><?php echo $sp_thumb; ?></div>
 						<?php endif; ?>
 						<div class="blog-sticky__card-body">
+							<span class="sf-badge sf-badge--featured">Featured</span>
 							<?php if ( $sp_cat_name ) : ?>
 							<span class="sf-badge sf-badge--<?php echo esc_attr( $sp_cat_slug ); ?>"><?php echo esc_html( $sp_cat_name ); ?></span>
 							<?php endif; ?>
