@@ -164,35 +164,36 @@ get_header();
 (function () {
   'use strict';
 
-  document.addEventListener('DOMContentLoaded', function () {
-    var filterBtns = document.querySelectorAll('.blog-filter__btn');
-    var grid = document.querySelector('.blog-grid');
+  var filterBtns = document.querySelectorAll('.blog-filter__btn');
+  var grid = document.querySelector('.blog-grid');
 
-    // Category filter
-    filterBtns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var filter = this.getAttribute('data-filter');
+  // Category filter — elements already in DOM at this point
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var filter = this.getAttribute('data-filter');
 
-        filterBtns.forEach(function (b) { b.classList.remove('active'); });
-        this.classList.add('active');
+      filterBtns.forEach(function (b) { b.classList.remove('active'); });
+      this.classList.add('active');
 
-        if (!grid) return;
-        grid.querySelectorAll('.blog-card').forEach(function (card) {
-          var show = filter === 'all' || card.getAttribute('data-category') === filter;
-          card.style.display = show ? '' : 'none';
-        });
+      if (!grid) return;
+      grid.querySelectorAll('.blog-card').forEach(function (card) {
+        var show = filter === 'all' || card.getAttribute('data-category') === filter;
+        card.style.display = show ? '' : 'none';
       });
     });
+  });
 
-    // URL param filter on load
-    var urlParams = new URLSearchParams(window.location.search);
-    var filterParam = urlParams.get('filter');
-    if (filterParam && filterParam !== 'all') {
-      var targetBtn = document.querySelector('.blog-filter__btn[data-filter="' + filterParam + '"]');
-      if (targetBtn) targetBtn.click();
-    }
+  // URL param filter on load
+  var urlParams = new URLSearchParams(window.location.search);
+  var filterParam = urlParams.get('filter');
+  if (filterParam && filterParam !== 'all') {
+    var targetBtn = document.querySelector('.blog-filter__btn[data-filter="' + filterParam + '"]');
+    if (targetBtn) targetBtn.click();
+  }
 
-    // Load More
+  // Load More — salefishAjax is localized on the deferred dest/app.js,
+  // so attach this listener after window load to ensure it's defined.
+  window.addEventListener('load', function () {
     var loadMoreBtn = document.getElementById('blog-load-more');
     if (!loadMoreBtn || typeof salefishAjax === 'undefined') return;
 
@@ -220,10 +221,9 @@ get_header();
             var cat_name = cat.name;
             var pub_date = post.date || '';
             var is_video = cat_slug === 'videos';
-            var href = is_video ? post.link : post.link;
 
             var card = document.createElement('a');
-            card.href = href;
+            card.href = post.link;
             card.className = 'sf-card blog-card';
             card.setAttribute('data-category', cat_slug);
             if (is_video) card.setAttribute('data-fancybox', '');
