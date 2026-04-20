@@ -714,6 +714,16 @@
       h2 {
         color: $dark_purple;
         margin-bottom: 20px;
+        font-size: 2.5em;
+        line-height: 1.2;
+
+        @include rs990 {
+          font-size: 2em;
+        }
+
+        @include rs768 {
+          font-size: 1.75em;
+        }
       }
 
       p {
