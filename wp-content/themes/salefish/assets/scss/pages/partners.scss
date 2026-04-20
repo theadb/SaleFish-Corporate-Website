@@ -96,7 +96,7 @@
     width: calc(100% - 120px);
 
     @include rs768 {
-      padding: 60px 20px;
+      padding: 100px 20px 60px;
       width: calc(100% - 40px);
     }
 
@@ -182,13 +182,21 @@
         }
 
         .content_img {
-          flex: 1;
+          flex: 0 0 auto;
+          width: 42%;
+          max-width: 460px;
+
+          @include rs990 { width: 44%; }
+          @include rs768 { width: 100%; max-width: 100%; }
 
           img {
             max-width: 100%;
+            max-height: 360px;
+            width: auto;
             height: auto;
             display: block;
             border-radius: 12px;
+            margin: 0 auto;
           }
         }
       }
