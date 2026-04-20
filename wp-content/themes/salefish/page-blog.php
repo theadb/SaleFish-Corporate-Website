@@ -164,85 +164,86 @@ get_header();
 (function () {
   'use strict';
 
-  var filterBtns = document.querySelectorAll('.blog-filter__btn');
-  var grid = document.querySelector('.blog-grid');
+  var filterBtns  = document.querySelectorAll('.blog-filter__btn');
+  var grid        = document.querySelector('.blog-grid');
+  var loadMoreBtn = document.getElementById('blog-load-more');
+  var currentPage = 1;
+  var currentCat  = 'all';
+  var isLoading   = false;
 
-  // Category filter — elements already in DOM at this point
+  function buildCard(post) {
+    var cat_slug = post.cat_slug || '';
+    var cat_name = post.cat_name || '';
+    var is_video = cat_slug === 'videos';
+    var card     = document.createElement('a');
+    card.href      = is_video ? (post.link || '#') : (post.link || '#');
+    card.className = 'sf-card blog-card';
+    card.setAttribute('data-category', cat_slug);
+    if (is_video) card.setAttribute('data-fancybox', '');
+    card.innerHTML =
+      (post.thumb ? '<div class="blog-card__image">' + post.thumb + '</div>' : '') +
+      '<div class="blog-card__body">' +
+        (cat_name ? '<span class="sf-badge sf-badge--' + cat_slug + ' blog-card__cat">' + cat_name + '</span>' : '') +
+        (post.date ? '<span class="blog-card__date">Published: ' + post.date + '</span>' : '') +
+        '<h3 class="blog-card__title">' + post.title + '</h3>' +
+        '<span class="blog-card__link">' + (is_video ? 'Watch Video' : 'Read More') + '</span>' +
+      '</div>';
+    return card;
+  }
+
+  function fetchPosts(page, category, replace) {
+    if (isLoading || typeof salefishAjax === 'undefined') return;
+    isLoading = true;
+
+    var formData = new FormData();
+    formData.append('action',   'load_more_post');
+    formData.append('paged',    page);
+    formData.append('category', category);
+    formData.append('nonce',    salefishAjax.loadMoreNonce);
+
+    fetch(salefishAjax.ajaxurl, { method: 'POST', body: formData })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (replace) grid.innerHTML = '';
+        (res.posts || []).forEach(function (post) {
+          grid.appendChild(buildCard(post));
+        });
+        if (loadMoreBtn) {
+          loadMoreBtn.style.display = (page >= res.max || !res.max) ? 'none' : '';
+        }
+      })
+      .catch(function () {})
+      .finally(function () { isLoading = false; });
+  }
+
+  // Filter buttons
   filterBtns.forEach(function (btn) {
     btn.addEventListener('click', function () {
       var filter = this.getAttribute('data-filter');
-
       filterBtns.forEach(function (b) { b.classList.remove('active'); });
       this.classList.add('active');
-
-      if (!grid) return;
-      grid.querySelectorAll('.blog-card').forEach(function (card) {
-        var show = filter === 'all' || card.getAttribute('data-category') === filter;
-        card.style.display = show ? '' : 'none';
-      });
+      currentCat  = filter;
+      currentPage = 1;
+      fetchPosts(1, filter, true);
     });
   });
 
-  // URL param filter on load
-  var urlParams = new URLSearchParams(window.location.search);
-  var filterParam = urlParams.get('filter');
-  if (filterParam && filterParam !== 'all') {
-    var targetBtn = document.querySelector('.blog-filter__btn[data-filter="' + filterParam + '"]');
-    if (targetBtn) targetBtn.click();
-  }
-
-  // Load More — salefishAjax is localized on the deferred dest/app.js,
-  // so attach this listener after window load to ensure it's defined.
-  window.addEventListener('load', function () {
-    var loadMoreBtn = document.getElementById('blog-load-more');
-    if (!loadMoreBtn || typeof salefishAjax === 'undefined') return;
-
-    var currentPage = 1;
-
+  // Load More
+  if (loadMoreBtn) {
     loadMoreBtn.addEventListener('click', function () {
       currentPage++;
-      var self = this;
-
-      var formData = new FormData();
-      formData.append('action', 'load_more_post');
-      formData.append('paged', currentPage);
-      formData.append('nonce', salefishAjax.loadMoreNonce);
-
-      fetch(salefishAjax.ajaxurl, { method: 'POST', body: formData })
-        .then(function (r) { return r.json(); })
-        .then(function (res) {
-          if (currentPage >= res.max) self.style.display = 'none';
-
-          var activeFilter = (document.querySelector('.blog-filter__btn.active') || {}).getAttribute('data-filter') || 'all';
-
-          (res.posts || []).forEach(function (post) {
-            var cat = post.category[0];
-            var cat_slug = cat.category_nicename;
-            var cat_name = cat.name;
-            var pub_date = post.date || '';
-            var is_video = cat_slug === 'videos';
-
-            var card = document.createElement('a');
-            card.href = post.link;
-            card.className = 'sf-card blog-card';
-            card.setAttribute('data-category', cat_slug);
-            if (is_video) card.setAttribute('data-fancybox', '');
-            if (activeFilter !== 'all' && cat_slug !== activeFilter) card.style.display = 'none';
-
-            card.innerHTML =
-              (post.thumb ? '<div class="blog-card__image">' + post.thumb + '</div>' : '') +
-              '<div class="blog-card__body">' +
-                '<span class="sf-badge sf-badge--' + cat_slug + ' blog-card__cat">' + cat_name + '</span>' +
-                (pub_date ? '<span class="blog-card__date">Published: ' + pub_date + '</span>' : '') +
-                '<h3 class="blog-card__title">' + post.title + '</h3>' +
-                '<span class="blog-card__link">' + (is_video ? 'Watch Video' : 'Read More') + '</span>' +
-              '</div>';
-
-            grid.appendChild(card);
-          });
-        })
-        .catch(function () { currentPage--; });
+      fetchPosts(currentPage, currentCat, false);
     });
+  }
+
+  // URL param filter on load
+  window.addEventListener('load', function () {
+    var urlParams   = new URLSearchParams(window.location.search);
+    var filterParam = urlParams.get('filter');
+    if (filterParam && filterParam !== 'all') {
+      var targetBtn = document.querySelector('.blog-filter__btn[data-filter="' + filterParam + '"]');
+      if (targetBtn) targetBtn.click();
+    }
   });
 }());
 </script>
