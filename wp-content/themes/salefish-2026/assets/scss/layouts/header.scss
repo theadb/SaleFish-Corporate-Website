@@ -202,15 +202,15 @@ header {
 // Default header: show on all pages
 .default { display: flex; }
 
-// Newsroom-style header: hidden by default, shown on newsroom/post/legal pages
-.newsroom_header { display: none; }
+// Blog-style header: hidden by default, shown on blog/post/legal pages
+.blog_header { display: none; }
 
-.page-template-page-newsroom,
+.page-template-page-blog,
 .post-template-default,
 .page-template-page-terms-of-use,
 .page-template-page-privacy-policy {
   .default { display: none; }
-  .newsroom_header { display: flex; }
+  .blog_header { display: flex; }
 }
 
 // Language variant headers — JS sets display:flex when language switches

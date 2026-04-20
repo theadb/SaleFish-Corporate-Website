@@ -33,19 +33,19 @@
 				</ul>
 			</div>
 			<div class="col">
-				<div class="title">NEWSROOM</div>
+				<div class="title">BLOG</div>
 				<ul>
 					<li>
-						<a href="/newsroom?filter=success-stories">Success Stories</a>
+						<a href="/blog?filter=success-stories">Success Stories</a>
 					</li>
 					<li>
-						<a href="/newsroom?filter=press">Press</a>
+						<a href="/blog?filter=press">Press</a>
 					</li>
 					<li>
-						<a href="/newsroom?filter=blog">Blog</a>
+						<a href="/blog?filter=blog">Blog</a>
 					</li>
 					<li>
-						<a href="/newsroom?filter=videos">Videos</a>
+						<a href="/blog?filter=videos">Videos</a>
 					</li>
 				</ul>
 			</div>
@@ -111,19 +111,19 @@
 				</ul>
 			</div>
 			<div class="col">
-				<div class="title">NEWSROOM</div>
+				<div class="title">BLOG</div>
 				<ul>
 					<li>
-						<a href="/newsroom?filter=success-stories">Erfolgsgeschichten</a>
+						<a href="/blog?filter=success-stories">Erfolgsgeschichten</a>
 					</li>
 					<li>
-						<a href="/newsroom?filter=press">Presse</a>
+						<a href="/blog?filter=press">Presse</a>
 					</li>
 					<li>
-						<a href="/newsroom?filter=blog">Neuigkeiten</a>
+						<a href="/blog?filter=blog">Neuigkeiten</a>
 					</li>
 					<li>
-						<a href="/newsroom?filter=videos">Videos</a>
+						<a href="/blog?filter=videos">Videos</a>
 					</li>
 				</ul>
 			</div>
@@ -183,16 +183,16 @@
 				<div class="title">HABERLER</div>
 				<ul>
 					<li>
-						<a href="/newsroom?filter=success-stories">Başarı Hikayeleri</a>
+						<a href="/blog?filter=success-stories">Başarı Hikayeleri</a>
 					</li>
 					<li>
-						<a href="/newsroom?filter=press">Basın</a>
+						<a href="/blog?filter=press">Basın</a>
 					</li>
 					<li>
-						<a href="/newsroom?filter=blog">Blog</a>
+						<a href="/blog?filter=blog">Blog</a>
 					</li>
 					<li>
-						<a href="/newsroom?filter=videos">Videolar</a>
+						<a href="/blog?filter=videos">Videolar</a>
 					</li>
 				</ul>
 			</div>

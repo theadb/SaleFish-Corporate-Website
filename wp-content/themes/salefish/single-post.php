@@ -34,7 +34,7 @@ get_header();
 	<section class="article">
 		<div class="max_wrapper">
 			<div class="back_arrow">
-				<a href="/newsroom">
+				<a href="/blog">
 					<img class="back"
 						src="<?php bloginfo('template_directory'); ?>/img/back_arrow.png">
 					<p>Back</p>
