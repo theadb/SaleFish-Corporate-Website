@@ -58,7 +58,7 @@
         }
 
         p {
-          color: rgba(#fff, 0.85);
+          color: rgba(#fff, 0.95);
           margin-bottom: 5px;
         }
 
@@ -87,6 +87,144 @@
         color: rgba(#fff, 0.8);
         font-size: 0.9em;
         line-height: 1.6;
+      }
+    }
+  }
+
+  .agents {
+    padding: 100px 60px;
+    width: calc(100% - 120px);
+
+    @include rs768 {
+      padding: 60px 20px;
+      width: calc(100% - 40px);
+    }
+
+    .container {
+      max-width: 1800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 80px;
+
+      h1 {
+        color: $dark_purple;
+        margin-bottom: 20px;
+
+        @include rs768 {
+          font-size: 2em;
+        }
+      }
+
+      p {
+        width: 70%;
+        margin: 0 auto 15px auto;
+        line-height: 1.5;
+
+        @include rs768 {
+          width: 100%;
+        }
+      }
+    }
+
+    .items {
+      .item {
+        display: flex;
+        align-items: center;
+        gap: 80px;
+        margin: 80px 0;
+
+        @include rs990 {
+          gap: 40px;
+          margin: 60px 0;
+        }
+
+        @include rs768 {
+          flex-direction: column;
+          gap: 30px;
+          margin: 50px 0;
+        }
+
+        .info {
+          flex: 1;
+
+          h4 {
+            color: $gold;
+            font-family: $PSB;
+            font-size: 0.85em;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+          }
+
+          h3 {
+            color: $dark_purple;
+            font-size: 2.5em;
+            line-height: 1.2;
+            margin-bottom: 20px;
+
+            @include rs990 {
+              font-size: 2em;
+            }
+
+            @include rs768 {
+              font-size: 1.75em;
+            }
+          }
+
+          p {
+            margin-bottom: 30px;
+            line-height: 1.5;
+          }
+        }
+
+        .content_img {
+          flex: 1;
+
+          img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+          }
+        }
+      }
+
+      .item_img {
+        background: $gray;
+        padding: 60px;
+        border-radius: 12px;
+        margin: 40px 0;
+        text-align: center;
+
+        @include rs768 {
+          padding: 40px 20px;
+        }
+
+        > p {
+          font-family: $PSB;
+          color: $dark_purple;
+          margin-bottom: 40px;
+        }
+
+        .logos {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+
+          @include rs768 {
+            gap: 30px;
+          }
+
+          .col img {
+            max-width: 150px;
+            height: auto;
+            display: block;
+          }
+        }
       }
     }
   }

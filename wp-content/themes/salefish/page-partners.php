@@ -54,22 +54,22 @@ $builders_header_button_link = $builders_header_button['link'];
             alt="Living Room">
         <div class="wrapper" data-aos="fade-left">
             <div class="wrap">
-                <h3>MAKE MONEY. LOOK GOOD DOING IT.</h3>
+                <h3>Make Money. Look Good Doing It.</h3>
                 <h1>
-                    PARTNER WITH <br />
-                    SALEFISH. <br />
-                    OWN THE FUTURE.
+                    Partner With <br />
+                    SaleFish. <br />
+                    Own the Future.
                 </h1>
                 <p>You’ve got the network. We’ve got the tech.</p>
                 <p> Let’s stop selling the old way—and start building what’s next.</p>
-                <a class="button"  href="#contact_us">LET’S PARTNER UP</a>
+                <a class="button"  href="#contact_us">Let’s Partner Up</a>
             </div>
         </div>
         <div class="wrapper wrapper_bottom" data-aos="fade-left">
             <h2>
-                JOIN THE PLATFORM <br />
-                THAT’S ACTUALLY SELLING HOMES, <br />
-                NOT JUST LOOKING GOOD DOING IT.
+                Join the Platform <br />
+                That’s Actually Selling Homes, <br />
+                Not Just Looking Good Doing It.
             </h2>
             <p>
                 Plug into the SaleFish ecosystem and connect with the people who matter; <br />
@@ -85,8 +85,8 @@ $builders_header_button_link = $builders_header_button['link'];
     <section class="agents">
         <div class="container">
             <div class="header" data-aos="fade-up" data-aos-delay="300">
-                <h1>GOT CODE, CONNECTIONS OR CLIENTS?
-                    LET’S TURN THAT INTO REVENUE.</h1>
+                <h1>Got Code, Connections or Clients?
+                    Let’s Turn That Into Revenue.</h1>
                 <p>Whether you build apps, resell software, advise developers, or just know people who need better
                     tools—SaleFish gives you a way to profit.</p>
                 <p>Integrate it. Recommend it. White-label it. Sell it.</p>
@@ -96,13 +96,13 @@ $builders_header_button_link = $builders_header_button['link'];
             <div class="items">
                 <div class="item">
                     <div class="info" data-aos="fade-right" data-aos-delay="300">
-                        <h4>PLUG IN. LEVEL UP.</h4>
+                        <h4>Plug In. Level Up.</h4>
                         <h3>Technology Partners</h3>
                         <p>Got a killer app, platform, or product? Integrate with SaleFish
                             and become part of the new home sales tech stack. We’ll
                             help you slot in, sync up, and scale faster.
                         </p>
-                        <a class="button" href="#contact_us">INTEGRATE & DOMINATE</a>
+                        <a class="button" href="#contact_us">Integrate & Dominate</a>
                     </div>
                     <div class="content_img" data-aos="fade-left" data-aos-delay="300">
                         <img
@@ -135,13 +135,13 @@ $builders_header_button_link = $builders_header_button['link'];
                 </div>
                 <div class="item">
                     <div class="info" data-aos="fade-right" data-aos-delay="300">
-                        <h4>KNOW PEOPLE? GET PAID.</h4>
+                        <h4>Know People? Get Paid.</h4>
                         <h3>Referral Partners</h3>
                         <p>You’ve got the network—builders, brokers, developers. We’ve
                             got the software that actually works. Send them our way. We’ll
                             demo. We’ll close. You’ll get cash every time we book a meeting.
                         </p>
-                        <a class="button" href="#contact_us">START CASHING IN</a>
+                        <a class="button" href="#contact_us">Start Cashing In</a>
                     </div>
                     <div class="content_img" data-aos="fade-left" data-aos-delay="300">
                         <img
@@ -150,13 +150,13 @@ $builders_header_button_link = $builders_header_button['link'];
                 </div>
                 <div class="item">
                     <div class="info" data-aos="fade-right" data-aos-delay="300">
-                        <h4>SELL THE PLATFORM THAT SELLS.</h4>
+                        <h4>Sell the Platform That Sells.</h4>
                         <h3>Reseller Partners</h3>
                         <p>Offer SaleFish to your clients and unlock serious recurring revenue.
                             Earn commission while helping sales teams move more real estate,
                             more easily. Everyone wins. Especially you.
                         </p>
-                        <a class="button" href="#contact_us">YOU HAD ME AT COMMISSION</a>
+                        <a class="button" href="#contact_us">You Had Me at Commission</a>
                     </div>
                     <div class="content_img" data-aos="fade-left" data-aos-delay="300">
                         <img

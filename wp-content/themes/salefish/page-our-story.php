@@ -21,9 +21,9 @@ get_header();
 			alt="Living Room">
 		<div class="wrapper" data-aos="fade-right" data-aos-delay="300">
 			<div class="wrap">
-				<h1>THE BEST WAY <br />
-					TO SELL REAL ESTATE. <br />
-					PERIOD.</h1>
+				<h1>The Best Way <br />
+					to Sell Real Estate. <br />
+					Period.</h1>
 				<a class="button" target="_blank" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">Make every sale a mic drop moment</a>
 			</div>
 		</div>
@@ -34,7 +34,7 @@ get_header();
 	<section class="hero_content">
 		<div class="wrap">
 			<h1 data-aos="fade-up">
-				TURN GREAT REAL ESTATE INTO EFFORTLESS SALES
+				Turn Great Real Estate Into Effortless Sales
 			</h1>
 			<p data-aos="fade-up">
 				You might not care about SaleFish’s 15 years of experience
@@ -58,7 +58,7 @@ get_header();
 	<section class="platform">
 		<div class="max_wrapper">
 			<h1 data-aos="fade-up">
-				GET MORE, DO MORE, SELL MORE
+				Get More, Do More, Sell More
 			</h1>
 			<p data-aos="fade-up">
 				What does the latest SaleFish release have to offer? What you’d
@@ -84,7 +84,7 @@ get_header();
 			</br></br></br></br>
 
 			<h1 data-aos="fade-up">
-				YOUR BRAND, FRONT & CENTER
+				Your Brand, Front & Center
 			</h1>
 
 			<p data-aos="fade-up">
@@ -100,7 +100,7 @@ get_header();
 			</br></br></br></br>
 
 			<h1 data-aos="fade-up">
-				WORKSHEETS THAT MEAN LESS WORK
+				Worksheets That Mean Less Work
 			</h1>
 			<p data-aos="fade-up">
 				Ready to idiot-proof your planning & sales process?
@@ -118,7 +118,7 @@ get_header();
 			</p>
 
 
-			<a class="button" target="_blank" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">BOOK A FREE DEMO</a>
+			<a class="button" target="_blank" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">Book a Free Demo</a>
 			<img data-aos="zoom-in" class="white_labeling"
 				src="https://salefish.app/wp-content/uploads/2024/09/Group-1441.png">
 		</div>
@@ -129,7 +129,7 @@ get_header();
 	<!-- SECURITY -->
 	<section class="security">
 		<div class="max_wrapper">
-			<h1 data-aos="fade-up">CERTAINTY SELLS</h1>
+			<h1 data-aos="fade-up">Certainty Sells</h1>
 			<p data-aos="fade-up">
 				Your buyers are already nervous come transaction time. To close
 				sales, you need to deliver total peace of mind.
@@ -153,7 +153,7 @@ get_header();
 
 			</br></br></br></br>
 
-			<h1 data-aos="fade-up">SECURITY SELLS</h1>
+			<h1 data-aos="fade-up">Security Sells</h1>
 			<p data-aos="fade-up">
 				Here’s something that no one else can tell you.
 			</p>
@@ -192,11 +192,11 @@ get_header();
 					has never been easier.“
 				</h2>
 				<p>
-					RICK HAWS <br />
-					PRESIDENT & CO-FOUNDER
+					Rick Haws <br />
+					President & Co-Founder
 				</p>
 			</div>
-			<a class="button" target="_blank" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">BOOK A FREE DEMO</a>
+			<a class="button" target="_blank" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">Book a Free Demo</a>
 		</div>
 		<?php get_template_part('/partials/contact-general'); ?>
 
