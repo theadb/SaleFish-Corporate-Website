@@ -346,6 +346,19 @@
   }
 
   // FEATURES
+  // The .header is a sibling of .features inside .container — give it matching indent
+  .salefish_features .container > .header {
+    padding: 100px 60px 0 60px;
+
+    @include rs768 {
+      padding: 60px 20px 0 20px;
+    }
+
+    @include rs600 {
+      padding: 40px 20px 0 20px;
+    }
+  }
+
   .features {
     background: $gray;
     width: calc(100% - 120px);
