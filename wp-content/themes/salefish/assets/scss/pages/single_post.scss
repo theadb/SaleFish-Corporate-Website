@@ -128,15 +128,22 @@
   .sp-author__card {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
   }
 
-  .sp-author__avatar img {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    object-fit: cover;
-    display: block;
+  .sp-author__initials {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: $dark_purple;
+    color: #fff;
+    font-family: $PSB;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.04em;
   }
 
   .sp-author__name {
@@ -156,8 +163,8 @@
   // Share buttons
   .sp-share__btns {
     display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .sp-share__btn {
@@ -176,6 +183,7 @@
     cursor: pointer;
     transition: background 0.15s ease, color 0.15s ease;
     white-space: nowrap;
+    width: 100%;
 
     &:hover { background: darken($gray, 4%); }
 
@@ -184,8 +192,33 @@
       color: $green;
       border-color: rgba($green, 0.3);
     }
+  }
 
-    &--copy { width: 100%; }
+  .sp-share__icons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .sp-share__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    background: $gray;
+    color: $black;
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    flex-shrink: 0;
+
+    &--linkedin:hover { background: #0077B5; color: #fff; border-color: #0077B5; }
+    &--x:hover        { background: #000;    color: #fff; border-color: #000; }
+    &--facebook:hover { background: #1877F2; color: #fff; border-color: #1877F2; }
+    &--whatsapp:hover { background: #25D366; color: #fff; border-color: #25D366; }
+    &--email:hover    { background: $dark_purple; color: #fff; border-color: $dark_purple; }
   }
 
   // Related post card — same card style as blog items
@@ -318,4 +351,21 @@
     margin: 0 !important;
     .wp-block-image { margin-right: 20px; }
   }
+
+  // ─── FEATURED POSTS SECTION ─────────────────────────────────────────────────
+
+  .sp-featured-wrap {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 48px 0 64px;
+
+    @include rs768 { padding: 36px 0 48px; }
+
+    .max_wrapper { padding: 0 60px; @include rs768 { padding: 0 30px; } @include rs600 { padding: 0 20px; } }
+
+    .blog-sticky { margin-top: 0; padding-top: 0; border-top: none; }
+  }
+
+  // ─── FOOTER SPACING ─────────────────────────────────────────────────────────
+
+  footer { padding-top: 60px; @include rs768 { padding-top: 40px; } }
 }
