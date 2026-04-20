@@ -389,6 +389,7 @@
     background: #fff;
     width: calc(100% - 120px);
     padding: 0 60px 100px 60px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
 
     @include rs768 {
       padding: 0 20px 60px 20px;
