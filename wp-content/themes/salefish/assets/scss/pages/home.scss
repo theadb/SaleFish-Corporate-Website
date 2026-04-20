@@ -298,6 +298,27 @@
         margin-top: 40px;
       }
 
+      // Desktop: disable swiper, show all slides in a row
+      @media (min-width: 769px) {
+        overflow: visible;
+
+        .swiper-wrapper {
+          display: flex;
+          transform: none !important;
+          width: auto !important;
+          gap: 40px;
+        }
+
+        .swiper-slide {
+          width: auto !important;
+          flex: 1;
+        }
+
+        .controls {
+          display: none;
+        }
+      }
+
       .swiper-slide {
         .pillar {
           height: 70px;
@@ -317,7 +338,7 @@
         }
 
         p {
-          font-size: 1.1em;
+          font-size: 1rem;
           margin-top: 25px;
           line-height: 1.4;
           width: 80%;
