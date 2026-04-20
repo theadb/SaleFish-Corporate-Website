@@ -219,17 +219,22 @@ function load_more_post()
             $thumb    = get_the_post_thumbnail( $id );
             $link     = get_permalink( $id );
             $title    = limit_text( get_the_title(), 14 );
-            $date     = get_the_date( 'M j, Y', $id );
+            $date        = get_the_date( 'M j, Y', $id );
+            $author      = get_the_author_meta( 'display_name', get_post_field( 'post_author', $id ) );
+            $is_featured = is_sticky( $id );
 
             $response[] = [
-                'id'       => $id,
-                'category' => $cats,
-                'cat_slug' => $cat_slug,
-                'cat_name' => $cat_name,
-                'thumb'    => $thumb,
-                'link'     => $link,
-                'title'    => $title,
-                'date'     => $date,
+                'id'         => $id,
+                'category'   => $cats,
+                'cat_slug'   => $cat_slug,
+                'cat_name'   => $cat_name,
+                'thumb'      => $thumb,
+                'link'       => $link,
+                'content'    => get_the_content(),
+                'title'      => $title,
+                'date'       => $date,
+                'author'     => $author,
+                'is_featured'=> $is_featured,
             ];
         }
         wp_reset_postdata();
