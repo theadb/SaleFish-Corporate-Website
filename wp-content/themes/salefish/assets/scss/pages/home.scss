@@ -615,6 +615,20 @@
         }
       }
 
+      & + .feature {
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        padding-top: 80px;
+        margin-top: 0;
+
+        @include rs990 {
+          padding-top: 60px;
+        }
+
+        @include rs768 {
+          padding-top: 50px;
+        }
+      }
+
       @include rs990 {
         gap: 40px;
         margin: 60px auto;
@@ -638,6 +652,9 @@
             max-width: 100%;
             max-height: 500px;
             height: auto;
+            width: 100%;
+            object-fit: contain;
+            object-position: center;
             display: block;
             border-radius: 12px;
           }
