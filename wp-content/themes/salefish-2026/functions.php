@@ -230,6 +230,7 @@ function load_more_post()
                 'thumb' => $thumb,
                 'link' => $link,
                 'title' => $title,
+                'date' => get_the_date( 'M j, Y', $id ),
             ];
         }
         wp_reset_postdata();

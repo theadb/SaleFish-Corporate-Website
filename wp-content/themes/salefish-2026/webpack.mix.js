@@ -2,7 +2,6 @@ const mix = require("laravel-mix");
 
 mix
   .sass("assets/scss/app.scss", "dest")
-  .js("assets/js/app.js", "dest")
   .options({
     postCss: [
       require("autoprefixer")({
