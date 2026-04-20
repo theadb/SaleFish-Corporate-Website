@@ -35,12 +35,12 @@
 					</ul>
 				</div>
 				<div class="sf-footer__col">
-					<div class="sf-footer__col-title">Newsroom</div>
+					<div class="sf-footer__col-title">Blog</div>
 					<ul>
-						<li><a href="/newsroom?filter=success-stories">Success Stories</a></li>
-						<li><a href="/newsroom?filter=press">Press</a></li>
-						<li><a href="/newsroom?filter=blog">Blog</a></li>
-						<li><a href="/newsroom?filter=videos">Videos</a></li>
+						<li><a href="/blog?filter=success-stories">Success Stories</a></li>
+						<li><a href="/blog?filter=press">Press</a></li>
+						<li><a href="/blog?filter=blog">Blog</a></li>
+						<li><a href="/blog?filter=videos">Videos</a></li>
 					</ul>
 				</div>
 				<div class="sf-footer__col">
@@ -74,12 +74,12 @@
 					</ul>
 				</div>
 				<div class="sf-footer__col">
-					<div class="sf-footer__col-title">Newsroom</div>
+					<div class="sf-footer__col-title">Blog</div>
 					<ul>
-						<li><a href="/newsroom?filter=success-stories">Erfolgsgeschichten</a></li>
-						<li><a href="/newsroom?filter=press">Presse</a></li>
-						<li><a href="/newsroom?filter=blog">Neuigkeiten</a></li>
-						<li><a href="/newsroom?filter=videos">Videos</a></li>
+						<li><a href="/blog?filter=success-stories">Erfolgsgeschichten</a></li>
+						<li><a href="/blog?filter=press">Presse</a></li>
+						<li><a href="/blog?filter=blog">Neuigkeiten</a></li>
+						<li><a href="/blog?filter=videos">Videos</a></li>
 					</ul>
 				</div>
 				<div class="sf-footer__col">
@@ -109,10 +109,10 @@
 				<div class="sf-footer__col">
 					<div class="sf-footer__col-title">Haberler</div>
 					<ul>
-						<li><a href="/newsroom?filter=success-stories">Başarı Hikayeleri</a></li>
-						<li><a href="/newsroom?filter=press">Basın</a></li>
-						<li><a href="/newsroom?filter=blog">Blog</a></li>
-						<li><a href="/newsroom?filter=videos">Videolar</a></li>
+						<li><a href="/blog?filter=success-stories">Başarı Hikayeleri</a></li>
+						<li><a href="/blog?filter=press">Basın</a></li>
+						<li><a href="/blog?filter=blog">Blog</a></li>
+						<li><a href="/blog?filter=videos">Videolar</a></li>
 					</ul>
 				</div>
 				<div class="sf-footer__col">

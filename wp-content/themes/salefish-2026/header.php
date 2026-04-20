@@ -97,8 +97,8 @@
 				<li class="features_nav">
 					<a href="/#features">Features</a>
 				</li>
-				<li class="newsroom_nav">
-					<a href="/newsroom">Newsroom</a>
+				<li class="blog_nav">
+					<a href="/blog">Blog</a>
 				</li>
 				<li class="our_story_nav">
 					<a href="/our-story">Our Story</a>
@@ -153,7 +153,7 @@
 	</div>
 </header>
 
-<header class="newsroom_header">
+<header class="blog_header">
 	<div class="max_wrapper" data-aos="fade-down" data-aos-delay="200">
 		<div class="salefish">
 			<a href="/">
@@ -166,8 +166,8 @@
 				<li class="features_li">
 					<a href="/#features">Features</a>
 				</li>
-				<li class="newsroom_nav">
-					<a href="/newsroom">Newsroom</a>
+				<li class="blog_nav">
+					<a href="/blog">Blog</a>
 				</li>
 				<li class="our_story_nav">
 					<a href="/our-story">Our Story</a>
@@ -220,7 +220,7 @@
 			<ul>
 				<li class="features_li"><a href="/#features">MERKMALE</a></li>
 				<li class="partners_nav"><a href="/partners">PARTNER</a></li>
-				<li class="newsroom_nav"><a href="/newsroom">NEWSRAUM</a></li>
+				<li class="blog_nav"><a href="/blog">BLOG</a></li>
 				<li class="contact_us_nav"><a href="/contact-us">KONTAKTIERE UNS</a></li>
 				<li class="sales_login"><span>EINLOGGEN</span></li>
 			</ul>
@@ -261,7 +261,7 @@
 		<nav>
 			<ul>
 				<li class="features_li"><a href="/#features">ÖZELLİKLERİ</a></li>
-				<li class="newsroom_nav"><a href="/newsroom">HABERLER</a></li>
+				<li class="blog_nav"><a href="/blog">BLOG</a></li>
 				<li class="partners_nav"><a href="/partners">ORTAKLAR</a></li>
 				<li class="contact_us_nav"><a href="/tr/contact">BİZE ULAŞIN</a></li>
 				<li class="sales_login"><span>GİRİŞ YAPMA</span></li>
@@ -320,8 +320,8 @@
 					<li class="mobile features_li">
 						<a href="/#features">Features</a>
 					</li>
-					<li class="mobile newsroom_nav">
-						<a href="/newsroom">Newsroom</a>
+					<li class="mobile blog_nav">
+						<a href="/blog">Blog</a>
 					</li>
 					<li class="mobile partners_nav">
 						<a href="/partners">Partners</a>
@@ -381,8 +381,8 @@
 					<li class="mobile features_li">
 						<a href="/#features">Özelli̇kleri̇</a>
 					</li>
-					<li class="mobile newsroom_nav">
-						<a href="/newsroom">Haberler</a>
+					<li class="mobile blog_nav">
+						<a href="/blog">Blog</a>
 					</li>
 					<li class="mobile partners_nav">
 						<a href="/partners">Ortaklar</a>
@@ -444,8 +444,8 @@
 					<li class="mobile features_li">
 						<a href="/#features">Merkmale</a>
 					</li>
-					<li class="mobile newsroom_nav">
-						<a href="/newsroom">Newsraum</a>
+					<li class="mobile blog_nav">
+						<a href="/blog">Blog</a>
 					</li>
 					<li class="mobile partners_nav">
 						<a href="/partners">Partner</a>
