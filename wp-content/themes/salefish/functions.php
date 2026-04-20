@@ -189,46 +189,57 @@ add_filter('use_block_editor_for_post', '__return_false');
 function load_more_post()
 {
     check_ajax_referer( 'salefish_load_more', 'nonce' );
-    $paged = isset($_POST['paged']) ? intval($_POST['paged']) : 1;
+    $paged    = isset($_POST['paged'])    ? intval($_POST['paged'])                        : 1;
+    $category = isset($_POST['category']) ? sanitize_text_field($_POST['category'])        : 'all';
 
-    $query = new WP_Query([
-        'post_status' => 'publish',
-        'post_type' => 'post',
+    $args = [
+        'post_status'    => 'publish',
+        'post_type'      => 'post',
         'posts_per_page' => 9,
-        'paged' => $paged,
-        'orderby' => 'date',
-        'order' => 'DESC',
-    ]);
+        'paged'          => $paged,
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+    ];
+
+    if ( $category && $category !== 'all' ) {
+        $args['category_name'] = $category;
+    }
+
+    $query = new WP_Query( $args );
 
     $response = [];
 
-    if ($query->have_posts()) {
-        while ($query->have_posts()) {
+    if ( $query->have_posts() ) {
+        while ( $query->have_posts() ) {
             $query->the_post();
-            $id = get_the_ID();
-            $category = get_the_category($id);
-            $thumb = get_the_post_thumbnail($id);
-            $link = get_permalink($id);
-            $title = limit_text(get_the_title(), 14);
+            $id       = get_the_ID();
+            $cats     = get_the_category( $id );
+            $cat_slug = $cats ? $cats[0]->category_nicename : '';
+            $cat_name = $cats ? $cats[0]->cat_name          : '';
+            $thumb    = get_the_post_thumbnail( $id );
+            $link     = get_permalink( $id );
+            $title    = limit_text( get_the_title(), 14 );
+            $date     = get_the_date( 'M j, Y', $id );
 
             $response[] = [
-                'id' => $id,
-                'category' => $category,
-                'thumb' => $thumb,
-                'link' => $link,
-                'title' => $title,
+                'id'       => $id,
+                'category' => $cats,
+                'cat_slug' => $cat_slug,
+                'cat_name' => $cat_name,
+                'thumb'    => $thumb,
+                'link'     => $link,
+                'title'    => $title,
+                'date'     => $date,
             ];
         }
         wp_reset_postdata();
     }
 
-    $result = [
-        'max' => $query->max_num_pages,
+    echo json_encode([
+        'max'   => $query->max_num_pages,
         'posts' => $response,
-    ];
-
-    echo json_encode($result);
-    wp_die(); // Better than exit for WordPress AJAX
+    ]);
+    wp_die();
 }
 add_action('wp_ajax_load_more_post', 'load_more_post');
 add_action('wp_ajax_nopriv_load_more_post', 'load_more_post');
