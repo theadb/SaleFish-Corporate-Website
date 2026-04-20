@@ -221,7 +221,7 @@ function load_more_post()
             $title    = limit_text( get_the_title(), 14 );
             $date        = get_the_date( 'M j, Y', $id );
             $author      = get_the_author_meta( 'display_name', get_post_field( 'post_author', $id ) );
-            $is_featured = is_sticky( $id );
+            $is_featured = has_tag( 'featured', $id );
 
             $response[] = [
                 'id'         => $id,

@@ -24,19 +24,16 @@ $share_url    = urlencode( get_permalink() );
 $share_title  = urlencode( $title );
 $share_desc   = urlencode( wp_trim_words( get_the_excerpt(), 20, '...' ) );
 
-// Featured sticky posts (exclude current post)
-$sticky_ids      = get_option( 'sticky_posts' );
-$sticky_ids_excl = array_diff( (array) $sticky_ids, [ $id ] );
-$featured_posts  = ! empty( $sticky_ids_excl )
-	? get_posts( [
-		'post__in'       => $sticky_ids_excl,
-		'post_type'      => 'post',
-		'post_status'    => 'publish',
-		'posts_per_page' => 6,
-		'orderby'        => 'date',
-		'order'          => 'DESC',
-	] )
-	: [];
+// Featured posts — tagged "featured", exclude current post
+$featured_posts = get_posts( [
+	'post_type'      => 'post',
+	'post_status'    => 'publish',
+	'posts_per_page' => 6,
+	'orderby'        => 'date',
+	'order'          => 'DESC',
+	'tag'            => 'featured',
+	'exclude'        => [ $id ],
+] );
 
 get_header();
 ?>

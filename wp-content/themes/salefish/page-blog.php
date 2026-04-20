@@ -101,15 +101,14 @@ get_header();
 			</div><!-- .blog-featured__grid -->
 
 			<?php
-			$sticky_ids   = get_option( 'sticky_posts' );
-			$sticky_posts = ! empty( $sticky_ids ) ? get_posts( [
-				'post__in'       => $sticky_ids,
+			$sticky_posts = get_posts( [
 				'post_type'      => 'post',
 				'post_status'    => 'publish',
 				'posts_per_page' => 6,
 				'orderby'        => 'date',
 				'order'          => 'DESC',
-			] ) : [];
+				'tag'            => 'featured',
+			] );
 			if ( ! empty( $sticky_posts ) ) : ?>
 			<div class="blog-sticky">
 				<p class="blog-section-label">Featured Blog Posts</p>
@@ -173,7 +172,7 @@ get_header();
 					$cat_slug = $cats ? $cats[0]->category_nicename : '';
 					$content  = $article->post_content;
 					$author   = get_the_author_meta( 'display_name', $article->post_author );
-					$featured = is_sticky( $id );
+					$featured = has_tag( 'featured', $id );
 					$is_video = $cat_slug === 'videos';
 				?>
 				<a href="<?php echo $is_video ? esc_url( $content ) : esc_url( $link ); ?>"
