@@ -117,9 +117,6 @@
 				<li class="contact_us_nav">
 					<a href="/contact-us">Contact Us</a>
 				</li>
-				<li class="sales_login">
-					<span>LOGIN</span>
-				</li>
 			</ul>
 			<div class="menu">
 				<button class="hamburger hamburger--emphatic" type="button">
@@ -191,9 +188,6 @@
 				<li class="contact_us_nav">
 					<a href="/contact-us">Contact Us</a>
 				</li>
-				<li class="sales_login">
-					<span>LOGIN</span>
-				</li>
 			</ul>
 			<div class="menu">
 				<button class="hamburger hamburger--emphatic" type="button">
@@ -260,9 +254,6 @@
 				<li class="contact_us_nav">
 					<a href="/contact-us">KONTAKTIERE UNS</a>
 				</li>
-				<li class="sales_login">
-					<span>EINLOGGEN</span>
-				</li>
 			</ul>
 			<div class="menu">
 				<button class="hamburger hamburger--emphatic" type="button">
@@ -328,9 +319,6 @@
 				</li>
 				<li class="contact_us_nav">
 					<a href="/tr/contact">BİZE ULAŞIN </a>
-				</li>
-				<li class="sales_login">
-					<span>GİRİŞ YAPMA</span>
 				</li>
 			</ul>
 			<div class="menu">
