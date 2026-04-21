@@ -5,13 +5,13 @@
     position: relative;
     padding-top: 80px;
 
-    // Ambient orb drifts through the dark purple diagonal section
+    // Ambient orb — same parameters as Our Story hero
     &::before {
       content: '';
       position: absolute;
-      inset: -40% -25%;
-      background: radial-gradient(ellipse 36% 44% at 55% 80%, rgba($light_purple, 0.28) 0%, transparent 60%);
-      animation: heroOrbFloat 26s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+      inset: -40% -30%;
+      background: radial-gradient(ellipse 40% 48% at 38% 62%, rgba($light_purple, 0.36) 0%, transparent 58%);
+      animation: heroOrbFloat 20s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
       pointer-events: none;
       will-change: transform;
       z-index: 2;
@@ -24,7 +24,10 @@
       height: 100%;
       bottom: 0;
       z-index: 1;
-      background: $dark_purple;
+      background:
+        radial-gradient(ellipse 65% 90% at 88% 5%, rgba(94, 63, 168, 0.65) 0%, transparent 58%),
+        radial-gradient(ellipse 80% 65% at 0% 100%, rgba(30, 18, 68, 0.82) 0%, transparent 55%),
+        linear-gradient(140deg, #1E1244 0%, #3A2680 45%, $dark_purple 75%, #2D1B6E 100%);
       clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 80%);
 
       @include rs768 {
