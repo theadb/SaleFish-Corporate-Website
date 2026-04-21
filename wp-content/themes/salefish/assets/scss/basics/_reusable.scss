@@ -318,6 +318,11 @@
   }
   .blog_header {
     display: flex;
+    // White background on all sizes — override the default transparent (desktop)
+    // and solid dark-purple (mobile) that header.scss sets on all <header> elements
+    background: #fff !important;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+
     .salefish_logo { content: url('/wp-content/themes/salefish/img/dark_salefish_logo.png'); }
     .down_arrow    { content: url('/wp-content/themes/salefish/img/purple_down_arrow.svg'); }
     nav {
@@ -339,25 +344,29 @@
         }
       }
     }
+    // When scrolled, stay white with dark content — never flip to purple
     &.active {
-      .salefish_logo { content: url('/wp-content/themes/salefish/img/salefish_logo.png'); }
-      .down_arrow    { content: url('/wp-content/themes/salefish/img/down_arrow.svg'); }
+      background: #fff !important;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+
+      .salefish_logo { content: url('/wp-content/themes/salefish/img/dark_salefish_logo.png'); }
+      .down_arrow    { content: url('/wp-content/themes/salefish/img/purple_down_arrow.svg'); }
       nav {
         ul {
           li {
             a,
             span {
-              color: #fff;
+              color: $dark_purple;
             }
           }
         }
       }
       .hamburger {
         .hamburger-inner {
-          background: #fff;
+          background: $dark_purple;
           &:after,
           &:before {
-            background: #fff;
+            background: $dark_purple;
           }
         }
       }
