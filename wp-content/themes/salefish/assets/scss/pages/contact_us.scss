@@ -79,19 +79,13 @@
       justify-content: center;
       width: 40px;
       height: 40px;
-      border-radius: 8px;
       color: $dark_purple;
-      border: 1px solid rgba($dark_purple, 0.18);
-      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
       text-decoration: none;
+      transition: opacity 0.2s ease;
 
       svg { display: block; }
 
-      &:hover {
-        background: $dark_purple;
-        color: #fff;
-        border-color: $dark_purple;
-      }
+      &:hover { opacity: 0.65; }
     }
   }
 
@@ -109,8 +103,6 @@
       flex-shrink: 0;
       width: 44px;
       height: 44px;
-      background: rgba($dark_purple, 0.08);
-      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
