@@ -27,7 +27,7 @@
       background:
         radial-gradient(ellipse 65% 90% at 88% 5%, rgba(94, 63, 168, 0.65) 0%, transparent 58%),
         radial-gradient(ellipse 80% 65% at 0% 100%, rgba(30, 18, 68, 0.82) 0%, transparent 55%),
-        linear-gradient(140deg, #1E1244 0%, #3A2680 45%, $dark_purple 75%, #2D1B6E 100%);
+        linear-gradient(140deg, $dark_purple 0%, #3A2680 45%, $dark_purple 75%, #2D1B6E 100%);
       clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 80%);
 
       @include rs768 {
@@ -291,6 +291,7 @@
 
     .pillarsSwiper {
       margin-top: 60px;
+      position: relative;
 
       @include rs550 {
         margin-top: 40px;
@@ -319,6 +320,7 @@
 
       .swiper-slide {
         text-align: center;
+        padding: 0 44px;
 
         .pillar {
           height: 70px;
@@ -354,19 +356,36 @@
       }
 
       .controls {
+        position: absolute;
+        top: 35%;
+        left: 0;
+        right: 0;
+        transform: translateY(-50%);
         display: flex;
-        margin-top: 40px;
+        justify-content: space-between;
+        align-items: center;
+        pointer-events: none;
+        z-index: 10;
 
         .arrow {
           cursor: pointer;
+          pointer-events: all;
+          color: $dark_purple;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 34px;
+          height: 34px;
+          border-radius: 50%;
+          transition: background 0.2s ease;
 
-          .right_arrow,
-          .left_arrow {
-            width: 25px;
+          &:hover {
+            background: rgba($dark_purple, 0.1);
           }
 
-          .right_arrow {
-            margin-left: 30px;
+          svg {
+            display: block;
+            flex-shrink: 0;
           }
         }
       }

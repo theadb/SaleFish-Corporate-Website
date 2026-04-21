@@ -52,20 +52,20 @@ $builders_header_button_link = $builders_header_button['link'];
         <img class="hero_bg"
             src="<?php bloginfo('template_directory'); ?>/img/partners/partners.png"
             alt="Living Room">
-        <div class="wrapper" data-aos="fade-left">
+        <div class="wrapper">
             <div class="wrap">
-                <h3>Make Money. Look Good Doing It.</h3>
-                <h1>
+                <h3 data-aos="fade-up" data-aos-delay="100">Make Money. Look Good Doing It.</h3>
+                <h1 data-aos="fade-up" data-aos-delay="250">
                     Partner With <br />
                     SaleFish. <br />
                     Own the Future.
                 </h1>
-                <p>You’ve got the network. We’ve got the tech.</p>
-                <p> Let’s stop selling the old way—and start building what’s next.</p>
-                <a class="button"  href="#contact_us">Let’s Partner Up</a>
+                <p data-aos="fade-up" data-aos-delay="400">You’ve got the network. We’ve got the tech.</p>
+                <p data-aos="fade-up" data-aos-delay="500"> Let’s stop selling the old way—and start building what’s next.</p>
+                <a class="button" data-aos="fade-up" data-aos-delay="620" href="#contact_us">Let’s Partner Up</a>
             </div>
         </div>
-        <div class="wrapper wrapper_bottom" data-aos="fade-left">
+        <div class="wrapper wrapper_bottom" data-aos="fade-up">
             <h2>
                 Join the Platform <br />
                 That’s Actually Selling Homes, <br />

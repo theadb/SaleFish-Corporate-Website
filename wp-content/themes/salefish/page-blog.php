@@ -19,10 +19,10 @@ get_header();
 	<!-- HERO -->
 	<section class="blog-hero sf-section">
 		<div class="sf-container">
-			<div class="blog-hero__inner" data-aos="fade-up">
-				<span class="blog-hero__eyebrow">Insights, Stories & News From</span>
-				<h1>The SaleFish Blog</h1>
-				<p>(Are you taking notes?)</p>
+			<div class="blog-hero__inner">
+				<span class="blog-hero__eyebrow" data-aos="fade-up" data-aos-delay="100">Insights, Stories & News From</span>
+				<h1 data-aos="fade-up" data-aos-delay="250">The SaleFish Blog</h1>
+				<p data-aos="fade-up" data-aos-delay="400">(Are you taking notes?)</p>
 			</div>
 		</div>
 	</section>

@@ -19,12 +19,12 @@ get_header();
 		<img class="hero_bg"
 			src="<?php bloginfo('template_directory'); ?>/img/our_story/hero.jpg"
 			alt="Living Room">
-		<div class="wrapper" data-aos="fade-right" data-aos-delay="300">
+		<div class="wrapper">
 			<div class="wrap">
-				<h1>The Best Way <br />
+				<h1 data-aos="fade-up" data-aos-delay="100">The Best Way <br />
 					to Sell Real Estate. <br />
 					Period.</h1>
-				<a class="button" target="_blank" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">Make every sale a mic drop moment</a>
+				<a class="button" data-aos="fade-up" data-aos-delay="300" target="_blank" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">Make every sale a mic drop moment</a>
 			</div>
 		</div>
 	</section>

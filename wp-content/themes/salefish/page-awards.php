@@ -15,16 +15,16 @@ $awards = get_field('awards');
     <section class="hero">
         <div class="hero_bg"></div>
         <div class="top_msg">
-            <div class="left" data-aos="fade-right">
-                <span class="hero-eyebrow">Recognition &amp; Excellence</span>
-                <h1>
+            <div class="left">
+                <span class="hero-eyebrow" data-aos="fade-up" data-aos-delay="100">Recognition &amp; Excellence</span>
+                <h1 data-aos="fade-up" data-aos-delay="250">
                     If You're the Best in the Business, You Don't Need to Tell People
                 </h1>
-                <h3>
+                <h3 data-aos="fade-up" data-aos-delay="400">
                     They'll Tell You.
                 </h3>
             </div>
-            <div class="right" data-aos="fade-in">
+            <div class="right" data-aos="fade-left" data-aos-delay="200">
                 <img src="<?php bloginfo('template_directory'); ?>/img/trophy.png"
                     class="trophy">
             </div>
