@@ -66,6 +66,7 @@
       gap: 5px;
       justify-content: center;
 
+      .blog-card__badges { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
       .sf-badge { align-self: flex-start; font-size: 10px; padding: 2px 8px; }
     }
 
@@ -431,7 +432,12 @@
     flex: 1;
   }
 
-  &__cat { align-self: flex-start; }
+  &__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
 
   &__date {
     font-family: var(--sf-font-sans);

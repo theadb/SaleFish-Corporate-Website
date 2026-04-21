@@ -179,10 +179,10 @@ get_header();
 						<div class="blog-sticky__card-image"><?php echo $sp_thumb; ?></div>
 						<?php endif; ?>
 						<div class="blog-sticky__card-body">
-							<span class="sf-badge sf-badge--featured">Featured</span>
-							<?php if ( $sp_cat_name ) : ?>
-							<span class="sf-badge sf-badge--<?php echo esc_attr( $sp_cat_slug ); ?>"><?php echo esc_html( $sp_cat_name ); ?></span>
-							<?php endif; ?>
+							<div class="blog-card__badges">
+								<span class="sf-badge sf-badge--featured">Featured</span>
+								<?php if ( $sp_cat_name ) : ?><span class="sf-badge sf-badge--<?php echo esc_attr( $sp_cat_slug ); ?>"><?php echo esc_html( $sp_cat_name ); ?></span><?php endif; ?>
+							</div>
 							<h3 class="blog-sticky__card-title"><?php echo esc_html( get_the_title( $sp_id ) ); ?></h3>
 							<p class="blog-sticky__card-meta"><?php echo esc_html( $sp_date ); ?> &middot; <?php echo esc_html( $sp_author ); ?></p>
 							<span class="blog-sticky__card-link"><?php echo $sp_video ? 'Watch Video' : 'Read More'; ?></span>
