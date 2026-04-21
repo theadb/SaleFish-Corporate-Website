@@ -31,13 +31,21 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 16px;
+    margin-top: 20px;
     font-family: $PL;
     font-size: 0.85em;
 
     &__date { color: #888; }
     &__sep  { color: #bbb; }
     &__read { color: $dark_purple; font-family: $PSB; }
+
+    .sf-badge { font-size: 0.8em; padding: 3px 10px; }
+
+    .sf-badge--tag {
+      background: rgba($black, 0.06);
+      color: #666;
+      border-color: rgba($black, 0.12);
+    }
   }
 
   .sp-title {

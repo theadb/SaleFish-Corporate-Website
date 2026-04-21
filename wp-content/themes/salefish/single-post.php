@@ -45,17 +45,18 @@ get_header();
 	<div class="sp-top">
 		<div class="max_wrapper">
 			<a class="sp-back" href="/blog">← Back to the Blog</a>
+			<h1 class="sp-title"><?php echo esc_html( $title ); ?></h1>
 			<div class="sp-meta-bar">
 				<span class="sp-meta-bar__date"><?php echo esc_html( $date ); ?></span>
 				<span class="sp-meta-bar__sep">—</span>
 				<span class="sp-meta-bar__read"><?php echo $reading_time; ?> min read</span>
 				<?php if ( $category ) : ?>
-				<span class="cat-badge <?php echo esc_attr( $category[0]->category_nicename ); ?>">
-					<?php echo esc_html( $category[0]->cat_name ); ?>
-				</span>
+				<span class="sf-badge sf-badge--<?php echo esc_attr( $category[0]->category_nicename ); ?>"><?php echo esc_html( $category[0]->cat_name ); ?></span>
 				<?php endif; ?>
+				<?php $tags = get_the_tags( $id ); if ( $tags ) : foreach ( $tags as $tag ) : ?>
+				<span class="sf-badge sf-badge--tag"><?php echo esc_html( $tag->name ); ?></span>
+				<?php endforeach; endif; ?>
 			</div>
-			<h1 class="sp-title"><?php echo esc_html( $title ); ?></h1>
 		</div>
 	</div>
 
