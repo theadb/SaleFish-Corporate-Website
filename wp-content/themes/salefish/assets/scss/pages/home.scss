@@ -143,6 +143,12 @@
   }
 
   // BUILDERS
+  // Give the overlay wrapper the same background so the clipped diagonal
+  // triangle area is lavender instead of the page's gray
+  .builders_overlay {
+    background: $light_purple;
+  }
+
   .builders {
     background: $light_purple;
     clip-path: polygon(0 0, 100% 0%, 100% 86%, 0 55%);
@@ -218,7 +224,6 @@
         width: auto;
         flex-shrink: 0;
         object-fit: contain;
-        mix-blend-mode: multiply;
 
         @include rs768 { height: 34px; }
         @include rs550 { height: 30px; }
