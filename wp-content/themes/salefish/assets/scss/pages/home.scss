@@ -5,6 +5,18 @@
     position: relative;
     padding-top: 80px;
 
+    // Ambient orb drifts through the dark purple diagonal section
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -40% -25%;
+      background: radial-gradient(ellipse 36% 44% at 55% 80%, rgba($light_purple, 0.28) 0%, transparent 60%);
+      animation: heroOrbFloat 26s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+      pointer-events: none;
+      will-change: transform;
+      z-index: 2;
+    }
+
     &:after {
       content: "";
       position: absolute;

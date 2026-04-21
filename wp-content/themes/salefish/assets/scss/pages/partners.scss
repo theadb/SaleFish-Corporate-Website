@@ -1,25 +1,33 @@
 .partners {
   .hero {
-    height: 680px;
-    clip-path: polygon(0 0, 100% 0%, 100% 94%, 0 77%);
+    height: 100vh;
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 80%);
     position: relative;
     overflow: hidden;
-    --hero-x: 70%;
-    --hero-y: 40%;
     background:
-      radial-gradient(ellipse 55% 70% at var(--hero-x) var(--hero-y), rgba($light_purple, 0.38) 0%, transparent 60%),
       radial-gradient(ellipse 65% 80% at 5% 0%, rgba(94, 63, 168, 0.62) 0%, transparent 55%),
       radial-gradient(ellipse 70% 65% at 100% 95%, rgba(30, 18, 68, 0.78) 0%, transparent 55%),
       linear-gradient(140deg, #1E1244 0%, #3A2680 45%, $dark_purple 75%, #2D1B6E 100%);
 
     @include rs768 {
-      height: 560px;
       margin-top: 80px; // push hero below fixed header on mobile/tablet
     }
 
     @include rs550 {
-      clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 92%);
-      height: 440px;
+      clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 90%);
+      height: 550px;
+    }
+
+    // Autonomous ambient orb — offset phase and speed from Our Story
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -40% -30%;
+      background: radial-gradient(ellipse 42% 50% at 65% 40%, rgba($light_purple, 0.34) 0%, transparent 58%);
+      animation: heroOrbFloat 24s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite reverse;
+      pointer-events: none;
+      will-change: transform;
+      z-index: 0;
     }
 
     .hero_bg { display: none; }
@@ -154,7 +162,7 @@
         .content_img {
           order: -1;
           width: 100%;
-          background: $gray;
+          background: rgba($dark_purple, 0.1);
           display: flex;
           align-items: center;
           justify-content: center;

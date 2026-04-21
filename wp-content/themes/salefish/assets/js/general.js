@@ -324,44 +324,4 @@ $(function () {
     $(".thank_you_msg").fadeOut();
   });
 
-  // INTERACTIVE GRADIENT HERO — Our Story + Partners
-  (function () {
-    if (!window.matchMedia('(pointer: fine)').matches) return; // skip on touch devices
-    var heroes = document.querySelectorAll('.our_story .hero, .partners .hero');
-    if (!heroes.length) return;
-
-    heroes.forEach(function (hero) {
-      // default resting positions match the CSS --hero-x/--hero-y defaults
-      var isOurStory = hero.closest('.our_story') !== null;
-      var restX = isOurStory ? 30 : 70;
-      var restY = isOurStory ? 60 : 40;
-      var tx = restX, ty = restY;
-      var cx = restX, cy = restY;
-      var raf = null;
-
-      function tick() {
-        cx += (tx - cx) * 0.07;
-        cy += (ty - cy) * 0.07;
-        hero.style.setProperty('--hero-x', cx.toFixed(2) + '%');
-        hero.style.setProperty('--hero-y', cy.toFixed(2) + '%');
-        // keep looping — smooth return to rest on mouseleave
-        raf = requestAnimationFrame(tick);
-      }
-
-      hero.addEventListener('mouseenter', function () {
-        if (!raf) raf = requestAnimationFrame(tick);
-      });
-
-      hero.addEventListener('mousemove', function (e) {
-        var rect = hero.getBoundingClientRect();
-        tx = (e.clientX - rect.left) / rect.width * 100;
-        ty = (e.clientY - rect.top)  / rect.height * 100;
-      });
-
-      hero.addEventListener('mouseleave', function () {
-        tx = restX;
-        ty = restY;
-      });
-    });
-  }());
 });
