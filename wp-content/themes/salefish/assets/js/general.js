@@ -236,6 +236,11 @@ $(function () {
     case "/blog":
       $(".blog_nav a").addClass("active");
       break;
+    default:
+      if (pathname.startsWith("/blog")) {
+        $(".blog_nav a").addClass("active");
+      }
+      break;
     case "/contact-us/":
       $(".contact_us_nav a").addClass("active");
       break;
