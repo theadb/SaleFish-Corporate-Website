@@ -223,8 +223,8 @@
         gap: 48px;
         width: max-content;
         padding: 8px 0;
-        -webkit-animation: marqueeScroll 28s linear infinite;
-        animation: marqueeScroll 28s linear infinite;
+        // Position driven by requestAnimationFrame in home.js — no CSS animation
+        // (CSS animation + webkit compositing = unreliable layer lifecycle)
       }
 
       .builder_logo {
@@ -239,15 +239,6 @@
       // Static grid no longer needed — marquee now works on all devices
       .mobile_builders { display: none; }
     }
-  }
-
-  @-webkit-keyframes marqueeScroll {
-    from { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
-    to   { -webkit-transform: translate3d(-50%, 0, 0); transform: translate3d(-50%, 0, 0); }
-  }
-  @keyframes marqueeScroll {
-    from { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
-    to   { -webkit-transform: translate3d(-50%, 0, 0); transform: translate3d(-50%, 0, 0); }
   }
 
   // PILLARS
