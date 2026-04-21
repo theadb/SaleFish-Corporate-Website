@@ -1002,14 +1002,21 @@
 }
 
 // Align features section header with feature row content at 60px
-.salefish_features .container > .header {
-  padding: 100px 60px 0 60px;
+.salefish_features {
+  background: #fff;
 
-  @include rs768 {
-    padding: 60px 20px 0 20px;
-  }
+  .container > .header {
+    padding: 100px 60px 0 60px;
+    text-align: center;
 
-  @include rs600 {
-    padding: 40px 20px 0 20px;
+    h1 { color: $dark_purple; }
+
+    @include rs768 {
+      padding: 60px 20px 0 20px;
+    }
+
+    @include rs600 {
+      padding: 40px 20px 0 20px;
+    }
   }
 }
