@@ -132,10 +132,10 @@ get_header();
 						<div class="blog-sticky__card-image"><?php echo $sp_thumb; ?></div>
 						<?php endif; ?>
 						<div class="blog-sticky__card-body">
-							<span class="sf-badge sf-badge--featured">Featured</span>
-							<?php if ( $sp_cat_name ) : ?>
-							<span class="sf-badge sf-badge--<?php echo esc_attr( $sp_cat_slug ); ?>"><?php echo esc_html( $sp_cat_name ); ?></span>
-							<?php endif; ?>
+							<div class="blog-card__badges">
+								<span class="sf-badge sf-badge--featured">Featured</span>
+								<?php if ( $sp_cat_name ) : ?><span class="sf-badge sf-badge--<?php echo esc_attr( $sp_cat_slug ); ?>"><?php echo esc_html( $sp_cat_name ); ?></span><?php endif; ?>
+							</div>
 							<h3 class="blog-sticky__card-title"><?php echo esc_html( get_the_title( $sp_id ) ); ?></h3>
 							<p class="blog-sticky__card-meta"><?php echo esc_html( $sp_date ); ?> &middot; <?php echo esc_html( $sp_author ); ?></p>
 							<span class="blog-sticky__card-link"><?php echo $sp_video ? 'Watch Video' : 'Read More'; ?></span>
@@ -185,9 +185,11 @@ get_header();
 					<div class="blog-card__image"><?php echo $thumb; ?></div>
 					<?php endif; ?>
 					<div class="blog-card__body">
-						<?php if ( $featured ) : ?><span class="sf-badge sf-badge--featured">Featured</span><?php endif; ?>
-						<?php if ( $cat_name ) : ?>
-						<span class="sf-badge sf-badge--<?php echo esc_attr( $cat_slug ); ?> blog-card__cat"><?php echo esc_html( $cat_name ); ?></span>
+						<?php if ( $featured || $cat_name ) : ?>
+						<div class="blog-card__badges">
+							<?php if ( $featured ) : ?><span class="sf-badge sf-badge--featured">Featured</span><?php endif; ?>
+							<?php if ( $cat_name ) : ?><span class="sf-badge sf-badge--<?php echo esc_attr( $cat_slug ); ?>"><?php echo esc_html( $cat_name ); ?></span><?php endif; ?>
+						</div>
 						<?php endif; ?>
 						<span class="blog-card__date">Published: <?php echo esc_html( $date ); ?></span>
 						<span class="blog-card__author">By <?php echo esc_html( $author ); ?></span>
@@ -233,8 +235,7 @@ get_header();
     card.innerHTML =
       (post.thumb ? '<div class="blog-card__image">' + post.thumb + '</div>' : '') +
       '<div class="blog-card__body">' +
-        (post.is_featured ? '<span class="sf-badge sf-badge--featured">Featured</span>' : '') +
-        (cat_name ? '<span class="sf-badge sf-badge--' + cat_slug + ' blog-card__cat">' + cat_name + '</span>' : '') +
+        ((post.is_featured || cat_name) ? '<div class="blog-card__badges">' + (post.is_featured ? '<span class="sf-badge sf-badge--featured">Featured</span>' : '') + (cat_name ? '<span class="sf-badge sf-badge--' + cat_slug + '">' + cat_name + '</span>' : '') + '</div>' : '') +
         (post.date ? '<span class="blog-card__date">Published: ' + post.date + '</span>' : '') +
         (post.author ? '<span class="blog-card__author">By ' + post.author + '</span>' : '') +
         '<h3 class="blog-card__title">' + post.title + '</h3>' +
