@@ -2,14 +2,19 @@
 
   // ─── TOP: back + meta + title ─────────────────────────────────────────────
 
+  // Constrain all .max_wrapper instances to match the blog page .sf-container width
+  .max_wrapper {
+    max-width: 1200px;
+    padding: 0 40px;
+    @include rs768 { padding: 0 20px; }
+  }
+
   .sp-top {
     padding-top: 130px;
     padding-bottom: 36px;
 
     @include rs768 { padding-top: 100px; padding-bottom: 24px; }
     @include rs600 { padding-top: 90px; }
-
-    .max_wrapper { padding: 0 60px; @include rs768 { padding: 0 30px; } @include rs600 { padding: 0 20px; } }
   }
 
   .sp-back {
@@ -65,8 +70,6 @@
   .sp-hero-wrap {
     margin-bottom: 48px;
 
-    .max_wrapper { padding: 0 60px; @include rs768 { padding: 0 30px; } @include rs600 { padding: 0 20px; } }
-
     @include rs768 { margin-bottom: 32px; }
   }
 
@@ -88,8 +91,6 @@
 
   .sp-body-wrap {
     padding-bottom: 80px;
-
-    .max_wrapper { padding: 0 60px; @include rs768 { padding: 0 30px; } @include rs600 { padding: 0 20px; } }
 
     @include rs768 { padding-bottom: 60px; }
   }
@@ -380,8 +381,6 @@
     padding: 48px 0 64px;
 
     @include rs768 { padding: 36px 0 48px; }
-
-    .max_wrapper { padding: 0 60px; @include rs768 { padding: 0 30px; } @include rs600 { padding: 0 20px; } }
 
     .blog-sticky { margin-top: 0; padding-top: 0; border-top: none; }
   }

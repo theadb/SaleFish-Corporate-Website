@@ -1,6 +1,6 @@
 .our_story {
   .hero {
-    height: 500px;
+    height: 680px;
     clip-path: polygon(0 0, 100% 0%, 100% 94%, 0 77%);
     position: relative;
     overflow: hidden;
@@ -13,12 +13,12 @@
       linear-gradient(140deg, #1E1244 0%, #3A2680 45%, $dark_purple 75%, #2D1B6E 100%);
 
     @include rs768 {
-      height: 440px;
+      height: 560px;
     }
 
     @include rs550 {
       clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 92%);
-      height: 370px;
+      height: 440px;
     }
 
     .hero_bg { display: none; }
