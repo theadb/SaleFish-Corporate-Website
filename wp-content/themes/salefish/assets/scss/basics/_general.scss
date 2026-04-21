@@ -7,6 +7,16 @@
   animation: cardIn 0.45s ease both;
 }
 
+// ── Hero gradient orb — autonomous ambient drift ──────────────────────────
+@keyframes heroOrbFloat {
+  0%   { transform: translate(0%,   0%);  }
+  18%  { transform: translate(8%,  -8%);  }
+  38%  { transform: translate(-6%,  6%);  }
+  58%  { transform: translate(9%,   9%);  }
+  78%  { transform: translate(-7%, -5%);  }
+  100% { transform: translate(0%,   0%);  }
+}
+
 img,
 svg {
   image-rendering: -o-crisp-edges;
