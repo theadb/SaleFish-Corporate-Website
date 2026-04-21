@@ -21,6 +21,7 @@ get_header();
 			alt="Living Room">
 		<div class="wrapper">
 			<div class="wrap">
+				<span class="eyebrow" data-aos="fade-up" data-aos-delay="50">The SaleFish Story</span>
 				<h1 data-aos="fade-up" data-aos-delay="100">The Best Way <br />
 					to Sell Real Estate. <br />
 					Period.</h1>

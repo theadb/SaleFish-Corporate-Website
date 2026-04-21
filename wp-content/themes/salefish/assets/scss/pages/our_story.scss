@@ -46,6 +46,16 @@
         top: 45%;
         transform: translateY(-50%);
 
+        .eyebrow {
+          display: block;
+          font-family: $PSB;
+          font-size: 0.72rem;
+          text-transform: uppercase;
+          letter-spacing: 0.16em;
+          color: $gold;
+          margin-bottom: 16px;
+        }
+
         h1 {
           color: #fff;
           margin-bottom: 30px;
