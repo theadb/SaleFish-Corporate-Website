@@ -123,6 +123,8 @@ add_action('widgets_init', '_pc_widgets_init');
 function kickass_scripts()
 {
     wp_enqueue_style('style-name', get_template_directory_uri() . '/dest/app.css', [], filemtime(get_template_directory() . '/dest/app.css'));
+    wp_enqueue_style('fancybox', 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css', [], null);
+    wp_enqueue_style('remixicon', 'https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css', [], null);
     wp_enqueue_script('script-name', get_template_directory_uri() . '/dest/app.js', array(), '1.0.0', true);
     wp_localize_script('script-name', 'salefishAjax', [
         'ajaxurl'      => admin_url('admin-ajax.php'),
@@ -131,6 +133,74 @@ function kickass_scripts()
     ]);
 }
 add_action('wp_enqueue_scripts', 'kickass_scripts');
+
+// ─── SOCIAL / OG META TAGS ────────────────────────────────────────────────────
+function salefish_og_meta() {
+    $default_image = 'https://salefish.app/wp-content/themes/salefish/img/salefish_demo_home.png';
+    $site_name     = 'SaleFish';
+
+    if ( is_front_page() || is_home() ) {
+        $title       = get_bloginfo( 'name' );
+        $description = get_bloginfo( 'description' ) ?: 'The all-in-one real estate sales platform — digital contracts, CRM, marketing and more.';
+        $url         = home_url( '/' );
+        $og_type     = 'website';
+        $image       = $default_image;
+
+    } elseif ( is_singular() ) {
+        $post_id     = get_the_ID();
+        $title       = get_the_title( $post_id );
+        $url         = get_permalink( $post_id );
+        $og_type     = is_singular( 'post' ) ? 'article' : 'website';
+
+        // Description: explicit excerpt → trimmed content → site tagline
+        $description = get_post_field( 'post_excerpt', $post_id );
+        if ( ! $description ) {
+            $description = wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ), 30, '...' );
+        }
+        if ( ! $description ) {
+            $description = get_bloginfo( 'description' );
+        }
+
+        // Image: featured image → default brand image
+        $image = has_post_thumbnail( $post_id )
+            ? get_the_post_thumbnail_url( $post_id, 'large' )
+            : $default_image;
+
+    } else {
+        // Archive, search, category, tag pages
+        $title       = wp_title( '|', false, 'right' ) . get_bloginfo( 'name' );
+        $description = get_bloginfo( 'description' );
+        global $wp;
+        $url         = home_url( add_query_arg( [], $wp->request ) );
+        $og_type     = 'website';
+        $image       = $default_image;
+    }
+
+    // Sanitise
+    $title       = esc_attr( wp_strip_all_tags( $title ) );
+    $description = esc_attr( wp_trim_words( wp_strip_all_tags( $description ), 35, '...' ) );
+    $url         = esc_url( $url );
+    $image       = esc_url( $image );
+
+    ?>
+<!-- SaleFish Social Meta -->
+<meta property="og:type"        content="<?php echo $og_type; ?>" />
+<meta property="og:title"       content="<?php echo $title; ?>" />
+<meta property="og:description" content="<?php echo $description; ?>" />
+<meta property="og:url"         content="<?php echo $url; ?>" />
+<meta property="og:site_name"   content="<?php echo esc_attr( $site_name ); ?>" />
+<meta property="og:image"       content="<?php echo $image; ?>" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card"        content="summary_large_image" />
+<meta name="twitter:title"       content="<?php echo $title; ?>" />
+<meta name="twitter:description" content="<?php echo $description; ?>" />
+<meta name="twitter:image"       content="<?php echo $image; ?>" />
+<meta name="description"         content="<?php echo $description; ?>" />
+<!-- End SaleFish Social Meta -->
+    <?php
+}
+add_action( 'wp_head', 'salefish_og_meta', 1 );
 
 /**
  * Enqueue scripts and styles.
