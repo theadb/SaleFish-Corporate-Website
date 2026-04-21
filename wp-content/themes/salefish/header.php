@@ -383,10 +383,6 @@
 					<li class="privacy_policy_nav">
 						<span class="privacy_policy_menu">Privacy Policy</span>
 					</li>
-					<li class="menu-sep"></li>
-					<li>
-						<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">The Plus Group</a>
-					</li>
 				</ul>
 			</div>
 			<hr>
@@ -435,10 +431,6 @@
 					<li class="mobile">
 						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise
 							Admin</a>
-					</li>
-					<li>
-						<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">The Plus
-							Group</a>
 					</li>
 					<li class="terms_of_use_nav">
 						<span class="terms_menu">Kullanım Şartları</span>
@@ -498,11 +490,6 @@
 						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise
 							Admin</a>
 					</li>
-					<li>
-						<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">The Plus
-							Group</a>
-					</li>
-				
 					<li class="terms_of_use_nav">
 						<span class="terms_menu">Nutzungsbedingungen</span>
 					</li>

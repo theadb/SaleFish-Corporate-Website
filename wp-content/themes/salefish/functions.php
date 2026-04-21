@@ -1,5 +1,14 @@
 <?php
 /**
+ * Load local secrets (API keys etc.) — file is gitignored, never committed.
+ */
+$_sf_local_config = get_template_directory() . '/config.local.php';
+if ( file_exists( $_sf_local_config ) ) {
+    require_once $_sf_local_config;
+}
+unset( $_sf_local_config );
+
+/**
  * Feature Capital functions and definitions.
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
