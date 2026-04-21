@@ -194,13 +194,13 @@
       .builders_marquee {
         position: relative;
         overflow: hidden;
-        // Subtle edge fade
         -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
         mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
-        // Force own compositing layer — fixes iOS Safari bug where masked
-        // container drops its animated child after the first paint
         -webkit-transform: translateZ(0);
         transform: translateZ(0);
+
+        // Desktop/tablet only — swap to static grid on mobile
+        @include rs768 { display: none; }
       }
 
       .builders_track {
@@ -209,14 +209,9 @@
         gap: 48px;
         width: max-content;
         padding: 8px 0;
-        // Use translate3d + will-change for hardware-accelerated animation
-        // that survives iOS Safari's compositing across infinite loop cycles
         will-change: transform;
         -webkit-animation: marqueeScroll 28s linear infinite;
         animation: marqueeScroll 28s linear infinite;
-
-        @include rs768 { gap: 36px; }
-        @include rs550 { gap: 28px; }
       }
 
       .builder_logo {
@@ -224,9 +219,34 @@
         width: auto;
         flex-shrink: 0;
         object-fit: contain;
+      }
 
-        @include rs768 { height: 34px; }
-        @include rs550 { height: 30px; }
+      // Static grid for mobile
+      .mobile_builders {
+        display: none;
+
+        @include rs768 { display: block; }
+
+        .row {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-wrap: wrap;
+
+          .col {
+            width: calc(50% - 20px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 14px 10px;
+
+            img {
+              width: 55%;
+              max-height: 48px;
+              object-fit: contain;
+            }
+          }
+        }
       }
     }
   }

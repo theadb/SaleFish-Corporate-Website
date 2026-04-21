@@ -93,6 +93,15 @@ $the_numbers = get_field('the_numbers');
 							<?php endforeach; ?>
 						</div>
 					</div>
+					<div class="mobile_builders">
+						<div class="row">
+							<?php foreach($builders as $builder): ?>
+							<div class="col">
+								<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="">
+							</div>
+							<?php endforeach; ?>
+						</div>
+					</div>
 				</div>
 			</div>
 		</section>
