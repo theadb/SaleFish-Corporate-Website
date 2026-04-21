@@ -10,6 +10,7 @@ header {
   align-items: center;
   @include rs768 {
     height: 80px;
+    background: rgba($dark_purple, 1); // always solid purple on mobile — transparent only on desktop
   }
   .max_wrapper {
     width: calc(100% - 120px);
