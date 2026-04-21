@@ -201,9 +201,9 @@ foreach($the_numbers as $row):
 						<div class="swiper-slide">
 							<img class="pillar"
 								src="<?php echo $icon ?>">
-							<h1>
+							<h3>
 								<?php echo $title ?>
-							</h1>
+							</h3>
 							<p>
 								<?php echo $description ?>
 							</p>
