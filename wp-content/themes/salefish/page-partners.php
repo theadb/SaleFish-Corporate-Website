@@ -94,8 +94,8 @@ $builders_header_button_link = $builders_header_button['link'];
                 <p>Let’s change how new real estate gets sold—and make you a key part of it.</p>
             </div>
             <div class="items">
-                <div class="item">
-                    <div class="info" data-aos="fade-right" data-aos-delay="300">
+                <div class="item" data-aos="fade-up">
+                    <div class="info">
                         <h4>Plug In. Level Up.</h4>
                         <h3>Technology Partners</h3>
                         <p>Got a killer app, platform, or product? Integrate with SaleFish
@@ -104,37 +104,37 @@ $builders_header_button_link = $builders_header_button['link'];
                         </p>
                         <a class="button" href="#contact_us">Integrate & Dominate</a>
                     </div>
-                    <div class="content_img" data-aos="fade-left" data-aos-delay="300">
+                    <div class="content_img">
                         <img
-                            src="<?php bloginfo('template_directory'); ?>/img/partners/crm.png">
+                            src="<?php bloginfo(‘template_directory’); ?>/img/partners/crm.png">
                     </div>
                 </div>
-                <div class="item_img" data-aos="fade-up" data-aos-delay="300">
+                <div class="item_img" data-aos="fade-up">
                     <p>Tools You Already Trust. Now Working Together.</p>
                     <div class="logos">
-                        <div class="col">                        
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_1.png">
+                        <div class="col">
+                            <img src="<?php bloginfo(‘template_directory’); ?>/img/partners/logo_1.png">
                         </div>
-                        <div class="col">                        
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_2.png">
+                        <div class="col">
+                            <img src="<?php bloginfo(‘template_directory’); ?>/img/partners/logo_2.png">
                         </div>
-                        <div class="col">                        
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_3.png">
+                        <div class="col">
+                            <img src="<?php bloginfo(‘template_directory’); ?>/img/partners/logo_3.png">
                         </div>
-                        <div class="col">                        
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_4.png">
+                        <div class="col">
+                            <img src="<?php bloginfo(‘template_directory’); ?>/img/partners/logo_4.png">
                         </div>
-                        <div class="col">                        
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_5.png">
+                        <div class="col">
+                            <img src="<?php bloginfo(‘template_directory’); ?>/img/partners/logo_5.png">
                         </div>
-                        <div class="col">                        
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_6.png">
+                        <div class="col">
+                            <img src="<?php bloginfo(‘template_directory’); ?>/img/partners/logo_6.png">
                         </div>
-                     
+
                     </div>
                 </div>
-                <div class="item">
-                    <div class="info" data-aos="fade-right" data-aos-delay="300">
+                <div class="item" data-aos="fade-up">
+                    <div class="info">
                         <h4>Know People? Get Paid.</h4>
                         <h3>Referral Partners</h3>
                         <p>You’ve got the network—builders, brokers, developers. We’ve
@@ -143,13 +143,13 @@ $builders_header_button_link = $builders_header_button['link'];
                         </p>
                         <a class="button" href="#contact_us">Start Cashing In</a>
                     </div>
-                    <div class="content_img" data-aos="fade-left" data-aos-delay="300">
+                    <div class="content_img">
                         <img
-                            src="<?php bloginfo('template_directory'); ?>/img/partners/notify.png">
+                            src="<?php bloginfo(‘template_directory’); ?>/img/partners/notify.png">
                     </div>
                 </div>
-                <div class="item">
-                    <div class="info" data-aos="fade-right" data-aos-delay="300">
+                <div class="item" data-aos="fade-up">
+                    <div class="info">
                         <h4>Sell the Platform That Sells.</h4>
                         <h3>Reseller Partners</h3>
                         <p>Offer SaleFish to your clients and unlock serious recurring revenue.
@@ -158,9 +158,9 @@ $builders_header_button_link = $builders_header_button['link'];
                         </p>
                         <a class="button" href="#contact_us">You Had Me at Commission</a>
                     </div>
-                    <div class="content_img" data-aos="fade-left" data-aos-delay="300">
+                    <div class="content_img">
                         <img
-                            src="<?php bloginfo('template_directory'); ?>/img/partners/bag.png">
+                            src="<?php bloginfo(‘template_directory’); ?>/img/partners/bag.png">
                     </div>
                 </div>
             </div>

@@ -10,21 +10,7 @@
       linear-gradient(140deg, $dark_purple 0%, #3A2680 45%, $dark_purple 75%, #2D1B6E 100%);
 
     @include rs768 {
-      // Switch from fixed 100vh to content-driven height on mobile.
-      // The absolute .wrap positioning creates a dead gap below the content
-      // (hero still occupies 100vh in layout even though the bottom is clipped).
       height: auto;
-
-      .wrapper {
-        height: auto;
-        padding-top: 140px;  // clear fixed header + breathing room
-        padding-bottom: 100px;
-
-        .wrap {
-          position: static;
-          transform: none;
-        }
-      }
     }
 
     @include rs550 {
@@ -58,10 +44,8 @@
       z-index: 1;
 
       @include rs768 {
-        // Use explicit sides — shorthand would zero out the padding-top/bottom
-        // set in the outer rs768 block above, collapsing the hero height.
-        padding-left: 20px;
-        padding-right: 20px;
+        height: auto;
+        padding: 140px 20px 100px;
         width: calc(100% - 40px);
       }
 
@@ -69,6 +53,11 @@
         position: absolute;
         top: 45%;
         transform: translateY(-50%);
+
+        @include rs768 {
+          position: static;
+          transform: none;
+        }
 
         h3 {
           display: block;
