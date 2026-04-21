@@ -2,13 +2,13 @@
 
   // ── Hero — matches blog hero style ───────────────────────────────────
   .hero {
-    padding: calc(68px + 80px) 60px 80px;
+    padding: calc(68px + 80px) 0 80px;
     background: hsl(var(--sf-bg));
     position: relative;
     overflow: hidden;
 
     @include rs768 {
-      padding: calc(60px + 60px) 20px 60px;
+      padding: calc(60px + 60px) 0 60px;
     }
 
     // Subtle radial glow (same pattern as blog hero)
@@ -27,13 +27,15 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      max-width: 1680px;
+      max-width: 1200px;
       margin: 0 auto;
+      padding: 0 40px;
       position: relative;
       z-index: 1;
       gap: 60px;
 
       @include rs768 {
+        padding: 0 20px;
         gap: 0;
       }
 
@@ -81,8 +83,8 @@
 
   // ── Timeline container ───────────────────────────────────────────────
   .timeline-container {
-    padding: 80px 60px;
-    max-width: 1800px;
+    padding: 80px 40px;
+    max-width: 1200px;
     margin: 0 auto;
 
     @include rs768 { padding: 40px 20px; }
