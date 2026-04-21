@@ -398,16 +398,26 @@ add_action('wp_ajax_nopriv_load_more_post', 'load_more_post');
 // }
 // add_action('wp_ajax_load_more_post', 'load_more_post');
 // add_action('wp_ajax_nopriv_load_more_post', 'load_more_post');
-// ── Video helper: convert any YouTube watch/short URL → embed URL ─────────────
+// ── Video helper: extract YouTube video ID and return a clean embed URL ─────────
 function sf_youtube_embed_url( $url ) {
-    $url = trim( $url );
-    if ( preg_match( '/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $url, $m ) ) {
+    $url = trim( strip_tags( $url ) ); // strip any accidental HTML (e.g. iframe embed code)
+
+    // Already an embed URL — just ensure autoplay param is present
+    if ( preg_match( '/youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/', $url, $m ) ) {
         return 'https://www.youtube.com/embed/' . $m[1] . '?autoplay=1&rel=0';
     }
-    // Already an embed URL — leave it alone
-    if ( strpos( $url, 'youtube.com/embed/' ) !== false ) {
-        return $url;
+
+    // Standard watch URL: youtube.com/watch?v=ID
+    // Short URL:          youtu.be/ID
+    // Attribution URL:    youtube.com/v/ID
+    if ( preg_match(
+        '/(?:youtube\.com\/(?:watch\?v=|v\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/',
+        $url, $m
+    ) ) {
+        return 'https://www.youtube.com/embed/' . $m[1] . '?autoplay=1&rel=0';
     }
+
+    // Not a YouTube URL we recognise — return as-is so fancybox still gets something
     return $url;
 }
 
