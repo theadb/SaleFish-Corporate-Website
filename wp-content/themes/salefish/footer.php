@@ -18,6 +18,9 @@
 				<div class="title">Platform</div>
 				<ul>
 					<li>
+						<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer">Live Chat Support</a>
+					</li>
+					<li>
 						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App</a>
 					</li>
 					<li>
@@ -71,9 +74,6 @@
 					</li>
 					<li>
 						<a href="/contact-us">Contact Us</a>
-					</li>
-					<li>
-						<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer">Live Chat Support</a>
 					</li>
 				</ul>
 			</div>
