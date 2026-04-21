@@ -74,42 +74,11 @@ get_header();
 	<!-- END MAP -->
 
 	<!-- FORM -->
-	<section class="cu-form" id="contact_us">
-		<div class="cu-form__wrap">
-
-			<div class="cu-form__header" data-aos="fade-up">
-				<span class="cu-eyebrow">Ready to close more deals?</span>
-				<h2>Book a Free Demo</h2>
-				<p>See SaleFish in action with a personalised walkthrough. No pressure, no commitment — just an honest look at what we can do for your project.</p>
-			</div>
-
-			<form id="reg_form" class="cu-form__fields" data-aos="fade-up">
-				<div class="cu-row">
-					<div class="cu-col">
-						<label for="name">Name</label>
-						<input type="text" placeholder="First Last" name="name" id="name" required>
-					</div>
-					<div class="cu-col">
-						<label for="company">Company</label>
-						<input type="text" placeholder="Acme Developments Ltd." name="company" id="company">
-					</div>
-				</div>
-				<div class="cu-row">
-					<div class="cu-col">
-						<label for="phone">Phone Number</label>
-						<input type="tel" placeholder="555-912-0088" name="phone" id="phone">
-					</div>
-					<div class="cu-col">
-						<label for="email">Email</label>
-						<input type="email" placeholder="name@company.com" name="email" id="email" required>
-					</div>
-				</div>
-				<div class="cu-row cu-row--submit">
-					<input class="submit" type="submit" value="Send Message">
-				</div>
-			</form>
-
-		</div>
+	<section class="contact">
+		<div class="top_overlay"></div>
+		<div class="middle_overlay"></div>
+		<div class="bottom_overlay"></div>
+		<?php get_template_part('/partials/contact-general'); ?>
 	</section>
 	<!-- END FORM -->
 

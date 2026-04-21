@@ -480,17 +480,29 @@
 .blog-loadmore {
   display: flex;
   justify-content: center;
+  margin-top: 16px;
 
   .sf-btn {
-    background: $gold;
-    color: $black;
-    border-color: transparent;
+    background: transparent;
+    color: $dark_purple;
+    border: 2px solid $dark_purple;
     font-family: $PSB;
     font-size: 0.875rem;
     border-radius: 5px;
-    padding: 10px 40px;
+    padding: 11px 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease, color 0.2s ease;
 
-    &:hover { opacity: 0.9; }
+    svg { transition: transform 0.25s ease; }
+
+    &:hover {
+      background: $dark_purple;
+      color: #fff;
+
+      svg { transform: translateY(3px); }
+    }
   }
 }
 
