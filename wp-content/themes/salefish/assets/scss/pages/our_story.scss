@@ -48,6 +48,8 @@
     }
 
     p {
+      font-size: 1rem;
+      line-height: 1.7;
       margin-top: 30px;
       width: 80%;
 
@@ -118,17 +120,17 @@
     }
 
     img {
-      width: 15vw;
-      width: 120px;
-      display: flex;
-      margin: 0 auto;
-      margin-top: 30px;
+      display: block;
+      max-width: 400px;
+      width: 100%;
+      margin: 40px auto 0;
+      border-radius: 12px;
     }
   }
 
   .contact {
     .top_overlay {
-      background: #fff;
+      background: $gray;
     }
   }
 }
