@@ -100,21 +100,17 @@ main {
 .loading {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background: $dark_purple;
+  background-color: $dark_purple;
+  background-size: 160px auto;
+  background-position: center center;
+  background-repeat: no-repeat;
   transition: 500ms all ease-in-out;
   z-index: 9999;
   opacity: 1;
   visibility: visible;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &__logo {
-    width: 160px;
-    opacity: 0.9;
-  }
 
   &.active {
     opacity: 0;
