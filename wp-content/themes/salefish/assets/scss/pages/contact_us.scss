@@ -302,9 +302,20 @@
   display: none;
 }
 
-// Suppress the grey top_overlay bleed below the map on mobile
+// On mobile the contact section sits directly below the map with no .top element.
+// Hide all background overlays (they bleed through the clip-path diagonal),
+// flatten the top edge of .bottom so there's no gray triangle, and cut the
+// padding so the form starts close to the map rather than 8em down.
 @include rs768 {
-  .contact_us .contact .top_overlay {
-    display: none;
+  .contact_us .contact {
+    .top_overlay,
+    .middle_overlay,
+    .bottom_overlay { display: none; }
+
+    .bottom {
+      // Straight top edge — eliminates the gray bleed from the diagonal cut
+      clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 88%);
+      padding-top: 52px;
+    }
   }
 }
