@@ -69,14 +69,14 @@
   border-radius: var(--sf-radius-lg);
   background: var(--sf-card-gradient);
   background-color: hsl(var(--sf-card));
-  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.7), var(--sf-shadow-sm);
-  border: 1px solid hsl(var(--sf-card-border));
+  box-shadow: var(--sf-shadow-sm);
+  border: none;
   color: hsl(var(--sf-card-fg));
   transition: transform 150ms ease, box-shadow 150ms ease;
 
   &:hover {
     transform: translateY(-1px);
-    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.7), var(--sf-shadow-md);
+    box-shadow: var(--sf-shadow-md);
   }
 }
 

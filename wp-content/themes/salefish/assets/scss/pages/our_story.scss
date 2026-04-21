@@ -157,8 +157,9 @@
 
     .card {
       background: #fff;
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      border-radius: 16px;
+      border: none;
+      border-radius: var(--sf-radius-lg);
+      box-shadow: var(--sf-shadow-sm);
       padding: 32px;
 
       h2 {

@@ -28,7 +28,7 @@
     overflow: hidden;
     background: var(--sf-card-gradient);
     background-color: hsl(var(--sf-card));
-    border: 1px solid hsl(var(--sf-card-border));
+    border: none;
     box-shadow: var(--sf-shadow-sm);
     text-decoration: none;
     color: hsl(var(--sf-card-fg));
@@ -224,16 +224,16 @@
     border-radius: var(--sf-radius-lg);
     overflow: hidden;
     background: hsl(var(--sf-card));
-    border: 1px solid hsl(var(--sf-card-border));
+    border: none;
     display: flex;
     flex-direction: column;
     text-decoration: none;
     color: hsl(var(--sf-card-fg));
-    box-shadow: var(--sf-shadow);
+    box-shadow: var(--sf-shadow-sm);
     transition: box-shadow 0.25s ease, transform 0.25s ease;
 
     &:hover {
-      box-shadow: var(--sf-shadow-lg);
+      box-shadow: var(--sf-shadow-md);
       transform: translateY(-3px);
     }
 
@@ -292,7 +292,7 @@
     border-radius: var(--sf-radius-lg);
     overflow: hidden;
     background: hsl(var(--sf-card));
-    border: 1px solid hsl(var(--sf-card-border));
+    border: none;
     display: grid;
     grid-template-columns: 160px 1fr;
     text-decoration: none;

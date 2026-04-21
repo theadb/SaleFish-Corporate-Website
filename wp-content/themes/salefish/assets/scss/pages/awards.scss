@@ -174,7 +174,7 @@
   // ── Award Card — styled like blog cards ───────────────────────────────
   .award-card {
     background: hsl(var(--sf-card));
-    border: 1px solid hsl(var(--sf-card-border));
+    border: none;
     border-radius: var(--sf-radius-lg);
     box-shadow: var(--sf-shadow-sm);
     overflow: hidden;
