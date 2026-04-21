@@ -68,9 +68,8 @@
 
     .eyebrow {
       display: block;
-      font-family: var(--sf-font-sans);
+      font-family: $PSB;
       font-size: 0.72rem;
-      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.16em;
       color: $dark_purple;
@@ -78,6 +77,7 @@
     }
 
     h1 {
+      font-family: $PB;
       color: $dark_purple;
       font-size: clamp(2rem, 4vw, 3rem);
       line-height: 1.15;
@@ -85,6 +85,7 @@
     }
 
     p {
+      font-family: $PR;
       font-size: 1.08rem;
       line-height: 1.75;
       color: $black;
@@ -116,14 +117,15 @@
     .stat {
       strong {
         display: block;
+        font-family: $PB;
         font-size: clamp(2rem, 3.5vw, 2.8rem);
-        font-weight: 700;
         color: $gold;
         line-height: 1;
         margin-bottom: 8px;
       }
 
       span {
+        font-family: $PR;
         font-size: 0.88rem;
         color: rgba(#fff, 0.72);
         letter-spacing: 0.02em;
@@ -160,14 +162,15 @@
       padding: 32px;
 
       h2 {
+        font-family: $PB;
         color: $dark_purple;
         font-size: 1.2rem;
-        font-weight: 700;
         line-height: 1.3;
         margin-bottom: 14px;
       }
 
       p {
+        font-family: $PR;
         font-size: 0.95rem;
         line-height: 1.65;
         margin: 0;
@@ -182,8 +185,6 @@
         width: 100%;
         display: block;
         margin: 0 auto 36px;
-        border-radius: 14px;
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.10);
       }
 
       .button { display: inline-block; }
@@ -216,14 +217,15 @@
       flex: 1;
 
       h2 {
+        font-family: $PB;
         color: $dark_purple;
         font-size: clamp(1.8rem, 2.8vw, 2.4rem);
-        font-weight: 700;
         line-height: 1.2;
         margin-bottom: 22px;
       }
 
       p {
+        font-family: $PR;
         font-size: 1rem;
         line-height: 1.7;
         margin-bottom: 16px;
@@ -234,6 +236,7 @@
         padding-left: 20px;
 
         li {
+          font-family: $PR;
           font-size: 0.95rem;
           line-height: 1.65;
           margin-bottom: 8px;
@@ -253,9 +256,7 @@
       img {
         width: 280px;
         max-width: 100%;
-        border-radius: 12px;
         display: block;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.10);
 
         @include rs768 {
           width: 220px;
