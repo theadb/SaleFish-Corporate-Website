@@ -475,10 +475,22 @@
           }
 
           .button {
-            background: $light_purple;
-            color: #fff;
-            margin-top: 50px;
-            width: fit-content;
+            background: transparent;
+            color: $dark_purple;
+            padding: 0;
+            border-radius: 0;
+            margin-top: 24px;
+            width: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            &::after {
+              content: '→';
+              transition: transform 0.2s ease;
+            }
+
+            &:hover::after { transform: translateX(4px); }
           }
 
           .inline {
@@ -726,8 +738,20 @@
           }
 
           .button {
-            background: $light_purple;
-            color: #fff;
+            background: transparent;
+            color: $dark_purple;
+            padding: 0;
+            border-radius: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            &::after {
+              content: '→';
+              transition: transform 0.2s ease;
+            }
+
+            &:hover::after { transform: translateX(4px); }
           }
         }
       }
@@ -774,8 +798,20 @@
       }
 
       .button {
-        background: $light_purple;
-        color: #fff;
+        background: transparent;
+        color: $dark_purple;
+        padding: 0;
+        border-radius: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+
+        &::after {
+          content: '→';
+          transition: transform 0.2s ease;
+        }
+
+        &:hover::after { transform: translateX(4px); }
       }
     }
   }
