@@ -51,9 +51,12 @@
     &__cards {
       flex: 1;
       min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+
+      @include rs550 { grid-template-columns: 1fr; }
     }
   }
 
@@ -93,41 +96,58 @@
   // ── Info tiles ─────────────────────────────────────────────────────────
   .cu-tile {
     display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 20px 24px;
-    background: $gray;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    background: var(--sf-card-gradient);
+    background-color: hsl(var(--sf-card));
+    border-radius: var(--sf-radius-lg);
+    border: 1px solid hsl(var(--sf-card-border));
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.7), var(--sf-shadow-sm);
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
+    text-decoration: none;
+    color: hsl(var(--sf-card-fg));
+    transition: transform 150ms ease, box-shadow 150ms ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.7), var(--sf-shadow-md);
+    }
 
     &__icon {
-      flex-shrink: 0;
-      width: 44px;
-      height: 44px;
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: rgba($dark_purple, 0.08);
+      border-radius: 12px;
       color: $dark_purple;
+      flex-shrink: 0;
+      margin: 24px 24px 0;
     }
 
     &__body {
+      padding: 14px 24px 24px;
+      flex: 1;
+
       strong {
         display: block;
         font-family: $PSB;
-        font-size: 0.88rem;
+        font-size: 0.95rem;
         color: $dark_purple;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
       }
 
       a {
         display: block;
         font-family: $PR;
-        font-size: 0.9rem;
-        color: $black;
+        font-size: 0.875rem;
+        color: hsl(var(--sf-muted-fg));
         text-decoration: none;
-        line-height: 1.6;
+        line-height: 1.65;
 
         &:hover { color: $dark_purple; }
       }
