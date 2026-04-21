@@ -10,12 +10,13 @@
       linear-gradient(140deg, $dark_purple 0%, #3A2680 45%, $dark_purple 75%, #2D1B6E 100%);
 
     @include rs768 {
-      height: auto;
+      // Fixed px height gives Safari a definite size to paint the background.
+      // height:auto + clip-path + overflow:hidden causes WebKit to skip painting.
+      height: 600px;
     }
 
     @include rs550 {
       clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 90%);
-      // height intentionally omitted — auto from rs768 rule above
     }
 
     // Autonomous ambient orb — offset phase and speed from Our Story
@@ -44,8 +45,8 @@
       z-index: 1;
 
       @include rs768 {
-        height: auto;
-        padding: 140px 20px 100px;
+        padding-left: 20px;
+        padding-right: 20px;
         width: calc(100% - 40px);
       }
 
@@ -53,11 +54,6 @@
         position: absolute;
         top: 45%;
         transform: translateY(-50%);
-
-        @include rs768 {
-          position: static;
-          transform: none;
-        }
 
         h3 {
           display: block;
