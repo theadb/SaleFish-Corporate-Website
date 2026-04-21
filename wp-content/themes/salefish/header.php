@@ -24,6 +24,7 @@
 	<link rel="manifest" href="/site.webmanifest">
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="theme-color" content="#ffffff">
+	<link rel="preload" as="image" href="<?php echo esc_url( get_template_directory_uri() ); ?>/img/dark_salefish_logo.png">
 	<?php wp_head(); ?>
 
 </head>
