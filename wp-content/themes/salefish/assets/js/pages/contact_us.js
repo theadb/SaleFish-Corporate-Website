@@ -9,8 +9,13 @@ if (page === 'contact_us') {
 			zoom: 12,
 		});
 		const icon = {
-			url: BASEURL + '/img/marker.png',
-			scaledSize: new google.maps.Size(50, 50), // scaled size
+			path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
+			fillColor: '#452D8C',
+			fillOpacity: 1,
+			strokeColor: '#ffffff',
+			strokeWeight: 1.5,
+			scale: 2.2,
+			anchor: new google.maps.Point(12, 22),
 		};
 		const marker = new google.maps.Marker({
 			position: uluru,
