@@ -54,10 +54,13 @@
         transform: translateY(-50%);
 
         h3 {
+          display: block;
+          font-family: $PSB;
+          font-size: 0.72rem;
+          text-transform: uppercase;
+          letter-spacing: 0.16em;
           color: $gold;
-          font-size: 0.85em;
-          letter-spacing: 0.05em;
-          margin-bottom: 10px;
+          margin-bottom: 12px;
         }
 
         h1 {
