@@ -188,9 +188,13 @@
       .builders_marquee {
         position: relative;
         overflow: hidden;
-        // Subtle edge fade — narrower on mobile so logos aren't hidden
+        // Subtle edge fade
         -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
         mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+        // Force own compositing layer — fixes iOS Safari bug where masked
+        // container drops its animated child after the first paint
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
       }
 
       .builders_track {
@@ -199,6 +203,10 @@
         gap: 48px;
         width: max-content;
         padding: 8px 0;
+        // Use translate3d + will-change for hardware-accelerated animation
+        // that survives iOS Safari's compositing across infinite loop cycles
+        will-change: transform;
+        -webkit-animation: marqueeScroll 28s linear infinite;
         animation: marqueeScroll 28s linear infinite;
 
         @include rs768 { gap: 36px; }
@@ -210,7 +218,6 @@
         width: auto;
         flex-shrink: 0;
         object-fit: contain;
-        // Blend out white logo backgrounds against the purple section
         mix-blend-mode: multiply;
 
         @include rs768 { height: 34px; }
@@ -219,9 +226,13 @@
     }
   }
 
+  @-webkit-keyframes marqueeScroll {
+    from { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
+    to   { -webkit-transform: translate3d(-50%, 0, 0); transform: translate3d(-50%, 0, 0); }
+  }
   @keyframes marqueeScroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
+    from { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
+    to   { -webkit-transform: translate3d(-50%, 0, 0); transform: translate3d(-50%, 0, 0); }
   }
 
   // PILLARS
