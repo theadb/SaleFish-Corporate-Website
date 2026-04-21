@@ -169,7 +169,7 @@
         .content_img {
           order: -1;
           width: 100%;
-          background: rgba($dark_purple, 0.1);
+          background: $dark_purple;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -181,6 +181,7 @@
             width: auto;
             height: auto;
             display: block;
+            margin: 0 auto;
           }
         }
 
