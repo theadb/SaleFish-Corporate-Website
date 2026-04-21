@@ -56,6 +56,15 @@ body {
   // max-width: 1800px;
   // margin: 0 auto;
   position: relative;
+  background: $gray; // prevents white gaps where clip-paths expose the page background
+}
+
+// Tidio chat widget: ensure visible on all screen sizes
+#tidio-chat,
+#tidio-chat-iframe,
+#tidio-chat-code {
+  display: block !important;
+  visibility: visible !important;
 }
 .max_wrapper {
   max-width: 1800px;

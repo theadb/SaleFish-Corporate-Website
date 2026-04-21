@@ -134,6 +134,12 @@ function kickass_scripts()
 }
 add_action('wp_enqueue_scripts', 'kickass_scripts');
 
+// Disable HubSpot chat widget (leadin plugin tracking script loads the chat)
+add_action( 'wp_enqueue_scripts', function() {
+    wp_dequeue_script( 'leadin-script-loader-js' );
+    wp_deregister_script( 'leadin-script-loader-js' );
+}, 100 );
+
 // ─── SOCIAL / OG META TAGS ────────────────────────────────────────────────────
 function salefish_og_meta() {
     $default_image = 'https://salefish.app/wp-content/themes/salefish/img/salefish_demo_home.png';
