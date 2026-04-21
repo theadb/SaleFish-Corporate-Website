@@ -337,7 +337,7 @@
 
 
 <div class="loading">
-
+	<img class="loading__logo" src="<?php bloginfo('template_directory'); ?>/img/dark_salefish_logo.png" alt="SaleFish">
 </div>
 
 <div class="floating_menu floating_menu_en">
