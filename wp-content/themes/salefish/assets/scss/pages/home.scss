@@ -157,13 +157,15 @@
 
     @include rs768 {
       margin-top: -15px;
-      padding: 60px 20px 200px 20px;
-      width: calc(100% - 40px);
+      padding: 48px 0 140px;
+      width: 100%;
       clip-path: polygon(0 0, 100% 0%, 100% 97%, 0 90%);
+
+      h3 { padding: 0 20px; }
     }
 
     @include rs550 {
-      padding: 50px 20px 180px 20px;
+      padding: 40px 0 110px;
       clip-path: polygon(0 0, 100% 0%, 100% 97%, 0 92%);
     }
 
@@ -181,34 +183,38 @@
     }
 
     .builders_wrap {
-      padding-top: 40px;
+      padding-top: 32px;
 
       .builders_marquee {
         position: relative;
         overflow: hidden;
-        -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
-        mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+        // Subtle edge fade — narrower on mobile so logos aren't hidden
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
       }
 
       .builders_track {
         display: flex;
         align-items: center;
-        gap: 56px;
+        gap: 48px;
         width: max-content;
-        padding: 6px 0;
-        animation: marqueeScroll 32s linear infinite;
+        padding: 8px 0;
+        animation: marqueeScroll 28s linear infinite;
 
-        @include rs768 { gap: 40px; }
+        @include rs768 { gap: 36px; }
+        @include rs550 { gap: 28px; }
       }
 
       .builder_logo {
-        height: 36px;
+        height: 40px;
         width: auto;
         flex-shrink: 0;
         object-fit: contain;
+        // Blend out white logo backgrounds against the purple section
+        mix-blend-mode: multiply;
 
-        @include rs768 { height: 28px; }
-        @include rs550 { height: 24px; }
+        @include rs768 { height: 34px; }
+        @include rs550 { height: 30px; }
       }
     }
   }
