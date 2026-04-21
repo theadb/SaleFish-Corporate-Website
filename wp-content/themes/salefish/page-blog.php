@@ -229,7 +229,7 @@ get_header();
   function youtubeEmbedUrl(url) {
     if (!url) return url;
     var m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-    return m ? 'https://www.youtube.com/embed/' + m[1] + '?autoplay=1&rel=0' : url;
+    return m ? 'https://www.youtube.com/embed/' + m[1] + '?autoplay=1&rel=0&origin=https://salefish.app' : url;
   }
 
   function buildCard(post) {
