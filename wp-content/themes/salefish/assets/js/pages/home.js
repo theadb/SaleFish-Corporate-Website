@@ -135,17 +135,7 @@ $(function () {
       }
     });
 
-    let buildersSwiper = new Swiper(".buildersSwiper", {
-      modules: [Autoplay],
-      slidesPerView: 5,
-      loop: true,
-      speed: 6500,
-      freeMode: true,
-      autoplay: {
-        delay: 1,
-        disableOnInteraction: false,
-      },
-    });
+
   }
 
   if (pathname === "/" || pathname === "/au/") {

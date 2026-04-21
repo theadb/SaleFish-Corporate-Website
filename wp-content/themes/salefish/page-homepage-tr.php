@@ -84,26 +84,15 @@ $the_numbers = get_field('the_numbers');
 				</div>
 
 				<div data-aos="fade-zoom-in" class="builders_wrap">
-					<div class="swiper buildersSwiper">
-						<div class="swiper-wrapper">
+					<div class="builders_marquee">
+						<div class="builders_track">
 							<?php foreach($builders as $builder): ?>
-							<div class="swiper-slide">
-								<img class="builder_logo builder_1"
-									src="<?php echo $builder;?>">
-							</div>
+							<img class="builder_logo" src="<?php echo $builder; ?>" alt="">
+							<?php endforeach; ?>
+							<?php foreach($builders as $builder): ?>
+							<img class="builder_logo" src="<?php echo $builder; ?>" alt="" aria-hidden="true">
 							<?php endforeach; ?>
 						</div>
-					</div>
-					<div class="mobile_builders">
-						<div class="row">
-							<?php foreach($builders as $builder): ?>
-							<div class="col">
-								<img class="builder_logo builder_1"
-									src="<?php echo $builder;?>">
-							</div>
-							<?php endforeach; ?>
-						</div>
-
 					</div>
 				</div>
 			</div>
