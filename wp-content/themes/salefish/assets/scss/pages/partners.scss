@@ -7,10 +7,10 @@
     background:
       radial-gradient(ellipse 65% 80% at 5% 0%, rgba(94, 63, 168, 0.62) 0%, transparent 55%),
       radial-gradient(ellipse 70% 65% at 100% 95%, rgba(30, 18, 68, 0.78) 0%, transparent 55%),
-      linear-gradient(140deg, #1E1244 0%, #3A2680 45%, $dark_purple 75%, #2D1B6E 100%);
+      linear-gradient(140deg, $dark_purple 0%, #3A2680 45%, $dark_purple 75%, #2D1B6E 100%);
 
     @include rs768 {
-      margin-top: 80px; // push hero below fixed header on mobile/tablet
+      // hero extends behind transparent header on mobile
     }
 
     @include rs550 {

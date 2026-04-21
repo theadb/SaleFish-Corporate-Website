@@ -56,14 +56,14 @@ $the_numbers = get_field('the_numbers');
 	<section class="hero">
 		<div class="wrapper">
 			<div class="max_wrapper">
-				<div class="left" data-aos="fade-right" data-aos-delay="300">
-					<h3>An Easier Way to <span>Sell <label id="app_for_home">Home Sales</label></span></h3>
-					<h1>
+				<div class="left">
+					<h3 data-aos="fade-up" data-aos-delay="100">An Easier Way to <span>Sell <label id="app_for_home">Home Sales</label></span></h3>
+					<h1 data-aos="fade-up" data-aos-delay="280">
 						<?php echo wp_kses_post( $hero_header ); ?>
 					</h1>
-					<a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">Book a Free Demo</a>
+					<a class="button" data-aos="fade-up" data-aos-delay="460" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">Book a Free Demo</a>
 				</div>
-				<div class="right" data-aos="zoom-in" data-aos-delay="300">
+				<div class="right" data-aos="fade-left" data-aos-delay="200">
 					<img class="salefish_demo"
 						src="<?php echo esc_url( $hero_image ); ?>"
 						alt="Salefish App Demo">
@@ -140,13 +140,11 @@ $the_numbers = get_field('the_numbers');
 					<?php endforeach; ?>
 				</div>
 				<div class="controls">
-					<div class="arrow">
-						<img class="left_arrow"
-							src="<?php bloginfo('template_directory'); ?>/img/left_arrow.png">
+					<div class="arrow left_arrow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
 					</div>
-					<div class="arrow">
-						<img class="right_arrow"
-							src="<?php bloginfo('template_directory'); ?>/img/right_arrow.png">
+					<div class="arrow right_arrow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
 					</div>
 				</div>
 			</div>
