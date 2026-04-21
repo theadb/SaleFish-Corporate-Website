@@ -1,11 +1,7 @@
 // ─── CARD ANIMATION ────────────────────────────────────────────────────────
-@keyframes blogCardIn {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0);    }
-}
-
+// Uses global cardIn keyframe defined in _general.scss
 .blog-card-animate {
-  animation: blogCardIn 0.45s ease both;
+  animation: cardIn 0.45s ease both;
 }
 
 // ─── STICKY / FEATURED SUBSECTION ──────────────────────────────────────────

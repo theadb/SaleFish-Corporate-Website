@@ -1,20 +1,27 @@
 .awards {
+
+  // ── Hero — matches blog hero style ───────────────────────────────────
   .hero {
-    background: $dark_purple;
-    padding: 120px 60px 60px;
+    padding: calc(68px + 80px) 60px 80px;
+    background: hsl(var(--sf-bg));
     position: relative;
     overflow: hidden;
 
     @include rs768 {
-      padding: 100px 20px 40px;
+      padding: calc(60px + 60px) 20px 60px;
     }
 
-    .hero_bg {
+    // Subtle radial glow (same pattern as blog hero)
+    &::before {
+      content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, #3a2575 0%, $dark_purple 60%, #5a3a9e 100%);
+      background: radial-gradient(ellipse 80% 80% at 15% 50%, hsl(var(--sf-primary) / 0.06) 0%, transparent 65%);
+      pointer-events: none;
       z-index: 0;
     }
+
+    .hero_bg { display: none; } // replaced by ::before gradient
 
     .top_msg {
       display: flex;
@@ -24,111 +31,187 @@
       margin: 0 auto;
       position: relative;
       z-index: 1;
+      gap: 60px;
 
       @include rs768 {
-        flex-direction: column;
-        text-align: center;
+        gap: 0;
       }
 
       .left {
         flex: 1;
-        padding-right: 60px;
-
-        @include rs768 {
-          padding-right: 0;
-          margin-bottom: 30px;
-        }
 
         h1 {
-          color: #fff;
-          margin-bottom: 20px;
-          line-height: 1.2;
+          color: hsl(var(--sf-primary));
+          font-size: clamp(2.2rem, 4.5vw, 4rem);
+          letter-spacing: -0.02em;
+          line-height: 1.1;
+          margin: 14px 0 16px;
         }
 
         h3 {
           color: $gold;
+          font-size: 1.1em;
         }
       }
 
       .right {
         flex-shrink: 0;
+        align-self: flex-start;
+
+        @include rs768 { display: none; }
 
         .trophy {
-          width: 300px;
-
-          @include rs768 {
-            width: 180px;
-          }
+          width: 240px;
+          filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.14));
         }
       }
     }
   }
 
+  // ── Eyebrow label ────────────────────────────────────────────────────
+  .hero-eyebrow {
+    display: block;
+    font-family: var(--sf-font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: hsl(var(--sf-primary));
+  }
+
+  // ── Timeline container ───────────────────────────────────────────────
   .timeline-container {
     padding: 80px 60px;
     max-width: 1800px;
     margin: 0 auto;
 
-    @include rs768 {
-      padding: 40px 20px;
-    }
+    @include rs768 { padding: 40px 20px; }
 
     .timeline-title {
       color: $dark_purple;
       margin-bottom: 60px;
       text-align: center;
+
+      @include rs768 { margin-bottom: 36px; }
     }
 
     .timeline {
       position: relative;
+      padding-left: 48px;
 
+      @include rs768 { padding-left: 36px; }
+
+      // Vertical line, left-aligned
       &::before {
-        content: "";
+        content: '';
         position: absolute;
-        left: 50%;
-        top: 0;
+        left: 8px;
+        top: 12px;
         bottom: 0;
         width: 2px;
-        background: $light_purple;
-        transform: translateX(-50%);
-
-        @include rs768 {
-          left: 20px;
-        }
+        background: linear-gradient(to bottom, $dark_purple, $light_purple 30%, $light_purple 90%, transparent);
       }
     }
 
     .timeline-year {
-      margin-bottom: 40px;
+      margin-bottom: 48px;
       position: relative;
+
+      @include rs768 { margin-bottom: 32px; }
 
       .year-marker {
         background: $dark_purple;
         color: #fff;
-        font-size: 1.2em;
+        font-family: var(--sf-font-sans);
+        font-size: 0.9rem;
         font-weight: 700;
-        padding: 8px 20px;
+        padding: 6px 18px;
         border-radius: 20px;
-        display: inline-block;
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%);
-        margin-bottom: 20px;
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 18px;
         white-space: nowrap;
+        position: relative;
 
-        @include rs768 {
-          left: 0;
-          transform: none;
-          font-size: 1em;
+        // Dot marker on the timeline line
+        &::before {
+          content: '';
+          position: absolute;
+          left: -40px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: $dark_purple;
+          outline: 3px solid hsl(var(--sf-bg));
+          box-shadow: 0 0 0 2px $dark_purple;
+
+          @include rs768 { left: -29px; }
         }
       }
 
       .content {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+
+        @include rs990 { grid-template-columns: repeat(2, 1fr); }
+        @include rs550 { grid-template-columns: 1fr; }
       }
+    }
+  }
+
+  // ── Award Card — styled like blog cards ───────────────────────────────
+  .award-card {
+    background: hsl(var(--sf-card));
+    border: 1px solid hsl(var(--sf-card-border));
+    border-radius: var(--sf-radius-lg);
+    box-shadow: var(--sf-shadow-sm);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--sf-shadow-md);
+    }
+
+    &__accent {
+      height: 4px;
+      flex-shrink: 0;
+    }
+
+    &__body {
+      padding: 18px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex: 1;
+    }
+
+    &__name {
+      font-family: var(--sf-font-sans);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: hsl(var(--sf-fg));
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    &__org {
+      font-family: var(--sf-font-sans);
+      font-size: 0.77rem;
+      color: hsl(var(--sf-muted-fg));
+      margin: 0;
+    }
+
+    &__loc {
+      font-family: var(--sf-font-sans);
+      font-size: 0.72rem;
+      color: hsl(var(--sf-muted-fg));
+      opacity: 0.8;
     }
   }
 }
