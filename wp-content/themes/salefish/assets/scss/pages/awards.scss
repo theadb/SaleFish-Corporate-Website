@@ -93,11 +93,15 @@
     @include rs768 { padding: 40px 20px; }
 
     .timeline-title {
+      font-family: $PSB;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
       color: $dark_purple;
-      margin-bottom: 60px;
-      text-align: center;
+      text-align: left;
+      margin-bottom: 40px;
 
-      @include rs768 { margin-bottom: 36px; }
+      @include rs768 { margin-bottom: 28px; }
     }
 
     .timeline {
