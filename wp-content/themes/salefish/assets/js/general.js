@@ -249,7 +249,21 @@ $(function () {
     case "/partners/":
       $(".partners_nav a").addClass("active");
       break;
+    case "/awards/":
+      $(".awards_nav a").addClass("active");
+      break;
   }
+
+  // Features is a hash anchor on the homepage — highlight it on load if hash matches
+  if (pathname === "/" && window.location.hash === "#features") {
+    $(".features_nav a, .features_li a").addClass("active");
+  }
+
+  // On click: immediately mark Features as active and clear other nav highlights
+  $(".features_nav a, .features_li a").on("click", function () {
+    $("header nav > ul > li > a, header nav > ul > li > span").removeClass("active");
+    $(this).addClass("active");
+  });
 
   $("#reg_form").parsley();
   $("#agent_form").parsley();
