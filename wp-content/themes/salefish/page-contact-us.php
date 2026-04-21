@@ -31,15 +31,21 @@ get_header();
 
 				<div class="cu-tile">
 					<div class="cu-tile__icon">
-						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
 					</div>
 					<div class="cu-tile__body">
-						<strong>Our Office</strong>
-						<a href="https://www.google.com/maps/place/8395+Jane+St+%23203,+Concord,+ON+L4K+5Y2/@43.8121808,-79.5277303,17z" target="_blank" rel="noopener noreferrer">
-							8395 Jane Street, Suite 202<br>
-							Vaughan, ON, L4K 5Y2<br>
-							Canada
-						</a>
+						<strong>Live Chat Support</strong>
+						<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer">Chat with our team</a>
+					</div>
+				</div>
+
+				<div class="cu-tile">
+					<div class="cu-tile__icon">
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+					</div>
+					<div class="cu-tile__body">
+						<strong>Email Us</strong>
+						<a href="mailto:hello@salefish.app">hello@salefish.app</a>
 					</div>
 				</div>
 
@@ -56,21 +62,15 @@ get_header();
 
 				<div class="cu-tile">
 					<div class="cu-tile__icon">
-						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
 					</div>
 					<div class="cu-tile__body">
-						<strong>Email Us</strong>
-						<a href="mailto:hello@salefish.app">hello@salefish.app</a>
-					</div>
-				</div>
-
-				<div class="cu-tile">
-					<div class="cu-tile__icon">
-						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-					</div>
-					<div class="cu-tile__body">
-						<strong>Live Chat Support</strong>
-						<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer">Chat with our team</a>
+						<strong>Our Office</strong>
+						<a href="https://www.google.com/maps/place/8395+Jane+St+%23203,+Concord,+ON+L4K+5Y2/@43.8121808,-79.5277303,17z" target="_blank" rel="noopener noreferrer">
+							8395 Jane Street, Suite 202<br>
+							Vaughan, ON, L4K 5Y2<br>
+							Canada
+						</a>
 					</div>
 				</div>
 
