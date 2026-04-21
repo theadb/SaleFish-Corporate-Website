@@ -12,5 +12,5 @@ window.addEventListener("load", function (event) {
     $(".loading").addClass("active");
     $("footer").css("display", "block");
     AOS.init();
-  }, 500);
+  }, 800);
 });
