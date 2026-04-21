@@ -24,32 +24,7 @@
 	<link rel="manifest" href="/site.webmanifest">
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="theme-color" content="#ffffff">
-	<link rel="stylesheet"
-		href="<?php bloginfo('template_directory'); ?>/dest/app.css">
-
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
-	<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-	<title><?php
-		if ( is_front_page() ) {
-			bloginfo( 'name' );
-		} elseif ( is_singular() ) {
-			echo esc_html( get_the_title() ) . ' — SaleFish';
-		} elseif ( is_archive() ) {
-			echo esc_html( get_the_archive_title() ) . ' — SaleFish';
-		} else {
-			wp_title( '—', true, 'right' ); bloginfo( 'name' );
-		}
-	?></title>
-	<meta name="description" content="<?php
-		$desc = '';
-		if ( is_singular() ) {
-			$desc = get_the_excerpt();
-		}
-		if ( ! $desc ) {
-			$desc = get_bloginfo( 'description' );
-		}
-		echo esc_attr( $desc );
-	?>">
+	<?php wp_head(); ?>
 
 </head>
 
