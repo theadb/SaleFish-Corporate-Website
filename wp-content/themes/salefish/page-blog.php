@@ -49,7 +49,8 @@ get_header();
 				$f_video   = $f_cat_slug === 'videos';
 				?>
 				<a href="<?php echo $f_video ? esc_url( $fa->post_content ) : esc_url( $f_link ); ?>"
-				   class="blog-featured__main"
+				   class="blog-featured__main card-animate"
+				   style="animation-delay: 0.05s"
 				   <?php echo $f_video ? 'data-fancybox' : ''; ?>>
 					<?php if ( $f_thumb ) : ?>
 					<div class="blog-featured__main-image"><?php echo $f_thumb; ?></div>
@@ -81,7 +82,8 @@ get_header();
 						$s_video   = $s_cat_slug === 'videos';
 					?>
 					<a href="<?php echo $s_video ? esc_url( $sa->post_content ) : esc_url( $s_link ); ?>"
-					   class="blog-featured__side<?php echo $s_thumb ? '' : ' no-image'; ?>"
+					   class="blog-featured__side card-animate<?php echo $s_thumb ? '' : ' no-image'; ?>"
+					   style="animation-delay: <?php echo 0.1 + ($si * 0.08); ?>s"
 					   <?php echo $s_video ? 'data-fancybox' : ''; ?>>
 						<?php if ( $s_thumb ) : ?>
 						<div class="blog-featured__side-image"><?php echo $s_thumb; ?></div>
@@ -229,7 +231,7 @@ get_header();
     var is_video = cat_slug === 'videos';
     var card     = document.createElement('a');
     card.href      = is_video ? (post.content || post.link || '#') : (post.link || '#');
-    card.className = 'sf-card blog-card';
+    card.className = 'sf-card blog-card blog-card-animate';
     card.setAttribute('data-category', cat_slug);
     if (is_video) card.setAttribute('data-fancybox', '');
     card.innerHTML =
