@@ -51,8 +51,12 @@
         }
 
         h3 {
-          color: $gold;
-          font-size: 1.1em;
+          font-family: var(--sf-font-sans);
+          font-size: 1.05rem;
+          font-weight: 400;
+          font-style: italic;
+          color: hsl(var(--sf-muted-fg));
+          margin: 0;
         }
       }
 

@@ -64,6 +64,8 @@
       line-height: 1.7;
       margin-top: 30px;
       width: 80%;
+      margin-left: auto;
+      margin-right: auto;
 
       @include rs550 {
         width: 100%;
@@ -83,12 +85,10 @@
     .wrap {
       max-width: 1800px;
       margin: 0 auto;
-      h1 {
-        width: 80%;
+      text-align: center;
 
-        @include rs550 {
-          width: 100%;
-        }
+      h1 {
+        width: 100%;
       }
     }
   }
@@ -97,6 +97,7 @@
     width: calc(100% - 120px);
     padding: 100px 60px 160px 60px;
     background: $gray;
+    text-align: center;
 
     @include rs768 {
       width: calc(100% - 40px);
@@ -125,10 +126,16 @@
   .security {
     width: calc(100% - 120px);
     padding: 100px 60px 160px 60px;
+    text-align: center;
 
     @include rs768 {
       width: calc(100% - 40px);
       padding: 80px 20px 80px 20px;
+    }
+
+    // ensure the linked certification image centres correctly
+    a {
+      display: inline-block;
     }
 
     img {
