@@ -302,11 +302,12 @@
     h1 {
       color: $dark_purple;
       margin-bottom: 10px;
+      text-align: center;
     }
 
     .subheader {
       margin-top: 6px;
-      padding-right: 30px;
+      text-align: center;
 
       @include rs550 {
         margin-top: 4px;
