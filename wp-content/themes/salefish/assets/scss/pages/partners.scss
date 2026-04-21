@@ -184,11 +184,13 @@
           @include rs990 { padding: 24px 24px 28px; }
 
           h4 {
-            color: $gold;
+            display: block;
             font-family: $PSB;
-            font-size: 0.8em;
-            letter-spacing: 0.06em;
-            margin-bottom: 8px;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: $dark_purple;
+            margin-bottom: 10px;
           }
 
           h3 {

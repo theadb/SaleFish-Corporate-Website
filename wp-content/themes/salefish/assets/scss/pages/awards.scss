@@ -77,12 +77,11 @@
   // ── Eyebrow label ────────────────────────────────────────────────────
   .hero-eyebrow {
     display: block;
-    font-family: var(--sf-font-sans);
+    font-family: $PSB;
     font-size: 0.72rem;
-    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.16em;
-    color: hsl(var(--sf-primary));
+    color: $dark_purple;
   }
 
   // ── Timeline container ───────────────────────────────────────────────

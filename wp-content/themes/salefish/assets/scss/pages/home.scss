@@ -729,10 +729,13 @@
             order: 1;
           }
           h3 {
-            color: $gold;
+            display: block;
             font-family: $PSB;
-            font-size: 1em;
-            margin-bottom: 10px;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: $dark_purple;
+            margin-bottom: 12px;
           }
 
           h2 {
@@ -784,10 +787,13 @@
       text-align: center;
 
       h3 {
-        color: $gold;
+        display: block;
         font-family: $PSB;
-        font-size: 1em;
-        margin-bottom: 10px;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: $dark_purple;
+        margin-bottom: 12px;
       }
 
       h2 {
