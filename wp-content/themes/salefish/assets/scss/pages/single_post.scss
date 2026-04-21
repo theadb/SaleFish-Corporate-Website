@@ -249,15 +249,15 @@
     flex-direction: column;
     text-decoration: none;
     background: #fff;
-    border-radius: 12px;
-    border: 1px solid #e8e8e8;
+    border-radius: var(--sf-radius-lg);
+    border: none;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: var(--sf-shadow-sm);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      box-shadow: var(--sf-shadow-md);
       text-decoration: none;
     }
 

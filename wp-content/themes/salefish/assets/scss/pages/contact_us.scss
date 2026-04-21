@@ -102,8 +102,8 @@
     background: var(--sf-card-gradient);
     background-color: hsl(var(--sf-card));
     border-radius: var(--sf-radius-lg);
-    border: 1px solid hsl(var(--sf-card-border));
-    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.7), var(--sf-shadow-sm);
+    border: none;
+    box-shadow: var(--sf-shadow-sm);
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
@@ -113,7 +113,7 @@
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.7), var(--sf-shadow-md);
+      box-shadow: var(--sf-shadow-md);
     }
 
     &__icon {
