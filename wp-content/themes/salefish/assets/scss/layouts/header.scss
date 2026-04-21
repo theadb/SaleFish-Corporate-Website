@@ -195,12 +195,14 @@ header {
     .wrap {
       position: absolute;
       width: 100%;
-      box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.37);
-      background: #fff;
-      border-radius: 10px;
+      box-shadow: var(--sf-shadow-md);
+      background: var(--sf-card-gradient);
+      background-color: hsl(var(--sf-card));
+      border-radius: var(--sf-radius-lg);
       padding: 10px 0 20px 0;
       right: 60px;
       width: 230px;
+      border: none;
     }
   }
 
@@ -403,12 +405,14 @@ header {
     .wrap {
       position: absolute;
       width: 100%;
-      background: #fff;
-      border-radius: 10px;
+      background: var(--sf-card-gradient);
+      background-color: hsl(var(--sf-card));
+      border-radius: var(--sf-radius-lg);
       padding: 0 30px;
-      box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.37);
+      box-shadow: var(--sf-shadow-md);
       right: 60px;
       width: 130px;
+      border: none;
     }
   }
 

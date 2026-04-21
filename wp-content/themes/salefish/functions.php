@@ -143,6 +143,28 @@ function kickass_scripts()
 }
 add_action('wp_enqueue_scripts', 'kickass_scripts');
 
+// ── Performance: resource hints ───────────────────────────────────────────────
+add_action('wp_head', function() {
+    echo '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>' . "\n";
+    echo '<link rel="preconnect" href="https://maps.googleapis.com" crossorigin>' . "\n";
+    echo '<link rel="preconnect" href="https://maps.gstatic.com" crossorigin>' . "\n";
+    echo '<link rel="dns-prefetch" href="//code.tidio.co">' . "\n";
+    echo '<link rel="dns-prefetch" href="//www.googletagmanager.com">' . "\n";
+}, 2);
+
+// ── Performance: remove unused WordPress emoji scripts ─────────────────────────
+remove_action('wp_head',         'print_emoji_detection_script', 7);
+remove_action('wp_print_styles', 'print_emoji_styles');
+remove_action('admin_print_scripts', 'print_emoji_detection_script');
+remove_action('admin_print_styles',  'print_emoji_styles');
+remove_filter('the_content_feed',    'wp_staticize_emoji');
+remove_filter('comment_text_rss',    'wp_staticize_emoji');
+remove_filter('wp_mail',             'wp_staticize_emoji_for_email');
+
+// ── Performance: remove unused REST API header links ──────────────────────────
+remove_action('wp_head', 'rest_output_link_wp_head');
+remove_action('wp_head', 'wp_oembed_add_discovery_links');
+
 // Disable HubSpot chat widget (leadin plugin tracking script loads the chat)
 add_action( 'wp_enqueue_scripts', function() {
     wp_dequeue_script( 'leadin-script-loader-js' );
@@ -376,6 +398,19 @@ add_action('wp_ajax_nopriv_load_more_post', 'load_more_post');
 // }
 // add_action('wp_ajax_load_more_post', 'load_more_post');
 // add_action('wp_ajax_nopriv_load_more_post', 'load_more_post');
+// ── Video helper: convert any YouTube watch/short URL → embed URL ─────────────
+function sf_youtube_embed_url( $url ) {
+    $url = trim( $url );
+    if ( preg_match( '/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $url, $m ) ) {
+        return 'https://www.youtube.com/embed/' . $m[1] . '?autoplay=1&rel=0';
+    }
+    // Already an embed URL — leave it alone
+    if ( strpos( $url, 'youtube.com/embed/' ) !== false ) {
+        return $url;
+    }
+    return $url;
+}
+
 function salefish_blog_redirect() {
     $request_uri = $_SERVER['REQUEST_URI'];
     if ( strpos( $request_uri, '/newsroom' ) === 0 ) {

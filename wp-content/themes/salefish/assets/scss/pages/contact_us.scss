@@ -3,7 +3,7 @@
   // ── Info section ───────────────────────────────────────────────────────
   .cu-info {
     padding: calc(68px + 72px) 60px 80px;
-    background: #fff;
+    background: hsl(var(--sf-bg));
 
     @include rs768 {
       padding: calc(60px + 52px) 20px 64px;
