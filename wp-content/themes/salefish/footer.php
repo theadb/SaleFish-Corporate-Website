@@ -244,13 +244,20 @@ var salefishAjax = {
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16/dist/smooth-scroll.polyfills.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 <script>
-// Initialise fancybox on video cards (data-type="iframe") — run after fancybox loads
+// Initialise fancybox on video cards — run after fancybox loads
 $(document).ready(function () {
   $('[data-fancybox][data-type="iframe"]').fancybox({
-    iframe: { preload: false },
-    toolbar: true,
-    smallBtn: true,
-    buttons: ['close'],
+    iframe: {
+      preload: false,
+      css: { width: '100%', height: '100%' }
+    },
+    width:  '85vw',
+    height: 'calc(85vw * 9 / 16)',
+    maxWidth:  1280,
+    maxHeight: 720,
+    toolbar:  true,
+    smallBtn: false,
+    buttons:  ['close'],
     animationEffect: 'fade'
   });
 });
