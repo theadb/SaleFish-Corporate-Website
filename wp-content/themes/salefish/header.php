@@ -385,10 +385,6 @@
 					</li>
 				</ul>
 			</div>
-			<hr>
-			<div class="bottom">
-				<a class="email hover-main-menu-style-email" href="mailto:hello@salefish.app">hello@salefish.app</a>
-			</div>
 		</div>
 	</div>
 </div>
