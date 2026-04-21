@@ -30,3 +30,6 @@ db-backups/
 
 # Node
 node_modules/
+
+# Local secrets — never commit
+wp-content/themes/salefish/config.local.php

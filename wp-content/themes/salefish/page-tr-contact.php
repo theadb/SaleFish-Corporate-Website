@@ -84,6 +84,4 @@ get_header();
 </main>
 
 <?php get_footer(); ?>
-<script async
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBysfnL28j4RcQy5y3PfTPtQY_6Ao6AAog&callback=initMap">
-</script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=<?php echo esc_attr( defined( 'GOOGLE_MAPS_API_KEY' ) ? GOOGLE_MAPS_API_KEY : '' ); ?>&callback=initMap"></script>
