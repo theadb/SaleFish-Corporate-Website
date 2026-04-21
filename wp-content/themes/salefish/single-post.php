@@ -174,10 +174,10 @@ get_header();
 						$sp_author   = get_the_author_meta( 'display_name', $sp->post_author );
 						$sp_video    = $sp_cat_slug === 'videos';
 					?>
-					<a href="<?php echo $sp_video ? esc_url( $sp->post_content ) : esc_url( $sp_link ); ?>"
+					<a href="<?php echo $sp_video ? esc_url( sf_youtube_embed_url( $sp->post_content ) ) : esc_url( $sp_link ); ?>"
 					   class="blog-sticky__card blog-card-animate"
 					   style="animation-delay: <?php echo $i * 0.07; ?>s"
-					   <?php echo $sp_video ? 'data-fancybox' : ''; ?>>
+					   <?php echo $sp_video ? 'data-fancybox data-type="iframe"' : ''; ?>>
 						<?php if ( $sp_thumb ) : ?>
 						<div class="blog-sticky__card-image"><?php echo $sp_thumb; ?></div>
 						<?php endif; ?>

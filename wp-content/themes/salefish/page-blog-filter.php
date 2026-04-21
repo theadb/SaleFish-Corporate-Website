@@ -70,11 +70,11 @@ get_header();
                     $featured = has_tag( 'featured', $id );
                     $is_video = $cat_slug === 'videos';
                 ?>
-                <a href="<?php echo $is_video ? esc_url( $content ) : esc_url( $link ); ?>"
+                <a href="<?php echo $is_video ? esc_url( sf_youtube_embed_url( $content ) ) : esc_url( $link ); ?>"
                    class="sf-card blog-card blog-card-animate"
                    style="animation-delay: <?php echo ( $card_i * 0.07 ); ?>s"
                    data-category="<?php echo esc_attr( $cat_slug ); ?>"
-                   <?php echo $is_video ? 'data-fancybox' : ''; ?>>
+                   <?php echo $is_video ? 'data-fancybox data-type="iframe"' : ''; ?>>
                     <?php if ( $thumb ) : ?>
                     <div class="blog-card__image"><?php echo $thumb; ?></div>
                     <?php endif; ?>
@@ -117,15 +117,21 @@ get_header();
   var currentCat  = '<?php echo esc_js( $cat_filter ); ?>';
   var isLoading   = false;
 
+  function youtubeEmbedUrl(url) {
+    if (!url) return url;
+    var m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    return m ? 'https://www.youtube.com/embed/' + m[1] + '?autoplay=1&rel=0' : url;
+  }
+
   function buildCard(post) {
     var cat_slug = post.cat_slug || '';
     var cat_name = post.cat_name || '';
     var is_video = cat_slug === 'videos';
     var card     = document.createElement('a');
-    card.href      = is_video ? (post.content || post.link || '#') : (post.link || '#');
+    card.href      = is_video ? youtubeEmbedUrl(post.content || post.link || '#') : (post.link || '#');
     card.className = 'sf-card blog-card blog-card-animate';
     card.setAttribute('data-category', cat_slug);
-    if (is_video) card.setAttribute('data-fancybox', '');
+    if (is_video) { card.setAttribute('data-fancybox', ''); card.setAttribute('data-type', 'iframe'); }
     card.innerHTML =
       (post.thumb ? '<div class="blog-card__image">' + post.thumb + '</div>' : '') +
       '<div class="blog-card__body">' +

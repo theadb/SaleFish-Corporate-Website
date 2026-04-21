@@ -1,73 +1,184 @@
-.terms,
-.policy {
-  .wrap {
-    margin: 0 60px;
-    width: calc(100% - 120px);
-    padding: 120px 0 80px 0;
+// ─── LEGAL PAGES (Privacy Policy + Terms of Use) ───────────────────────────
+// Shared styles for .legal-page used by both page-privacy-policy.php
+// and page-terms-of-use.php
+
+.legal-page {
+
+  // ── Hero ───────────────────────────────────────────────────────────────────
+  .legal-hero {
+    padding-top: calc(68px + 72px);
+    padding-bottom: 64px;
+    background: hsl(var(--sf-bg));
+    position: relative;
+    overflow: hidden;
+
     @include rs768 {
-      width: calc(100% - 40px);
-      margin: 0 20px;
-      padding: 100px 0 60px 0;
+      padding-top: calc(60px + 52px);
+      padding-bottom: 48px;
     }
+
+    // Subtle radial glow matching blog/awards hero pattern
+    &::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 900px;
+      height: 400px;
+      background: radial-gradient(
+        ellipse 70% 50% at 50% 0%,
+        hsl(var(--sf-primary) / 0.06) 0%,
+        transparent 70%
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    &__inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+
+  // ── Eyebrow ─────────────────────────────────────────────────────────────────
+  .legal-eyebrow {
+    font-family: $PSB;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: $dark_purple;
+  }
+
+  // Override global h1 inside the hero to match blog-hero style
+  .legal-hero h1 {
+    font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+    font-weight: 700;
+    color: hsl(var(--sf-primary));
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  // ── Body content ───────────────────────────────────────────────────────────
+  .legal-body {
+    background: hsl(var(--sf-bg));
+    padding: 0 0 96px;
+
+    @include rs768 { padding-bottom: 72px; }
+    @include rs550 { padding-bottom: 56px; }
+  }
+
+  .legal-body__content {
+    max-width: 760px;
+    margin: 0 auto;
+    background: hsl(var(--sf-card));
+    border-radius: var(--sf-radius-lg);
+    box-shadow: var(--sf-shadow-sm);
+    padding: 48px 56px 56px;
+
+    @include rs768 { padding: 36px 32px 40px; }
+    @include rs550 { padding: 28px 20px 32px; }
+
+    // Typography for CMS-rendered content
+
     h1 {
-      font-size: 3.75em;
-      @include rs550 {
-        font-size: 2.5em;
-      }
+      font-family: $PB;
+      font-size: 1.6rem;
+      color: hsl(var(--sf-primary));
+      line-height: 1.25;
+      margin: 0 0 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid hsl(var(--sf-border));
     }
+
     h2 {
-      font-size: 2.75em;
-      margin: 40px 0;
-      @include rs550 {
-        font-size: 2.2em;
-        margin: 30px 0;
-      }
+      font-family: $PB;
+      font-size: 1.15rem;
+      color: hsl(var(--sf-fg));
+      line-height: 1.35;
+      margin: 2.2em 0 0.6em;
+      padding-top: 0.4em;
+      border-top: 1px solid hsl(var(--sf-border));
+
+      &:first-child { margin-top: 0; border-top: none; padding-top: 0; }
     }
+
     h3 {
-      margin: 30px 0;
-      margin-top: 50px;
-      @include rs550 {
-        margin-top: 30px;
-      }
+      font-family: $PSB;
+      font-size: 0.95rem;
+      color: hsl(var(--sf-fg));
+      line-height: 1.4;
+      margin: 1.6em 0 0.4em;
+      letter-spacing: 0.01em;
     }
+
+    h4 {
+      font-family: $PSB;
+      font-size: 0.85rem;
+      color: hsl(var(--sf-fg));
+      line-height: 1.4;
+      margin: 1.4em 0 0.3em;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
     p {
-      font-size: 1.25em;
-      margin: 20px 0;
+      font-family: $PR;
+      font-size: 0.9rem;
+      color: hsl(var(--sf-muted-fg));
+      line-height: 1.75;
+      margin: 0 0 1em;
     }
-    ul {
-      margin-top: 30px;
-      list-style: disc;
-      margin: 30px 40px;
-      @include rs550 {
-        margin: 20px 30px;
-      }
+
+    ul, ol {
+      margin: 0 0 1.2em 1.4em;
+      padding: 0;
+
       li {
-        font-family: $PL;
-        font-size: 1.25em;
-        margin: 20px 0;
-        line-height: 1.5;
-        @include rs550 {
-          margin: 15px 0;
-        }
+        font-family: $PR;
+        font-size: 0.9rem;
+        color: hsl(var(--sf-muted-fg));
+        line-height: 1.7;
+        margin-bottom: 0.5em;
       }
     }
+
     a {
       color: $dark_purple;
+      text-decoration: underline;
+      text-decoration-color: rgba($dark_purple, 0.35);
+      text-underline-offset: 3px;
+      transition: text-decoration-color 0.15s ease, color 0.15s ease;
+
+      &:hover {
+        color: darken($dark_purple, 8%);
+        text-decoration-color: $dark_purple;
+      }
+    }
+
+    strong {
+      font-family: $PSB;
+      color: hsl(var(--sf-fg));
+    }
+
+    // Visual separator between major sections
+    hr {
+      border: none;
+      border-top: 1px solid hsl(var(--sf-border));
+      margin: 2em 0;
     }
   }
 }
 
+// ── Footer spacing on legal pages ──────────────────────────────────────────
 .page-template-page-terms-of-use,
 .page-template-page-privacy-policy {
   footer {
     padding-top: 40px;
-  }
-}
-.page-template-page-privacy-policy {
-  h1 {
-    margin-bottom: 60px;
-  }
-  h3 {
-    margin: 30px 0 !important;
   }
 }

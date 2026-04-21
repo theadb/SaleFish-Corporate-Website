@@ -33,6 +33,7 @@ h1 {
   font-family: $PB;
   font-size: 4em;
   line-height: 1.1;
+  text-wrap: balance;
 
   @include rs550 {
     font-size: 2.5em;
@@ -43,6 +44,7 @@ h2 {
   font-family: $PB;
   font-size: 3.75em;
   line-height: 1.2;
+  text-wrap: balance;
 
   @include rs550 {
     font-size: 2.2em;
@@ -53,6 +55,7 @@ h3 {
   font-family: $PSB;
   font-size: 1.05em;
   line-height: 1.5;
+  text-wrap: balance;
 
   @include rs550 {
     font-size: 1.1em;
@@ -63,6 +66,7 @@ p {
   font-family: $PL;
   font-size: 1.75em;
   line-height: 1.5;
+  text-wrap: pretty;
 
   @include rs550 {
     font-size: 1.6em;

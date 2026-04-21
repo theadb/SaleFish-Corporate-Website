@@ -243,6 +243,18 @@ var salefishAjax = {
 <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16/dist/smooth-scroll.polyfills.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+// Initialise fancybox on video cards (data-type="iframe") — run after fancybox loads
+$(document).ready(function () {
+  $('[data-fancybox][data-type="iframe"]').fancybox({
+    iframe: { preload: false },
+    toolbar: true,
+    smallBtn: true,
+    buttons: ['close'],
+    animationEffect: 'fade'
+  });
+});
+</script>
 
 
 
