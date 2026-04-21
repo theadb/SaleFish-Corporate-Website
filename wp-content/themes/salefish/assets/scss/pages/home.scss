@@ -295,12 +295,18 @@
       padding: 60px 20px 80px 20px;
     }
 
+    // Section title
+    h1 {
+      color: $dark_purple;
+      margin-bottom: 10px;
+    }
+
     .subheader {
-      margin-top: 30px;
+      margin-top: 6px;
       padding-right: 30px;
 
       @include rs550 {
-        margin-top: 20px;
+        margin-top: 4px;
       }
     }
 
@@ -338,8 +344,9 @@
           margin-bottom: 10px;
         }
 
-        h1 {
+        h3 {
           font-size: 2.5em;
+          color: $dark_purple;
 
           @include rs990 {
             font-size: 2em;

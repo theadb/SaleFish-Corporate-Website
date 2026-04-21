@@ -132,9 +132,9 @@ $the_numbers = get_field('the_numbers');
 					<div class="swiper-slide">
 						<img class="pillar"
 							src="<?php echo esc_url( $icon ); ?>">
-						<h1>
+						<h3>
 							<?php echo esc_html( $title ); ?>
-						</h1>
+						</h3>
 						<p>
 							<?php echo wp_kses_post( $description ); ?>
 						</p>
