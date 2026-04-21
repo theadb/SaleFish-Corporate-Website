@@ -144,28 +144,26 @@
 
   // BUILDERS
   .builders {
-    height: 25vw;
     background: $light_purple;
     clip-path: polygon(0 0, 100% 0%, 100% 86%, 0 55%);
     margin-top: -15px;
     width: calc(100% - 120px);
-    padding: 0 60px;
+    padding: 60px 60px 220px;
 
     @include rs990 {
-      padding: 80px 60px;
+      padding: 60px 60px 200px;
       clip-path: polygon(0 0, 100% 0%, 100% 94%, 0 75%);
     }
 
     @include rs768 {
       margin-top: -15px;
-      padding: 80px 20px 200px 20px;
+      padding: 60px 20px 200px 20px;
       width: calc(100% - 40px);
-      height: 100%;
       clip-path: polygon(0 0, 100% 0%, 100% 97%, 0 90%);
     }
 
     @include rs550 {
-      padding: 60px 20px 180px 20px;
+      padding: 50px 20px 180px 20px;
       clip-path: polygon(0 0, 100% 0%, 100% 97%, 0 92%);
     }
 
@@ -183,106 +181,41 @@
     }
 
     .builders_wrap {
-      padding-top: 50px;
+      padding-top: 40px;
 
-      .buildersSwiper {
-        width: 100%;
-        height: 50px;
-
-        @include rs768 {
-          display: none;
-        }
-
-        .swiper-wrapper {
-          -webkit-transition-timing-function: linear !important;
-          -o-transition-timing-function: linear !important;
-          transition-timing-function: linear !important;
-        }
-
-        .swiper-slide {
-          display: flex;
-          align-items: center;
-          justify-content: space-evenly;
-
-          .builder_logo {
-            width: 7vw;
-            height: 80%;
-            object-fit: contain;
-
-            &.builder_2 {
-              width: 12vw;
-            }
-
-            &.builder_1 {
-              width: 11vw;
-            }
-
-            &.builder_5 {
-              width: 9.5vw;
-            }
-            &.builder_6 {
-              width: 6vw;
-            }
-          }
-        }
+      .builders_marquee {
+        position: relative;
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
       }
 
-      .mobile_builders {
-        display: none;
+      .builders_track {
+        display: flex;
+        align-items: center;
+        gap: 56px;
+        width: max-content;
+        padding: 6px 0;
+        animation: marqueeScroll 32s linear infinite;
 
-        @include rs768 {
-          display: block;
-        }
+        @include rs768 { gap: 40px; }
+      }
 
-        .row {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 50px;
-          flex-wrap: wrap;
+      .builder_logo {
+        height: 36px;
+        width: auto;
+        flex-shrink: 0;
+        object-fit: contain;
 
-          @include rs550 {
-            margin-bottom: 30px;
-          }
-
-          .col {
-            width: calc(50% - 20px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 15px 10px;
-
-            img {
-              width: 50%;
-
-              @include rs550 {
-                width: 75%;
-                max-height: 50px;
-                object-fit: contain;
-              }
-
-              &.builder_3 {
-                width: 32%;
-
-                @include rs550 {
-                  width: 57%;
-                }
-              }
-
-              &.builder_4,
-              &.builder_5,
-              &.builder_6 {
-                width: 35%;
-
-                @include rs550 {
-                  width: 60%;
-                }
-              }
-            }
-          }
-        }
+        @include rs768 { height: 28px; }
+        @include rs550 { height: 24px; }
       }
     }
+  }
+
+  @keyframes marqueeScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
   }
 
   // PILLARS
