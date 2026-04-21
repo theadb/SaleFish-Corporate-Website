@@ -10,35 +10,12 @@ get_header();
 // HERO
 $fade_msg = get_field('fade_messages');
 $fade = array();
-foreach ($fade_msg as $msg) {
-    $text = $msg['text'];
-    array_push($fade, $text);
+if (is_array($fade_msg)) {
+    foreach ($fade_msg as $msg) {
+        $text = $msg['text'];
+        array_push($fade, $text);
+    }
 }
-$hero_header = get_field('hero_header');
-$hero_description = get_field('hero_description');
-$hero_image = get_field('hero_image');
-
-// BUILDERS
-$builders_developers = get_field('builders_developers');
-
-
-// AGENTS
-$agents = get_field('agents');
-$agents_header = get_field('agents_header');
-$agents_header_title = $agents_header['title'];
-$agents_header_content = $agents_header['content'];
-$agents_header_button = $agents_header['button'];
-$agents_header_button_text = $agents_header_button['text'];
-$agents_header_button_link = $agents_header_button['link'];
-
-// BUILDERS
-$builders = get_field('builders');
-$builders_header = get_field('builders_header');
-$builders_header_title = $builders_header['title'];
-$builders_header_content = $builders_header['content'];
-$builders_header_button = $builders_header['button'];
-$builders_header_button_text = $builders_header_button['text'];
-$builders_header_button_link = $builders_header_button['link'];
 
 ?>
 
@@ -106,29 +83,29 @@ $builders_header_button_link = $builders_header_button['link'];
                     </div>
                     <div class="content_img">
                         <img
-                            src="<?php bloginfo(‘template_directory’); ?>/img/partners/crm.png">
+                            src="<?php bloginfo('template_directory'); ?>/img/partners/crm.png">
                     </div>
                 </div>
                 <div class="item_img" data-aos="fade-up">
                     <p>Tools You Already Trust. Now Working Together.</p>
                     <div class="logos">
                         <div class="col">
-                            <img src="<?php bloginfo(‘template_directory’); ?>/img/partners/logo_1.png">
+                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_1.png">
                         </div>
                         <div class="col">
-                            <img src="<?php bloginfo(‘template_directory’); ?>/img/partners/logo_2.png">
+                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_2.png">
                         </div>
                         <div class="col">
-                            <img src="<?php bloginfo(‘template_directory’); ?>/img/partners/logo_3.png">
+                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_3.png">
                         </div>
                         <div class="col">
-                            <img src="<?php bloginfo(‘template_directory’); ?>/img/partners/logo_4.png">
+                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_4.png">
                         </div>
                         <div class="col">
-                            <img src="<?php bloginfo(‘template_directory’); ?>/img/partners/logo_5.png">
+                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_5.png">
                         </div>
                         <div class="col">
-                            <img src="<?php bloginfo(‘template_directory’); ?>/img/partners/logo_6.png">
+                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_6.png">
                         </div>
 
                     </div>
@@ -145,7 +122,7 @@ $builders_header_button_link = $builders_header_button['link'];
                     </div>
                     <div class="content_img">
                         <img
-                            src="<?php bloginfo(‘template_directory’); ?>/img/partners/notify.png">
+                            src="<?php bloginfo('template_directory'); ?>/img/partners/notify.png">
                     </div>
                 </div>
                 <div class="item" data-aos="fade-up">
@@ -160,7 +137,7 @@ $builders_header_button_link = $builders_header_button['link'];
                     </div>
                     <div class="content_img">
                         <img
-                            src="<?php bloginfo(‘template_directory’); ?>/img/partners/bag.png">
+                            src="<?php bloginfo('template_directory'); ?>/img/partners/bag.png">
                     </div>
                 </div>
             </div>
