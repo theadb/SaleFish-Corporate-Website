@@ -35,7 +35,7 @@
 </style>
 
 <!-- Live Chat -->
-<!-- <script src="//code.tidio.co/yz7mnwj2v5al4l2zvbdjaqbuge76emda.js" async></script> -->
+<script src="//code.tidio.co/yz7mnwj2v5al4l2zvbdjaqbuge76emda.js" async></script>
 
 
 <!-- Google Tag Manager -->
