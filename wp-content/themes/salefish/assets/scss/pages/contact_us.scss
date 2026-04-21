@@ -98,6 +98,8 @@
     background: $gray;
     border-radius: 12px;
     border: 1px solid rgba(0, 0, 0, 0.05);
+    width: 100%;
+    box-sizing: border-box;
 
     &__icon {
       flex-shrink: 0;
@@ -297,4 +299,11 @@
 .gmnoprint,
 .gm-control-active {
   display: none;
+}
+
+// Suppress the grey top_overlay bleed below the map on mobile
+@include rs768 {
+  .contact_us .contact .top_overlay {
+    display: none;
+  }
 }
