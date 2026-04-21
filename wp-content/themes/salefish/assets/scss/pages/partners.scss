@@ -10,12 +10,26 @@
       linear-gradient(140deg, $dark_purple 0%, #3A2680 45%, $dark_purple 75%, #2D1B6E 100%);
 
     @include rs768 {
-      // hero extends behind transparent header on mobile
+      // Switch from fixed 100vh to content-driven height on mobile.
+      // The absolute .wrap positioning creates a dead gap below the content
+      // (hero still occupies 100vh in layout even though the bottom is clipped).
+      height: auto;
+
+      .wrapper {
+        height: auto;
+        padding-top: 140px;  // clear fixed header + breathing room
+        padding-bottom: 100px;
+
+        .wrap {
+          position: static;
+          transform: none;
+        }
+      }
     }
 
     @include rs550 {
       clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 90%);
-      height: 550px;
+      // height intentionally omitted — auto from rs768 rule above
     }
 
     // Autonomous ambient orb — offset phase and speed from Our Story
