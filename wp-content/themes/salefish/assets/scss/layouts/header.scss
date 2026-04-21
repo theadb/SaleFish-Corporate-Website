@@ -200,6 +200,14 @@ header {
     padding: 0 70px 0 15px;
 
     ul {
+      li.menu-sep {
+        border-top: 0.5px solid $gray;
+        margin: 8px 0;
+        padding: 0;
+        height: 0;
+        pointer-events: none;
+      }
+
       li {
         margin: 25px 0;
 

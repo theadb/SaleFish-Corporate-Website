@@ -100,17 +100,22 @@
 			</div>
 			<ul>
 				<li class="features_nav">
-					<a href="/#features">FEATURES</a>
+					<a href="/#features">Features</a>
 				</li>
-			
-				<li class="blog_nav">
-					<a href="/blog">BLOG</a>
+				<li class="our_story_nav">
+					<a href="/our-story">Our Story</a>
+				</li>
+				<li class="awards_nav">
+					<a href="/awards">Awards</a>
 				</li>
 				<li class="partners_nav">
-					<a href="/partners">PARTNERS</a>
+					<a href="/partners">Partners</a>
+				</li>
+				<li class="blog_nav">
+					<a href="/blog">Blog</a>
 				</li>
 				<li class="contact_us_nav">
-					<a href="/contact-us">CONTACT US</a>
+					<a href="/contact-us">Contact Us</a>
 				</li>
 				<li class="sales_login">
 					<span>LOGIN</span>
@@ -169,16 +174,22 @@
 			</div>
 			<ul>
 				<li class="features_li">
-					<a href="/#features">FEATURES</a>
+					<a href="/#features">Features</a>
 				</li>
-				<li class="blog_nav">
-					<a href="/blog">BLOG</a>
+				<li class="our_story_nav">
+					<a href="/our-story">Our Story</a>
+				</li>
+				<li class="awards_nav">
+					<a href="/awards">Awards</a>
 				</li>
 				<li class="partners_nav">
-					<a href="/partners">PARTNERS</a>
+					<a href="/partners">Partners</a>
+				</li>
+				<li class="blog_nav">
+					<a href="/blog">Blog</a>
 				</li>
 				<li class="contact_us_nav">
-					<a href="/contact-us">CONTACT US</a>
+					<a href="/contact-us">Contact Us</a>
 				</li>
 				<li class="sales_login">
 					<span>LOGIN</span>
@@ -346,17 +357,8 @@
 		<div class="wrap">
 			<div class="top">
 				<ul>
-					<li class="mobile features_li">
+					<li class="features_li">
 						<a href="/#features">Features</a>
-					</li>
-					<li class="mobile blog_nav">
-						<a href="/blog">Blog</a>
-					</li>
-					<li class="mobile partners_nav">
-						<a href="/partners">Partners</a>
-					</li>
-					<li class="mobile contact_us_nav">
-						<a href="/contact-us">Contact Us</a>
 					</li>
 					<li class="our_story_nav">
 						<a href="/our-story">Our Story</a>
@@ -364,35 +366,40 @@
 					<li class="awards_nav">
 						<a href="/awards">Awards</a>
 					</li>
-					<li class="mobile">
+					<li class="partners_nav">
+						<a href="/partners">Partners</a>
+					</li>
+					<li class="blog_nav">
+						<a href="/blog">Blog</a>
+					</li>
+					<li class="contact_us_nav">
+						<a href="/contact-us">Contact Us</a>
+					</li>
+					<li class="menu-sep"></li>
+					<li>
 						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App</a>
 					</li>
-					<li class="mobile">
-						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer">Highrise
-							Admin</a>
-					</li>
-					<li class="mobile">
-						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise
-							Admin</a>
-					</li>
-					
 					<li>
-						<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">The Plus
-							Group</a>
+						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer">Highrise Admin</a>
 					</li>
+					<li>
+						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise Admin</a>
+					</li>
+					<li class="menu-sep"></li>
 					<li class="terms_of_use_nav">
 						<span class="terms_menu">Terms of Use</span>
 					</li>
 					<li class="privacy_policy_nav">
 						<span class="privacy_policy_menu">Privacy Policy</span>
 					</li>
+					<li class="menu-sep"></li>
+					<li>
+						<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">The Plus Group</a>
+					</li>
 				</ul>
 			</div>
 			<hr>
 			<div class="bottom">
-				<img class="fish"
-					src="<?php bloginfo('template_directory'); ?>/img/fish.png"
-					alt="Salefish">
 				<a href="tel:+18778927741" class="hover-main-menu-style">1.877.892.7741</a>
 				<a href="tel:+19057615364" class="hover-main-menu-style">1.905.761.5364</a>
 				<a class="email hover-main-menu-style-email" href="mailto:hello@salefish.app">hello@salefish.app</a>
