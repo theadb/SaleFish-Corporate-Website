@@ -58,7 +58,10 @@
       z-index: 1;
 
       @include rs768 {
-        padding: 0 20px;
+        // Use explicit sides — shorthand would zero out the padding-top/bottom
+        // set in the outer rs768 block above, collapsing the hero height.
+        padding-left: 20px;
+        padding-right: 20px;
         width: calc(100% - 40px);
       }
 
