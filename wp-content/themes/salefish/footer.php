@@ -72,6 +72,9 @@
 					<li>
 						<a href="/contact-us">Contact Us</a>
 					</li>
+					<li>
+						<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer">Live Chat Support</a>
+					</li>
 				</ul>
 			</div>
 			<div class="col flex_img">
