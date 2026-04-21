@@ -98,10 +98,10 @@ footer {
       }
 
       .plus_group {
-        width: 9vw;
+        width: 150px;
 
         @include rs550 {
-          width: 90px;
+          width: 135px;
         }
       }
 
@@ -132,6 +132,15 @@ footer {
         order: 2;
       }
 
+      .socials a {
+        color: $dark_purple;
+        svg { display: block; }
+        &:hover {
+          color: $light_purple;
+          background: rgba($dark_purple, 0.06);
+        }
+      }
+
       p {
         color: $black;
         font-size: 0.8em;
@@ -158,7 +167,11 @@ footer {
         }
 
         .heart {
-          height: 11px;
+          display: inline-block;
+          vertical-align: middle;
+          position: relative;
+          top: -1px;
+          color: $dark_purple;
         }
       }
     }
