@@ -107,6 +107,15 @@ main {
   z-index: 9999;
   opacity: 1;
   visibility: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__logo {
+    width: 160px;
+    opacity: 0.9;
+  }
+
   &.active {
     opacity: 0;
     visibility: hidden;
