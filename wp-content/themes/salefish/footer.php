@@ -44,13 +44,13 @@
 						<a href="/blog">All Articles</a>
 					</li>
 					<li>
-						<a href="/blog?filter=success-stories">Success Stories</a>
+						<a href="/blog/success-stories">Success Stories</a>
 					</li>
 					<li>
-						<a href="/blog?filter=press">Press</a>
+						<a href="/blog/press">Press</a>
 					</li>
 					<li>
-						<a href="/blog?filter=videos">Videos</a>
+						<a href="/blog/videos">Videos</a>
 					</li>
 				</ul>
 			</div>

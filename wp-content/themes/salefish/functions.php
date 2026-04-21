@@ -456,3 +456,49 @@ add_action( 'init', function() {
 
     update_option( 'salefish_blog_migration_v2', 1 );
 } );
+
+// Auto-create /blog/success-stories, /blog/press, /blog/videos child pages
+add_action( 'init', function() {
+    if ( get_option( 'salefish_blog_filter_pages_v1' ) ) {
+        return;
+    }
+
+    $blog_page = get_page_by_path( 'blog' );
+    if ( ! $blog_page ) {
+        return; // Blog page not found yet — will retry on next request
+    }
+
+    $filter_pages = array(
+        'success-stories' => 'Success Stories',
+        'press'           => 'Press',
+        'videos'          => 'Videos',
+    );
+
+    $created = 0;
+    foreach ( $filter_pages as $slug => $title ) {
+        $existing = get_page_by_path( 'blog/' . $slug );
+        if ( $existing ) {
+            update_post_meta( $existing->ID, '_wp_page_template', 'page-blog-filter.php' );
+            $created++;
+            continue;
+        }
+
+        $page_id = wp_insert_post( array(
+            'post_title'   => $title,
+            'post_name'    => $slug,
+            'post_status'  => 'publish',
+            'post_type'    => 'page',
+            'post_parent'  => $blog_page->ID,
+        ) );
+
+        if ( $page_id && ! is_wp_error( $page_id ) ) {
+            update_post_meta( $page_id, '_wp_page_template', 'page-blog-filter.php' );
+            $created++;
+        }
+    }
+
+    if ( $created === count( $filter_pages ) ) {
+        flush_rewrite_rules();
+        update_option( 'salefish_blog_filter_pages_v1', 1 );
+    }
+} );
