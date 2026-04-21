@@ -134,8 +134,8 @@ $(function () {
 					<ul>
 						<li>
 							<a href="/">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
 								<img class="flag" src="/wp-content/themes/salefish/img/flags/canada.png">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
 							</a>
 						</li>
 						<li>
@@ -159,8 +159,8 @@ $(function () {
 					<ul>
 						<li>
 							<a href="/">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
 								<img class="flag" src="/wp-content/themes/salefish/img/flags/canada.png">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
 							</a>
 						</li>
 						<li>
@@ -184,8 +184,8 @@ $(function () {
 					<ul>
 						<li>
 							<a href="/">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
 								<img class="flag" src="/wp-content/themes/salefish/img/flags/canada.png">
+								<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
 							</a>
 						</li>
 						<li>
@@ -203,8 +203,8 @@ $(function () {
       break;
     default:
       $(".flag_active").html(`
-					<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
 					<img class="flag" src="/wp-content/themes/salefish/img/flags/canada.png">
+					<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
 				`);
       $(".languages_option").html(`
 					<ul>
