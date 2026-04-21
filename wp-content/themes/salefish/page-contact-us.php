@@ -82,17 +82,6 @@ get_header();
 	</section>
 	<!-- END FORM -->
 
-	<!-- SUPPORT -->
-	<section class="cu-support">
-		<div class="cu-support__wrap" data-aos="fade-up">
-			<div class="cu-support__text">
-				<h2>Need Support?</h2>
-				<p>Already a SaleFish user? Our award-winning support team has you covered.</p>
-			</div>
-			<a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish">Get Live Chat Support</a>
-		</div>
-	</section>
-	<!-- END SUPPORT -->
 
 </main>
 
