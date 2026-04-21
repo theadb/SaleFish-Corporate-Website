@@ -5,6 +5,10 @@
     position: relative;
     overflow: hidden;
 
+    @include rs768 {
+      margin-top: 80px; // push hero below fixed header on mobile/tablet
+    }
+
     @include rs550 {
       clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 90%);
       height: 550px;
@@ -134,7 +138,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 40px;
-      align-items: start;
+      align-items: stretch;
 
       @include rs990 { gap: 28px; }
       @include rs768 { grid-template-columns: 1fr; gap: 36px; }
@@ -197,6 +201,22 @@
             margin-bottom: 24px;
             line-height: 1.6;
           }
+
+          .button {
+            background: transparent;
+            color: $dark_purple;
+            padding: 0;
+            border-radius: 0;
+            width: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: $PSB;
+            font-size: 1em;
+
+            &::after { content: '→'; transition: transform 0.2s ease; }
+            &:hover::after { transform: translateX(4px); }
+          }
         }
       }
 
@@ -219,17 +239,19 @@
         }
 
         .logos {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 28px 20px;
           align-items: center;
-          gap: 32px;
+          justify-items: center;
 
-          @include rs768 { gap: 24px; }
+          @include rs768 { gap: 20px 16px; }
+          @include rs550 { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 
           .col img {
-            max-width: 120px;
-            height: auto;
+            max-width: 110px;
+            height: 36px;
+            object-fit: contain;
             display: block;
           }
         }
