@@ -53,8 +53,10 @@ get_header();
 				<?php if ( $category ) : ?>
 				<span class="sf-badge sf-badge--<?php echo esc_attr( $category[0]->category_nicename ); ?>"><?php echo esc_html( $category[0]->cat_name ); ?></span>
 				<?php endif; ?>
-				<?php $tags = get_the_tags( $id ); if ( $tags ) : foreach ( $tags as $tag ) : ?>
-				<span class="sf-badge sf-badge--tag"><?php echo esc_html( $tag->name ); ?></span>
+				<?php $tags = get_the_tags( $id ); if ( $tags ) : foreach ( $tags as $tag ) :
+					$tag_class = $tag->slug === 'featured' ? 'sf-badge--featured' : 'sf-badge--tag';
+				?>
+				<span class="sf-badge <?php echo esc_attr( $tag_class ); ?>"><?php echo esc_html( $tag->name ); ?></span>
 				<?php endforeach; endif; ?>
 			</div>
 		</div>

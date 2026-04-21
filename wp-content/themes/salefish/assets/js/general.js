@@ -90,10 +90,13 @@ $(function () {
   });
 
   $(window).on("scroll", function () {
+    var isMobile = $(window).width() <= 768;
+    var menuTop  = isMobile ? "80px" : ($(window).scrollTop() > 1 ? "60px" : "70px");
+
     if ($(window).scrollTop() > 1) {
       $("header").addClass("active");
-      $(".floating_menu").css("top", "60px");
-      $(".sales_login_menu").css("top", "60px");
+      $(".floating_menu").css("top", menuTop);
+      $(".sales_login_menu").css("top", menuTop);
       $(".privacy_policy").css({
         top: "70px",
         height: "calc(100% - 70px)",
@@ -103,10 +106,9 @@ $(function () {
         height: "calc(100% - 70px)",
       });
     } else {
-      //remove the background property so it comes transparent again (defined in your css)
       $("header").removeClass("active");
-      $(".floating_menu").css("top", "70px");
-      $(".sales_login_menu").css("top", "70px");
+      $(".floating_menu").css("top", menuTop);
+      $(".sales_login_menu").css("top", menuTop);
       $(".privacy_policy").css({
         top: "100px",
         height: "calc(100% - 100px)",
