@@ -194,13 +194,31 @@
       .builders_marquee {
         position: relative;
         overflow: hidden;
-        -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
-        mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
-        -webkit-transform: translateZ(0);
-        transform: translateZ(0);
 
-        // Desktop/tablet only — swap to static grid on mobile
-        @include rs768 { display: none; }
+        // Edge fade via pseudo-elements — avoids webkit mask-image compositing bug
+        // (mask-image + animated child = layers conflict in Safari/iOS, marquee disappears)
+        &::before,
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 80px;
+          z-index: 2;
+          pointer-events: none;
+
+          @include rs550 { width: 40px; }
+        }
+
+        &::before {
+          left: 0;
+          background: linear-gradient(to right, $light_purple 0%, rgba($light_purple, 0) 100%);
+        }
+
+        &::after {
+          right: 0;
+          background: linear-gradient(to left, $light_purple 0%, rgba($light_purple, 0) 100%);
+        }
       }
 
       .builders_track {
@@ -209,7 +227,6 @@
         gap: 48px;
         width: max-content;
         padding: 8px 0;
-        will-change: transform;
         -webkit-animation: marqueeScroll 28s linear infinite;
         animation: marqueeScroll 28s linear infinite;
       }
@@ -219,35 +236,12 @@
         width: auto;
         flex-shrink: 0;
         object-fit: contain;
+
+        @include rs550 { height: 32px; }
       }
 
-      // Static grid for mobile
-      .mobile_builders {
-        display: none;
-
-        @include rs768 { display: block; }
-
-        .row {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          .col {
-            width: calc(50% - 20px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 14px 10px;
-
-            img {
-              width: 55%;
-              max-height: 48px;
-              object-fit: contain;
-            }
-          }
-        }
-      }
+      // Static grid no longer needed — marquee now works on all devices
+      .mobile_builders { display: none; }
     }
   }
 
