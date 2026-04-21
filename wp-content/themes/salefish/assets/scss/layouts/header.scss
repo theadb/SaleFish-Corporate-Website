@@ -43,6 +43,10 @@ header {
     background: rgba($dark_purple, 1);
     height: 70px;
 
+    @include rs768 {
+      height: 80px; // no shrink on mobile — always 80px
+    }
+
     .salefish {
       .salefish_logo {
         width: 160px;
@@ -170,6 +174,10 @@ header {
   position: fixed;
   top: 70px;
   left: 50%;
+
+  @include rs768 {
+    top: 80px; // matches fixed 80px mobile header
+  }
   z-index: 9999;
   background: #fff;
   transform: translate(-50%);
@@ -376,6 +384,10 @@ header {
   position: fixed;
   top: 70px;
   left: 50%;
+
+  @include rs768 {
+    top: 80px; // matches fixed 80px mobile header
+  }
   z-index: 9999;
   transform: translate(-50%);
   width: 100%;
