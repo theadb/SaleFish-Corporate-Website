@@ -365,6 +365,9 @@
 					</li>
 					<li class="mobile menu-sep"></li>
 					<li>
+						<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer">Live Chat Support</a>
+					</li>
+					<li>
 						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App</a>
 					</li>
 					<li>
@@ -525,6 +528,9 @@
 	<div class="wrapper">
 		<div class="wrap">
 			<ul>
+				<li>
+					<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer">Live Chat Support</a>
+				</li>
 				<li>
 					<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App</a>
 				</li>
