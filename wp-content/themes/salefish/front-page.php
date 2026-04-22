@@ -177,7 +177,7 @@ foreach($the_numbers as $row):
     $description = $row['description'];
     $counter++;
     ?>
-				<div class="col">
+				<div class="col" data-aos="fade-up" data-aos-delay="<?php echo esc_attr( ($counter - 1) * 150 ); ?>">
 					<h1>
 						<?php echo esc_html( $prefix ); ?> <span
 							data-number="<?php echo esc_attr( $number ); ?>"

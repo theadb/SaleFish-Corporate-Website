@@ -335,7 +335,7 @@
     .bottom {
       // Straight top edge — eliminates the gray bleed from the diagonal cut
       clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 88%);
-      padding-top: 52px;
+      padding-top: 72px;
     }
   }
 }
