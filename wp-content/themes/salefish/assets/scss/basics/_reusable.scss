@@ -42,6 +42,10 @@
     background: $light_purple;
     padding: 200px 0;
     clip-path: polygon(0 0, 100% 15%, 100% 100%, 0 85%);
+
+    @include rs990 {
+      padding: 140px 0;
+    }
     display: flex;
     flex-direction: column;
     z-index: 10;
@@ -134,7 +138,7 @@
     }
     .button {
       margin: 0 auto;
-      margin-top: 4.5em;
+      margin-top: 56px;
     }
     .director {
       display: flex;
@@ -168,7 +172,7 @@
   .bottom {
     position: relative;
     background: $dark_purple;
-    padding: 5em 0 8em 0;
+    padding: 80px 0 120px 0;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 85%);
     z-index: 2;
 
@@ -198,7 +202,7 @@
 
     @include rs600 {
       clip-path: polygon(0 0, 100% 4%, 100% 100%, 0 96%);
-      padding: 8em 20px 8em 20px;
+      padding: 56px 20px 80px;
     }
     .form {
       position: relative;
@@ -228,13 +232,13 @@
         }
       }
       form {
-        margin-top: 4em;
+        margin-top: 48px;
         .row {
           width: 100%;
           display: flex;
           justify-content: flex-end;
-          margin: 2em 0;
-          gap: 2em;
+          margin: 20px 0;
+          gap: 20px;
           @include rs550 {
             flex-direction: column;
           }
@@ -259,7 +263,7 @@
               border: none;
               padding: 10px 15px;
               border-radius: 5px;
-              margin-top: 0.5em;
+              margin-top: 8px;
               outline: none;
               font-family: $PL;
               color: #484848;
@@ -282,7 +286,7 @@
           }
           .submit {
             background: $gold;
-            margin-top: 2em;
+            margin-top: 20px;
             padding: 10px 25px;
             border-radius: 5px;
             color: $black;

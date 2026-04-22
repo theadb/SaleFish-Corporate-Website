@@ -384,20 +384,6 @@
   }
 
   // FEATURES
-  .salefish_features .container > .header {
-    padding: 100px 60px 60px 60px;
-    max-width: 1800px;
-    margin: 0 auto;
-
-    @include rs768 {
-      padding: 60px 20px 40px 20px;
-    }
-
-    @include rs600 {
-      padding: 40px 20px 20px 20px;
-    }
-  }
-
   .features {
     background: #fff;
     width: calc(100% - 120px);
@@ -846,7 +832,7 @@
   .contact {
     .mobile_content {
       position: relative;
-      margin-top: 3.5em;
+      margin-top: 56px;
       display: none;
 
       @include rs990 {
@@ -1023,6 +1009,8 @@
 
   .container > .header {
     padding: 100px 60px 0 60px;
+    max-width: 1800px;
+    margin: 0 auto;
     text-align: center;
 
     h1 { color: $dark_purple; }

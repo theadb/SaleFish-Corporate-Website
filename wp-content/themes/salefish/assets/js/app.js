@@ -12,9 +12,12 @@ window.addEventListener("load", function (event) {
     $("footer").css("display", "block");
     AOS.init({
       duration: 350,
-      offset: 40,
+      offset: 0,
       once: true,
       easing: "ease-out",
+      // Disable scroll animations on mobile — elements appear immediately,
+      // preventing the "scroll too far before content loads" effect
+      disable: function () { return window.innerWidth < 768; },
     });
   }, 150);
 });
