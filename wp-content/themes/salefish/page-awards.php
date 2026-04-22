@@ -26,7 +26,7 @@ $awards = get_field('awards');
             </div>
             <div class="right" data-aos="fade-left" data-aos-delay="200">
                 <img src="<?php bloginfo('template_directory'); ?>/img/trophy.png"
-                    class="trophy">
+                    class="trophy" loading="lazy" decoding="async">
             </div>
         </div>
     </section>

@@ -73,7 +73,7 @@
 			</div>
 			<div class="col flex_img">
 				<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">
-					<img class="plus_group" src="<?php bloginfo('template_directory'); ?>/img/plus_group.png" alt="Plus Group">
+					<img class="plus_group" src="<?php bloginfo('template_directory'); ?>/img/plus_group.png" alt="Plus Group" loading="lazy" decoding="async">
 				</a>
 			</div>
 		</div>
@@ -127,7 +127,7 @@
 			</div>
 			<div class="col flex_img">
 				<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">
-					<img class="plus_group" src="<?php bloginfo('template_directory'); ?>/img/plus_group.png" alt="Plus Group">
+					<img class="plus_group" src="<?php bloginfo('template_directory'); ?>/img/plus_group.png" alt="Plus Group" loading="lazy" decoding="async">
 
 				</a>
 			</div>
@@ -182,7 +182,7 @@
 			</div>
 			<div class="col flex_img">
 				<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">
-					<img class="plus_group" src="<?php bloginfo('template_directory'); ?>/img/plus_group.png" alt="Plus Group">
+					<img class="plus_group" src="<?php bloginfo('template_directory'); ?>/img/plus_group.png" alt="Plus Group" loading="lazy" decoding="async">
 
 				</a>
 			</div>

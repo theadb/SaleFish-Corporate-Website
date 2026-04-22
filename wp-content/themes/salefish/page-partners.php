@@ -90,22 +90,22 @@ if (is_array($fade_msg)) {
                     <p>Tools You Already Trust. Now Working Together.</p>
                     <div class="logos">
                         <div class="col">
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_1.png">
+                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_1.png" loading="lazy" decoding="async">
                         </div>
                         <div class="col">
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_2.png">
+                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_2.png" loading="lazy" decoding="async">
                         </div>
                         <div class="col">
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_3.png">
+                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_3.png" loading="lazy" decoding="async">
                         </div>
                         <div class="col">
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_4.png">
+                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_4.png" loading="lazy" decoding="async">
                         </div>
                         <div class="col">
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_5.png">
+                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_5.png" loading="lazy" decoding="async">
                         </div>
                         <div class="col">
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_6.png">
+                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_6.png" loading="lazy" decoding="async">
                         </div>
 
                     </div>
