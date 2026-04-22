@@ -82,6 +82,7 @@
       width: 90%;
       margin: 0 auto;
       p {
+        font-family: $PL;
         width: 80%;
         margin: 0 auto;
         margin-top: 5px;
@@ -282,11 +283,11 @@
           .submit {
             background: $gold;
             margin-top: 2em;
-            padding: 10px 55px;
+            padding: 10px 25px;
             border-radius: 5px;
             color: $black;
             font-family: $PSB;
-            font-size: 0.9em;
+            font-size: 0.85em;
             border: none;
             cursor: pointer;
             @include rs550 {
