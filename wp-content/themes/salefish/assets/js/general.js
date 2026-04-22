@@ -307,3 +307,35 @@ $(function () {
   });
 
 });
+
+// ── Tidio chat button: white outline ring ─────────────────────────────────────
+// The Tidio button renders inside a cross-origin iframe so we can't reach the
+// circular button element directly with CSS. Instead we apply border-radius +
+// box-shadow to the iframe element itself — which gives the same visual result
+// when the iframe is small (button mode). When the chat panel opens, Tidio
+// resizes the iframe to a large panel; we detect that and strip the ring so the
+// open panel isn't clipped to an oval.
+(function () {
+  function applyTidioRing(iframe) {
+    function update() {
+      var isButton = iframe.offsetWidth <= 160 && iframe.offsetHeight <= 160;
+      iframe.style.borderRadius = isButton ? '50%' : '';
+      iframe.style.boxShadow   = isButton ? '0 0 0 3px rgba(255,255,255,0.85), 0 2px 12px rgba(0,0,0,0.25)' : '';
+    }
+
+    update();
+
+    if (window.ResizeObserver) {
+      new ResizeObserver(update).observe(iframe);
+    }
+  }
+
+  // Tidio loads asynchronously — poll until its iframe appears in the DOM
+  var poll = setInterval(function () {
+    var iframe = document.getElementById('tidio-chat-iframe');
+    if (iframe) {
+      clearInterval(poll);
+      applyTidioRing(iframe);
+    }
+  }, 500);
+})();
