@@ -29,12 +29,6 @@
 					<li>
 						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise Admin</a>
 					</li>
-					<li class="terms_of_use_footer">
-						<span class="terms_menu_footer">Terms of Use</span>
-					</li>
-					<li class="privacy_policy_footer">
-						<span class="privacy_policy_menu_footer">Privacy Policy</span>
-					</li>
 				</ul>
 			</div>
 			<div class="col">
@@ -97,13 +91,6 @@
 					<li>
 						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Hausverkauf bearbeiten</a>
 					</li>
-					<li class="terms_of_use_footer">
-						<span class="terms_menu_footer">Nutzungsbedingungen</span>
-					</li>
-					<li class="privacy_policy_footer">
-						<span class="privacy_policy_menu_footer">Datenschutz-Bestimmungen</span>
-					</li>
-
 				</ul>
 			</div>
 			<div class="col">
@@ -159,13 +146,6 @@
 					<li>
 						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Az Katlı Bina Yönetimi</a>
 					</li>
-					<li class="terms_of_use_footer">
-						<span class="terms_menu_footer">Kullanım Koşulları</span>
-					</li>
-					<li class="privacy_policy_footer">
-						<span class="privacy_policy_menu_footer">Gizlilik Politikası</span>
-					</li>
-
 				</ul>
 			</div>
 			<div class="col">
@@ -218,7 +198,7 @@
 					</a>
 				</div>
 				<p>
-					Made with <svg class="heart" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> in Toronto, Calgary &amp; Vancouver. &copy; 2025 SaleFish Inc. All rights reserved.
+					Made with <svg class="heart" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> in Toronto, Calgary &amp; Vancouver. &copy; 2025 SaleFish Inc. All rights reserved. &nbsp;&middot;&nbsp; <a href="/terms-of-use">Terms of Use</a> &nbsp;&middot;&nbsp; <a href="/privacy-policy">Privacy Policy</a>
 				</p>
 			</div>
 		</div>

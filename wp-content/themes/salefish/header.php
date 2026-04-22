@@ -375,13 +375,6 @@
 					<li>
 						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise Admin</a>
 					</li>
-					<li class="menu-sep"></li>
-					<li class="terms_of_use_nav">
-						<span class="terms_menu">Terms of Use</span>
-					</li>
-					<li class="privacy_policy_nav">
-						<span class="privacy_policy_menu">Privacy Policy</span>
-					</li>
 				</ul>
 			</div>
 		</div>
@@ -426,12 +419,6 @@
 					<li class="mobile">
 						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise
 							Admin</a>
-					</li>
-					<li class="terms_of_use_nav">
-						<span class="terms_menu">Kullanım Şartları</span>
-					</li>
-					<li class="privacy_policy_nav">
-						<span class="privacy_policy_menu">Gizlilik Politikası</span>
 					</li>
 				</ul>
 			</div>
@@ -484,12 +471,6 @@
 					<li class="mobile">
 						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise
 							Admin</a>
-					</li>
-					<li class="terms_of_use_nav">
-						<span class="terms_menu">Nutzungsbedingungen</span>
-					</li>
-					<li class="privacy_policy_nav">
-						<span class="privacy_policy_menu">Datenschutz-Bestimmungen</span>
 					</li>
 				</ul>
 			</div>
