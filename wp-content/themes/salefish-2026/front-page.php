@@ -19,8 +19,6 @@ $numbers_header = get_field('numbers_header');
 $the_numbers    = get_field('the_numbers');
 ?>
 
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5CX687F" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-
 <script>let textArray = <?php echo wp_json_encode( $fade, JSON_HEX_TAG | JSON_HEX_AMP ); ?>;</script>
 
 <main class="home">
@@ -51,7 +49,7 @@ $the_numbers    = get_field('the_numbers');
 				</div>
 				<?php if ( $hero_image ): ?>
 				<div class="home-hero__image" data-aos="zoom-in" data-aos-delay="300">
-					<img src="<?php echo esc_url( $hero_image ); ?>" alt="SaleFish App Demo" class="home-hero__img">
+					<img src="<?php echo esc_url( $hero_image ); ?>" alt="SaleFish App Demo" class="home-hero__img" fetchpriority="high" loading="eager">
 				</div>
 				<?php endif; ?>
 			</div>

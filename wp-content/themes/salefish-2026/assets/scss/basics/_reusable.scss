@@ -2,9 +2,7 @@
 // SaleFish 2026 — Reusable Components
 // ============================================================
 
-@layer components {
-
-  // ── Card ───────────────────────────────────────────────────
+// ── Card ───────────────────────────────────────────────────
   .sf-card {
     border-radius: var(--sf-radius-lg);
     background: var(--sf-card-gradient);
@@ -118,8 +116,6 @@
       color: hsl(var(--sf-destructive-fg));
     }
   }
-
-} // end @layer components
 
 // ── Legacy .button — kept verbatim for backwards compatibility ──
 .button {
@@ -359,7 +355,7 @@
               }
             }
             select {
-              -webkit-appearance: radio;
+              -webkit-appearance: none;
               option {
                 font-family: $PL !important;
                 color: #484848 !important;

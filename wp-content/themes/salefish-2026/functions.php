@@ -132,9 +132,17 @@ function salefish_2026_scripts() {
     wp_enqueue_script(
         'salefish-2026-app',
         get_template_directory_uri() . '/dest/app.js',
-        [],
+        [ 'jquery' ],
         $theme_version,
         [ 'strategy' => 'defer', 'in_footer' => true ]
+    );
+
+    wp_enqueue_script(
+        'fancybox-js',
+        'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js',
+        [ 'jquery' ],
+        '3.5.7',
+        [ 'in_footer' => true ]
     );
 
     wp_localize_script( 'salefish-2026-app', 'salefishAjax', [
@@ -197,6 +205,53 @@ function limit_text($text, $limit)
 
 
 add_filter('use_block_editor_for_post', '__return_false');
+
+// Remove WordPress version from <meta name="generator">
+remove_action('wp_head', 'wp_generator');
+
+// Add hreflang for English (x-default)
+function salefish_hreflang() {
+    $url = 'https://salefish.app' . esc_attr( $_SERVER['REQUEST_URI'] );
+    echo '<link rel="alternate" hreflang="en" href="' . $url . '">' . "\n";
+    echo '<link rel="alternate" hreflang="x-default" href="' . $url . '">' . "\n";
+}
+add_action('wp_head', 'salefish_hreflang');
+
+// Organization structured data (homepage only)
+function salefish_organization_schema() {
+    if ( ! is_front_page() ) return;
+    ?>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "SaleFish",
+    "url": "https://salefish.app",
+    "logo": "https://salefish.app/wp-content/themes/salefish-2026/img/dark_salefish_logo.png",
+    "telephone": "+18778927741",
+    "email": "hello@salefish.app",
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+18778927741",
+        "contactType": "customer support"
+    },
+    "sameAs": [
+        "https://www.linkedin.com/company/salefishapp/",
+        "https://www.instagram.com/salefishapp/"
+    ]
+}
+</script>
+    <?php
+}
+add_action('wp_head', 'salefish_organization_schema');
+
+// Add loading="lazy" to post thumbnails not in the LCP zone
+add_filter('wp_get_attachment_image_attributes', function( $attr, $attachment, $size ) {
+    if ( ! isset( $attr['loading'] ) ) {
+        $attr['loading'] = 'lazy';
+    }
+    return $attr;
+}, 10, 3 );
 
 
 function load_more_post()

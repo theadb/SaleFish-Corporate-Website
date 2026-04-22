@@ -113,13 +113,13 @@
 				<div class="languages_option">
 					<ul>
 						<li>
-							<a href="/au"><span class="flag">🇦🇺</span></a>
+							<a href="/au" aria-label="Australia (English)"><span class="flag">🇦🇺</span></a>
 						</li>
 						<li>
-							<a href="/de"><span class="flag">🇩🇪</span></a>
+							<a href="/de" aria-label="Germany (Deutsch)"><span class="flag">🇩🇪</span></a>
 						</li>
 						<li>
-							<a href="/tr"><span class="flag">🇹🇷</span></a>
+							<a href="/tr" aria-label="Turkey (Türkçe)"><span class="flag">🇹🇷</span></a>
 						</li>
 					</ul>
 				</div>
@@ -173,13 +173,13 @@
 				<div class="languages_option">
 					<ul>
 						<li>
-							<a href="/au"><span class="flag">🇦🇺</span></a>
+							<a href="/au" aria-label="Australia (English)"><span class="flag">🇦🇺</span></a>
 						</li>
 						<li>
-							<a href="/de"><span class="flag">🇩🇪</span></a>
+							<a href="/de" aria-label="Germany (Deutsch)"><span class="flag">🇩🇪</span></a>
 						</li>
 						<li>
-							<a href="/tr"><span class="flag">🇹🇷</span></a>
+							<a href="/tr" aria-label="Turkey (Türkçe)"><span class="flag">🇹🇷</span></a>
 						</li>
 					</ul>
 				</div>
@@ -234,13 +234,13 @@
 				<div class="languages_option">
 					<ul>
 						<li>
-							<a href="/au"><span class="flag">🇦🇺</span></a>
+							<a href="/au" aria-label="Australia (English)"><span class="flag">🇦🇺</span></a>
 						</li>
 						<li>
-							<a href="/de"><span class="flag">🇩🇪</span></a>
+							<a href="/de" aria-label="Germany (Deutsch)"><span class="flag">🇩🇪</span></a>
 						</li>
 						<li>
-							<a href="/tr"><span class="flag">🇹🇷</span></a>
+							<a href="/tr" aria-label="Turkey (Türkçe)"><span class="flag">🇹🇷</span></a>
 						</li>
 					</ul>
 				</div>
@@ -288,13 +288,13 @@
 				<div class="languages_option">
 					<ul>
 						<li>
-							<a href="/au"><span class="flag">🇦🇺</span></a>
+							<a href="/au" aria-label="Australia (English)"><span class="flag">🇦🇺</span></a>
 						</li>
 						<li>
-							<a href="/de"><span class="flag">🇩🇪</span></a>
+							<a href="/de" aria-label="Germany (Deutsch)"><span class="flag">🇩🇪</span></a>
 						</li>
 						<li>
-							<a href="/tr"><span class="flag">🇹🇷</span></a>
+							<a href="/tr" aria-label="Turkey (Türkçe)"><span class="flag">🇹🇷</span></a>
 						</li>
 					</ul>
 				</div>
