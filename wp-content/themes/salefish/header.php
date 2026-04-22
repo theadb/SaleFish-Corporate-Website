@@ -17,13 +17,27 @@
 <head>
 	<meta
 		charset="<?php bloginfo('charset'); ?>">
-	<meta content='width=device-width, initial-scale=1.0' name='viewport' />
+	<meta content='width=device-width, initial-scale=1.0, viewport-fit=cover' name='viewport' />
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 	<link rel="manifest" href="/site.webmanifest">
-	<meta name="msapplication-TileColor" content="#da532c">
-	<meta name="theme-color" content="#ffffff">
+	<meta name="msapplication-TileColor" content="#452D8C">
+	<?php
+	// Match theme-color to the header that will be shown on this page.
+	// Light-header pages (white bg) → white. All others → brand purple.
+	$_sf_light_header = (
+		is_page_template( 'page-contact-us.php' )    ||
+		is_page_template( 'page-awards.php' )         ||
+		is_page_template( 'page-privacy-policy.php' ) ||
+		is_page_template( 'page-terms-of-use.php' )   ||
+		is_page_template( 'page-blog.php' )            ||
+		is_page_template( 'page-blog-filter.php' )     ||
+		is_singular( 'post' )
+	);
+	$_sf_theme_color = $_sf_light_header ? '#ffffff' : '#452D8C';
+	?>
+	<meta name="theme-color" content="<?php echo esc_attr( $_sf_theme_color ); ?>">
 	<link rel="preload" as="image" href="<?php echo esc_url( get_template_directory_uri() ); ?>/img/dark_salefish_logo.png">
 	<?php wp_head(); ?>
 
