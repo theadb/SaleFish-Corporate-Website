@@ -84,7 +84,7 @@ get_header();
 			</div>
 
 			<div class="platform__showcase" data-aos="zoom-in">
-				<img src="https://salefish.app/wp-content/uploads/2024/09/Group-1441.png" alt="SaleFish Platform">
+				<img src="https://salefish.app/wp-content/uploads/2024/09/Group-1441.png" alt="SaleFish Platform" loading="lazy" decoding="async">
 				<a class="button" target="_blank" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">Book a Free Demo</a>
 			</div>
 

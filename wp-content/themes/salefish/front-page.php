@@ -46,10 +46,10 @@ $the_numbers = get_field('the_numbers');
 		<div class="selling_popup">
 			<a href="#contact_us" class="scroll_link button-image">
 				<img src="<?php bloginfo('template_directory'); ?>/img/popup.png"
-					class="popup">
+					class="popup" loading="lazy" decoding="async">
 			</a>
 			<img src="<?php bloginfo('template_directory'); ?>/img/x-closed.svg"
-				class="close_icon">
+				class="close_icon" loading="lazy" decoding="async">
 		</div>
 	</div>
 	<!-- HERO -->
@@ -86,10 +86,10 @@ $the_numbers = get_field('the_numbers');
 					<div class="builders_marquee">
 						<div class="builders_track">
 							<?php foreach($builders as $builder): ?>
-							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="">
+							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="" loading="lazy" decoding="async">
 							<?php endforeach; ?>
 							<?php foreach($builders as $builder): ?>
-							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="" aria-hidden="true">
+							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async">
 							<?php endforeach; ?>
 						</div>
 					</div>
@@ -97,7 +97,7 @@ $the_numbers = get_field('the_numbers');
 						<div class="row">
 							<?php foreach($builders as $builder): ?>
 							<div class="col">
-								<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="">
+								<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="" loading="lazy" decoding="async">
 							</div>
 							<?php endforeach; ?>
 						</div>
@@ -129,7 +129,7 @@ $the_numbers = get_field('the_numbers');
 					    ?>
 					<div class="swiper-slide">
 						<img class="pillar"
-							src="<?php echo esc_url( $icon ); ?>">
+							src="<?php echo esc_url( $icon ); ?>" loading="lazy" decoding="async">
 						<h3>
 							<?php echo esc_html( $title ); ?>
 						</h3>
@@ -210,10 +210,10 @@ foreach($the_numbers as $row):
 				<div class="arrows numbersSwiperArrow">
 					<img class="arrow left_arrow"
 						src="<?php bloginfo('template_directory'); ?>/img/light_left_arrow.png"
-						alt="Left Arrow">
+						alt="Left Arrow" loading="lazy" decoding="async">
 					<img class="arrow right_arrow"
 						src="<?php bloginfo('template_directory'); ?>/img/light_right_arrow.png"
-						alt="Right Arrow">
+						alt="Right Arrow" loading="lazy" decoding="async">
 				</div>
 			</div>
 
