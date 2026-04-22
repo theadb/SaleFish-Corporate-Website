@@ -352,6 +352,8 @@
       }
     }
     .sf-menu-btn { color: $dark_purple; }
+    // Separator between language selector and menu icon is dark on white header
+    nav .menu::before { background: rgba($dark_purple, 0.2); }
     // When scrolled, stay white with dark content — never flip to purple
     &.active {
       background: #fff !important;
