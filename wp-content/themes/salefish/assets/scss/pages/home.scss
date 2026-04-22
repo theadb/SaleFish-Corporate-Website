@@ -179,9 +179,14 @@
     h3 {
       color: #fff;
       font-family: $PL;
+      font-size: 1.2em;
 
-      @include rs990 {
-        font-size: 1.5em;
+      @include rs768 {
+        font-size: 1.05em;
+      }
+
+      @include rs550 {
+        font-size: 1rem;
       }
 
       &.bold {
@@ -852,9 +857,9 @@
 
           p {
             font-family: $PL;
-            font-size: 1.5em;
-            line-height: 1.2;
-            width: 60%;
+            font-size: 1rem;
+            line-height: 1.35;
+            width: 70%;
             margin: 0 auto;
           }
         }
@@ -1014,7 +1019,11 @@
     text-align: center;
 
     h1 { color: $dark_purple; }
-    p { font-family: $PL; }
+    p {
+      font-family: $PL;
+      @include rs768 { font-size: 1.1em; }
+      @include rs550 { font-size: 1rem; }
+    }
 
     @include rs768 {
       padding: 60px 20px 0 20px;
