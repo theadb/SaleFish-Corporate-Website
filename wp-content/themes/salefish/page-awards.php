@@ -81,7 +81,7 @@ $awards = get_field('awards');
                     PRESIDENT &amp; CO-FOUNDER
                 </p>
             </div>
-            <a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">BOOK A FREE DEMO</a>
+            <a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">Book a Free Demo</a>
         </div>
         <?php get_template_part('/partials/contact-general'); ?>
 
