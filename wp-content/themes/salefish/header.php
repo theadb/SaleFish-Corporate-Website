@@ -524,7 +524,9 @@
 		<button class="sf-demo-modal__close" aria-label="Close dialog">
 			<i data-lucide="x"></i>
 		</button>
-		<iframe class="sf-demo-modal__frame" src="" frameborder="0" title="Book a Free Demo — SaleFish"></iframe>
+		<div class="sf-demo-modal__scroll">
+			<iframe class="sf-demo-modal__frame" src="" frameborder="0" title="Book a Free Demo — SaleFish"></iframe>
+		</div>
 	</div>
 </div>
 
