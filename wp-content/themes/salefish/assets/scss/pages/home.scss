@@ -267,6 +267,7 @@
     }
 
     .subheader {
+      font-family: $PL;
       margin-top: 6px;
       text-align: center;
 
@@ -328,6 +329,7 @@
         }
 
         p {
+          font-family: $PL;
           font-size: 1rem;
           margin-top: 25px;
           line-height: 1.4;
@@ -863,6 +865,7 @@
           }
 
           p {
+            font-family: $PL;
             font-size: 1.5em;
             line-height: 1.2;
             width: 60%;
@@ -1023,6 +1026,7 @@
     text-align: center;
 
     h1 { color: $dark_purple; }
+    p { font-family: $PL; }
 
     @include rs768 {
       padding: 60px 20px 0 20px;
