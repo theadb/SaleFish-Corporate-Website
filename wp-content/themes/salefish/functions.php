@@ -424,7 +424,7 @@ function sf_video_embed_url( $url ) {
         '/(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/',
         $url, $m
     ) ) {
-        return 'https://www.youtube.com/embed/' . $m[1] . '?autoplay=1&rel=0&origin=https://salefish.app';
+        return 'https://www.youtube.com/embed/' . $m[1] . '?autoplay=1&rel=0';
     }
 
     // ── Vimeo ─────────────────────────────────────────────────────────────────

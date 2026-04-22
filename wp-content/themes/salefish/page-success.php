@@ -38,8 +38,8 @@ $pillars = get_field('pillars');
 				</div>
 			</div>
 			<div class="right">
-				<a href="https://www.youtube.com/embed/IsXY6NuAGFo?autoplay=1&rel=0&origin=https://salefish.app"
-				   data-video-url="https://www.youtube.com/embed/IsXY6NuAGFo?autoplay=1&rel=0&origin=https://salefish.app">
+				<a href="https://www.youtube.com/embed/IsXY6NuAGFo?autoplay=1&rel=0"
+				   data-video-url="https://www.youtube.com/embed/IsXY6NuAGFo?autoplay=1&rel=0">
 					<img src="<?php bloginfo('template_directory'); ?>/img/success/success_hero.png">
 				</a>
 			</div>
