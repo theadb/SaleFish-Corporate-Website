@@ -47,10 +47,12 @@
         padding-left: 60px;
         padding-top: 100px;
         display: flex;
+        align-items: center;
         position: relative;
 
         @include rs990 {
           flex-direction: column;
+          align-items: flex-start;
           padding-top: 60px;
           padding-left: 20px;
         }
