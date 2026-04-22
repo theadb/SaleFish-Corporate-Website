@@ -327,99 +327,96 @@ header {
   }
 }
 
+// ─── FORM CONFIRMATION DIALOG ────────────────────────────────────────────────
 .thank_you_msg {
   position: fixed;
-  top: 70px;
-  width: calc(100% - 140px);
-  height: calc(100% - 35px);
-  background: $dark_purple;
-  padding: 70px;
-  z-index: 100;
-  display: none;
-  @include rs990 {
-    padding: 40px;
-    width: calc(100% - 80px);
+  inset: 0;
+  z-index: 10000;
+  display: none; // jQuery fadeIn/fadeOut controls visibility
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    cursor: pointer;
   }
 
-  @include rs600 {
-    padding: 20px;
-    width: calc(100% - 40px);
+  &__panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 48px);
+    max-width: 540px;
+    padding: 48px 52px;
+    background: var(--sf-card-gradient);
+    background-color: hsl(var(--sf-card));
+    border-radius: var(--sf-radius-lg);
+    box-shadow: var(--sf-shadow-lg), 0 0 0 1px rgba(0, 0, 0, 0.05);
+
+    @include rs768 { padding: 40px 36px; }
+    @include rs550 { padding: 32px 24px; }
   }
 
-  &.active {
-    display: block;
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .wrapper {
-    width: 60%;
-    height: calc(100% - 140px);
-    position: relative;
+  &__close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 34px;
+    height: 34px;
     display: flex;
     align-items: center;
-    margin: 0 auto;
-    @include rs990 {
-      width: 80%;
+    justify-content: center;
+    background: rgba($dark_purple, 0.06);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: $dark_purple;
+    padding: 0;
+    transition: background 0.18s ease, transform 0.18s ease;
+
+    &:hover {
+      background: rgba($dark_purple, 0.12);
+      transform: rotate(90deg);
     }
-    @include rs600 {
-      width: 95%;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2;
     }
+  }
 
-    .wrap {
-      background: #fff;
-      padding: 80px;
-      border-radius: 20px;
-      position: relative;
+  &__eyebrow {
+    display: block;
+    font-family: $PSB;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: $gold;
+    margin-bottom: 14px;
+  }
 
-      @include rs990 {
-        padding: 50px;
-      }
+  &__heading {
+    font-family: $PSB;
+    font-size: 1.5rem;
+    color: $dark_purple;
+    line-height: 1.2;
+    margin: 0 0 20px;
 
-      @include rs768 {
-        padding: 60px 30px;
-      }
+    @include rs600 { font-size: 1.3rem; }
+  }
 
-      .close_thank_you_msg {
-        position: absolute;
-        top: 30px;
-        right: 30px;
-        font-size: 50px;
-        cursor: pointer;
+  &__body {
+    font-family: $PL;
+    font-size: 1rem;
+    color: hsl(var(--sf-card-fg));
+    line-height: 1.65;
+    margin: 0;
+    width: 100%;
 
-        @include rs768 {
-          font-size: 40px;
-          top: 15px;
-          right: 20px;
-        }
-      }
-
-      h1 {
-        font-size: 3em;
-
-        @include rs600 {
-          font-size: 2.25em;
-        }
-      }
-
-      p {
-        margin-top: 40px;
-        font-size: 1.5em;
-        width: 90%;
-
-        @include rs600 {
-          font-size: 1.25em;
-          width: 100%;
-          margin-top: 30px;
-        }
-
-        a {
-          font-family: $PSB;
-          color: $dark_purple;
-          text-decoration: none;
-        }
-      }
-    }
+    @include rs768 { font-size: 1rem; }
+    @include rs550 { font-size: 1rem; }
   }
 }
 
