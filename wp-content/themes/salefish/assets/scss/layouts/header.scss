@@ -561,9 +561,11 @@ header {
     transform: translate(-50%, -50%);
     width: calc(100% - 48px);
     max-width: 880px;
-    height: 92vh;
-    max-height: 920px;
-    min-height: 500px;
+    // height is driven by the iframe, which HubSpot resizes via postMessage.
+    // auto + max-height means the panel shrinks to content with no white gap.
+    height: auto;
+    max-height: 92vh;
+    min-height: 400px;
     background: #fff;
     border-radius: var(--sf-radius-lg);
     box-shadow: var(--sf-shadow-lg), 0 0 0 1px rgba(0, 0, 0, 0.05);
@@ -615,12 +617,19 @@ header {
     svg { width: 18px; height: 18px; stroke-width: 2; }
   }
 
-  // iframe fills the entire panel
+  // iframe: initial pixel height on desktop; HubSpot will postMessage the real
+  // height and JS will update this. 100% on mobile (full-screen sheet).
   &__frame {
     width: 100%;
-    height: 100%;
+    height: 600px;   // reasonable pre-load size; overridden by postMessage
+    min-height: 400px;
     border: none;
     display: block;
+
+    @include rs768 {
+      height: 100%;
+      min-height: 0;
+    }
   }
 }
 
