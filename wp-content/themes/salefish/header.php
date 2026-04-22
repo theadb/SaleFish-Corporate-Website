@@ -73,8 +73,7 @@
 				<div class="flag_active">
 				</div>
 				<div class="arrow">
-					<img class="down_arrow"
-						src="<?php bloginfo('template_directory'); ?>/img/down_arrow.svg">
+					<i data-lucide="chevron-down" class="down_arrow" width="15" height="15"></i>
 				</div>
 				<div class="languages_option">
 					<ul>
@@ -120,10 +119,9 @@
 				</li>
 			</ul>
 			<div class="menu">
-				<button class="hamburger hamburger--emphatic" type="button">
-					<span class="hamburger-box">
-						<span class="hamburger-inner"></span>
-					</span>
+				<button class="sf-menu-btn" type="button" aria-label="Toggle menu">
+					<i data-lucide="layout-grid" class="icon-grid"></i>
+					<i data-lucide="x" class="icon-close"></i>
 				</button>
 			</div>
 		</nav>
@@ -144,8 +142,7 @@
 				<div class="flag_active">
 				</div>
 				<div class="arrow">
-					<img class="down_arrow"
-						src="<?php bloginfo('template_directory'); ?>/img/down_arrow.svg">
+					<i data-lucide="chevron-down" class="down_arrow" width="15" height="15"></i>
 				</div>
 				<div class="languages_option">
 					<ul>
@@ -191,10 +188,9 @@
 				</li>
 			</ul>
 			<div class="menu">
-				<button class="hamburger hamburger--emphatic" type="button">
-					<span class="hamburger-box">
-						<span class="hamburger-inner"></span>
-					</span>
+				<button class="sf-menu-btn" type="button" aria-label="Toggle menu">
+					<i data-lucide="layout-grid" class="icon-grid"></i>
+					<i data-lucide="x" class="icon-close"></i>
 				</button>
 			</div>
 		</nav>
@@ -216,8 +212,7 @@
 				<div class="flag_active">
 				</div>
 				<div class="arrow">
-					<img class="down_arrow"
-						src="<?php bloginfo('template_directory'); ?>/img/down_arrow.svg">
+					<i data-lucide="chevron-down" class="down_arrow" width="15" height="15"></i>
 				</div>
 				<div class="languages_option">
 					<ul>
@@ -257,10 +252,9 @@
 				</li>
 			</ul>
 			<div class="menu">
-				<button class="hamburger hamburger--emphatic" type="button">
-					<span class="hamburger-box">
-						<span class="hamburger-inner"></span>
-					</span>
+				<button class="sf-menu-btn" type="button" aria-label="Toggle menu">
+					<i data-lucide="layout-grid" class="icon-grid"></i>
+					<i data-lucide="x" class="icon-close"></i>
 				</button>
 			</div>
 		</nav>
@@ -281,8 +275,7 @@
 				<div class="flag_active">
 				</div>
 				<div class="arrow">
-					<img class="down_arrow"
-						src="<?php bloginfo('template_directory'); ?>/img/down_arrow.svg">
+					<i data-lucide="chevron-down" class="down_arrow" width="15" height="15"></i>
 				</div>
 				<div class="languages_option">
 					<ul>
@@ -323,10 +316,9 @@
 				</li>
 			</ul>
 			<div class="menu">
-				<button class="hamburger hamburger--emphatic" type="button">
-					<span class="hamburger-box">
-						<span class="hamburger-inner"></span>
-					</span>
+				<button class="sf-menu-btn" type="button" aria-label="Toggle menu">
+					<i data-lucide="layout-grid" class="icon-grid"></i>
+					<i data-lucide="x" class="icon-close"></i>
 				</button>
 			</div>
 		</nav>
@@ -512,7 +504,7 @@
 <div class="thank_you_msg">
 	<div class="wrapper">
 		<div class="wrap">
-			<i class="ri-close-line close_thank_you_msg"></i>
+			<i data-lucide="x" class="close_thank_you_msg"></i>
 			<h1>
 				Thanks for checking in! <br />
 				We’ll be in touch shortly.
@@ -532,7 +524,7 @@
 ?>
 	<div class="wrapper">
 		<h1>Privacy Policy</h1>
-		<i class="ri-close-line close_privacy"></i>
+		<i data-lucide="x" class="close_privacy"></i>
 		<div class="wrap">
 			<?php echo wp_kses_post( $content->post_content ); ?>
 
@@ -546,7 +538,7 @@
 ?>
 	<div class="wrapper">
 		<h1>Terms of Use</h1>
-		<i class="ri-close-line close_terms"></i>
+		<i data-lucide="x" class="close_terms"></i>
 		<div class="wrap">
 			<?php echo wp_kses_post( $content->post_content ); ?>
 

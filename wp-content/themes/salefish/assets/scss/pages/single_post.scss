@@ -228,17 +228,9 @@
     transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
     flex-shrink: 0;
 
-    // Explicit fill so SVG paths are visible regardless of browser quirks
-    svg { fill: $black; }
-
-    // Stroke-only icons: no fill, explicit stroke
-    &--sms svg,
-    &--email svg { fill: none; stroke: $black; }
-
-    // On hover the background darkens — flip SVG to white
-    &:hover svg { fill: #fff; }
-    &--sms:hover svg,
-    &--email:hover svg { fill: none; stroke: #fff; }
+    // All Lucide icons are stroke-based — inherit color via currentColor
+    color: $black;
+    svg { stroke: currentColor; fill: none; }
 
     &--linkedin:hover { background: #0077B5; color: #fff; border-color: #0077B5; }
     &--x:hover        { background: #000;    color: #fff; border-color: #000; }

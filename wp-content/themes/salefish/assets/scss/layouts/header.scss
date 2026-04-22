@@ -77,13 +77,44 @@ header {
 
     .down_arrow {
       width: 15px;
+      height: 15px;
       margin-left: 5px;
       transition: 300ms all ease-in-out;
+      display: inline-flex;
+      align-items: center;
+      color: #fff;
+
+      svg {
+        width: 15px;
+        height: 15px;
+      }
 
       &.active {
         transform: rotate(180deg);
       }
     }
+  }
+
+  // Lucide hamburger button
+  .sf-menu-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .icon-close { display: none; }
+
+    &.is-active .icon-grid { display: none; }
+    &.is-active .icon-close { display: block; }
   }
 
   nav {
