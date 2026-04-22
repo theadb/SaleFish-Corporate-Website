@@ -78,22 +78,13 @@
 				<div class="languages_option">
 					<ul>
 						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/australia.png">
-							</a>
+							<a href="/au"><span class="flag">🇦🇺</span></a>
 						</li>
 						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/germany.png">
-							</a>
+							<a href="/de"><span class="flag">🇩🇪</span></a>
 						</li>
 						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/turkey.png">
-							</a>
+							<a href="/tr"><span class="flag">🇹🇷</span></a>
 						</li>
 					</ul>
 				</div>
@@ -147,22 +138,13 @@
 				<div class="languages_option">
 					<ul>
 						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/australia.png">
-							</a>
+							<a href="/au"><span class="flag">🇦🇺</span></a>
 						</li>
 						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/germany.png">
-							</a>
+							<a href="/de"><span class="flag">🇩🇪</span></a>
 						</li>
 						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/turkey.png">
-							</a>
+							<a href="/tr"><span class="flag">🇹🇷</span></a>
 						</li>
 					</ul>
 				</div>
@@ -217,22 +199,13 @@
 				<div class="languages_option">
 					<ul>
 						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/australia.png">
-							</a>
+							<a href="/au"><span class="flag">🇦🇺</span></a>
 						</li>
 						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/germany.png">
-							</a>
+							<a href="/de"><span class="flag">🇩🇪</span></a>
 						</li>
 						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/turkey.png">
-							</a>
+							<a href="/tr"><span class="flag">🇹🇷</span></a>
 						</li>
 					</ul>
 				</div>
@@ -280,22 +253,13 @@
 				<div class="languages_option">
 					<ul>
 						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/australia.png">
-							</a>
+							<a href="/au"><span class="flag">🇦🇺</span></a>
 						</li>
 						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/germany.png">
-							</a>
+							<a href="/de"><span class="flag">🇩🇪</span></a>
 						</li>
 						<li>
-							<a href="">
-								<img class="flag"
-									src="<?php bloginfo('template_directory'); ?>/img/flags/turkey.png">
-							</a>
+							<a href="/tr"><span class="flag">🇹🇷</span></a>
 						</li>
 					</ul>
 				</div>
