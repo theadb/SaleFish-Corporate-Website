@@ -173,6 +173,19 @@ footer {
           }
         }
 
+        .legal-sep {
+          @include rs550 {
+            display: none;
+          }
+        }
+
+        .legal-links {
+          @include rs550 {
+            display: block;
+            margin-top: 4px;
+          }
+        }
+
         .heart {
           display: inline-block;
           vertical-align: middle;
