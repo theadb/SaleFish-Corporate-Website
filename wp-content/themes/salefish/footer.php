@@ -211,7 +211,7 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
 }
 ?>
 				<p>
-					Made with <i data-lucide="heart" class="heart" width="13" height="13"></i> in Toronto, Calgary &amp; Vancouver. &copy; 2025 SaleFish Inc. All rights reserved.<span>&nbsp;&middot;&nbsp; <a href="/terms-of-use"><?php echo esc_html( $_sf_terms ); ?></a> &nbsp;&middot;&nbsp; <a href="/privacy-policy"><?php echo esc_html( $_sf_privacy ); ?></a></span>
+					Made with <i data-lucide="heart" class="heart" width="13" height="13"></i> in Toronto, Calgary &amp; Vancouver. &copy; 2025 SaleFish Inc. All rights reserved.<span class="legal-sep">&nbsp;&middot;&nbsp;</span><span class="legal-links"><a href="/terms-of-use"><?php echo esc_html( $_sf_terms ); ?></a> &nbsp;&middot;&nbsp; <a href="/privacy-policy"><?php echo esc_html( $_sf_privacy ); ?></a></span>
 				</p>
 			</div>
 		</div>
