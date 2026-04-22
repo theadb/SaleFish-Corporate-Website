@@ -136,7 +136,7 @@ body {
   margin: 0 auto;
 }
 main {
-  overflow-x: hidden;
+  overflow-x: clip; // 'clip' does not create a scroll container — iOS keeps momentum scrolling
 }
 
 .loading {
@@ -160,12 +160,28 @@ main {
   }
 }
 
-// ── Disable hero orb animations on mobile — they are GPU-intensive and cause
-// scroll jank on phones. Override the keyframes so orbs are static. ──────────
+// ── Disable hero orb animations on mobile — GPU-intensive, cause scroll jank ─
+// Two-layer approach:
+//   1. Override keyframes so any running instance is now a no-op.
+//   2. Explicitly set animation:none + will-change:auto on every orb host so
+//      the browser creates no compositing layers for inert animations.
 @include rs768 {
   @keyframes heroOrbFloat  { from, to { transform: none; } }
   @keyframes heroOrb2Float { from, to { transform: none; } }
   @keyframes heroOrbPulse  { from, to { opacity: 1; } }
+
+  // Target every known orb host (::before / ::after carry the animation).
+  // 'animation: none' removes the animation entirely; 'will-change: auto'
+  // frees the GPU layer that was reserved by will-change: transform.
+  .hero::before, .hero::after,
+  .sf-page-hero::before, .sf-page-hero::after,
+  .sf-ty-page::before, .sf-ty-page::after,
+  .os-hero::before, .os-hero::after,
+  .terms-hero::before, .terms-hero::after,
+  .partners-hero::before, .partners-hero::after {
+    animation: none !important;
+    will-change: auto !important;
+  }
 }
 
 // ── Scroll-reveal animations (Intersection Observer, desktop only) ─────────
