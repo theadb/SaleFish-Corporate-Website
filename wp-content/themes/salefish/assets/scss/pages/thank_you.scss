@@ -61,18 +61,18 @@
   }
 
   &__icon-wrap {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background: $gold;
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    background: rgba($dark_purple, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 28px;
 
     svg {
-      width: 34px;
-      height: 34px;
+      width: 30px;
+      height: 30px;
       color: $dark_purple;
       stroke-width: 2;
     }
