@@ -5,13 +5,14 @@
     position: relative;
     padding-top: 80px;
 
-    // Ambient orb — same parameters as Our Story hero
+    // Ambient orb — primary (light purple drift)
     &::before {
       content: '';
       position: absolute;
       inset: -40% -30%;
-      background: radial-gradient(ellipse 40% 48% at 38% 62%, rgba($light_purple, 0.36) 0%, transparent 58%);
-      animation: heroOrbFloat 20s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+      background: radial-gradient(ellipse 48% 56% at 38% 62%, rgba($light_purple, 0.58) 0%, transparent 58%);
+      animation: heroOrbFloat 18s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite,
+                 heroOrbPulse 7s ease-in-out infinite;
       pointer-events: none;
       will-change: transform;
       z-index: 2;
@@ -453,6 +454,8 @@
         overflow: hidden;
         border-radius: 10px;
 
+        &:hover .wrap img { transform: scale(1.04); }
+
         .wrap {
           padding: 30px;
           display: flex;
@@ -471,8 +474,9 @@
             width: 90%;
             display: flex;
             margin: 0 auto;
-            transition: 300ms all ease-in-out;
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             object-fit: contain;
+            will-change: transform;
           }
 
           p {

@@ -54,6 +54,16 @@ $(function () {
     if ($(e.target).closest(".sales_login").length === 0) {
       $(".sales_login_menu").fadeOut();
     }
+    // ── Close hamburger menu when clicking outside ──────────────────────────
+    if (
+      $(e.target).closest(".floating_menu").length === 0 &&
+      $(e.target).closest(".hamburger--emphatic").length === 0
+    ) {
+      if ($(".hamburger--emphatic").hasClass("is-active")) {
+        $(".hamburger--emphatic").removeClass("is-active");
+        $(activeMenu).fadeOut();
+      }
+    }
   });
 
   $(".privacy_policy_menu").on("click", function () {

@@ -19,8 +19,22 @@
       content: '';
       position: absolute;
       inset: -40% -30%;
-      background: radial-gradient(ellipse 40% 48% at 38% 62%, rgba($light_purple, 0.36) 0%, transparent 58%);
-      animation: heroOrbFloat 20s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+      background: radial-gradient(ellipse 44% 52% at 38% 62%, rgba($light_purple, 0.55) 0%, transparent 58%);
+      animation: heroOrbFloat 20s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite,
+                 heroOrbPulse 8s ease-in-out infinite;
+      pointer-events: none;
+      will-change: transform;
+      z-index: 0;
+    }
+
+    // Second ambient orb — opposite phase for depth
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -40% -30%;
+      background: radial-gradient(ellipse 36% 44% at 72% 30%, rgba($light_purple, 0.42) 0%, transparent 58%);
+      animation: heroOrb2Float 26s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite,
+                 heroOrbPulse 11s ease-in-out infinite reverse;
       pointer-events: none;
       will-change: transform;
       z-index: 0;
