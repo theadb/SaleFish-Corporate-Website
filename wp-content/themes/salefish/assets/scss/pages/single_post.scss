@@ -77,6 +77,9 @@
     border-radius: 16px;
     overflow: hidden;
     max-height: 520px;
+    cursor: pointer;
+
+    &:hover img { transform: scale(1.04); }
 
     img {
       width: 100%;
@@ -84,6 +87,8 @@
       max-height: 520px;
       object-fit: cover;
       display: block;
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
     }
   }
 
@@ -269,7 +274,7 @@
         height: 130px;
         object-fit: cover;
         display: block;
-        transition: transform 0.3s ease;
+        transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       }
     }
 

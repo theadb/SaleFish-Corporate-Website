@@ -207,19 +207,19 @@ header {
   }
 
   .top {
-    padding: 0 70px 0 15px;
+    padding: 6px 0;
 
     ul {
       li.menu-sep {
         border-top: 1px solid rgba(0, 0, 0, 0.09);
-        margin: 10px 0;
+        margin: 4px 0;
         padding: 0;
         height: 0;
         pointer-events: none;
       }
 
       li {
-        margin: 25px 0;
+        margin: 0;
 
         &.mobile {
           display: none;
@@ -229,25 +229,28 @@ header {
           }
         }
 
-        @include rs600 {
-          margin: 20px 0;
+        // Full-width hover highlight
+        &:not(.menu-sep):hover {
+          background: rgba(0, 0, 0, 0.04);
         }
 
-        a {
+        // Block-level links fill the full menu width
+        a, span {
+          display: block;
+          padding: 13px 20px;
           text-decoration: none;
           color: $black;
           font-family: $PL;
+          cursor: pointer;
+          width: 100%;
+          box-sizing: border-box;
+        }
 
+        a {
           &.active {
             font-family: $PSB;
             color: $dark_purple;
           }
-        }
-
-        span {
-          color: $black;
-          font-family: $PL;
-          cursor: pointer;
         }
       }
     }
@@ -262,24 +265,23 @@ header {
   .bottom {
     display: flex;
     flex-direction: column;
-    padding: 10px 70px 10px 15px;
-
-    @include rs600 {
-      padding: 10px 60px 10px 15px;
-    }
+    padding: 6px 0 10px;
 
     .fish {
       width: 45px;
       border: 1px solid $gray;
       border-radius: 100%;
-      margin-bottom: 20px;
+      margin: 10px 20px 16px;
     }
 
     a {
+      display: block;
+      padding: 10px 20px;
       text-decoration: none;
       color: $black;
       font-family: $PL;
-      margin: 5px 0;
+
+      &:hover { background: rgba(0, 0, 0, 0.04); }
 
       &.email {
         font-family: $PSB;
