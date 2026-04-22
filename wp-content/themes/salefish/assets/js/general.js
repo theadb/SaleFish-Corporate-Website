@@ -137,104 +137,44 @@ $(function () {
 
   switch (pathname) {
     case "/au/":
-      $(".flag_active").html(`
-					<img class="flag" src="/wp-content/themes/salefish/img/flags/australia.png">
-				`);
+      $(".flag_active").html(`<span class="flag">🇦🇺</span>`);
       $(".languages_option").html(`
-					<ul>
-						<li>
-							<a href="/">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/canada.png">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
-							</a>
-						</li>
-						<li>
-							<a href="/de">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/germany.png">
-							</a>
-						</li>
-						<li>
-							<a href="/tr">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/turkey.png">
-							</a>
-						</li>
-					</ul>
-				`);
+        <ul>
+          <li><a href="/"><span class="flag">🇨🇦 🇺🇸</span></a></li>
+          <li><a href="/de"><span class="flag">🇩🇪</span></a></li>
+          <li><a href="/tr"><span class="flag">🇹🇷</span></a></li>
+        </ul>
+      `);
       break;
     case "/tr/":
-      $(".flag_active").html(`
-					<img class="flag" src="/wp-content/themes/salefish/img/flags/turkey.png">
-				`);
+      $(".flag_active").html(`<span class="flag">🇹🇷</span>`);
       $(".languages_option").html(`
-					<ul>
-						<li>
-							<a href="/">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/canada.png">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
-							</a>
-						</li>
-						<li>
-							<a href="/au">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/australia.png">
-							</a>
-						</li>
-						<li>
-							<a href="/de">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/germany.png">
-							</a>
-						</li>
-					</ul>
-				`);
+        <ul>
+          <li><a href="/"><span class="flag">🇨🇦 🇺🇸</span></a></li>
+          <li><a href="/au"><span class="flag">🇦🇺</span></a></li>
+          <li><a href="/de"><span class="flag">🇩🇪</span></a></li>
+        </ul>
+      `);
       break;
     case "/de/":
-      $(".flag_active").html(`
-					<img class="flag" src="/wp-content/themes/salefish/img/flags/germany.png">
-				`);
+      $(".flag_active").html(`<span class="flag">🇩🇪</span>`);
       $(".languages_option").html(`
-					<ul>
-						<li>
-							<a href="/">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/canada.png">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
-							</a>
-						</li>
-						<li>
-							<a href="/au">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/australia.png">
-							</a>
-						</li>
-						<li>
-							<a href="/tr">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/turkey.png">
-							</a>
-						</li>
-					</ul>
-				`);
+        <ul>
+          <li><a href="/"><span class="flag">🇨🇦 🇺🇸</span></a></li>
+          <li><a href="/au"><span class="flag">🇦🇺</span></a></li>
+          <li><a href="/tr"><span class="flag">🇹🇷</span></a></li>
+        </ul>
+      `);
       break;
     default:
-      $(".flag_active").html(`
-					<img class="flag" src="/wp-content/themes/salefish/img/flags/canada.png">
-					<img class="flag" src="/wp-content/themes/salefish/img/flags/us.png">
-				`);
+      $(".flag_active").html(`<span class="flag">🇨🇦 🇺🇸</span>`);
       $(".languages_option").html(`
-					<ul>
-						<li>
-							<a href="/au">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/australia.png">
-							</a>
-						</li>
-						<li>
-							<a href="/de">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/germany.png">
-							</a>
-						</li>
-						<li>
-							<a href="/tr">
-								<img class="flag" src="/wp-content/themes/salefish/img/flags/turkey.png">
-							</a>
-						</li>
-					</ul>
-				`);
+        <ul>
+          <li><a href="/au"><span class="flag">🇦🇺</span></a></li>
+          <li><a href="/de"><span class="flag">🇩🇪</span></a></li>
+          <li><a href="/tr"><span class="flag">🇹🇷</span></a></li>
+        </ul>
+      `);
       break;
   }
 
