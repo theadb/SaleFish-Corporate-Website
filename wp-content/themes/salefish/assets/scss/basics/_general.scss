@@ -7,14 +7,43 @@
   animation: cardIn 0.45s ease both;
 }
 
-// ── Hero gradient orb — autonomous ambient drift ──────────────────────────
+// ── Hero gradient orbs — autonomous ambient drift ────────────────────────
+// Primary orb: wide arc + subtle breathe
 @keyframes heroOrbFloat {
-  0%   { transform: translate(0%,   0%);  }
-  18%  { transform: translate(8%,  -8%);  }
-  38%  { transform: translate(-6%,  6%);  }
-  58%  { transform: translate(9%,   9%);  }
-  78%  { transform: translate(-7%, -5%);  }
-  100% { transform: translate(0%,   0%);  }
+  0%   { transform: translate(0%,    0%)  scale(1.00); }
+  16%  { transform: translate(16%, -13%)  scale(1.12); }
+  36%  { transform: translate(-11%,  10%) scale(0.91); }
+  55%  { transform: translate(18%,  15%)  scale(1.09); }
+  76%  { transform: translate(-13%, -9%)  scale(0.94); }
+  100% { transform: translate(0%,    0%)  scale(1.00); }
+}
+
+// Secondary orb: opposite phase, different path
+@keyframes heroOrb2Float {
+  0%   { transform: translate(0%,    0%)  scale(1.00); }
+  20%  { transform: translate(-15%,  11%) scale(0.92); }
+  42%  { transform: translate(13%, -13%)  scale(1.08); }
+  62%  { transform: translate(-17%,  14%) scale(0.94); }
+  82%  { transform: translate(12%,  -7%)  scale(1.06); }
+  100% { transform: translate(0%,    0%)  scale(1.00); }
+}
+
+// Opacity breathe — layered on top of float for depth
+@keyframes heroOrbPulse {
+  0%, 100% { opacity: 1;    }
+  50%       { opacity: 0.55; }
+}
+
+// ── Global image zoom — premium hover effect ──────────────────────────────
+// Applied to any container marked .img-zoom; overflow:hidden must be set.
+.img-zoom {
+  overflow: hidden;
+  img {
+    display: block;
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+  }
+  &:hover img { transform: scale(1.04); }
 }
 
 img,
