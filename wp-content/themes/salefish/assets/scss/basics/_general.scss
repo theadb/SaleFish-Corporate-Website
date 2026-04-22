@@ -108,13 +108,20 @@ p {
   }
 }
 
+// Prevent horizontal scrollbar without creating a new scroll container that
+// breaks iOS momentum/rubber-band scrolling. Must be on html AND body.
+html {
+  overflow-x: hidden;
+}
+
 body {
   color: $black;
-  overflow-x: hidden;
-  // max-width: 1800px;
-  // margin: 0 auto;
+  overflow-x: clip; // 'clip' (unlike 'hidden') does not create a scroll container,
+                    // so iOS keeps native momentum scrolling on the body.
   position: relative;
   background: $gray; // prevents white gaps where clip-paths expose the page background
+  -webkit-overflow-scrolling: touch; // enable momentum scrolling on older iOS
+  overscroll-behavior-x: none;       // block horizontal overscroll without affecting vertical
 }
 
 // Tidio chat widget: ensure visible on all screen sizes
@@ -151,6 +158,14 @@ main {
     opacity: 0;
     visibility: hidden;
   }
+}
+
+// ── Disable hero orb animations on mobile — they are GPU-intensive and cause
+// scroll jank on phones. Override the keyframes so orbs are static. ──────────
+@include rs768 {
+  @keyframes heroOrbFloat  { from, to { transform: none; } }
+  @keyframes heroOrb2Float { from, to { transform: none; } }
+  @keyframes heroOrbPulse  { from, to { opacity: 1; } }
 }
 
 // ── Scroll-reveal animations (Intersection Observer, desktop only) ─────────
