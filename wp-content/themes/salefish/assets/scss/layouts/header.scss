@@ -64,10 +64,6 @@ header {
     align-items: center;
     cursor: pointer;
 
-    @include rs990 {
-      margin-right: 30px;
-    }
-
     .flag_active {
       .flag {
         font-size: 20px;
@@ -122,10 +118,11 @@ header {
   nav {
     display: flex;
     align-items: center;
+    gap: 20px;
 
     ul {
       display: flex;
-      margin: 0 20px;
+      margin: 0;
 
       @include rs990 {
         display: none;
@@ -157,6 +154,23 @@ header {
     }
 
     .menu {
+      position: relative;
+
+      // Thin separator between language selector and menu icon on mobile/tablet
+      // (when nav links are hidden the two items sit directly adjacent)
+      @include rs990 {
+        &::before {
+          content: '';
+          position: absolute;
+          left: -10px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 1px;
+          height: 18px;
+          background: rgba(255, 255, 255, 0.28);
+        }
+      }
+
       .menu_icon {
         height: 12px;
         cursor: pointer;
