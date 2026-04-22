@@ -132,7 +132,6 @@ add_action('widgets_init', '_pc_widgets_init');
 function kickass_scripts()
 {
     wp_enqueue_style('style-name', get_template_directory_uri() . '/dest/app.css', [], filemtime(get_template_directory() . '/dest/app.css'));
-    wp_enqueue_style('fancybox', 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css', [], null);
 wp_enqueue_script('script-name', get_template_directory_uri() . '/dest/app.js', array(), '1.0.0', true);
     wp_localize_script('script-name', 'salefishAjax', [
         'ajaxurl'      => admin_url('admin-ajax.php'),
@@ -320,14 +319,26 @@ function load_more_post()
             $query->the_post();
             $id       = get_the_ID();
             $cats     = get_the_category( $id );
-            $cat_slug = $cats ? $cats[0]->category_nicename : '';
-            $cat_name = $cats ? $cats[0]->cat_name          : '';
-            $thumb    = get_the_post_thumbnail( $id );
-            $link     = get_permalink( $id );
-            $title    = limit_text( get_the_title(), 14 );
+            $cat_slug    = $cats ? $cats[0]->category_nicename : '';
+            $cat_name    = $cats ? $cats[0]->cat_name          : '';
+            $is_video    = $cat_slug === 'videos';
+            $raw_content = get_the_content();
+
+            // Thumbnail: use featured image; fall back to auto-extracted video thumb
+            $thumb = get_the_post_thumbnail( $id );
+            if ( empty( $thumb ) && $is_video ) {
+                $vthumb_url = sf_video_thumbnail_url( $raw_content );
+                if ( $vthumb_url ) {
+                    $thumb = '<img src="' . esc_url( $vthumb_url ) . '" alt="' . esc_attr( get_the_title() ) . '" loading="lazy">';
+                }
+            }
+
+            $link        = get_permalink( $id );
+            $title       = limit_text( get_the_title(), 14 );
             $date        = get_the_date( 'M j, Y', $id );
             $author      = get_the_author_meta( 'display_name', get_post_field( 'post_author', $id ) );
             $is_featured = has_tag( 'featured', $id );
+            $embed_url   = $is_video ? sf_video_embed_url( $raw_content ) : '';
 
             $response[] = [
                 'id'         => $id,
@@ -336,7 +347,8 @@ function load_more_post()
                 'cat_name'   => $cat_name,
                 'thumb'      => $thumb,
                 'link'       => $link,
-                'content'    => get_the_content(),
+                'content'    => $raw_content,
+                'embed_url'  => $embed_url,
                 'title'      => $title,
                 'date'       => $date,
                 'author'     => $author,
@@ -397,27 +409,76 @@ add_action('wp_ajax_nopriv_load_more_post', 'load_more_post');
 // }
 // add_action('wp_ajax_load_more_post', 'load_more_post');
 // add_action('wp_ajax_nopriv_load_more_post', 'load_more_post');
-// ── Video helper: extract YouTube video ID and return a clean embed URL ─────────
-function sf_youtube_embed_url( $url ) {
-    $url = trim( strip_tags( $url ) ); // strip any accidental HTML (e.g. iframe embed code)
+// ── Video helpers ─────────────────────────────────────────────────────────────
 
-    // Already an embed URL — just ensure autoplay param is present
-    if ( preg_match( '/youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/', $url, $m ) ) {
-        return 'https://www.youtube.com/embed/' . $m[1] . '?autoplay=1&rel=0&origin=https://salefish.app';
-    }
+/**
+ * Return a normalised autoplay embed URL for YouTube or Vimeo.
+ * Supports: youtube.com/watch?v=, youtu.be/, youtube.com/shorts/, vimeo.com/ID
+ * Falls back to the original URL for any unrecognised input.
+ */
+function sf_video_embed_url( $url ) {
+    $url = trim( strip_tags( $url ) );
 
-    // Standard watch URL: youtube.com/watch?v=ID
-    // Short URL:          youtu.be/ID
-    // Attribution URL:    youtube.com/v/ID
+    // ── YouTube ──────────────────────────────────────────────────────────────
     if ( preg_match(
-        '/(?:youtube\.com\/(?:watch\?v=|v\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/',
+        '/(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/',
         $url, $m
     ) ) {
         return 'https://www.youtube.com/embed/' . $m[1] . '?autoplay=1&rel=0&origin=https://salefish.app';
     }
 
-    // Not a YouTube URL we recognise — return as-is so fancybox still gets something
+    // ── Vimeo ─────────────────────────────────────────────────────────────────
+    if ( preg_match( '/vimeo\.com\/(?:video\/)?(\d+)/', $url, $m ) ) {
+        return 'https://player.vimeo.com/video/' . $m[1] . '?autoplay=1';
+    }
+
     return $url;
+}
+
+/** Backward-compatible alias */
+function sf_youtube_embed_url( $url ) {
+    return sf_video_embed_url( $url );
+}
+
+/**
+ * Return a thumbnail image URL for a YouTube or Vimeo video.
+ * YouTube: static CDN (no API call needed).
+ * Vimeo:   oEmbed API with 24-hour transient caching.
+ * Returns empty string when the URL isn't a recognised video.
+ */
+function sf_video_thumbnail_url( $url ) {
+    $url = trim( strip_tags( $url ) );
+
+    // ── YouTube ──────────────────────────────────────────────────────────────
+    if ( preg_match(
+        '/(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/',
+        $url, $m
+    ) ) {
+        return 'https://img.youtube.com/vi/' . $m[1] . '/maxresdefault.jpg';
+    }
+
+    // ── Vimeo ─────────────────────────────────────────────────────────────────
+    if ( preg_match( '/vimeo\.com\/(?:video\/)?(\d+)/', $url, $m ) ) {
+        $video_id  = $m[1];
+        $cache_key = 'sf_vimeo_thumb_' . $video_id;
+        $cached    = get_transient( $cache_key );
+        if ( false !== $cached ) {
+            return $cached;
+        }
+        $response = wp_remote_get(
+            'https://vimeo.com/api/oembed.json?url=' . rawurlencode( 'https://vimeo.com/' . $video_id ) . '&width=1280',
+            [ 'timeout' => 5 ]
+        );
+        $thumb = '';
+        if ( ! is_wp_error( $response ) ) {
+            $data  = json_decode( wp_remote_retrieve_body( $response ), true );
+            $thumb = isset( $data['thumbnail_url'] ) ? $data['thumbnail_url'] : '';
+        }
+        set_transient( $cache_key, $thumb, DAY_IN_SECONDS );
+        return $thumb;
+    }
+
+    return '';
 }
 
 function salefish_blog_redirect() {
