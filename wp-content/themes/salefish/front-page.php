@@ -45,10 +45,10 @@ $the_numbers = get_field('the_numbers');
 	<div class="selling_popup_container">
 		<div class="selling_popup">
 			<a href="#contact_us" class="scroll_link button-image">
-				<img src="<?php bloginfo('template_directory'); ?>/img/popup.png"
+				<img src="<?php echo get_template_directory_uri(); ?>/img/popup.png"
 					class="popup" loading="lazy" decoding="async">
 			</a>
-			<img src="<?php bloginfo('template_directory'); ?>/img/x-closed.svg"
+			<img src="<?php echo get_template_directory_uri(); ?>/img/x-closed.svg"
 				class="close_icon" loading="lazy" decoding="async">
 		</div>
 	</div>
@@ -209,10 +209,10 @@ foreach($the_numbers as $row):
 				</div>
 				<div class="arrows numbersSwiperArrow">
 					<img class="arrow left_arrow"
-						src="<?php bloginfo('template_directory'); ?>/img/light_left_arrow.png"
+						src="<?php echo get_template_directory_uri(); ?>/img/light_left_arrow.png"
 						alt="Left Arrow" loading="lazy" decoding="async">
 					<img class="arrow right_arrow"
-						src="<?php bloginfo('template_directory'); ?>/img/light_right_arrow.png"
+						src="<?php echo get_template_directory_uri(); ?>/img/light_right_arrow.png"
 						alt="Right Arrow" loading="lazy" decoding="async">
 				</div>
 			</div>

@@ -40,7 +40,7 @@ $pillars = get_field('pillars');
 			<div class="right">
 				<a href="https://www.youtube.com/embed/IsXY6NuAGFo?autoplay=1&rel=0"
 				   data-video-url="https://www.youtube.com/embed/IsXY6NuAGFo?autoplay=1&rel=0">
-					<img src="<?php bloginfo('template_directory'); ?>/img/success/success_hero.png">
+					<img src="<?php echo get_template_directory_uri(); ?>/img/success/success_hero.png">
 				</a>
 			</div>
 		</div>
@@ -98,11 +98,11 @@ $pillars = get_field('pillars');
 				<div class="controls">
 					<div class="arrow">
 						<img class="left_arrow"
-							src="<?php bloginfo('template_directory'); ?>/img/left_arrow.png">
+							src="<?php echo get_template_directory_uri(); ?>/img/left_arrow.png">
 					</div>
 					<div class="arrow">
 						<img class="right_arrow"
-							src="<?php bloginfo('template_directory'); ?>/img/right_arrow.png">
+							src="<?php echo get_template_directory_uri(); ?>/img/right_arrow.png">
 					</div>
 				</div>
 			</div>

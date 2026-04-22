@@ -38,18 +38,18 @@ get_header();
 				<a class="email" href="mailto:hello@salefish.app">hello@salefish.app</a>
 				<div class="socials">
 					<a href="https://www.instagram.com/salefishapp/" target="_blank" rel="noopener noreferrer">
-						<img class="social_logo ig" src="<?php bloginfo('template_directory'); ?>/img/ig_logo.png" alt="Instagram">
+						<img class="social_logo ig" src="<?php echo get_template_directory_uri(); ?>/img/ig_logo.png" alt="Instagram">
 					</a>
 					<a href="https://www.facebook.com/salefishapp" target="_blank" rel="noopener noreferrer">
-						<img class="social_logo facebook" src="<?php bloginfo('template_directory'); ?>/img/facebook_logo.png"
+						<img class="social_logo facebook" src="<?php echo get_template_directory_uri(); ?>/img/facebook_logo.png"
 							alt="Facebook">
 					</a>
 					<a href="https://www.youtube.com/@salefishapp" target="_blank" rel="noopener noreferrer">
-						<img class="social_logo youtube" src="<?php bloginfo('template_directory'); ?>/img/youtube_logo.png"
+						<img class="social_logo youtube" src="<?php echo get_template_directory_uri(); ?>/img/youtube_logo.png"
 							alt="Youtube">
 					</a>
 					<a href="https://www.linkedin.com/company/salefishapp/" target="_blank" rel="noopener noreferrer">
-						<img class="social_logo linkedin" src="<?php bloginfo('template_directory'); ?>/img/linkedin_logo.png"
+						<img class="social_logo linkedin" src="<?php echo get_template_directory_uri(); ?>/img/linkedin_logo.png"
 							alt="Linkedin">
 					</a>
 				</div>

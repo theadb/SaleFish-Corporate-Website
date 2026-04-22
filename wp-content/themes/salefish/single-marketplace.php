@@ -34,7 +34,7 @@ $agents_header_button_link = $agents_header_button['link'];
 <main class="single_marketplace">
     <!-- HERO -->
     <section class="hero" style="background: <?php echo esc_attr( $background_color ); ?>">
-        <a href="/"><img class="salefish_logo" src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png" alt="Salefish"></a>
+        <a href="/"><img class="salefish_logo" src="<?php echo get_template_directory_uri(); ?>/img/salefish_logo.png" alt="Salefish"></a>
         <div class="wrapper" style="background: <?php echo esc_attr( $background_color ); ?>">
             <div class="max_wrapper">
                 <div class="left" data-aos="fade-right" data-aos-delay="300">

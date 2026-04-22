@@ -7,7 +7,7 @@
             your current sales process and tech stack.</p>
 
             <div class="info">
-                <img src="<?php bloginfo('template_directory'); ?>/img/success/pic.png" loading="lazy" decoding="async">
+                <img src="<?php echo get_template_directory_uri(); ?>/img/success/pic.png" loading="lazy" decoding="async">
                 <div class="right">
                     <div class="name">
                         <p>Danny Leck</p>

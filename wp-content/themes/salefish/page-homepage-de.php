@@ -46,10 +46,10 @@ $the_numbers = get_field('the_numbers');
 	<div class="selling_popup_container">
 		<div class="selling_popup">
 			<a href="#contact_us" class="scroll_link button-image">
-				<img src="<?php bloginfo('template_directory'); ?>/img/popup.png"
+				<img src="<?php echo get_template_directory_uri(); ?>/img/popup.png"
 					class="popup">
 			</a>
-			<img src="<?php bloginfo('template_directory'); ?>/img/x-closed.svg"
+			<img src="<?php echo get_template_directory_uri(); ?>/img/x-closed.svg"
 				class="close_icon">
 		</div>
 	</div>
@@ -173,10 +173,10 @@ foreach($the_numbers as $row):
 				</div>
 				<div class="arrows numbersSwiperArrow">
 					<img class="arrow left_arrow"
-						src="<?php bloginfo('template_directory'); ?>/img/light_left_arrow.png"
+						src="<?php echo get_template_directory_uri(); ?>/img/light_left_arrow.png"
 						alt="Left Arrow">
 					<img class="arrow right_arrow"
-						src="<?php bloginfo('template_directory'); ?>/img/light_right_arrow.png"
+						src="<?php echo get_template_directory_uri(); ?>/img/light_right_arrow.png"
 						alt="Right Arrow">
 				</div>
 			</div>
@@ -212,11 +212,11 @@ foreach($the_numbers as $row):
 					<div class="controls">
 						<div class="arrow">
 							<img class="left_arrow"
-								src="<?php bloginfo('template_directory'); ?>/img/left_arrow.png">
+								src="<?php echo get_template_directory_uri(); ?>/img/left_arrow.png">
 						</div>
 						<div class="arrow">
 							<img class="right_arrow"
-								src="<?php bloginfo('template_directory'); ?>/img/right_arrow.png">
+								src="<?php echo get_template_directory_uri(); ?>/img/right_arrow.png">
 						</div>
 					</div>
 				</div>

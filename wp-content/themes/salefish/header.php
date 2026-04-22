@@ -78,7 +78,7 @@
 		<div class="salefish">
 			<a href="/">
 				<img class="salefish_logo"
-					src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png"
+					src="<?php echo get_template_directory_uri(); ?>/img/salefish_logo.png"
 					alt="Salefish">
 			</a>
 		</div>
@@ -138,7 +138,7 @@
 		<div class="salefish">
 			<a href="/">
 				<img class="salefish_logo"
-					src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png"
+					src="<?php echo get_template_directory_uri(); ?>/img/salefish_logo.png"
 					alt="Salefish">
 			</a>
 		</div>
@@ -199,7 +199,7 @@
 		<div class="salefish">
 			<a href="/">
 				<img class="salefish_logo"
-					src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png"
+					src="<?php echo get_template_directory_uri(); ?>/img/salefish_logo.png"
 					alt="Salefish">
 			</a>
 		</div>
@@ -253,7 +253,7 @@
 		<div class="salefish">
 			<a href="/">
 				<img class="salefish_logo"
-					src="<?php bloginfo('template_directory'); ?>/img/salefish_logo.png"
+					src="<?php echo get_template_directory_uri(); ?>/img/salefish_logo.png"
 					alt="Salefish">
 			</a>
 		</div>
@@ -395,7 +395,7 @@
 			<hr>
 			<div class="bottom">
 				<img class="fish"
-					src="<?php bloginfo('template_directory'); ?>/img/fish.png"
+					src="<?php echo get_template_directory_uri(); ?>/img/fish.png"
 					alt="Salefish">
 				<a href="tel:+905333311236" class="hover-main-menu-style">+90 533 331 12 36</a>
 				<a href="tel:+902122341494" class="hover-main-menu-style">+90 212 234 14 94</a>
@@ -447,7 +447,7 @@
 			<hr>
 			<div class="bottom">
 				<img class="fish"
-					src="<?php bloginfo('template_directory'); ?>/img/fish.png"
+					src="<?php echo get_template_directory_uri(); ?>/img/fish.png"
 					alt="Salefish">
 				<a href="tel:+18778927741" class="hover-main-menu-style">1.877.892.7741</a>
 				<a href="tel:+19057615364" class="hover-main-menu-style">1.905.761.5364</a>

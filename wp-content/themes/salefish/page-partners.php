@@ -27,7 +27,7 @@ if (is_array($fade_msg)) {
     <!-- HERO -->
     <section class="hero">
         <img class="hero_bg"
-            src="<?php bloginfo('template_directory'); ?>/img/partners/partners.png"
+            src="<?php echo get_template_directory_uri(); ?>/img/partners/partners.png"
             alt="Living Room">
         <div class="wrapper">
             <div class="wrap">
@@ -83,29 +83,29 @@ if (is_array($fade_msg)) {
                     </div>
                     <div class="content_img">
                         <img
-                            src="<?php bloginfo('template_directory'); ?>/img/partners/crm.png">
+                            src="<?php echo get_template_directory_uri(); ?>/img/partners/crm.png">
                     </div>
                 </div>
                 <div class="item_img" data-aos="fade-up">
                     <p>Tools You Already Trust. Now Working Together.</p>
                     <div class="logos">
                         <div class="col">
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_1.png" loading="lazy" decoding="async">
+                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_1.png" loading="lazy" decoding="async">
                         </div>
                         <div class="col">
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_2.png" loading="lazy" decoding="async">
+                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_2.png" loading="lazy" decoding="async">
                         </div>
                         <div class="col">
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_3.png" loading="lazy" decoding="async">
+                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_3.png" loading="lazy" decoding="async">
                         </div>
                         <div class="col">
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_4.png" loading="lazy" decoding="async">
+                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_4.png" loading="lazy" decoding="async">
                         </div>
                         <div class="col">
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_5.png" loading="lazy" decoding="async">
+                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_5.png" loading="lazy" decoding="async">
                         </div>
                         <div class="col">
-                            <img src="<?php bloginfo('template_directory'); ?>/img/partners/logo_6.png" loading="lazy" decoding="async">
+                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_6.png" loading="lazy" decoding="async">
                         </div>
 
                     </div>
@@ -122,7 +122,7 @@ if (is_array($fade_msg)) {
                     </div>
                     <div class="content_img">
                         <img
-                            src="<?php bloginfo('template_directory'); ?>/img/partners/notify.png">
+                            src="<?php echo get_template_directory_uri(); ?>/img/partners/notify.png">
                     </div>
                 </div>
                 <div class="item" data-aos="fade-up">
@@ -137,7 +137,7 @@ if (is_array($fade_msg)) {
                     </div>
                     <div class="content_img">
                         <img
-                            src="<?php bloginfo('template_directory'); ?>/img/partners/bag.png">
+                            src="<?php echo get_template_directory_uri(); ?>/img/partners/bag.png">
                     </div>
                 </div>
             </div>
