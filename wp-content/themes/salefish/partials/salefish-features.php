@@ -3,7 +3,7 @@ $features = get_field('features', 'option');
 $service_support = get_field('service_support', 'option');
 $service_support_button = $service_support['button'];
 $service_support_button_text = mb_convert_case($service_support_button['text'], MB_CASE_TITLE, 'UTF-8');
-$service_support_button_link = 'https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c';
+$service_support_button_link = 'https://chatting.page/salefish';
 $counter = 0;
 ?>
 
