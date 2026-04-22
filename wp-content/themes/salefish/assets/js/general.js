@@ -312,13 +312,18 @@ $(function () {
 
   // ── BOOK A DEMO MODAL ───────────────────────────────────────────────────────
   // Intercept all meetings.hubspot.com links and open them in an inline modal.
-  // Appending embed=true tells HubSpot to strip its own header/footer so the
-  // scheduler fills the iframe cleanly.
+  // embed=true tells HubSpot to strip its own header/footer. HubSpot also fires
+  // a postMessage({meetingsEmbedHeight: N}) whenever its content height changes;
+  // we listen for that below and resize the iframe to the exact content height
+  // so there is no white gap at the bottom.
   $(document).on("click", 'a[href*="meetings.hubspot.com"]', function (e) {
     e.preventDefault();
     var rawUrl = $(this).attr("href");
     var sep = rawUrl.indexOf("?") !== -1 ? "&" : "?";
-    $("#sf-demo-modal .sf-demo-modal__frame").attr("src", rawUrl + sep + "embed=true");
+    var $frame = $("#sf-demo-modal .sf-demo-modal__frame");
+    // Reset to CSS default height each open so a fresh postMessage sizes it cleanly
+    $frame.css("height", "");
+    $frame.attr("src", rawUrl + sep + "embed=true");
     $("#sf-demo-modal").fadeIn(200);
     $("body").css("overflow", "hidden");
   });
@@ -326,7 +331,7 @@ $(function () {
   function sfCloseDemoModal() {
     $("#sf-demo-modal").fadeOut(200, function () {
       // Clear src so the HubSpot page stops running while hidden
-      $(this).find(".sf-demo-modal__frame").attr("src", "");
+      $(this).find(".sf-demo-modal__frame").attr("src", "").css("height", "");
     });
     $("body").css("overflow", "");
   }
@@ -341,6 +346,26 @@ $(function () {
   $(document).on("keydown", function (e) {
     if (e.key === "Escape" && $("#sf-demo-modal").is(":visible")) {
       sfCloseDemoModal();
+    }
+  });
+
+  // HubSpot sends postMessage({meetingsEmbedHeight: N}) whenever its content
+  // height changes (step changes, calendar expand, confirmation screen, etc.).
+  // Resize the iframe to the exact reported height, capped at 92 vh, so the
+  // panel shrink-wraps the content with no leftover white space.
+  // Skip on mobile — the panel is already full-screen there.
+  window.addEventListener("message", function (e) {
+    if (!$("#sf-demo-modal").is(":visible")) return;
+    var data = e.data;
+    if (typeof data === "string") {
+      try { data = JSON.parse(data); } catch (err) { return; }
+    }
+    if (!data || typeof data !== "object") return;
+    var h = data.meetingsEmbedHeight;
+    if (typeof h !== "number" || h < 100) return;
+    if (window.innerWidth > 768) {
+      var maxH = Math.round(window.innerHeight * 0.92);
+      $("#sf-demo-modal .sf-demo-modal__frame").css("height", Math.min(h, maxH) + "px");
     }
   });
 
