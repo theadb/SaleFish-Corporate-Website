@@ -1,0 +1,103 @@
+// ── Thank-You Registration Page ───────────────────────────────────────────────
+
+.sf-ty-page {
+  min-height: calc(100vh - 100px); // subtract fixed header height
+  padding: 100px 24px 80px; // push below fixed header
+  background: $gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include rs768 {
+    min-height: calc(100vh - 80px);
+    padding: 100px 20px 60px;
+  }
+
+  &__inner {
+    width: 100%;
+    max-width: 560px;
+  }
+
+  &__card {
+    background: var(--sf-card-gradient);
+    background-color: hsl(var(--sf-card));
+    border-radius: var(--sf-radius-lg);
+    box-shadow: var(--sf-shadow-lg), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    padding: 56px 56px 52px;
+    text-align: center;
+
+    @include rs550 {
+      padding: 40px 28px 36px;
+    }
+  }
+
+  &__icon-wrap {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: rgba($dark_purple, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 28px;
+
+    svg {
+      width: 32px;
+      height: 32px;
+      color: $dark_purple;
+      stroke-width: 1.75;
+    }
+  }
+
+  &__eyebrow {
+    display: block;
+    font-family: $PSB;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: $gold;
+    margin-bottom: 14px;
+  }
+
+  &__heading {
+    font-family: $PSB;
+    font-size: 1.75rem;
+    color: $dark_purple;
+    line-height: 1.2;
+    margin: 0 0 20px;
+
+    @include rs550 {
+      font-size: 1.4rem;
+    }
+  }
+
+  &__body {
+    font-family: $PL;
+    font-size: 1rem;
+    color: hsl(var(--sf-card-fg));
+    line-height: 1.7;
+    margin: 0 0 36px;
+  }
+
+  &__btn {
+    display: inline-block;
+    font-family: $PSB;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+    color: #fff;
+    background: $dark_purple;
+    padding: 14px 32px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background 200ms ease, transform 200ms ease;
+
+    &:hover {
+      background: darken($dark_purple, 8%);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
