@@ -188,7 +188,12 @@ $(function () {
       $(".blog_nav a").addClass("active");
       break;
     default:
-      if (pathname.startsWith("/blog")) {
+      if (
+        pathname.startsWith("/blog") ||
+        document.body.classList.contains("single-post") ||
+        document.body.classList.contains("category") ||
+        document.body.classList.contains("archive")
+      ) {
         $(".blog_nav a").addClass("active");
       }
       break;
