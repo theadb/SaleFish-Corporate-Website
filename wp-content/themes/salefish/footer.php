@@ -10,7 +10,7 @@
 <footer>
 	<div class="max_wrapper">
 		<div class="salefish">
-			<img class="salefish_logo" src="<?php bloginfo('template_directory'); ?>/img/dark_salefish_logo.png"
+			<img class="salefish_logo" src="<?php echo get_template_directory_uri(); ?>/img/dark_salefish_logo.png"
 				alt="Salefish">
 		</div>
 		<div class="links us_links">
@@ -73,7 +73,7 @@
 			</div>
 			<div class="col flex_img">
 				<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">
-					<img class="plus_group" src="<?php bloginfo('template_directory'); ?>/img/plus_group.png" alt="Plus Group" loading="lazy" decoding="async">
+					<img class="plus_group" src="<?php echo get_template_directory_uri(); ?>/img/plus_group.png" alt="Plus Group" loading="lazy" decoding="async">
 				</a>
 			</div>
 		</div>
@@ -127,7 +127,7 @@
 			</div>
 			<div class="col flex_img">
 				<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">
-					<img class="plus_group" src="<?php bloginfo('template_directory'); ?>/img/plus_group.png" alt="Plus Group" loading="lazy" decoding="async">
+					<img class="plus_group" src="<?php echo get_template_directory_uri(); ?>/img/plus_group.png" alt="Plus Group" loading="lazy" decoding="async">
 
 				</a>
 			</div>
@@ -182,7 +182,7 @@
 			</div>
 			<div class="col flex_img">
 				<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">
-					<img class="plus_group" src="<?php bloginfo('template_directory'); ?>/img/plus_group.png" alt="Plus Group" loading="lazy" decoding="async">
+					<img class="plus_group" src="<?php echo get_template_directory_uri(); ?>/img/plus_group.png" alt="Plus Group" loading="lazy" decoding="async">
 
 				</a>
 			</div>
@@ -232,14 +232,14 @@ var salefishAjax = {
 	turnstileSitekey: '<?php echo esc_js( defined( "SALEFISH_CF_TURNSTILE_SITEKEY" ) ? SALEFISH_CF_TURNSTILE_SITEKEY : "" ); ?>'
 };
 </script>
-<script src="<?php bloginfo('template_directory'); ?>/dest/app.js"></script>
+<script src="<?php echo get_template_directory_uri(); ?>/dest/app.js"></script>
 <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16/dist/smooth-scroll.polyfills.min.js"></script>
 
 
 
 <script>
-const BASEURL = '<?php bloginfo('template_directory'); ?>'
+const BASEURL = '<?php echo get_template_directory_uri(); ?>'
 const ajaxurl = '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>';
 </script>
 

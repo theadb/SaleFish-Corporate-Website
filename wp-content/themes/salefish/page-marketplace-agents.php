@@ -157,7 +157,7 @@ $builders_header_button_link = $builders_header_button['link'];
 
 				<div class="info">
 					<img
-						src="<?php bloginfo('template_directory'); ?>/img/success/pic.png">
+						src="<?php echo get_template_directory_uri(); ?>/img/success/pic.png">
 					<div class="right">
 						<div class="name">
 							<p>Danny Leck</p>
@@ -223,7 +223,7 @@ $builders_header_button_link = $builders_header_button['link'];
 
 				<div class="info">
 					<img
-						src="<?php bloginfo('template_directory'); ?>/img/success/cindy.png">
+						src="<?php echo get_template_directory_uri(); ?>/img/success/cindy.png">
 					<div class="right">
 						<div class="name">
 							<p>Cindy Lloyd</p>

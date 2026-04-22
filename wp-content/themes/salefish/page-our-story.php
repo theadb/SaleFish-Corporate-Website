@@ -17,7 +17,7 @@ get_header();
 	<!-- HERO -->
 	<section class="hero">
 		<img class="hero_bg"
-			src="<?php bloginfo('template_directory'); ?>/img/our_story/hero.jpg"
+			src="<?php echo get_template_directory_uri(); ?>/img/our_story/hero.jpg"
 			alt="Living Room">
 		<div class="wrapper">
 			<div class="wrap">
