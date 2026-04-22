@@ -538,6 +538,111 @@ header {
   }
 }
 
+// ─── BOOK A DEMO MODAL ───────────────────────────────────────────────────────
+// Intercepts all meetings.hubspot.com links and opens them inline.
+// Desktop: centred floating panel. Mobile: full-screen sheet.
+.sf-demo-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  display: none; // jQuery fadeIn/fadeOut controls visibility
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    cursor: pointer;
+  }
+
+  &__panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 48px);
+    max-width: 880px;
+    height: 84vh;
+    max-height: 840px;
+    min-height: 500px;
+    background: #fff;
+    border-radius: var(--sf-radius-lg);
+    box-shadow: var(--sf-shadow-lg), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    // Full-screen sheet on mobile
+    @include rs768 {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      min-height: 0;
+      border-radius: 0;
+      transform: none;
+    }
+  }
+
+  // Thin title bar — keeps close button always visible above the iframe
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px 0 24px;
+    height: 52px;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+    @include rs550 {
+      padding: 0 12px 0 20px;
+    }
+  }
+
+  &__title {
+    font-family: $PSB;
+    font-size: 0.9rem;
+    color: $dark_purple;
+    letter-spacing: 0.01em;
+  }
+
+  // Matches the close button style used in .sf-check-email-msg and .thank_you_msg
+  &__close {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba($dark_purple, 0.06);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: $dark_purple;
+    padding: 0;
+    transition: background 0.18s ease, transform 0.18s ease;
+
+    &:hover {
+      background: rgba($dark_purple, 0.12);
+      transform: rotate(90deg);
+    }
+
+    svg { width: 18px; height: 18px; stroke-width: 2; }
+  }
+
+  // iframe fills all space below the header bar
+  &__frame {
+    width: 100%;
+    flex: 1;
+    min-height: 0; // required for flex children to shrink below content height
+    border: none;
+    display: block;
+  }
+}
+
 .sales_login_menu {
   position: fixed;
   top: 70px;

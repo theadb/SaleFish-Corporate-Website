@@ -310,6 +310,40 @@ $(function () {
     $("body").css("overflow", "");
   });
 
+  // ── BOOK A DEMO MODAL ───────────────────────────────────────────────────────
+  // Intercept all meetings.hubspot.com links and open them in an inline modal.
+  // Appending embed=true tells HubSpot to strip its own header/footer so the
+  // scheduler fills the iframe cleanly.
+  $(document).on("click", 'a[href*="meetings.hubspot.com"]', function (e) {
+    e.preventDefault();
+    var rawUrl = $(this).attr("href");
+    var sep = rawUrl.indexOf("?") !== -1 ? "&" : "?";
+    $("#sf-demo-modal .sf-demo-modal__frame").attr("src", rawUrl + sep + "embed=true");
+    $("#sf-demo-modal").fadeIn(200);
+    $("body").css("overflow", "hidden");
+  });
+
+  function sfCloseDemoModal() {
+    $("#sf-demo-modal").fadeOut(200, function () {
+      // Clear src so the HubSpot page stops running while hidden
+      $(this).find(".sf-demo-modal__frame").attr("src", "");
+    });
+    $("body").css("overflow", "");
+  }
+
+  $(document).on(
+    "click",
+    "#sf-demo-modal .sf-demo-modal__backdrop, #sf-demo-modal .sf-demo-modal__close",
+    sfCloseDemoModal
+  );
+
+  // Keyboard: Escape closes the modal
+  $(document).on("keydown", function (e) {
+    if (e.key === "Escape" && $("#sf-demo-modal").is(":visible")) {
+      sfCloseDemoModal();
+    }
+  });
+
 });
 
 // ── Tidio chat button: white outline ring ─────────────────────────────────────
