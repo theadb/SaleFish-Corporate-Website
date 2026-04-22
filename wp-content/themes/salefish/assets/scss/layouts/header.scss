@@ -40,7 +40,7 @@ header {
   }
 
   &.active {
-    background: transparent;
+    background: rgba($dark_purple, 1);
     height: 70px;
 
     @include rs768 {
@@ -230,7 +230,6 @@ header {
 
     .wrap {
       position: absolute;
-      width: 100%;
       box-shadow: var(--sf-shadow-md);
       background: var(--sf-card-gradient);
       background-color: hsl(var(--sf-card));
@@ -239,6 +238,10 @@ header {
       right: 60px;
       width: 230px;
       border: none;
+
+      @include rs768 {
+        right: 20px; // aligns right edge with the × button in the 20px-padded mobile header
+      }
     }
   }
 
