@@ -173,11 +173,16 @@ get_header();
 						$sp_date     = get_the_date( 'M j, Y', $sp_id );
 						$sp_author   = get_the_author_meta( 'display_name', $sp->post_author );
 						$sp_video    = $sp_cat_slug === 'videos';
+						$sp_embed    = $sp_video ? sf_video_embed_url( $sp->post_content ) : '';
+						if ( empty( $sp_thumb ) && $sp_video ) {
+							$sp_vthumb = sf_video_thumbnail_url( $sp->post_content );
+							if ( $sp_vthumb ) $sp_thumb = '<img src="' . esc_url( $sp_vthumb ) . '" alt="' . esc_attr( get_the_title( $sp_id ) ) . '" loading="lazy">';
+						}
 					?>
-					<a href="<?php echo $sp_video ? esc_url( sf_youtube_embed_url( $sp->post_content ) ) : esc_url( $sp_link ); ?>"
+					<a href="<?php echo $sp_video ? esc_url( $sp_embed ) : esc_url( $sp_link ); ?>"
 					   class="blog-sticky__card blog-card-animate"
 					   style="animation-delay: <?php echo $i * 0.07; ?>s"
-					   <?php echo $sp_video ? 'data-fancybox data-type="iframe"' : ''; ?>>
+					   <?php echo $sp_video ? 'data-video-url="' . esc_attr( $sp_embed ) . '"' : ''; ?>>
 						<?php if ( $sp_thumb ) : ?>
 						<div class="blog-sticky__card-image"><?php echo $sp_thumb; ?></div>
 						<?php endif; ?>
