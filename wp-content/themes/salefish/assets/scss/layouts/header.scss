@@ -385,10 +385,10 @@ header {
   }
 
   &__icon-wrap {
-    width: 68px;
-    height: 68px;
-    background: $gold;
-    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    background: rgba($dark_purple, 0.08);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
