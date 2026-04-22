@@ -540,7 +540,12 @@ header {
 
 // ─── BOOK A DEMO MODAL ───────────────────────────────────────────────────────
 // Intercepts all meetings.hubspot.com links and opens them inline.
-// Desktop: centred floating panel. Mobile: full-screen sheet.
+// Desktop: centred floating panel sized to content. Mobile: full-screen sheet.
+//
+// Scroll strategy — one scrollbar, zero white space:
+//   __panel   clips to border-radius; JS sets its height to min(content, 92vh)
+//   __scroll  is the ONLY scrolling surface; overscroll-behavior stops chaining
+//   __frame   is always sized to its full content height → never needs own scrollbar
 .sf-demo-modal {
   position: fixed;
   inset: 0;
@@ -561,15 +566,15 @@ header {
     transform: translate(-50%, -50%);
     width: calc(100% - 48px);
     max-width: 880px;
-    // height is driven by the iframe, which HubSpot resizes via postMessage.
-    // auto + max-height means the panel shrinks to content with no white gap.
+    // JS sets an explicit pixel height via postMessage → panel shrink-wraps content.
+    // min/max are fallbacks before the first postMessage arrives.
     height: auto;
     max-height: 92vh;
     min-height: 400px;
     background: #fff;
     border-radius: var(--sf-radius-lg);
     box-shadow: var(--sf-shadow-lg), 0 0 0 1px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
+    overflow: hidden; // clips to rounded corners; scroll is on __scroll, not here
 
     // Full-screen sheet on mobile
     @include rs768 {
@@ -587,13 +592,13 @@ header {
     }
   }
 
-  // Close button floats over the top-right corner of the iframe.
+  // Close button is position:absolute inside the panel so it never scrolls away.
   // White background + shadow keeps it legible against any iframe content.
   &__close {
     position: absolute;
     top: 14px;
     right: 14px;
-    z-index: 1;
+    z-index: 2; // above __scroll
     width: 34px;
     height: 34px;
     display: flex;
@@ -617,19 +622,33 @@ header {
     svg { width: 18px; height: 18px; stroke-width: 2; }
   }
 
-  // iframe: initial pixel height on desktop; HubSpot will postMessage the real
-  // height and JS will update this. 100% on mobile (full-screen sheet).
+  // The ONLY scrolling surface — takes the full panel height.
+  // overscroll-behavior:contain stops the scroll from chaining to the page body
+  // (critical on iOS where overflow:hidden on <body> is often ignored).
+  &__scroll {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior-y: contain;
+
+    // Subtle branded scrollbar (Webkit/Blink)
+    &::-webkit-scrollbar       { width: 5px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb {
+      background: rgba($dark_purple, 0.25);
+      border-radius: 3px;
+    }
+    &::-webkit-scrollbar-thumb:hover { background: rgba($dark_purple, 0.4); }
+  }
+
+  // iframe is always sized to its FULL content height by JS — it never needs
+  // its own scrollbar. __scroll handles any overflow above 92vh.
   &__frame {
     width: 100%;
-    height: 600px;   // reasonable pre-load size; overridden by postMessage
-    min-height: 400px;
+    height: 600px;  // initial fallback; overridden immediately by postMessage
     border: none;
     display: block;
-
-    @include rs768 {
-      height: 100%;
-      min-height: 0;
-    }
   }
 }
 

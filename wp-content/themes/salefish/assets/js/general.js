@@ -311,28 +311,31 @@ $(function () {
   });
 
   // ── BOOK A DEMO MODAL ───────────────────────────────────────────────────────
-  // Intercept all meetings.hubspot.com links and open them in an inline modal.
-  // embed=true tells HubSpot to strip its own header/footer. HubSpot also fires
-  // a postMessage({meetingsEmbedHeight: N}) whenever its content height changes;
-  // we listen for that below and resize the iframe to the exact content height
-  // so there is no white gap at the bottom.
+  // Intercept all meetings.hubspot.com links and open them inline.
+  // embed=true strips HubSpot's own chrome. HubSpot fires
+  // postMessage({meetingsEmbedHeight: N}) on every content-height change;
+  // we use that to:
+  //   1. Set the PANEL to min(contentH, 92vh) → no white space below content
+  //   2. Set the IFRAME to the full contentH → iframe never needs its own scrollbar
+  //   3. __scroll (height:100% of panel) handles overflow → single scrollbar
+
+  function sfDemoModalReset() {
+    $("#sf-demo-modal .sf-demo-modal__frame").attr("src", "").css("height", "");
+    $("#sf-demo-modal .sf-demo-modal__panel").css("height", "");
+  }
+
   $(document).on("click", 'a[href*="meetings.hubspot.com"]', function (e) {
     e.preventDefault();
+    sfDemoModalReset(); // clear any previous session's sizing
     var rawUrl = $(this).attr("href");
     var sep = rawUrl.indexOf("?") !== -1 ? "&" : "?";
-    var $frame = $("#sf-demo-modal .sf-demo-modal__frame");
-    // Reset to CSS default height each open so a fresh postMessage sizes it cleanly
-    $frame.css("height", "");
-    $frame.attr("src", rawUrl + sep + "embed=true");
+    $("#sf-demo-modal .sf-demo-modal__frame").attr("src", rawUrl + sep + "embed=true");
     $("#sf-demo-modal").fadeIn(200);
     $("body").css("overflow", "hidden");
   });
 
   function sfCloseDemoModal() {
-    $("#sf-demo-modal").fadeOut(200, function () {
-      // Clear src so the HubSpot page stops running while hidden
-      $(this).find(".sf-demo-modal__frame").attr("src", "").css("height", "");
-    });
+    $("#sf-demo-modal").fadeOut(200, sfDemoModalReset);
     $("body").css("overflow", "");
   }
 
@@ -342,18 +345,16 @@ $(function () {
     sfCloseDemoModal
   );
 
-  // Keyboard: Escape closes the modal
   $(document).on("keydown", function (e) {
     if (e.key === "Escape" && $("#sf-demo-modal").is(":visible")) {
       sfCloseDemoModal();
     }
   });
 
-  // HubSpot sends postMessage({meetingsEmbedHeight: N}) whenever its content
-  // height changes (step changes, calendar expand, confirmation screen, etc.).
-  // Resize the iframe to the exact reported height, capped at 92 vh, so the
-  // panel shrink-wraps the content with no leftover white space.
-  // Skip on mobile — the panel is already full-screen there.
+  // HubSpot postMessage listener — fires on load, step changes, confirmation, etc.
+  // Works on all screen sizes: mobile panel is full-screen via CSS so its panel
+  // height is not overridden, but the iframe still gets its full content height
+  // so only __scroll ever needs to scroll (one scrollbar, no double-scroll).
   window.addEventListener("message", function (e) {
     if (!$("#sf-demo-modal").is(":visible")) return;
     var data = e.data;
@@ -363,9 +364,15 @@ $(function () {
     if (!data || typeof data !== "object") return;
     var h = data.meetingsEmbedHeight;
     if (typeof h !== "number" || h < 100) return;
+
+    // iframe → full content height (no cap) so it never needs its own scrollbar
+    $("#sf-demo-modal .sf-demo-modal__frame").css("height", h + "px");
+
+    // panel → capped at 92vh on desktop to keep it within the viewport;
+    // on mobile the panel is already full-screen via CSS, leave it alone
     if (window.innerWidth > 768) {
       var maxH = Math.round(window.innerHeight * 0.92);
-      $("#sf-demo-modal .sf-demo-modal__frame").css("height", Math.min(h, maxH) + "px");
+      $("#sf-demo-modal .sf-demo-modal__panel").css("height", Math.min(h, maxH) + "px");
     }
   });
 
