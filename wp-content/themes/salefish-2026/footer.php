@@ -5,8 +5,6 @@
 
 ?>
 
-
-<?php wp_footer(); ?>
 <footer class="sf-footer">
 	<div class="sf-footer__inner">
 		<div class="sf-footer__top">
@@ -138,22 +136,7 @@
 		</div>
 	</div>
 </footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-	integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-var salefishAjax = {
-	ajaxurl: '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>',
-	nonce: '<?php echo esc_js( wp_create_nonce( 'salefish_nonce' ) ); ?>',
-	loadMoreNonce: '<?php echo esc_js( wp_create_nonce( 'salefish_load_more' ) ); ?>'
-};
-</script>
-<script src="<?php bloginfo('template_directory'); ?>/dest/app.js"></script>
 <script>document.addEventListener('DOMContentLoaded', function () { AOS.init({ duration: 600, once: true, offset: 60 }); });</script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 
 
 
@@ -180,6 +163,7 @@ s.parentNode.insertBefore(b, s);})(window.lintrk);
 <noscript>
 <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=2438284&fmt=gif" />
 </noscript>
+<?php wp_footer(); ?>
 </body>
 
 </html>

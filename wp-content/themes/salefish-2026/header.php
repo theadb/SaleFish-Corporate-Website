@@ -15,74 +15,30 @@
 <html <?php language_attributes(); ?>>
 
 <head>
-	<meta
-		charset="<?php bloginfo('charset'); ?>">
-	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+	<meta charset="<?php bloginfo('charset'); ?>">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 	<link rel="manifest" href="/site.webmanifest">
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="theme-color" content="#ffffff">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
-	<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-	<title>SaleFish</title>
-
-	<script>
-		(function () {
-			if (localStorage.getItem('sf-theme') === 'dark') {
-				document.documentElement.classList.add('dark');
-			}
-		}());
-	</script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" media="print" onload="this.media='all'">
+	<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></noscript>
+	<style>.cdp-copy-loader-overlay { display: none; }</style>
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-5CX687F');</script>
+	<!-- End Google Tag Manager -->
+	<script>(function(){if(localStorage.getItem('sf-theme')==='dark'){document.documentElement.classList.add('dark');}}());</script>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&display=swap" rel="stylesheet">
 	<?php wp_head(); ?>
 </head>
-
-<style>
-	.cdp-copy-loader-overlay{
-		display: none;
-	}
-</style>
-
-<!-- Live Chat -->
-<!-- <script src="//code.tidio.co/yz7mnwj2v5al4l2zvbdjaqbuge76emda.js" async></script> -->
-
-
-<!-- Google Tag Manager -->
-<script>
-	(function(w, d, s, l, i) {
-		w[l] = w[l] || [];
-		w[l].push({
-			'gtm.start': new Date().getTime(),
-			event: 'gtm.js'
-		});
-		var f = d.getElementsByTagName(s)[0],
-			j = d.createElement(s),
-			dl = l != 'dataLayer' ? '&l=' + l : '';
-		j.async = true;
-		j.src =
-			'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-		f.parentNode.insertBefore(j, f);
-	})(window, document, 'script', 'dataLayer', 'GTM-5CX687F');
-</script>
-<!-- End Google Tag Manager -->
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RPV5YBTN35"></script>
-<script>
-	window.dataLayer = window.dataLayer || [];
-
-	function gtag() {
-		dataLayer.push(arguments);
-	}
-	gtag('js', new Date());
-	gtag('config', 'G-RPV5YBTN35');
-</script>
-
+<body <?php body_class(); ?>>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5CX687F" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <header class="default">
 	<div class="max_wrapper" data-aos="fade-down" data-aos-delay="200">
@@ -521,7 +477,7 @@
 <div class="thank_you_msg">
 	<div class="wrapper">
 		<div class="wrap">
-			<i class="ri-close-line close_thank_you_msg"></i>
+			<span class="close_thank_you_msg" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.364 5.636a1 1 0 0 1 0 1.414L13.414 12l4.95 4.95a1 1 0 0 1-1.414 1.414L12 13.414l-4.95 4.95a1 1 0 0 1-1.414-1.414L10.586 12 5.636 7.05a1 1 0 0 1 1.414-1.414L12 10.586l4.95-4.95a1 1 0 0 1 1.414 0z"/></svg></span>
 			<h1>
 				Thanks for checking in! <br />
 				We'll be in touch shortly.
@@ -541,7 +497,7 @@
 ?>
 	<div class="wrapper">
 		<h1>Privacy Policy</h1>
-		<i class="ri-close-line close_privacy"></i>
+		<span class="close_privacy" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.364 5.636a1 1 0 0 1 0 1.414L13.414 12l4.95 4.95a1 1 0 0 1-1.414 1.414L12 13.414l-4.95 4.95a1 1 0 0 1-1.414-1.414L10.586 12 5.636 7.05a1 1 0 0 1 1.414-1.414L12 10.586l4.95-4.95a1 1 0 0 1 1.414 0z"/></svg></span>
 		<div class="wrap">
 			<?php echo $content->post_content; ?>
 
@@ -555,7 +511,7 @@
 ?>
 	<div class="wrapper">
 		<h1>Terms of Use</h1>
-		<i class="ri-close-line close_terms"></i>
+		<span class="close_terms" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.364 5.636a1 1 0 0 1 0 1.414L13.414 12l4.95 4.95a1 1 0 0 1-1.414 1.414L12 13.414l-4.95 4.95a1 1 0 0 1-1.414-1.414L10.586 12 5.636 7.05a1 1 0 0 1 1.414-1.414L12 10.586l4.95-4.95a1 1 0 0 1 1.414 0z"/></svg></span>
 		<div class="wrap">
 			<?php echo $content->post_content; ?>
 
@@ -604,5 +560,3 @@ if ($banner != ''):
 	</div>
 </div>
 <?php endif; ?>
-
-<body <?php body_class(); ?>>

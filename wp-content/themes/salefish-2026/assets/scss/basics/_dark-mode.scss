@@ -2,8 +2,7 @@
 // Applied when <html class="dark"> is present.
 // Toggled by the inline script in header.php + dark mode button.
 
-@layer base {
-  .dark {
+.dark {
     --sf-elevate-1: rgba(255, 255, 255, 0.04);
     --sf-elevate-2: rgba(255, 255, 255, 0.10);
     --sf-button-outline: rgba(255, 255, 255, 0);
@@ -60,5 +59,4 @@
                      0 2px 4px -2px hsl(0 0% 0% / .40);
     --sf-shadow-lg:  0 10px 15px -3px hsl(0 0% 0% / .50),
                      0 4px 6px -4px hsl(0 0% 0% / .40);
-  }
 }

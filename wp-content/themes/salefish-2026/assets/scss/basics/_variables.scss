@@ -3,8 +3,7 @@
 // All values sourced from Plinthra (theadb/SaleFish-Plinthra)
 // ============================================================
 
-@layer base {
-  :root {
+:root {
     // ── Interaction overlays ────────────────────────────────
     --sf-elevate-1: rgba(0, 0, 0, 0.02);
     --sf-elevate-2: rgba(0, 0, 0, 0.05);
@@ -82,7 +81,6 @@
                      0 4px 8px -4px hsl(0 0% 0% / .08);
     --sf-shadow-lg:  0 20px 40px -8px hsl(0 0% 0% / .16),
                      0 8px 16px -8px hsl(0 0% 0% / .10);
-  }
 }
 
 // Legacy SCSS variable aliases — keeps existing page SCSS compiling without rewrites

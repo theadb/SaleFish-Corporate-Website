@@ -1,18 +1,22 @@
 @font-face {
   font-family: "Poppins-Regular";
-  src: url("/wp-content/themes/salefish/fonts/Poppins-Regular.ttf");
+  src: url("/wp-content/themes/salefish/fonts/Poppins-Regular.ttf") format('truetype');
+  font-display: swap;
 }
 @font-face {
   font-family: "Poppins-SemiBold";
-  src: url("/wp-content/themes/salefish/fonts/Poppins-SemiBold.ttf");
+  src: url("/wp-content/themes/salefish/fonts/Poppins-SemiBold.ttf") format('truetype');
+  font-display: swap;
 }
 @font-face {
   font-family: "Poppins-Bold";
-  src: url("/wp-content/themes/salefish/fonts/Poppins-Bold.ttf");
+  src: url("/wp-content/themes/salefish/fonts/Poppins-Bold.ttf") format('truetype');
+  font-display: swap;
 }
 @font-face {
   font-family: "Poppins-Light";
-  src: url("/wp-content/themes/salefish/fonts/Poppins-Light.ttf");
+  src: url("/wp-content/themes/salefish/fonts/Poppins-Light.ttf") format('truetype');
+  font-display: swap;
 }
 
 
