@@ -97,8 +97,14 @@ p {
   line-height: 1.5;
   text-wrap: pretty;
 
+  // Scale down for mobile: 1.75em = 28px at the 16px browser root — too large
+  // for body copy on a 375px phone. Cap to comfortable reading sizes.
+  @include rs768 {
+    font-size: 1.1em;
+  }
+
   @include rs550 {
-    font-size: 1.6em;
+    font-size: 1rem; // = 16px — matches feature/blog description text
   }
 }
 
@@ -144,5 +150,22 @@ main {
   &.active {
     opacity: 0;
     visibility: hidden;
+  }
+}
+
+// ── Scroll-reveal animations (Intersection Observer, desktop only) ─────────
+// Elements are always visible without JS and on mobile.
+// JS adds .sf-anim to [data-aos] elements (desktop only), which sets the
+// initial hidden state below. When in view, .sf-in is added → reveal.
+@media screen and (min-width: 769px) {
+  .sf-anim {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.48s ease, transform 0.48s ease;
+
+    &.sf-in {
+      opacity: 1;
+      transform: none;
+    }
   }
 }
