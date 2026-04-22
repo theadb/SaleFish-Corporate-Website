@@ -466,19 +466,16 @@
 </div>
 
 <div class="thank_you_msg">
-	<div class="wrapper">
-		<div class="wrap">
-			<i data-lucide="x" class="close_thank_you_msg"></i>
-			<h1>
-				Thanks for checking in! <br />
-				We’ll be in touch shortly.
-			</h1>
-			<p>
-				If you need immediate assistance, please give us a call
-				at <a href="tel:+18778927741">1.877.892.7741</a> or email us at
-				<a href="mailto:support@salefish.app">support@salefish.app</a>.
-			</p>
-		</div>
+	<div class="thank_you_msg__backdrop close_thank_you_msg"></div>
+	<div class="thank_you_msg__panel">
+		<button class="thank_you_msg__close close_thank_you_msg" aria-label="Close">
+			<i data-lucide="x"></i>
+		</button>
+		<span class="thank_you_msg__eyebrow">Message received</span>
+		<h2 class="thank_you_msg__heading">Here’s what happens next.</h2>
+		<p class="thank_you_msg__body">
+			A SaleFish specialist will reach out within 1 business day to walk you through the platform and talk through your specific project needs — whether that’s inventory management, online signing, or end-to-end pre-construction sales workflow.
+		</p>
 	</div>
 </div>
 
