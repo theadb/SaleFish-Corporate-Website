@@ -1,6 +1,6 @@
 .home {
   // HERO
-  overflow-x: hidden;
+  overflow-x: clip; // 'clip' does not create a scroll container — preserves iOS momentum scrolling
   .hero {
     position: relative;
     padding-top: 80px;
@@ -1013,7 +1013,7 @@
   background: #fff;
 
   .container > .header {
-    padding: 100px 60px 0 60px;
+    padding: 100px 60px 64px 60px;
     max-width: 1800px;
     margin: 0 auto;
     text-align: center;
@@ -1026,11 +1026,11 @@
     }
 
     @include rs768 {
-      padding: 60px 20px 0 20px;
+      padding: 60px 20px 48px 20px;
     }
 
     @include rs600 {
-      padding: 40px 20px 0 20px;
+      padding: 40px 20px 40px 20px;
     }
   }
 }
