@@ -40,16 +40,16 @@ $the_numbers = get_field('the_numbers');
 	let textArray = <?php echo wp_json_encode( $fade, JSON_HEX_TAG | JSON_HEX_AMP ); ?>;
 </script>
 
-<main class="home">
+<main class="home" id="main-content">
 	<!-- POPUP -->
 	<div class="selling_popup_container">
 		<div class="selling_popup">
 			<a href="#contact_us" class="scroll_link button-image">
 				<img src="<?php echo get_template_directory_uri(); ?>/img/popup.png"
-					class="popup" loading="lazy" decoding="async">
+					class="popup" loading="lazy" decoding="async" alt="Book a Free Demo">
 			</a>
 			<img src="<?php echo get_template_directory_uri(); ?>/img/x-closed.svg"
-				class="close_icon" loading="lazy" decoding="async">
+				class="close_icon" loading="lazy" decoding="async" alt="" aria-hidden="true">
 		</div>
 	</div>
 	<!-- HERO -->
@@ -57,7 +57,7 @@ $the_numbers = get_field('the_numbers');
 		<div class="wrapper">
 			<div class="max_wrapper">
 				<div class="left">
-					<h3 data-aos="fade-up" data-aos-delay="100">An Easier Way to <span>Sell <label id="app_for_home">Home Sales</label></span></h3>
+					<h3 data-aos="fade-up" data-aos-delay="100">An Easier Way to <span>Sell <span id="app_for_home">Home Sales</span></span></h3>
 					<h1 data-aos="fade-up" data-aos-delay="280">
 						<?php echo wp_kses_post( $hero_header ); ?>
 					</h1>
@@ -129,7 +129,7 @@ $the_numbers = get_field('the_numbers');
 					    ?>
 					<div class="swiper-slide">
 						<img class="pillar"
-							src="<?php echo esc_url( $icon ); ?>" loading="lazy" decoding="async">
+							src="<?php echo esc_url( $icon ); ?>" loading="lazy" decoding="async" alt="" aria-hidden="true">
 						<h3>
 							<?php echo esc_html( $title ); ?>
 						</h3>
@@ -140,12 +140,12 @@ $the_numbers = get_field('the_numbers');
 					<?php endforeach; ?>
 				</div>
 				<div class="controls">
-					<div class="arrow left_arrow">
+					<button class="arrow left_arrow" type="button" aria-label="Previous slide">
 						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
-					</div>
-					<div class="arrow right_arrow">
+					</button>
+					<button class="arrow right_arrow" type="button" aria-label="Next slide">
 						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
-					</div>
+					</button>
 				</div>
 			</div>
 		</div>

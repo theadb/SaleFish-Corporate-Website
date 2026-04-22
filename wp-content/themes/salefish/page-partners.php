@@ -83,29 +83,30 @@ if (is_array($fade_msg)) {
                     </div>
                     <div class="content_img">
                         <img
-                            src="<?php echo get_template_directory_uri(); ?>/img/partners/crm.png">
+                            src="<?php echo get_template_directory_uri(); ?>/img/partners/crm.png"
+                            alt="CRM integration dashboard screenshot">
                     </div>
                 </div>
                 <div class="item_img" data-aos="fade-up">
                     <p>Tools You Already Trust. Now Working Together.</p>
                     <div class="logos">
                         <div class="col">
-                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_1.png" loading="lazy" decoding="async">
+                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_1.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
                         </div>
                         <div class="col">
-                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_2.png" loading="lazy" decoding="async">
+                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_2.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
                         </div>
                         <div class="col">
-                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_3.png" loading="lazy" decoding="async">
+                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_3.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
                         </div>
                         <div class="col">
-                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_4.png" loading="lazy" decoding="async">
+                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_4.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
                         </div>
                         <div class="col">
-                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_5.png" loading="lazy" decoding="async">
+                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_5.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
                         </div>
                         <div class="col">
-                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_6.png" loading="lazy" decoding="async">
+                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_6.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
                         </div>
 
                     </div>
@@ -122,7 +123,8 @@ if (is_array($fade_msg)) {
                     </div>
                     <div class="content_img">
                         <img
-                            src="<?php echo get_template_directory_uri(); ?>/img/partners/notify.png">
+                            src="<?php echo get_template_directory_uri(); ?>/img/partners/notify.png"
+                            alt="SaleFish referral notification illustration">
                     </div>
                 </div>
                 <div class="item" data-aos="fade-up">
@@ -137,7 +139,8 @@ if (is_array($fade_msg)) {
                     </div>
                     <div class="content_img">
                         <img
-                            src="<?php echo get_template_directory_uri(); ?>/img/partners/bag.png">
+                            src="<?php echo get_template_directory_uri(); ?>/img/partners/bag.png"
+                            alt="SaleFish reseller partner illustration">
                     </div>
                 </div>
             </div>

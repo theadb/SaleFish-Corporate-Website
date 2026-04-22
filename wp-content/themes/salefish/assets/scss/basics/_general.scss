@@ -1,3 +1,35 @@
+// ── Skip navigation link ──────────────────────────────────────────────────────
+// Visually hidden until focused — keyboard users can bypass the header nav
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 8px;
+  z-index: 99999;
+  padding: 12px 20px;
+  background: $dark_purple;
+  color: #fff;
+  font-family: $PSB;
+  font-size: 0.9rem;
+  border-radius: 0 0 6px 6px;
+  text-decoration: none;
+  transition: top 0.15s ease;
+
+  &:focus {
+    top: 0;
+    outline: 3px solid $gold;
+    outline-offset: 2px;
+  }
+}
+
+// ── Accessible focus ring ─────────────────────────────────────────────────────
+// Show a visible ring for all keyboard-navigated focusable elements.
+// :focus-visible only fires for keyboard navigation (not mouse clicks).
+:focus-visible {
+  outline: 3px solid $dark_purple;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 // ── Global card entrance animation ───────────────────────────────────────
 @keyframes cardIn {
   from { opacity: 0; transform: translateY(18px); }
@@ -219,5 +251,38 @@ main {
   .sf-anim {
     transform: none !important; // override all direction variants
     transition: opacity 0.4s ease;
+  }
+}
+
+// ── Respect prefers-reduced-motion ───────────────────────────────────────────
+// Disable all decorative animations for users who prefer reduced motion.
+// Scroll-reveal (app.js) already skips its IntersectionObserver entirely when
+// this preference is set — this block covers CSS-only animations.
+@media (prefers-reduced-motion: reduce) {
+  // Hero gradient orbs
+  .hero::before, .hero::after,
+  .sf-page-hero::before, .sf-page-hero::after,
+  .sf-ty-page::before, .sf-ty-page::after,
+  .os-hero::before, .os-hero::after,
+  .terms-hero::before, .terms-hero::after,
+  .partners-hero::before, .partners-hero::after {
+    animation: none !important;
+    will-change: auto !important;
+  }
+
+  // Award card entrance
+  .card-animate {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  // Loading screen transition
+  .loading {
+    transition: none !important;
+  }
+
+  // Image zoom hover
+  .img-zoom img {
+    transition: none !important;
   }
 }
