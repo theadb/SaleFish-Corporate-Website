@@ -34,10 +34,19 @@ footer {
       margin-top: 2em;
     }
 
+    @include rs550 {
+      justify-content: flex-start;
+    }
+
     .col {
       @include rs768 {
         width: 50%;
         margin-bottom: 20px;
+      }
+
+      @include rs550 {
+        width: 100%;
+        margin-bottom: 16px;
       }
 
       .title {
@@ -130,6 +139,7 @@ footer {
 
     @include rs550 {
       flex-direction: column;
+      align-items: flex-start;
     }
 
     .left {
