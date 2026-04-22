@@ -140,7 +140,7 @@ $(function () {
       $(".flag_active").html(`<span class="flag">🇦🇺</span>`);
       $(".languages_option").html(`
         <ul>
-          <li><a href="/"><span class="flag">🇨🇦 🇺🇸</span></a></li>
+          <li><a href="/"><span class="flag">🇨🇦🇺🇸</span></a></li>
           <li><a href="/de"><span class="flag">🇩🇪</span></a></li>
           <li><a href="/tr"><span class="flag">🇹🇷</span></a></li>
         </ul>
@@ -150,7 +150,7 @@ $(function () {
       $(".flag_active").html(`<span class="flag">🇹🇷</span>`);
       $(".languages_option").html(`
         <ul>
-          <li><a href="/"><span class="flag">🇨🇦 🇺🇸</span></a></li>
+          <li><a href="/"><span class="flag">🇨🇦🇺🇸</span></a></li>
           <li><a href="/au"><span class="flag">🇦🇺</span></a></li>
           <li><a href="/de"><span class="flag">🇩🇪</span></a></li>
         </ul>
@@ -160,14 +160,14 @@ $(function () {
       $(".flag_active").html(`<span class="flag">🇩🇪</span>`);
       $(".languages_option").html(`
         <ul>
-          <li><a href="/"><span class="flag">🇨🇦 🇺🇸</span></a></li>
+          <li><a href="/"><span class="flag">🇨🇦🇺🇸</span></a></li>
           <li><a href="/au"><span class="flag">🇦🇺</span></a></li>
           <li><a href="/tr"><span class="flag">🇹🇷</span></a></li>
         </ul>
       `);
       break;
     default:
-      $(".flag_active").html(`<span class="flag">🇨🇦 🇺🇸</span>`);
+      $(".flag_active").html(`<span class="flag">🇨🇦🇺🇸</span>`);
       $(".languages_option").html(`
         <ul>
           <li><a href="/au"><span class="flag">🇦🇺</span></a></li>

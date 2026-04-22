@@ -7,10 +7,14 @@ import { single_post } from "./pages/single_post";
 import AOS from "aos";
 
 window.addEventListener("load", function (event) {
-  console.log("window load");
   setTimeout(() => {
     $(".loading").addClass("active");
     $("footer").css("display", "block");
-    AOS.init();
-  }, 800);
+    AOS.init({
+      duration: 350,
+      offset: 40,
+      once: true,
+      easing: "ease-out",
+    });
+  }, 150);
 });

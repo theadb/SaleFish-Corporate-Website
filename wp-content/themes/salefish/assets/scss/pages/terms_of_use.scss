@@ -33,7 +33,7 @@
       content: '';
       position: absolute;
       inset: -40% -30%;
-      background: radial-gradient(ellipse 42% 50% at 36% 60%, rgba($light_purple, 0.50) 0%, transparent 58%);
+      background: radial-gradient(ellipse 52% 60% at 36% 60%, rgba($light_purple, 0.62) 0%, transparent 64%);
       animation: heroOrbFloat 22s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite,
                  heroOrbPulse 8s ease-in-out infinite;
       pointer-events: none;
