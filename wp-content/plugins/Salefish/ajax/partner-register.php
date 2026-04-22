@@ -40,7 +40,7 @@ function salefish_partner_register() {
 
 	Salefish_Email_Verify::send_confirmation( $email, $token, 'partner' );
 
-	wp_send_json_success( 'Registered successfully.' );
+	wp_send_json_success( [ 'email' => $email ] );
 }
 
 add_action( 'wp_ajax_partner_register',        'salefish_partner_register' );

@@ -443,6 +443,7 @@ function salefish_complete_registration( string $type, array $f ): void {
 		], $f['_ctx'] ?? [] );
 		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'agent' ) );
 		salefish_send_notification( $note_data, 'agent' );
+		salefish_send_autoresponder( $f['email'] ?? '', $first_name, 'agent' );
 
 	} elseif ( $type === 'partner' ) {
 		$ac->add_tag( $contact_id, 'partner-registration' );
@@ -464,6 +465,7 @@ function salefish_complete_registration( string $type, array $f ): void {
 		], $f['_ctx'] ?? [] );
 		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'partner' ) );
 		salefish_send_notification( $note_data, 'partner' );
+		salefish_send_autoresponder( $f['email'] ?? '', $first_name, 'partner' );
 
 	} elseif ( $type === 'general' ) {
 		$ac->add_tag( $contact_id, 'website-registration' );
@@ -480,6 +482,7 @@ function salefish_complete_registration( string $type, array $f ): void {
 		], $f['_ctx'] ?? [] );
 		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'general' ) );
 		salefish_send_notification( $note_data, 'general' );
+		salefish_send_autoresponder( $f['email'] ?? '', $first_name, 'general' );
 	}
 }
 
