@@ -170,41 +170,137 @@ add_action( 'wp_enqueue_scripts', function() {
 }, 100 );
 
 // ─── SOCIAL / OG META TAGS ────────────────────────────────────────────────────
+// Suppress Yoast's duplicate meta description and OG tags — we handle them
+// below with richer, page-specific copy (runs at priority 1, before Yoast).
+add_filter( 'wpseo_metadesc',  '__return_empty_string' );
+add_filter( 'wpseo_og_og_data', function() { return []; } );
+
 function salefish_og_meta() {
     $default_image = 'https://salefish.app/wp-content/themes/salefish/img/salefish_demo_home.png';
     $site_name     = 'SaleFish';
+    $keywords      = '';   // per-page keywords populated below
 
+    // ── Homepage ──────────────────────────────────────────────────────────────
     if ( is_front_page() || is_home() ) {
-        $title       = get_bloginfo( 'name' );
-        $description = get_bloginfo( 'description' ) ?: 'The all-in-one real estate sales platform — digital contracts, CRM, marketing and more.';
+        $title       = 'SaleFish | Real Estate Sales Platform';
+        $description = 'The all-in-one real estate sales platform trusted by builders, developers, and sales teams worldwide. Digital worksheets, e-signatures, identity verification, and CRM — all in one place.';
+        $keywords    = 'real estate sales platform, pre-construction sales software, digital contracts real estate, CRM for builders, e-signatures real estate, real estate tech stack';
         $url         = home_url( '/' );
         $og_type     = 'website';
         $image       = $default_image;
 
-    } elseif ( is_singular() ) {
-        $post_id     = get_the_ID();
-        $title       = get_the_title( $post_id );
-        $url         = get_permalink( $post_id );
-        $og_type     = is_singular( 'post' ) ? 'article' : 'website';
+    // ── Awards page ───────────────────────────────────────────────────────────
+    } elseif ( is_page_template( 'page-awards.php' ) ) {
+        $title       = 'Awards &amp; Recognition | SaleFish';
+        $description = 'SaleFish has earned industry recognition for innovation, cybersecurity, and excellence in real estate sales software — the only platform with a CyberSecure Canada certification.';
+        $keywords    = 'real estate software awards, SaleFish recognition, CyberSecure Canada certification, pre-construction sales platform awards, real estate technology';
+        $url         = get_permalink();
+        $og_type     = 'website';
+        $image       = $default_image;
 
-        // Description: explicit excerpt → trimmed content → site tagline
+    // ── Partners page ─────────────────────────────────────────────────────────
+    } elseif ( is_page_template( 'page-partners.php' ) ) {
+        $title       = 'Partner with SaleFish | Real Estate Technology Partners';
+        $description = 'Join the SaleFish ecosystem as a technology partner, referral partner, or reseller. Earn recurring revenue while helping builders and sales teams move more real estate, more easily.';
+        $keywords    = 'real estate technology partner, SaleFish partner program, real estate software reseller, referral partner real estate, pre-construction sales partner';
+        $url         = get_permalink();
+        $og_type     = 'website';
+        $image       = $default_image;
+
+    // ── Our Story page ────────────────────────────────────────────────────────
+    } elseif ( is_page_template( 'page-our-story.php' ) ) {
+        $title       = 'Our Story | SaleFish Real Estate Sales Platform';
+        $description = '15+ years, 1.5M+ users, 200K+ transactions, $100B+ USD transacted. Discover how SaleFish became the most trusted real estate sales platform for builders and developers worldwide.';
+        $keywords    = 'SaleFish company, about SaleFish, real estate sales platform, pre-construction sales software, SaleFish history, real estate technology company';
+        $url         = get_permalink();
+        $og_type     = 'website';
+        $image       = $default_image;
+
+    // ── Contact Us page ───────────────────────────────────────────────────────
+    } elseif ( is_page_template( 'page-contact-us.php' ) ) {
+        $title       = 'Contact SaleFish | Book a Free Demo';
+        $description = 'Book a free demo or contact our team for a no-obligation assessment of your real estate sales process and tech stack. We\'ll show you exactly how SaleFish fits your workflow.';
+        $keywords    = 'contact SaleFish, book real estate demo, SaleFish free demo, real estate sales software demo, pre-construction sales platform contact';
+        $url         = get_permalink();
+        $og_type     = 'website';
+        $image       = $default_image;
+
+    // ── Blog / Newsroom pages ─────────────────────────────────────────────────
+    } elseif ( is_page_template( 'page-blog.php' ) || is_page_template( 'page-blog-filter.php' ) ) {
+        $title       = 'Blog | SaleFish Real Estate Sales Insights';
+        $description = 'Success stories, press coverage, industry insights, and videos from the SaleFish team — the real estate sales platform built for builders, developers, and sales teams.';
+        $keywords    = 'real estate sales blog, SaleFish blog, pre-construction sales insights, real estate technology news, builder developer resources';
+        $url         = get_permalink();
+        $og_type     = 'website';
+        $image       = $default_image;
+
+    // ── Privacy Policy page ───────────────────────────────────────────────────
+    } elseif ( is_page_template( 'page-privacy-policy.php' ) ) {
+        $title       = 'Privacy Policy | SaleFish';
+        $description = 'Read SaleFish\'s privacy policy to understand how we collect, use, and protect your personal information on our real estate sales platform.';
+        $keywords    = 'SaleFish privacy policy, real estate software privacy';
+        $url         = get_permalink();
+        $og_type     = 'website';
+        $image       = $default_image;
+
+    // ── Terms of Use page ─────────────────────────────────────────────────────
+    } elseif ( is_page_template( 'page-terms-of-use.php' ) ) {
+        $title       = 'Terms of Use | SaleFish';
+        $description = 'Review the terms and conditions governing use of the SaleFish real estate sales platform and website.';
+        $keywords    = 'SaleFish terms of use, real estate software terms and conditions';
+        $url         = get_permalink();
+        $og_type     = 'website';
+        $image       = $default_image;
+
+    // ── Thank-you / confirmation page (low SEO priority) ─────────────────────
+    } elseif ( is_page_template( 'page-thank-you-for-registering.php' ) ) {
+        $title       = 'Thank You for Registering | SaleFish';
+        $description = 'Thank you for registering with SaleFish. Check your email to confirm your account and get started.';
+        $keywords    = '';
+        $url         = get_permalink();
+        $og_type     = 'website';
+        $image       = $default_image;
+
+    // ── Individual blog posts ─────────────────────────────────────────────────
+    } elseif ( is_singular( 'post' ) ) {
+        $post_id     = get_the_ID();
+        $title       = get_the_title( $post_id ) . ' | SaleFish';
+        $url         = get_permalink( $post_id );
+        $og_type     = 'article';
+
         $description = get_post_field( 'post_excerpt', $post_id );
         if ( ! $description ) {
             $description = wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ), 30, '...' );
         }
         if ( ! $description ) {
-            $description = get_bloginfo( 'description' );
+            $description = 'Real estate sales insights, success stories, and platform updates from the SaleFish team.';
         }
 
-        // Image: featured image → default brand image
         $image = has_post_thumbnail( $post_id )
             ? get_the_post_thumbnail_url( $post_id, 'large' )
             : $default_image;
 
+    // ── Other singular pages (catch-all) ──────────────────────────────────────
+    } elseif ( is_singular() ) {
+        $post_id     = get_the_ID();
+        $title       = get_the_title( $post_id ) . ' | SaleFish';
+        $url         = get_permalink( $post_id );
+        $og_type     = 'website';
+
+        $description = get_post_field( 'post_excerpt', $post_id );
+        if ( ! $description ) {
+            $description = 'SaleFish — the all-in-one real estate sales platform for builders, developers, and sales teams worldwide.';
+        }
+
+        $image = has_post_thumbnail( $post_id )
+            ? get_the_post_thumbnail_url( $post_id, 'large' )
+            : $default_image;
+
+    // ── Category / archive pages ──────────────────────────────────────────────
     } else {
-        // Archive, search, category, tag pages
-        $title       = wp_title( '|', false, 'right' ) . get_bloginfo( 'name' );
-        $description = get_bloginfo( 'description' );
+        $title       = wp_title( '|', false, 'right' ) . 'SaleFish';
+        $description = 'Real estate sales insights, success stories, and platform updates from the SaleFish team.';
+        $keywords    = 'real estate sales, SaleFish blog, pre-construction sales';
         global $wp;
         $url         = home_url( add_query_arg( [], $wp->request ) );
         $og_type     = 'website';
@@ -214,6 +310,7 @@ function salefish_og_meta() {
     // Sanitise
     $title       = esc_attr( wp_strip_all_tags( $title ) );
     $description = esc_attr( wp_trim_words( wp_strip_all_tags( $description ), 35, '...' ) );
+    $keywords    = esc_attr( wp_strip_all_tags( $keywords ) );
     $url         = esc_url( $url );
     $image       = esc_url( $image );
 
@@ -232,6 +329,9 @@ function salefish_og_meta() {
 <meta name="twitter:description" content="<?php echo $description; ?>" />
 <meta name="twitter:image"       content="<?php echo $image; ?>" />
 <meta name="description"         content="<?php echo $description; ?>" />
+<?php if ( $keywords ) : ?>
+<meta name="keywords"            content="<?php echo $keywords; ?>" />
+<?php endif; ?>
 <!-- End SaleFish Social Meta -->
     <?php
 }
