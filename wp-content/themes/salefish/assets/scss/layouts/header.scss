@@ -10,7 +10,7 @@ header {
   align-items: center;
   @include rs768 {
     height: 80px;
-    background: rgba($dark_purple, 1); // always solid purple on mobile — transparent only on desktop
+    background: transparent; // hero-page header stays transparent on mobile too
   }
   .max_wrapper {
     width: calc(100% - 120px);
@@ -40,7 +40,7 @@ header {
   }
 
   &.active {
-    background: rgba($dark_purple, 1);
+    background: transparent;
     height: 70px;
 
     @include rs768 {
