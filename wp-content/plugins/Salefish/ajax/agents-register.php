@@ -38,7 +38,7 @@ function salefish_agents_register() {
 
 	Salefish_Email_Verify::send_confirmation( $email, $token, 'agent' );
 
-	wp_send_json_success( 'Registered successfully.' );
+	wp_send_json_success( [ 'email' => $email ] );
 }
 
 add_action( 'wp_ajax_agents_register',        'salefish_agents_register' );

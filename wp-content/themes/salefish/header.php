@@ -465,6 +465,23 @@
 
 </div>
 
+<div class="sf-check-email-msg">
+	<div class="sf-check-email-msg__backdrop sf-check-email-close"></div>
+	<div class="sf-check-email-msg__panel">
+		<button class="sf-check-email-msg__close sf-check-email-close" aria-label="Close">
+			<i data-lucide="x"></i>
+		</button>
+		<div class="sf-check-email-msg__icon-wrap">
+			<i data-lucide="mail"></i>
+		</div>
+		<span class="sf-check-email-msg__eyebrow">Almost there</span>
+		<h2 class="sf-check-email-msg__heading">Check your email.</h2>
+		<p class="sf-check-email-msg__body">
+			We sent a confirmation link to <strong class="sf-check-email-msg__address"></strong>. Click it to complete your registration — the link expires in 48 hours.
+		</p>
+	</div>
+</div>
+
 <div class="thank_you_msg">
 	<div class="thank_you_msg__backdrop close_thank_you_msg"></div>
 	<div class="thank_you_msg__panel">

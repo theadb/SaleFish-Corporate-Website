@@ -21,6 +21,8 @@ function salefish_mailchimp_register() {
 	$email   = sanitize_email(       $_POST['email']   ?? '' );
 	$phone   = sanitize_text_field( $_POST['phone']   ?? '' );
 	$company = sanitize_text_field( $_POST['company'] ?? '' );
+	$title   = sanitize_text_field( $_POST['title']   ?? '' );
+	$demo    = sanitize_text_field( $_POST['demo']    ?? '' );
 
 	if ( ! $email || ! is_email( $email ) ) {
 		wp_send_json_error( 'Invalid email address.' );
@@ -31,12 +33,14 @@ function salefish_mailchimp_register() {
 		'email'   => $email,
 		'phone'   => $phone,
 		'company' => $company,
+		'title'   => $title,
+		'demo'    => $demo,
 		'_ctx'    => salefish_collect_context(),
 	] );
 
 	Salefish_Email_Verify::send_confirmation( $email, $token, 'general' );
 
-	wp_send_json_success( 'Registered successfully.' );
+	wp_send_json_success( [ 'email' => $email ] );
 }
 
 add_action( 'wp_ajax_mailchimp_register',        'salefish_mailchimp_register' );

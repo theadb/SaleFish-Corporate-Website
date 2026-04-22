@@ -6,6 +6,7 @@ import mask from "./tools/jquery.mask";
 $(function () {
   if ( new URLSearchParams( window.location.search ).get( 'salefish_verified' ) === '1' ) {
     $(".thank_you_msg").fadeIn();
+    $("body").css("overflow", "hidden");
     history.replaceState( null, '', window.location.pathname );
   }
 
@@ -226,6 +227,15 @@ $(function () {
   $("#agent_form").parsley();
   $("#partner_form").parsley();
 
+  // ── Helper: show the "check your email" dialog after form submit ─────────────
+  function sfShowCheckEmail(email) {
+    if (email) {
+      $(".sf-check-email-msg__address").text(email);
+    }
+    $(".sf-check-email-msg").fadeIn();
+    $("body").css("overflow", "hidden");
+  }
+
   // REG FORM
   $("#reg_form").on("submit", function (e) {
     e.preventDefault();
@@ -236,7 +246,7 @@ $(function () {
       data: $(this).serialize() + "&action=mailchimp_register&nonce=" + salefishAjax.nonce,
       success: function (res) {
         if (res.success) {
-          $(".thank_you_msg").fadeIn();
+          sfShowCheckEmail(res.data && res.data.email ? res.data.email : "");
         }
       },
     });
@@ -252,7 +262,7 @@ $(function () {
       data: $(this).serialize() + "&action=agents_register&nonce=" + salefishAjax.nonce,
       success: function (res) {
         if (res.success) {
-          $(".thank_you_msg").fadeIn();
+          sfShowCheckEmail(res.data && res.data.email ? res.data.email : "");
         }
       },
     });
@@ -268,15 +278,22 @@ $(function () {
       data: $(this).serialize() + "&action=partner_register&nonce=" + salefishAjax.nonce,
       success: function (res) {
         if (res.success) {
-          $(".thank_you_msg").fadeIn();
+          sfShowCheckEmail(res.data && res.data.email ? res.data.email : "");
         }
       },
     });
   });
 
+  // CLOSE CHECK-EMAIL DIALOG
+  $(".sf-check-email-close").on("click", function () {
+    $(".sf-check-email-msg").fadeOut();
+    $("body").css("overflow", "");
+  });
+
   // CLOSE THANK YOU MESSAGE
   $(".close_thank_you_msg").on("click", function () {
     $(".thank_you_msg").fadeOut();
+    $("body").css("overflow", "");
   });
 
 });

@@ -327,7 +327,111 @@ header {
   }
 }
 
-// ─── FORM CONFIRMATION DIALOG ────────────────────────────────────────────────
+// ─── CHECK YOUR EMAIL DIALOG (shown immediately after form submit) ────────────
+.sf-check-email-msg {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: none;
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    cursor: pointer;
+  }
+
+  &__panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 48px);
+    max-width: 480px;
+    padding: 48px 52px 52px;
+    background: var(--sf-card-gradient);
+    background-color: hsl(var(--sf-card));
+    border-radius: var(--sf-radius-lg);
+    box-shadow: var(--sf-shadow-lg), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    text-align: center;
+
+    @include rs768 { padding: 40px 36px 44px; }
+    @include rs550 { padding: 32px 24px 36px; }
+  }
+
+  &__close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba($dark_purple, 0.06);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: $dark_purple;
+    padding: 0;
+    transition: background 0.18s ease, transform 0.18s ease;
+
+    &:hover {
+      background: rgba($dark_purple, 0.12);
+      transform: rotate(90deg);
+    }
+
+    svg { width: 18px; height: 18px; stroke-width: 2; }
+  }
+
+  &__icon-wrap {
+    width: 56px;
+    height: 56px;
+    background: rgba($dark_purple, 0.08);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+
+    svg { width: 26px; height: 26px; color: $dark_purple; stroke-width: 1.75; }
+  }
+
+  &__eyebrow {
+    display: block;
+    font-family: $PSB;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: $gold;
+    margin-bottom: 10px;
+  }
+
+  &__heading {
+    font-family: $PSB;
+    font-size: 1.5rem;
+    color: $dark_purple;
+    line-height: 1.2;
+    margin: 0 0 16px;
+
+    @include rs600 { font-size: 1.3rem; }
+  }
+
+  &__body {
+    font-family: $PL;
+    font-size: 1rem;
+    color: hsl(var(--sf-card-fg));
+    line-height: 1.65;
+    margin: 0;
+
+    strong {
+      font-family: $PSB;
+      color: $dark_purple;
+    }
+  }
+}
+
+// ─── FORM CONFIRMATION DIALOG (shown after email verification redirect) ────────
 .thank_you_msg {
   position: fixed;
   inset: 0;
