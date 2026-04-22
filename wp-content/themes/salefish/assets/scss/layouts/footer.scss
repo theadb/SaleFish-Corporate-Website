@@ -8,6 +8,10 @@ footer {
     padding: 40px 20px 1.5em;
   }
 
+  @include rs550 {
+    padding: 48px 20px 2.5em;
+  }
+
   .salefish {
     .salefish_logo {
       width: 150px;
@@ -46,7 +50,7 @@ footer {
 
       @include rs550 {
         width: 50%;
-        margin-bottom: 16px;
+        margin-bottom: 32px;
       }
 
       .title {
@@ -55,20 +59,24 @@ footer {
         text-transform: uppercase;
         letter-spacing: 0.16em;
         color: $dark_purple;
+
+        @include rs550 {
+          margin-bottom: 4px;
+        }
       }
 
       ul {
         margin-top: 20px;
 
         @include rs550 {
-          margin-top: 10px;
+          margin-top: 12px;
         }
 
         li {
           margin: 14px 0;
 
           @include rs550 {
-            margin: 9px 0;
+            margin: 2px 0;
           }
 
           a,
@@ -79,7 +87,9 @@ footer {
             text-decoration: none;
             cursor: pointer;
             @include rs550 {
-              font-size: 0.82em;
+              font-size: 0.85em;
+              display: block;
+              padding: 9px 0;
             }
           }
         }
@@ -140,6 +150,7 @@ footer {
     @include rs550 {
       flex-direction: column;
       align-items: flex-start;
+      margin-top: 8px;
     }
 
     .left {
@@ -149,12 +160,23 @@ footer {
         order: 2;
       }
 
-      .socials a {
-        color: $dark_purple;
-        svg { display: block; }
-        &:hover {
-          color: $light_purple;
-          background: rgba($dark_purple, 0.06);
+      .socials {
+        display: flex;
+        gap: 4px;
+
+        a {
+          color: $dark_purple;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 44px;
+          height: 44px;
+          border-radius: 8px;
+          svg { display: block; }
+          &:hover {
+            color: $light_purple;
+            background: rgba($dark_purple, 0.06);
+          }
         }
       }
 
