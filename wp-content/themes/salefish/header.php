@@ -73,6 +73,8 @@
 <!-- End Google Tag Manager -->
 
 
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
 <header class="default" >
 	<div class="max_wrapper" data-aos="fade-down" data-aos-delay="200">
 		<div class="salefish">
@@ -124,7 +126,7 @@
 				</li>
 			</ul>
 			<div class="menu">
-				<button class="sf-menu-btn" type="button" aria-label="Toggle menu">
+				<button class="sf-menu-btn" type="button" aria-label="Toggle menu" aria-expanded="false">
 					<i data-lucide="menu" class="icon-grid"></i>
 					<i data-lucide="x" class="icon-close"></i>
 				</button>
@@ -184,7 +186,7 @@
 				</li>
 			</ul>
 			<div class="menu">
-				<button class="sf-menu-btn" type="button" aria-label="Toggle menu">
+				<button class="sf-menu-btn" type="button" aria-label="Toggle menu" aria-expanded="false">
 					<i data-lucide="menu" class="icon-grid"></i>
 					<i data-lucide="x" class="icon-close"></i>
 				</button>
@@ -239,7 +241,7 @@
 				</li>
 			</ul>
 			<div class="menu">
-				<button class="sf-menu-btn" type="button" aria-label="Toggle menu">
+				<button class="sf-menu-btn" type="button" aria-label="Toggle menu" aria-expanded="false">
 					<i data-lucide="menu" class="icon-grid"></i>
 					<i data-lucide="x" class="icon-close"></i>
 				</button>
@@ -294,7 +296,7 @@
 				</li>
 			</ul>
 			<div class="menu">
-				<button class="sf-menu-btn" type="button" aria-label="Toggle menu">
+				<button class="sf-menu-btn" type="button" aria-label="Toggle menu" aria-expanded="false">
 					<i data-lucide="menu" class="icon-grid"></i>
 					<i data-lucide="x" class="icon-close"></i>
 				</button>

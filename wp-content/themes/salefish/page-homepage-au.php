@@ -47,10 +47,10 @@ $the_numbers = get_field('the_numbers');
 		<div class="selling_popup">
 			<a href="#contact_us" class="scroll_link button-image">
 				<img src="<?php echo get_template_directory_uri(); ?>/img/popup.png"
-					class="popup">
+					class="popup" alt="Book a Demo">
 			</a>
 			<img src="<?php echo get_template_directory_uri(); ?>/img/x-closed.svg"
-				class="close_icon">
+				class="close_icon" alt="" aria-hidden="true">
 		</div>
 	</div>
 	<!-- HERO -->
@@ -58,7 +58,7 @@ $the_numbers = get_field('the_numbers');
 		<div class="wrapper">
 			<div class="max_wrapper">
 				<div class="left" data-aos="fade-right" data-aos-delay="300">
-					<h3>AN EASIER WAY TO <span>SELL <label id="app_for_home">HOME SALES</label></span></h3>
+					<h3>AN EASIER WAY TO <span>SELL <span id="app_for_home">HOME SALES</span></span></h3>
 					<h1>
 						<?php echo $hero_header; ?>
 					</h1>
@@ -198,7 +198,7 @@ foreach($the_numbers as $row):
 						    ?>
 						<div class="swiper-slide">
 							<img class="pillar"
-								src="<?php echo $icon ?>">
+								src="<?php echo $icon ?>" alt="" aria-hidden="true">
 							<h3>
 								<?php echo $title ?>
 							</h3>
@@ -211,11 +211,11 @@ foreach($the_numbers as $row):
 					<div class="controls">
 						<div class="arrow">
 							<img class="left_arrow"
-								src="<?php echo get_template_directory_uri(); ?>/img/left_arrow.png">
+								src="<?php echo get_template_directory_uri(); ?>/img/left_arrow.png" alt="" aria-hidden="true">
 						</div>
 						<div class="arrow">
 							<img class="right_arrow"
-								src="<?php echo get_template_directory_uri(); ?>/img/right_arrow.png">
+								src="<?php echo get_template_directory_uri(); ?>/img/right_arrow.png" alt="" aria-hidden="true">
 						</div>
 					</div>
 				</div>
