@@ -3,18 +3,23 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class Salefish_Email_Verify {
 
-	const TRANSIENT_PREFIX = 'salefish_pending_';
-	const TTL              = 172800; // 48 hours
+	const OPTION_PREFIX = 'sf_reg_';
+	const TTL           = 172800; // 48 hours
 
 	/**
-	 * Store a pending registration and return the verification token.
+	 * Store a pending registration directly in wp_options (bypasses object cache /
+	 * WP Super Cache) and return the verification token.
 	 */
 	public static function create( string $type, array $fields ): string {
 		$token = bin2hex( random_bytes( 32 ) );
-		set_transient(
-			self::TRANSIENT_PREFIX . $token,
-			[ 'type' => $type, 'fields' => $fields ],
-			self::TTL
+		update_option(
+			self::OPTION_PREFIX . $token,
+			[
+				'type'    => $type,
+				'fields'  => $fields,
+				'expires' => time() + self::TTL,
+			],
+			false  // autoload = false — keeps wp_options lean
 		);
 		return $token;
 	}
@@ -23,14 +28,42 @@ class Salefish_Email_Verify {
 	 * Retrieve a pending registration by token. Returns false if expired/invalid.
 	 */
 	public static function get( string $token ) {
-		return get_transient( self::TRANSIENT_PREFIX . $token );
+		$data = get_option( self::OPTION_PREFIX . $token, false );
+		if ( ! $data ) {
+			return false;
+		}
+		// Manual expiry check — options never expire on their own.
+		if ( isset( $data['expires'] ) && time() > $data['expires'] ) {
+			self::delete( $token );
+			return false;
+		}
+		return $data;
 	}
 
 	/**
 	 * Delete a pending registration (after successful verification).
 	 */
 	public static function delete( string $token ): void {
-		delete_transient( self::TRANSIENT_PREFIX . $token );
+		delete_option( self::OPTION_PREFIX . $token );
+	}
+
+	/**
+	 * Purge all sf_reg_* options whose expiry timestamp has passed.
+	 * Hooked to a daily WP-Cron event registered below.
+	 */
+	public static function purge_expired(): void {
+		global $wpdb;
+		$rows = $wpdb->get_results(
+			"SELECT option_name, option_value FROM {$wpdb->options}
+			 WHERE option_name LIKE 'sf\_reg\_%'",
+			ARRAY_A
+		);
+		foreach ( $rows as $row ) {
+			$data = maybe_unserialize( $row['option_value'] );
+			if ( ! is_array( $data ) || ( isset( $data['expires'] ) && time() > $data['expires'] ) ) {
+				delete_option( $row['option_name'] );
+			}
+		}
 	}
 
 	/**
