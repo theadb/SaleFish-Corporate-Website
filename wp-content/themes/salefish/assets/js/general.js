@@ -217,6 +217,11 @@ $(function () {
     $(".features_nav a, .features_li a").addClass("active");
   }
 
+  // Force header to solid state on short pages where there is nothing to scroll
+  if (pathname === "/thank-you-for-registering/") {
+    $("header").addClass("active");
+  }
+
   // On click: immediately mark Features as active and clear other nav highlights
   $(".features_nav a, .features_li a").on("click", function () {
     $("header nav > ul > li > a, header nav > ul > li > span").removeClass("active");
