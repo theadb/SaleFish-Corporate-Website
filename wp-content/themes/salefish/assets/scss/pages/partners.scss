@@ -123,7 +123,7 @@
     width: calc(100% - 120px);
 
     @include rs768 {
-      padding: 100px 20px 60px;
+      padding: 64px 20px 56px;
       width: calc(100% - 40px);
     }
 
@@ -135,6 +135,8 @@
     .header {
       text-align: center;
       margin-bottom: 80px;
+
+      @include rs768 { margin-bottom: 48px; }
 
       h1 {
         color: $dark_purple;
