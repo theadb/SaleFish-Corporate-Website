@@ -696,12 +696,16 @@
           display: flex;
           align-items: center;
           justify-content: center;
+          overflow: hidden;
+          border-radius: 12px;
 
           @include rs768 {
             order: 2;
             width: 80%;
             margin: 0 auto;
           }
+
+          &:hover img { transform: scale(1.04); }
 
           img {
             max-width: 100%;
@@ -711,7 +715,8 @@
             object-fit: contain;
             object-position: center;
             display: block;
-            border-radius: 12px;
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
           }
         }
 
