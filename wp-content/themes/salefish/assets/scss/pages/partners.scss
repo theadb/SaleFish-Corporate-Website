@@ -24,7 +24,7 @@
       content: '';
       position: absolute;
       inset: -40% -30%;
-      background: radial-gradient(ellipse 46% 54% at 65% 40%, rgba($light_purple, 0.54) 0%, transparent 58%);
+      background: radial-gradient(ellipse 54% 62% at 65% 40%, rgba($light_purple, 0.65) 0%, transparent 64%);
       animation: heroOrbFloat 24s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite reverse,
                  heroOrbPulse 9s ease-in-out infinite;
       pointer-events: none;
@@ -37,7 +37,7 @@
       content: '';
       position: absolute;
       inset: -40% -30%;
-      background: radial-gradient(ellipse 38% 46% at 28% 65%, rgba($light_purple, 0.40) 0%, transparent 58%);
+      background: radial-gradient(ellipse 46% 54% at 28% 65%, rgba($light_purple, 0.52) 0%, transparent 64%);
       animation: heroOrb2Float 28s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite,
                  heroOrbPulse 12s ease-in-out infinite reverse;
       pointer-events: none;

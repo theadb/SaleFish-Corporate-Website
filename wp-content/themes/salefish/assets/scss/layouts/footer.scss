@@ -5,7 +5,7 @@ footer {
   display: none;
 
   @include rs600 {
-    padding: 2em 20px;
+    padding: 1.5em 20px;
   }
 
   .salefish {
@@ -31,13 +31,13 @@ footer {
     @include rs768 {
       justify-content: center;
       flex-wrap: wrap;
-      margin-top: 4em;
+      margin-top: 2em;
     }
 
     .col {
       @include rs768 {
         width: 50%;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
       }
 
       .title {
@@ -51,11 +51,15 @@ footer {
       ul {
         margin-top: 20px;
 
+        @include rs550 {
+          margin-top: 10px;
+        }
+
         li {
-          margin: 20px 0;
+          margin: 14px 0;
 
           @include rs550 {
-            margin: 15px 0;
+            margin: 9px 0;
           }
 
           a,
@@ -66,7 +70,7 @@ footer {
             text-decoration: none;
             cursor: pointer;
             @include rs550 {
-              font-size: 1em;
+              font-size: 0.82em;
             }
           }
         }
@@ -147,10 +151,10 @@ footer {
       p {
         color: $black;
         font-size: 0.8em;
-        margin-top: 2em;
+        margin-top: 1.5em;
 
         @include rs550 {
-          font-size: 1em;
+          font-size: 0.75em;
         }
 
         a {

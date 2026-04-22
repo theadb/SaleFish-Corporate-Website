@@ -111,7 +111,7 @@
 			</ul>
 			<div class="menu">
 				<button class="sf-menu-btn" type="button" aria-label="Toggle menu">
-					<i data-lucide="layout-grid" class="icon-grid"></i>
+					<i data-lucide="menu" class="icon-grid"></i>
 					<i data-lucide="x" class="icon-close"></i>
 				</button>
 			</div>
@@ -171,7 +171,7 @@
 			</ul>
 			<div class="menu">
 				<button class="sf-menu-btn" type="button" aria-label="Toggle menu">
-					<i data-lucide="layout-grid" class="icon-grid"></i>
+					<i data-lucide="menu" class="icon-grid"></i>
 					<i data-lucide="x" class="icon-close"></i>
 				</button>
 			</div>
@@ -226,7 +226,7 @@
 			</ul>
 			<div class="menu">
 				<button class="sf-menu-btn" type="button" aria-label="Toggle menu">
-					<i data-lucide="layout-grid" class="icon-grid"></i>
+					<i data-lucide="menu" class="icon-grid"></i>
 					<i data-lucide="x" class="icon-close"></i>
 				</button>
 			</div>
@@ -281,7 +281,7 @@
 			</ul>
 			<div class="menu">
 				<button class="sf-menu-btn" type="button" aria-label="Toggle menu">
-					<i data-lucide="layout-grid" class="icon-grid"></i>
+					<i data-lucide="menu" class="icon-grid"></i>
 					<i data-lucide="x" class="icon-close"></i>
 				</button>
 			</div>
