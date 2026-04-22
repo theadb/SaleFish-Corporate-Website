@@ -12,7 +12,27 @@ require_once 'ajax/mailchimp-register.php';
 require_once 'ajax/agents-register.php';
 require_once 'ajax/partner-register.php';
 
+// ── Email verification ────────────────────────────────────────────────────────
+// Run at init priority 1 — before WP Super Cache's PHP caching layer can serve
+// a cached page and before template_redirect (which is too late in some setups).
+add_action( 'init', function() {
+	if ( empty( $_GET['salefish_verify'] ) ) return;
+
+	// Prevent this response from being written to any page cache.
+	if ( ! defined( 'DONOTCACHEPAGE' ) )   define( 'DONOTCACHEPAGE',   true );
+	if ( ! defined( 'DONOTCACHEOBJECT' ) ) define( 'DONOTCACHEOBJECT', true );
+	nocache_headers();
+
+	Salefish_Email_Verify::handle_verification();
+}, 1 );
+
+// Belt-and-suspenders: also handle on template_redirect for any edge cases.
 add_action( 'template_redirect', [ 'Salefish_Email_Verify', 'handle_verification' ] );
+
+// Tell WP Super Cache not to cache or serve cached responses for verification URLs.
+add_filter( 'wpsc_is_cacheable', function( $cacheable ) {
+	return ! empty( $_GET['salefish_verify'] ) ? false : $cacheable;
+} );
 
 // One-time: create the thank-you page if it doesn't exist yet.
 add_action( 'init', function() {

@@ -70,7 +70,10 @@ class Salefish_Email_Verify {
 	 * Send the confirmation email to the registrant.
 	 */
 	public static function send_confirmation( string $email, string $token, string $type ): bool {
-		$verify_url = add_query_arg( 'salefish_verify', $token, home_url( '/' ) );
+		// Use the thank-you page as the base URL so the query string is on a
+		// dedicated page — this bypasses WP Super Cache's mod_rewrite rules which
+		// only serve cached files for requests with an empty query string.
+		$verify_url = add_query_arg( 'salefish_verify', $token, home_url( '/thank-you-for-registering/' ) );
 
 		$subject = 'Confirm your SaleFish registration';
 
