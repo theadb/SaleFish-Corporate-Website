@@ -19,10 +19,22 @@
 		charset="<?php bloginfo('charset'); ?>">
 	<meta content='width=device-width, initial-scale=1.0, viewport-fit=cover' name='viewport' />
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="167x167" href="/icon-167x167.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/icon-96x96.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
 	<link rel="manifest" href="/site.webmanifest">
 	<meta name="msapplication-TileColor" content="#452D8C">
+	<meta name="msapplication-TileImage" content="/mstile-150x150.png">
+	<meta name="msapplication-config" content="/browserconfig.xml">
+	<!-- PWA / Add to Home Screen -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-title" content="SaleFish">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="application-name" content="SaleFish">
 	<?php
 	// Match theme-color to the header that will be shown on this page.
 	// Light-header pages (white bg) → white. All others → brand purple.
@@ -40,6 +52,13 @@
 	<meta name="theme-color" content="<?php echo esc_attr( $_sf_theme_color ); ?>">
 	<link rel="preload" as="image" href="<?php echo esc_url( get_template_directory_uri() ); ?>/img/dark_salefish_logo.png">
 	<?php wp_head(); ?>
+	<script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function () {
+				navigator.serviceWorker.register('/sw.js');
+			});
+		}
+	</script>
 
 </head>
 
