@@ -409,6 +409,25 @@ add_action('wp_ajax_nopriv_load_more_post', 'load_more_post');
 // }
 // add_action('wp_ajax_load_more_post', 'load_more_post');
 // add_action('wp_ajax_nopriv_load_more_post', 'load_more_post');
+// ── WP Admin: replace oEmbed preview for video posts ──────────────────────────
+// WordPress auto-embeds YouTube URLs in the classic editor. If YouTube has
+// blocked embedding (Content ID claim, Error 153, etc.) the editor shows a
+// broken player. Replace it with a clean link notice instead.
+add_filter( 'embed_oembed_html', function ( $html, $url, $attr, $post_id ) {
+    if ( ! is_admin() ) return $html;
+    $cats = get_the_category( $post_id );
+    $is_video_post = false;
+    foreach ( $cats as $cat ) {
+        if ( $cat->slug === 'videos' ) { $is_video_post = true; break; }
+    }
+    if ( ! $is_video_post ) return $html;
+    return '<div style="padding:14px 16px;background:#f6f7f7;border-left:4px solid #2271b1;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif;font-size:13px;line-height:1.5;border-radius:0 4px 4px 0;">'
+         . '<strong>🎬 Video URL:</strong> <a href="' . esc_url( $url ) . '" target="_blank" rel="noopener">' . esc_html( $url ) . '</a><br>'
+         . '<span style="color:#646970;">Preview is disabled in the editor — the video plays via the custom dialog on the front end. '
+         . 'If it shows Error 153, the video has a Content ID claim blocking embedding. Check <a href="https://studio.youtube.com" target="_blank">YouTube Studio</a> → Content → the video → See restrictions.</span>'
+         . '</div>';
+}, 10, 4 );
+
 // ── Video helpers ─────────────────────────────────────────────────────────────
 
 /**
