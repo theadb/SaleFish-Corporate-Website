@@ -81,14 +81,12 @@
   // ── Body ─────────────────────────────────────────────────────────────────────
   .legal-body {
     background: hsl(var(--sf-bg));
-    padding: 0 0 96px;
-    // Pull content up into the clipped hero space
-    margin-top: -40px;
+    padding: 72px 0 96px;
     position: relative;
     z-index: 1;
 
-    @include rs768 { padding-bottom: 72px; margin-top: -28px; }
-    @include rs550 { padding-bottom: 56px; margin-top: -20px; }
+    @include rs768 { padding: 56px 0 72px; }
+    @include rs550 { padding: 40px 0 56px; }
   }
 
   .legal-body__content {
