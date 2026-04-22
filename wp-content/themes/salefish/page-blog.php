@@ -47,11 +47,16 @@ get_header();
 				$f_title   = get_the_title( $fid );
 				$f_excerpt = wp_trim_words( get_the_excerpt( $fid ), 22, '...' );
 				$f_video   = $f_cat_slug === 'videos';
+				$f_embed   = $f_video ? sf_video_embed_url( $fa->post_content ) : '';
+				if ( empty( $f_thumb ) && $f_video ) {
+					$f_vthumb = sf_video_thumbnail_url( $fa->post_content );
+					if ( $f_vthumb ) $f_thumb = '<img src="' . esc_url( $f_vthumb ) . '" alt="' . esc_attr( $f_title ) . '" loading="lazy">';
+				}
 				?>
-				<a href="<?php echo $f_video ? esc_url( sf_youtube_embed_url( $fa->post_content ) ) : esc_url( $f_link ); ?>"
+				<a href="<?php echo $f_video ? esc_url( $f_embed ) : esc_url( $f_link ); ?>"
 				   class="blog-featured__main card-animate"
 				   style="animation-delay: 0.05s"
-				   <?php echo $f_video ? 'data-fancybox data-type="iframe"' : ''; ?>>
+				   <?php echo $f_video ? 'data-video-url="' . esc_attr( $f_embed ) . '"' : ''; ?>>
 					<?php if ( $f_thumb ) : ?>
 					<div class="blog-featured__main-image"><?php echo $f_thumb; ?></div>
 					<?php endif; ?>
@@ -80,11 +85,16 @@ get_header();
 						$s_date    = get_the_date( 'M j, Y', $sid );
 						$s_title   = get_the_title( $sid );
 						$s_video   = $s_cat_slug === 'videos';
+						$s_embed   = $s_video ? sf_video_embed_url( $sa->post_content ) : '';
+						if ( empty( $s_thumb ) && $s_video ) {
+							$s_vthumb = sf_video_thumbnail_url( $sa->post_content );
+							if ( $s_vthumb ) $s_thumb = '<img src="' . esc_url( $s_vthumb ) . '" alt="' . esc_attr( $s_title ) . '" loading="lazy">';
+						}
 					?>
-					<a href="<?php echo $s_video ? esc_url( sf_youtube_embed_url( $sa->post_content ) ) : esc_url( $s_link ); ?>"
+					<a href="<?php echo $s_video ? esc_url( $s_embed ) : esc_url( $s_link ); ?>"
 					   class="blog-featured__side card-animate<?php echo $s_thumb ? '' : ' no-image'; ?>"
 					   style="animation-delay: <?php echo 0.1 + ($si * 0.08); ?>s"
-					   <?php echo $s_video ? 'data-fancybox data-type="iframe"' : ''; ?>>
+					   <?php echo $s_video ? 'data-video-url="' . esc_attr( $s_embed ) . '"' : ''; ?>>
 						<?php if ( $s_thumb ) : ?>
 						<div class="blog-featured__side-image"><?php echo $s_thumb; ?></div>
 						<?php endif; ?>
@@ -125,11 +135,16 @@ get_header();
 						$sp_date     = get_the_date( 'M j, Y', $sp_id );
 						$sp_author   = get_the_author_meta( 'display_name', $sp->post_author );
 						$sp_video    = $sp_cat_slug === 'videos';
+						$sp_embed    = $sp_video ? sf_video_embed_url( $sp->post_content ) : '';
+						if ( empty( $sp_thumb ) && $sp_video ) {
+							$sp_vthumb = sf_video_thumbnail_url( $sp->post_content );
+							if ( $sp_vthumb ) $sp_thumb = '<img src="' . esc_url( $sp_vthumb ) . '" alt="' . esc_attr( get_the_title( $sp_id ) ) . '" loading="lazy">';
+						}
 					?>
-					<a href="<?php echo $sp_video ? esc_url( sf_youtube_embed_url( $sp->post_content ) ) : esc_url( $sp_link ); ?>"
+					<a href="<?php echo $sp_video ? esc_url( $sp_embed ) : esc_url( $sp_link ); ?>"
 					   class="blog-sticky__card blog-card-animate"
 					   style="animation-delay: <?php echo $i * 0.07; ?>s"
-					   <?php echo $sp_video ? 'data-fancybox data-type="iframe"' : ''; ?>>
+					   <?php echo $sp_video ? 'data-video-url="' . esc_attr( $sp_embed ) . '"' : ''; ?>>
 						<?php if ( $sp_thumb ) : ?>
 						<div class="blog-sticky__card-image"><?php echo $sp_thumb; ?></div>
 						<?php endif; ?>
@@ -177,12 +192,17 @@ get_header();
 					$author   = get_the_author_meta( 'display_name', $article->post_author );
 					$featured = has_tag( 'featured', $id );
 					$is_video = $cat_slug === 'videos';
+					$embed    = $is_video ? sf_video_embed_url( $content ) : '';
+					if ( empty( $thumb ) && $is_video ) {
+						$vthumb = sf_video_thumbnail_url( $content );
+						if ( $vthumb ) $thumb = '<img src="' . esc_url( $vthumb ) . '" alt="' . esc_attr( $title ) . '" loading="lazy">';
+					}
 				?>
-				<a href="<?php echo $is_video ? esc_url( sf_youtube_embed_url( $content ) ) : esc_url( $link ); ?>"
+				<a href="<?php echo $is_video ? esc_url( $embed ) : esc_url( $link ); ?>"
 				   class="sf-card blog-card blog-card-animate"
 				   style="animation-delay: <?php echo ($card_i * 0.07); ?>s"
 				   data-category="<?php echo esc_attr( $cat_slug ); ?>"
-				   <?php echo $is_video ? 'data-fancybox data-type="iframe"' : ''; ?>>
+				   <?php echo $is_video ? 'data-video-url="' . esc_attr( $embed ) . '"' : ''; ?>>
 					<?php if ( $thumb ) : ?>
 					<div class="blog-card__image"><?php echo $thumb; ?></div>
 					<?php endif; ?>
@@ -226,21 +246,16 @@ get_header();
   var currentCat  = 'all';
   var isLoading   = false;
 
-  function youtubeEmbedUrl(url) {
-    if (!url) return url;
-    var m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-    return m ? 'https://www.youtube.com/embed/' + m[1] + '?autoplay=1&rel=0&origin=https://salefish.app' : url;
-  }
-
   function buildCard(post) {
-    var cat_slug = post.cat_slug || '';
-    var cat_name = post.cat_name || '';
-    var is_video = cat_slug === 'videos';
-    var card     = document.createElement('a');
-    card.href      = is_video ? youtubeEmbedUrl(post.content || post.link || '#') : (post.link || '#');
+    var cat_slug  = post.cat_slug || '';
+    var cat_name  = post.cat_name || '';
+    var is_video  = cat_slug === 'videos';
+    var embed_url = post.embed_url || '';
+    var card      = document.createElement('a');
+    card.href      = is_video ? (embed_url || '#') : (post.link || '#');
     card.className = 'sf-card blog-card blog-card-animate';
     card.setAttribute('data-category', cat_slug);
-    if (is_video) { card.setAttribute('data-fancybox', ''); card.setAttribute('data-type', 'iframe'); }
+    if (is_video && embed_url) { card.setAttribute('data-video-url', embed_url); }
     card.innerHTML =
       (post.thumb ? '<div class="blog-card__image">' + post.thumb + '</div>' : '') +
       '<div class="blog-card__body">' +
