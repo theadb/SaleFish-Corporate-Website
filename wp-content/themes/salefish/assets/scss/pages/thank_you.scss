@@ -2,27 +2,56 @@
 
 .sf-ty-page {
   min-height: calc(100vh - 100px); // subtract fixed header height
-  padding: 100px 24px 80px; // push below fixed header
-  background: $gray;
+  padding: 100px 24px 80px;        // push content below fixed header
+  background: $dark_purple;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
 
   @include rs768 {
     min-height: calc(100vh - 80px);
     padding: 100px 20px 60px;
   }
 
+  // Ambient orb 1 — matches dark-purple sections across the site
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -40% -30%;
+    background: radial-gradient(ellipse 54% 62% at 28% 38%, rgba($light_purple, 0.62) 0%, transparent 64%);
+    animation: heroOrbFloat 22s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite,
+               heroOrbPulse 9s ease-in-out infinite;
+    pointer-events: none;
+    will-change: transform;
+    z-index: 0;
+  }
+
+  // Ambient orb 2
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -40% -30%;
+    background: radial-gradient(ellipse 46% 52% at 78% 68%, rgba($light_purple, 0.52) 0%, transparent 64%);
+    animation: heroOrb2Float 28s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite,
+               heroOrbPulse 11s ease-in-out infinite reverse;
+    pointer-events: none;
+    will-change: transform;
+    z-index: 0;
+  }
+
   &__inner {
+    position: relative;
+    z-index: 1;
     width: 100%;
-    max-width: 560px;
+    max-width: 540px;
   }
 
   &__card {
-    background: var(--sf-card-gradient);
-    background-color: hsl(var(--sf-card));
+    background: #fff;
     border-radius: var(--sf-radius-lg);
-    box-shadow: var(--sf-shadow-lg), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 32px 80px -8px rgba(0, 0, 0, 0.4), 0 8px 24px -8px rgba(0, 0, 0, 0.28);
     padding: 56px 56px 52px;
     text-align: center;
 
@@ -32,20 +61,20 @@
   }
 
   &__icon-wrap {
-    width: 68px;
-    height: 68px;
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
-    background: rgba($dark_purple, 0.08);
+    background: $gold;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 28px;
 
     svg {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       color: $dark_purple;
-      stroke-width: 1.75;
+      stroke-width: 2;
     }
   }
 
@@ -74,25 +103,25 @@
   &__body {
     font-family: $PL;
     font-size: 1rem;
-    color: hsl(var(--sf-card-fg));
+    color: $black;
     line-height: 1.7;
     margin: 0 0 36px;
   }
 
+  // Matches the site's primary CTA button: gold, dark text, 5px radius
   &__btn {
     display: inline-block;
     font-family: $PSB;
-    font-size: 0.9rem;
-    letter-spacing: 0.02em;
-    color: #fff;
-    background: $dark_purple;
-    padding: 14px 32px;
-    border-radius: 100px;
+    font-size: 0.85rem;
+    color: $black;
+    background: $gold;
+    padding: 12px 30px;
+    border-radius: 5px;
     text-decoration: none;
     transition: background 200ms ease, transform 200ms ease;
 
     &:hover {
-      background: darken($dark_purple, 8%);
+      background: darken($gold, 8%);
       transform: translateY(-1px);
     }
 

@@ -385,16 +385,16 @@ header {
   }
 
   &__icon-wrap {
-    width: 56px;
-    height: 56px;
-    background: rgba($dark_purple, 0.08);
+    width: 68px;
+    height: 68px;
+    background: $gold;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 20px;
+    margin: 0 auto 24px;
 
-    svg { width: 26px; height: 26px; color: $dark_purple; stroke-width: 1.75; }
+    svg { width: 30px; height: 30px; color: $dark_purple; stroke-width: 2; }
   }
 
   &__eyebrow {
@@ -420,7 +420,7 @@ header {
   &__body {
     font-family: $PL;
     font-size: 1rem;
-    color: hsl(var(--sf-card-fg));
+    color: $black;
     line-height: 1.65;
     margin: 0;
 
@@ -514,13 +514,10 @@ header {
   &__body {
     font-family: $PL;
     font-size: 1rem;
-    color: hsl(var(--sf-card-fg));
+    color: $black;
     line-height: 1.65;
     margin: 0;
     width: 100%;
-
-    @include rs768 { font-size: 1rem; }
-    @include rs550 { font-size: 1rem; }
   }
 }
 
