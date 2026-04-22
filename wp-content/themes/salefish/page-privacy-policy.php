@@ -14,7 +14,7 @@ get_header();
 		<div class="sf-container">
 			<div class="legal-hero__inner">
 				<span class="legal-eyebrow" data-aos="fade-up" data-aos-delay="100">Legal</span>
-				<h1 data-aos="fade-up" data-aos-delay="250">Privacy Policy</h1>
+				<h1 data-aos="fade-up" data-aos-delay="220">Privacy Policy</h1>
 			</div>
 		</div>
 	</section>
@@ -23,7 +23,7 @@ get_header();
 	<!-- CONTENT -->
 	<section class="legal-body">
 		<div class="sf-container">
-			<div class="legal-body__content">
+			<div class="legal-body__content" data-aos="fade-up" data-aos-delay="100">
 				<?php the_content(); ?>
 			</div>
 		</div>

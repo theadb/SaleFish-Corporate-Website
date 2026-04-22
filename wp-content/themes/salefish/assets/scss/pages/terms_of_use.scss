@@ -1,37 +1,51 @@
-// ─── LEGAL PAGES (Privacy Policy + Terms of Use) ───────────────────────────
-// Shared styles for .legal-page used by both page-privacy-policy.php
+// ─── LEGAL PAGES (Privacy Policy + Terms of Use) ────────────────────────────
+// Shared styles for .legal-page — used by page-privacy-policy.php
 // and page-terms-of-use.php
 
 .legal-page {
 
-  // ── Hero ───────────────────────────────────────────────────────────────────
+  // ── Hero ────────────────────────────────────────────────────────────────────
   .legal-hero {
-    padding-top: calc(68px + 72px);
-    padding-bottom: 64px;
-    background: hsl(var(--sf-bg));
+    padding-top: calc(100px + 60px); // fixed header + breathing room
+    padding-bottom: 100px;
     position: relative;
     overflow: hidden;
+    clip-path: polygon(0 0, 100% 0%, 100% 88%, 0 100%);
+
+    background:
+      radial-gradient(ellipse 70% 80% at 92% 10%, rgba(94, 63, 168, 0.55) 0%, transparent 55%),
+      radial-gradient(ellipse 75% 60% at 0% 100%, rgba(30, 18, 68, 0.75) 0%, transparent 52%),
+      linear-gradient(140deg, $dark_purple 0%, #3A2680 45%, $dark_purple 75%, #2D1B6E 100%);
 
     @include rs768 {
-      padding-top: calc(60px + 52px);
-      padding-bottom: 48px;
+      padding-top: calc(80px + 48px);
+      padding-bottom: 80px;
+      clip-path: polygon(0 0, 100% 0%, 100% 92%, 0 100%);
     }
 
-    // Subtle radial glow matching blog/awards hero pattern
+    @include rs550 {
+      padding-bottom: 72px;
+      clip-path: polygon(0 0, 100% 0%, 100% 94%, 0 100%);
+    }
+
+    // Ambient orb — matches Our Story pattern
     &::before {
       content: '';
       position: absolute;
-      top: -10%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 900px;
-      height: 400px;
-      background: radial-gradient(
-        ellipse 70% 50% at 50% 0%,
-        hsl(var(--sf-primary) / 0.06) 0%,
-        transparent 70%
-      );
+      inset: -40% -30%;
+      background: radial-gradient(ellipse 38% 44% at 36% 60%, rgba($light_purple, 0.28) 0%, transparent 58%);
+      animation: heroOrbFloat 22s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+      pointer-events: none;
+      will-change: transform;
+      z-index: 0;
+    }
+
+    // Second shimmer orb
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -20% -10%;
+      background: radial-gradient(ellipse 50% 35% at 80% 30%, rgba(255,255,255, 0.04) 0%, transparent 60%);
       pointer-events: none;
       z-index: 0;
     }
@@ -41,117 +55,136 @@
       z-index: 1;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
+      max-width: 720px;
+    }
+
+    h1 {
+      color: #fff;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin: 0;
     }
   }
 
-  // ── Eyebrow ─────────────────────────────────────────────────────────────────
+  // ── Eyebrow ──────────────────────────────────────────────────────────────────
   .legal-eyebrow {
+    display: block;
     font-family: $PSB;
     font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.16em;
-    color: $dark_purple;
+    color: $gold;
   }
 
-  // Override global h1 inside the hero to match blog-hero style
-  .legal-hero h1 {
-    font-size: clamp(2.4rem, 5.5vw, 4.2rem);
-    font-weight: 700;
-    color: hsl(var(--sf-primary));
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin: 0;
-  }
-
-  // ── Body content ───────────────────────────────────────────────────────────
+  // ── Body ─────────────────────────────────────────────────────────────────────
   .legal-body {
     background: hsl(var(--sf-bg));
     padding: 0 0 96px;
+    // Pull content up into the clipped hero space
+    margin-top: -40px;
+    position: relative;
+    z-index: 1;
 
-    @include rs768 { padding-bottom: 72px; }
-    @include rs550 { padding-bottom: 56px; }
+    @include rs768 { padding-bottom: 72px; margin-top: -28px; }
+    @include rs550 { padding-bottom: 56px; margin-top: -20px; }
   }
 
   .legal-body__content {
-    max-width: 760px;
+    max-width: 780px;
     margin: 0 auto;
     background: hsl(var(--sf-card));
     border-radius: var(--sf-radius-lg);
-    box-shadow: var(--sf-shadow-sm);
-    padding: 48px 56px 56px;
+    box-shadow: var(--sf-shadow-md);
+    padding: 52px 60px 64px;
+    position: relative;
 
-    @include rs768 { padding: 36px 32px 40px; }
-    @include rs550 { padding: 28px 20px 32px; }
+    @include rs768 { padding: 36px 32px 44px; }
+    @include rs550 { padding: 28px 20px 36px; }
 
-    // Typography for CMS-rendered content
+    // ── CMS typography ─────────────────────────────────────────────────
 
     h1 {
       font-family: $PB;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       color: hsl(var(--sf-primary));
       line-height: 1.25;
-      margin: 0 0 28px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid hsl(var(--sf-border));
+      margin: 0 0 8px;
+    }
+
+    // "Effective as of …" paragraph that appears right after the title
+    h1 + p,
+    h1 + h3,
+    > *:first-child {
+      color: hsl(var(--sf-muted-fg));
+      font-size: 0.82rem;
+      margin-bottom: 32px;
     }
 
     h2 {
       font-family: $PB;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       color: hsl(var(--sf-fg));
       line-height: 1.35;
-      margin: 2.2em 0 0.6em;
-      padding-top: 0.4em;
+      margin: 2.6em 0 0.65em;
+      padding-top: 1.4em;
       border-top: 1px solid hsl(var(--sf-border));
 
-      &:first-child { margin-top: 0; border-top: none; padding-top: 0; }
+      &:first-of-type {
+        margin-top: 0;
+        border-top: none;
+        padding-top: 0;
+      }
     }
 
     h3 {
       font-family: $PSB;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: hsl(var(--sf-fg));
       line-height: 1.4;
-      margin: 1.6em 0 0.4em;
+      margin: 1.8em 0 0.4em;
       letter-spacing: 0.01em;
     }
 
     h4 {
       font-family: $PSB;
-      font-size: 0.85rem;
-      color: hsl(var(--sf-fg));
+      font-size: 0.82rem;
+      color: hsl(var(--sf-muted-fg));
       line-height: 1.4;
       margin: 1.4em 0 0.3em;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
     }
 
     p {
-      font-family: $PR;
-      font-size: 0.9rem;
+      font-family: $PL;
+      font-size: 0.92rem;
       color: hsl(var(--sf-muted-fg));
-      line-height: 1.75;
+      line-height: 1.8;
       margin: 0 0 1em;
     }
 
     ul, ol {
-      margin: 0 0 1.2em 1.4em;
+      margin: 0.4em 0 1.2em 1.5em;
       padding: 0;
+      list-style: disc;
 
       li {
-        font-family: $PR;
-        font-size: 0.9rem;
+        font-family: $PL;
+        font-size: 0.92rem;
         color: hsl(var(--sf-muted-fg));
-        line-height: 1.7;
-        margin-bottom: 0.5em;
+        line-height: 1.75;
+        margin-bottom: 0.55em;
       }
     }
+
+    ol { list-style: decimal; }
 
     a {
       color: $dark_purple;
       text-decoration: underline;
-      text-decoration-color: rgba($dark_purple, 0.35);
+      text-decoration-color: rgba($dark_purple, 0.3);
       text-underline-offset: 3px;
       transition: text-decoration-color 0.15s ease, color 0.15s ease;
 
@@ -161,21 +194,36 @@
       }
     }
 
-    strong {
+    strong, b {
       font-family: $PSB;
       color: hsl(var(--sf-fg));
     }
 
-    // Visual separator between major sections
     hr {
       border: none;
       border-top: 1px solid hsl(var(--sf-border));
-      margin: 2em 0;
+      margin: 2.4em 0;
+    }
+
+    // Block quotes styled as callout cards
+    blockquote {
+      margin: 1.6em 0;
+      padding: 16px 20px;
+      background: hsl(var(--sf-primary) / 0.05);
+      border-left: 3px solid hsl(var(--sf-primary));
+      border-radius: 0 var(--sf-radius) var(--sf-radius) 0;
+
+      p {
+        margin: 0;
+        font-family: $PSB;
+        font-size: 0.88rem;
+        color: hsl(var(--sf-primary));
+      }
     }
   }
 }
 
-// ── Footer spacing on legal pages ──────────────────────────────────────────
+// ── Footer spacing ──────────────────────────────────────────────────────────
 .page-template-page-terms-of-use,
 .page-template-page-privacy-policy {
   footer {
