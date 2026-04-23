@@ -379,8 +379,8 @@ $(function () {
     var h = data.meetingsEmbedHeight;
     if (typeof h !== "number" || h < 100) return;
 
-    // Cap both iframe and panel at 92vh — HubSpot handles its own internal overflow
-    var clampedH = Math.min(h, Math.round(window.innerHeight * 0.92));
+    // Cap both iframe and panel at 96vh — HubSpot handles its own internal overflow
+    var clampedH = Math.min(h, Math.round(window.innerHeight * 0.96));
     $("#sf-demo-modal .sf-demo-modal__frame").css("height", clampedH + "px");
     $("#sf-demo-modal .sf-demo-modal__panel").css("height", clampedH + "px");
   });
