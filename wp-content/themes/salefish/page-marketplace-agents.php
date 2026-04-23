@@ -10,7 +10,7 @@ get_header();
 // HERO
 $fade_msg = get_field('fade_messages');
 $fade = array();
-foreach ($fade_msg as $msg) {
+foreach ((is_array($fade_msg) ? $fade_msg : []) as $msg) {
     $text = $msg['text'];
     array_push($fade, $text);
 }
@@ -24,21 +24,21 @@ $builders_developers = get_field('builders_developers');
 
 // AGENTS
 $agents = get_field('agents');
-$agents_header = get_field('agents_header');
-$agents_header_title = $agents_header['title'];
-$agents_header_content = $agents_header['content'];
-$agents_header_button = $agents_header['button'];
-$agents_header_button_text = $agents_header_button['text'];
-$agents_header_button_link = $agents_header_button['link'];
+$agents_header = get_field('agents_header') ?: [];
+$agents_header_title = $agents_header['title'] ?? '';
+$agents_header_content = $agents_header['content'] ?? '';
+$agents_header_button = $agents_header['button'] ?? [];
+$agents_header_button_text = $agents_header_button['text'] ?? '';
+$agents_header_button_link = $agents_header_button['link'] ?? '';
 
 // BUILDERS
 $builders = get_field('builders');
-$builders_header = get_field('builders_header');
-$builders_header_title = $builders_header['title'];
-$builders_header_content = $builders_header['content'];
-$builders_header_button = $builders_header['button'];
-$builders_header_button_text = $builders_header_button['text'];
-$builders_header_button_link = $builders_header_button['link'];
+$builders_header = get_field('builders_header') ?: [];
+$builders_header_title = $builders_header['title'] ?? '';
+$builders_header_content = $builders_header['content'] ?? '';
+$builders_header_button = $builders_header['button'] ?? [];
+$builders_header_button_text = $builders_header_button['text'] ?? '';
+$builders_header_button_link = $builders_header_button['link'] ?? '';
 
 ?>
 
@@ -81,7 +81,7 @@ $builders_header_button_link = $builders_header_button['link'];
 				<div data-aos="fade-zoom-in" class="builders_wrap">
 					<div class="swiper marketplaceBuildersSwiper">
 						<div class="swiper-wrapper">
-							<?php foreach($builders_developers as $builder): ?>
+							<?php foreach((is_array($builders_developers) ? $builders_developers : []) as $builder): ?>
 							<div class="swiper-slide">
 								<img class="builder_logo builder_1"
 									src="<?php echo esc_url( $builder ); ?>">
@@ -91,7 +91,7 @@ $builders_header_button_link = $builders_header_button['link'];
 					</div>
 					<div class="mobile_builders">
 						<div class="row">
-							<?php foreach($builders_developers as $builder): ?>
+							<?php foreach((is_array($builders_developers) ? $builders_developers : []) as $builder): ?>
 							<div class="col">
 								<img class="builder_logo builder_1"
 									src="<?php echo esc_url( $builder ); ?>">
@@ -122,7 +122,7 @@ $builders_header_button_link = $builders_header_button['link'];
 				<?php endif; ?>
 			</div>
 			<div class="items">
-				<?php foreach($agents as $row):
+				<?php foreach((is_array($agents) ? $agents : []) as $row):
 				    $image = $row['image'];
 				    $sub_title = $row['sub_title'];
 				    $title = $row['title'];
@@ -189,7 +189,7 @@ $builders_header_button_link = $builders_header_button['link'];
 
 			</div>
 			<div class="items">
-				<?php foreach($builders as $row):
+				<?php foreach((is_array($builders) ? $builders : []) as $row):
 				    $image = $row['image'];
 				    $sub_title = $row['sub_title'];
 				    $title = $row['title'];

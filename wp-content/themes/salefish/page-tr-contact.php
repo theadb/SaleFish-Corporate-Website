@@ -28,7 +28,7 @@ get_header();
 		<div class="max_wrapper">
 			<div class="left" data-aos="fade-right">
 				<h1>SaleFish Türkiye - Mimario Gayrimenkul</h1>
-				<a class="important-p" href="https://maps.app.goo.gl/9VEiKxHZaXGe3uz6A" target="_blank">
+				<a class="important-p" href="https://maps.app.goo.gl/9VEiKxHZaXGe3uz6A" target="_blank" rel="noopener noreferrer">
 					Şerifali Mah. <br />
 					Kutup Sok. No:40 <br />
 					WorkHub Plaza İç Kapı No:3 34775 <br />

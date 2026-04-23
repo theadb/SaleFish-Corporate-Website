@@ -9,7 +9,7 @@ get_header();
 // HERO
 $fade_msg = get_field('fade_messages');
 $fade = array();
-foreach ($fade_msg as $msg) {
+foreach ((is_array($fade_msg) ? $fade_msg : []) as $msg) {
     $text = $msg['text'];
     array_push($fade, $text);
 }
@@ -38,7 +38,7 @@ $the_numbers = get_field('the_numbers');
 		style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <script>
-	let textArray = <?php echo json_encode($fade) ?> ;
+	let textArray = <?php echo wp_json_encode( $fade, JSON_HEX_TAG | JSON_HEX_AMP ); ?> ;
 </script>
 
 <main class="home">
@@ -60,14 +60,14 @@ $the_numbers = get_field('the_numbers');
 				<div class="left" data-aos="fade-right" data-aos-delay="300">
 					<h3>EIN EINFACHERER WEG, HAUSVERKÄUFE ZU VERKAUFEN</h3>
 					<h1>
-						<?php echo $hero_header; ?>
+						<?php echo wp_kses_post( $hero_header ); ?>
 					</h1>
 					<a class="button" href="#contact_us">BUCHEN SIE EINE KOSTENLOSE DEMO
 					</a>
 				</div>
 				<div class="right" data-aos="zoom-in" data-aos-delay="300">
 					<img class="salefish_demo"
-						src="<?php echo $hero_image ?>"
+						src="<?php echo esc_url( $hero_image ); ?>"
 						alt="Salefish App Demo">
 				</div>
 			</div>
@@ -87,19 +87,19 @@ $the_numbers = get_field('the_numbers');
 				<div data-aos="fade-zoom-in" class="builders_wrap">
 					<div class="builders_marquee">
 						<div class="builders_track">
-							<?php foreach($builders as $builder): ?>
-							<img class="builder_logo" src="<?php echo $builder; ?>" alt="">
+							<?php foreach((is_array($builders) ? $builders : []) as $builder): ?>
+							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="">
 							<?php endforeach; ?>
-							<?php foreach($builders as $builder): ?>
-							<img class="builder_logo" src="<?php echo $builder; ?>" alt="" aria-hidden="true">
+							<?php foreach((is_array($builders) ? $builders : []) as $builder): ?>
+							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="" aria-hidden="true">
 							<?php endforeach; ?>
 						</div>
 					</div>
 					<div class="mobile_builders">
 						<div class="row">
-							<?php foreach($builders as $builder): ?>
+							<?php foreach((is_array($builders) ? $builders : []) as $builder): ?>
 							<div class="col">
-								<img class="builder_logo" src="<?php echo $builder; ?>" alt="">
+								<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="">
 							</div>
 							<?php endforeach; ?>
 						</div>
@@ -125,31 +125,31 @@ $the_numbers = get_field('the_numbers');
 		<div class="top">
 			<div class="title" data-aos="fade-up">
 				<h1>
-					<?php echo $numbers_header['title']; ?>
+					<?php echo esc_html( $numbers_header['title'] ?? '' ); ?>
 				</h1>
 				<p>
-					<?php echo $numbers_header['description']; ?>
+					<?php echo wp_kses_post( $numbers_header['description'] ?? '' ); ?>
 				</p>
 			</div>
 			<div class="content">
 				<?php
-                            $counter = 0;
-foreach($the_numbers as $row):
-    $prefix = $row['prefix'];
-    $number = $row['number'];
-    $suffix = $row['suffix'];
-    $description = $row['description'];
-    $counter++;
-    ?>
+				$counter = 0;
+				foreach((is_array($the_numbers) ? $the_numbers : []) as $row):
+				    $prefix = $row['prefix'];
+				    $number = $row['number'];
+				    $suffix = $row['suffix'];
+				    $description = $row['description'];
+				    $counter++;
+				    ?>
 				<div class="col">
 					<h1>
-						<?php echo $prefix ?> <span
-							data-number="<?php echo $number ?>"
-							id="count_<?php echo $counter ?>"></span>
-						<?php echo $suffix ?>
+						<?php echo esc_html( $prefix ); ?> <span
+							data-number="<?php echo esc_attr( $number ); ?>"
+							id="count_<?php echo esc_attr( $counter ); ?>"></span>
+						<?php echo esc_html( $suffix ); ?>
 					</h1>
 					<p>
-						<?php echo $description ?>
+						<?php echo wp_kses_post( $description ); ?>
 					</p>
 				</div>
 				<?php endforeach; ?>
@@ -163,7 +163,7 @@ foreach($the_numbers as $row):
 						</div>
 						<div class="swiper-slide">
 							<h1><span id="count_2_mobile"></span>+</h1>
-							<p>builders, developers & sales partners</p>
+							<p>builders, developers &amp; sales partners</p>
 						</div>
 						<div class="swiper-slide">
 							<h1><span id="count_3_mobile"></span>M</h1>
@@ -181,7 +181,7 @@ foreach($the_numbers as $row):
 				</div>
 			</div>
 
-			<a class="button" target="_blank" href="https://chatting.page/salefish">CHATTEN SIE MIT UNS</a>
+			<a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish">CHATTEN SIE MIT UNS</a>
 		</div>
 		<!-- PILLARS -->
 		<section class="pillars">
@@ -192,19 +192,19 @@ foreach($the_numbers as $row):
 				</div>
 				<div class="swiper pillarsSwiper" data-aos="fade-zoom-in">
 					<div class="swiper-wrapper">
-						<?php foreach($pillars as $row):
+						<?php foreach((is_array($pillars) ? $pillars : []) as $row):
 						    $icon = $row['icon'];
 						    $title = ucwords( strtolower( $row['title'] ) );
 						    $description = $row['description'];
 						    ?>
 						<div class="swiper-slide">
 							<img class="pillar"
-								src="<?php echo $icon ?>" alt="" aria-hidden="true">
+								src="<?php echo esc_url( $icon ); ?>" alt="" aria-hidden="true">
 							<h3>
-								<?php echo $title ?>
+								<?php echo esc_html( $title ); ?>
 							</h3>
 							<p>
-								<?php echo $description ?>
+								<?php echo wp_kses_post( $description ); ?>
 							</p>
 						</div>
 						<?php endforeach; ?>

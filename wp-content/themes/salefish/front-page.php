@@ -9,7 +9,7 @@ get_header();
 // HERO
 $fade_msg = get_field('fade_messages');
 $fade = array();
-foreach ($fade_msg as $msg) {
+foreach ((is_array($fade_msg) ? $fade_msg : []) as $msg) {
     array_push($fade, mb_convert_case($msg['text'], MB_CASE_TITLE, 'UTF-8'));
 }
 $hero_header = mb_convert_case(get_field('hero_header'), MB_CASE_TITLE, 'UTF-8');
@@ -85,17 +85,17 @@ $the_numbers = get_field('the_numbers');
 				<div data-aos="fade-zoom-in" class="builders_wrap">
 					<div class="builders_marquee">
 						<div class="builders_track">
-							<?php foreach($builders as $builder): ?>
+							<?php foreach((is_array($builders) ? $builders : []) as $builder): ?>
 							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="" loading="lazy" decoding="async">
 							<?php endforeach; ?>
-							<?php foreach($builders as $builder): ?>
+							<?php foreach((is_array($builders) ? $builders : []) as $builder): ?>
 							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async">
 							<?php endforeach; ?>
 						</div>
 					</div>
 					<div class="mobile_builders">
 						<div class="row">
-							<?php foreach($builders as $builder): ?>
+							<?php foreach((is_array($builders) ? $builders : []) as $builder): ?>
 							<div class="col">
 								<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="" loading="lazy" decoding="async">
 							</div>
@@ -122,7 +122,7 @@ $the_numbers = get_field('the_numbers');
 			</div>
 			<div class="swiper pillarsSwiper" data-aos="fade-zoom-in">
 				<div class="swiper-wrapper">
-					<?php foreach($pillars as $row):
+					<?php foreach((is_array($pillars) ? $pillars : []) as $row):
 					    $icon = $row['icon'];
 					    $title = ucwords( strtolower( $row['title'] ) );
 					    $description = $row['description'];
@@ -170,7 +170,7 @@ $the_numbers = get_field('the_numbers');
 			<div class="content">
 				<?php
                             $counter = 0;
-foreach($the_numbers as $row):
+foreach((is_array($the_numbers) ? $the_numbers : []) as $row):
     $prefix = $row['prefix'];
     $number = $row['number'];
     $suffix = $row['suffix'];

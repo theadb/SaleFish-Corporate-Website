@@ -1,9 +1,9 @@
 <?php
 $features = get_field('tr_features', 'option');
-$service_support = get_field('tr_service_support', 'option');
-$service_support_button = $service_support['button'];
-$service_support_button_text = $service_support_button['text'];
-$service_support_button_link = $service_support_button['link'];
+$service_support = get_field('tr_service_support', 'option') ?: [];
+$service_support_button = $service_support['button'] ?? [];
+$service_support_button_text = $service_support_button['text'] ?? '';
+$service_support_button_link = $service_support_button['link'] ?? '';
 $counter = 0;
 ?>
 
@@ -14,7 +14,7 @@ $counter = 0;
             <p>Günümüz pazarında satmanız gereken tüm araçlar.</p>
         </div>
         <div class="features">
-            <?php foreach($features as $row):
+            <?php foreach((is_array($features) ? $features : []) as $row):
                 $is_even = $counter % 2 == 0;
                 $image = $row['image'];
                 $sub_title = $row['sub_title'];

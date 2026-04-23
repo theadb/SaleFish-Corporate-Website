@@ -86,8 +86,8 @@ $the_numbers = get_field('the_numbers');
 				<div data-aos="fade-zoom-in" class="builders_wrap">
 					<div class="builders_marquee">
 						<div class="builders_track">
-							<?php foreach($builders as $builder): ?>
-							<img class="builder_logo" src="<?php echo $builder; ?>" alt="">
+							<?php foreach((is_array($builders) ? $builders : []) as $builder): ?>
+							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="">
 							<?php endforeach; ?>
 							<?php foreach($builders as $builder): ?>
 							<img class="builder_logo" src="<?php echo $builder; ?>" alt="" aria-hidden="true">
@@ -180,7 +180,7 @@ foreach((is_array($the_numbers) ? $the_numbers : []) as $row):
 				</div>
 			</div>
 
-			<a class="button" target="_blank" href="https://chatting.page/salefish">BIZLE SOHBET ET</a>
+			<a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish">BIZLE SOHBET ET</a>
 		</div>
 		<!-- PILLARS -->
 		<section class="pillars">

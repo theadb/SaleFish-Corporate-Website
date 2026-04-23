@@ -59,9 +59,9 @@ $(function () {
       if ($(".contact .mobile_content").isInViewport()) {
         setTimeout(() => {
           count_1_mobile.start();
+          count_2_mobile.start();
+          count_3_mobile.start();
         }, 500);
-      } else {
-        // do something else
       }
     });
     let pillarsSwiper = new Swiper(".pillarsSwiper", {
@@ -189,7 +189,7 @@ $(function () {
       let index = numbersSwiper.realIndex;
       switch (index) {
         case 0:
-          $(".swiper-slide-duplicate #count_1_mobile").text("100");
+          count_1_mobile.start();
           break;
         case 1:
           count_2_mobile.start();
