@@ -41,17 +41,6 @@ $the_numbers = get_field('the_numbers');
 </script>
 
 <main class="home" id="main-content">
-	<!-- POPUP -->
-	<div class="selling_popup_container">
-		<div class="selling_popup">
-			<a href="#contact_us" class="scroll_link button-image">
-				<img src="<?php echo get_template_directory_uri(); ?>/img/popup.png"
-					class="popup" loading="lazy" decoding="async" alt="Book a Free Demo">
-			</a>
-			<img src="<?php echo get_template_directory_uri(); ?>/img/x-closed.svg"
-				class="close_icon" loading="lazy" decoding="async" alt="" aria-hidden="true">
-		</div>
-	</div>
 	<!-- HERO -->
 	<section class="hero">
 		<div class="wrapper">
