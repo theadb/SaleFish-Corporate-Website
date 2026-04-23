@@ -131,8 +131,13 @@ add_action('widgets_init', '_pc_widgets_init');
 
 function kickass_scripts()
 {
+    // Replace WP's bundled jQuery with the CDN version already used site-wide.
+    // This ensures jQuery loads in the footer BEFORE app.js (which depends on it).
+    wp_deregister_script( 'jquery' );
+    wp_register_script( 'jquery', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js', [], '3.6.0', true );
+
     wp_enqueue_style('style-name', get_template_directory_uri() . '/dest/app.css', [], filemtime(get_template_directory() . '/dest/app.css'));
-    wp_enqueue_script('script-name', get_template_directory_uri() . '/dest/app.js', array(), filemtime(get_template_directory() . '/dest/app.js'), true);
+    wp_enqueue_script('script-name', get_template_directory_uri() . '/dest/app.js', array('jquery'), filemtime(get_template_directory() . '/dest/app.js'), true);
     wp_localize_script('script-name', 'salefishAjax', [
         'ajaxurl'        => admin_url('admin-ajax.php'),
         'nonce'          => wp_create_nonce('salefish_nonce'),

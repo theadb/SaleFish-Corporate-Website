@@ -221,9 +221,7 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
 <?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <?php endif; ?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-	integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- jQuery is now loaded via wp_enqueue_script (footer, before app.js) -->
 <script>
 var salefishAjax = {
 	ajaxurl: '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>',
