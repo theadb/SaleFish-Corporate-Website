@@ -377,6 +377,16 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/jetpack.php';
 
 
+function sf_post_cta( $cat_slug ) {
+    switch ( $cat_slug ) {
+        case 'videos':          return 'Watch Video';
+        case 'success-stories': return 'See the Results';
+        case 'press':           return 'Read It';
+        case 'blog':            return 'Dig In';
+        default:                return 'Keep Reading';
+    }
+}
+
 function limit_text($text, $limit)
 {
     if (str_word_count($text, 0) > $limit) {
