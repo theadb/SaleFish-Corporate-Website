@@ -243,32 +243,15 @@
     &__showcase {
       text-align: center;
 
-      &:hover .platform__img-slide.is-active img { transform: scale(1.04); }
+      &:hover img { transform: scale(1.04); }
 
-      .platform__img-stack {
-        position: relative;
+      img {
         max-width: 720px;
         width: 100%;
-        aspect-ratio: 1 / 1;
+        display: block;
         margin: 0 auto 36px;
-      }
-
-      .platform__img-slide {
-        position: absolute;
-        inset: 0;
-        opacity: 0;
-        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-
-        &.is-active { opacity: 1; }
-
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-          display: block;
-          transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          will-change: transform;
-        }
+        transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform;
       }
 
       .button { display: inline-block; }
@@ -333,19 +316,34 @@
 
     &__badge {
       flex-shrink: 0;
+      width: 440px;
+      max-width: 100%;
 
-      @include rs768 { text-align: center; }
+      @include rs768 { margin: 0 auto; }
 
-      a { display: inline-block; }
+      &:hover .platform__img-slide.is-active img { transform: scale(1.04); }
 
-      img {
-        width: 280px;
-        max-width: 100%;
-        display: block;
+      .platform__img-stack {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+      }
 
-        @include rs768 {
-          width: 220px;
-          margin: 0 auto;
+      .platform__img-slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &.is-active { opacity: 1; }
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          display: block;
+          transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          will-change: transform;
         }
       }
     }
