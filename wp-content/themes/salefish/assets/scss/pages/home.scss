@@ -47,7 +47,7 @@
         padding-left: 60px;
         padding-top: 100px;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         position: relative;
 
         @include rs990 {
@@ -66,9 +66,11 @@
         position: relative;
         width: 50%;
         z-index: 2;
+        margin-top: 75px; // aligns with image top (.right margin-top:50 + img margin-top:25)
 
         @include rs990 {
           width: 95%;
+          margin-top: 0;
         }
 
         p {
