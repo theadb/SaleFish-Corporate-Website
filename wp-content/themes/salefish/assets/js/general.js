@@ -354,9 +354,10 @@ $(function () {
   // HubSpot postMessage listener — fires on load, step changes, confirmation, etc.
   //
   // Desktop (> 768 px):
-  //   iframe → full content height so it never needs its own scrollbar;
-  //   panel → min(contentH, 92vh) so it shrink-wraps with no white gap;
-  //   __scroll handles any overflow with a single scrollbar.
+  //   Both iframe AND panel are set to min(contentH, 92vh).
+  //   Capping the iframe at the same value as the panel means HubSpot sees a
+  //   constrained viewport and uses its own internal scroll for any overflow —
+  //   no second (external) scrollbar is ever added on our side.
   //
   // Mobile (≤ 768 px):
   //   Skip — iframe is height:100% via CSS and HubSpot scrolls its own content
@@ -373,10 +374,10 @@ $(function () {
     var h = data.meetingsEmbedHeight;
     if (typeof h !== "number" || h < 100) return;
 
-    var maxH = Math.round(window.innerHeight * 0.92);
-    // iframe → full content height; panel → capped at 92vh
-    $("#sf-demo-modal .sf-demo-modal__frame").css("height", h + "px");
-    $("#sf-demo-modal .sf-demo-modal__panel").css("height", Math.min(h, maxH) + "px");
+    // Cap both iframe and panel at 92vh — HubSpot handles its own internal overflow
+    var clampedH = Math.min(h, Math.round(window.innerHeight * 0.92));
+    $("#sf-demo-modal .sf-demo-modal__frame").css("height", clampedH + "px");
+    $("#sf-demo-modal .sf-demo-modal__panel").css("height", clampedH + "px");
   });
 
 });

@@ -622,40 +622,21 @@ header {
     svg { width: 18px; height: 18px; stroke-width: 2; }
   }
 
-  // ── Desktop scroll strategy ──────────────────────────────────────────────
-  // __scroll is the ONLY scrolling surface. Mouse-wheel events bubble out of
-  // iframes on desktop so this works fine. overscroll-behavior:contain stops
-  // the scroll from chaining to the page body.
-  // ── Mobile scroll strategy (see @include rs768 overrides below) ──────────
-  // iOS captures touch events inside cross-origin iframes and never lets them
-  // bubble — __scroll can't receive them, so it can't scroll. Instead we set
-  // __scroll to overflow:hidden and let the iframe fill 100% of the panel;
-  // HubSpot's responsive embed handles its own scrolling inside the iframe
-  // (one scroll surface, the iframe itself, working natively).
+  // __scroll is a passthrough container on all screen sizes — it never scrolls.
+  // HubSpot's embed already handles its own internal overflow (the time-slot
+  // list scrolls inside HubSpot's UI). Adding a second scroll layer on top
+  // creates a double-scrollbar. Keeping overflow:hidden means only HubSpot's
+  // single scrollbar is ever visible.
   &__scroll {
     width: 100%;
     height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    overscroll-behavior-y: contain;
-
-    // Subtle branded scrollbar (Webkit/Blink)
-    &::-webkit-scrollbar       { width: 5px; }
-    &::-webkit-scrollbar-track { background: transparent; }
-    &::-webkit-scrollbar-thumb {
-      background: rgba($dark_purple, 0.25);
-      border-radius: 3px;
-    }
-    &::-webkit-scrollbar-thumb:hover { background: rgba($dark_purple, 0.4); }
-
-    @include rs768 {
-      overflow: hidden; // hand scrolling back to the iframe on mobile
-    }
+    overflow: hidden;
   }
 
-  // iframe is always sized to its FULL content height by JS on desktop so it
-  // never needs its own scrollbar. On mobile it fills the panel and HubSpot
-  // scrolls internally.
+  // Desktop: JS sizes the iframe to min(postMessage height, 92vh) — same cap
+  // as the panel — so HubSpot sees a constrained viewport and uses its own
+  // internal scroll for any overflow. No external scrollbar is ever added.
+  // Mobile: height:100% fills the full-screen panel; HubSpot scrolls internally.
   &__frame {
     width: 100%;
     height: 600px;  // initial fallback; overridden immediately by postMessage
