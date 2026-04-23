@@ -85,8 +85,10 @@ svg {
   -ms-interpolation-mode: nearest-neighbor;
 }
 
-input {
+input,
+select {
   -webkit-appearance: none;
+  appearance: none;
   border-radius: 0;
 }
 
