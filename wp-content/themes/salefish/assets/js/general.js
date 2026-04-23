@@ -352,11 +352,19 @@ $(function () {
   });
 
   // HubSpot postMessage listener — fires on load, step changes, confirmation, etc.
-  // Works on all screen sizes: mobile panel is full-screen via CSS so its panel
-  // height is not overridden, but the iframe still gets its full content height
-  // so only __scroll ever needs to scroll (one scrollbar, no double-scroll).
+  //
+  // Desktop (> 768 px):
+  //   iframe → full content height so it never needs its own scrollbar;
+  //   panel → min(contentH, 92vh) so it shrink-wraps with no white gap;
+  //   __scroll handles any overflow with a single scrollbar.
+  //
+  // Mobile (≤ 768 px):
+  //   Skip — iframe is height:100% via CSS and HubSpot scrolls its own content
+  //   inside the iframe (iOS touch events don't bubble out of cross-origin iframes
+  //   so a JS-driven outer scroll wrapper doesn't work on mobile).
   window.addEventListener("message", function (e) {
     if (!$("#sf-demo-modal").is(":visible")) return;
+    if (window.innerWidth <= 768) return; // mobile: CSS handles it
     var data = e.data;
     if (typeof data === "string") {
       try { data = JSON.parse(data); } catch (err) { return; }
@@ -365,15 +373,10 @@ $(function () {
     var h = data.meetingsEmbedHeight;
     if (typeof h !== "number" || h < 100) return;
 
-    // iframe → full content height (no cap) so it never needs its own scrollbar
+    var maxH = Math.round(window.innerHeight * 0.92);
+    // iframe → full content height; panel → capped at 92vh
     $("#sf-demo-modal .sf-demo-modal__frame").css("height", h + "px");
-
-    // panel → capped at 92vh on desktop to keep it within the viewport;
-    // on mobile the panel is already full-screen via CSS, leave it alone
-    if (window.innerWidth > 768) {
-      var maxH = Math.round(window.innerHeight * 0.92);
-      $("#sf-demo-modal .sf-demo-modal__panel").css("height", Math.min(h, maxH) + "px");
-    }
+    $("#sf-demo-modal .sf-demo-modal__panel").css("height", Math.min(h, maxH) + "px");
   });
 
 });

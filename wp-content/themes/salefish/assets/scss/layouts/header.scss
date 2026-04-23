@@ -622,9 +622,16 @@ header {
     svg { width: 18px; height: 18px; stroke-width: 2; }
   }
 
-  // The ONLY scrolling surface — takes the full panel height.
-  // overscroll-behavior:contain stops the scroll from chaining to the page body
-  // (critical on iOS where overflow:hidden on <body> is often ignored).
+  // ── Desktop scroll strategy ──────────────────────────────────────────────
+  // __scroll is the ONLY scrolling surface. Mouse-wheel events bubble out of
+  // iframes on desktop so this works fine. overscroll-behavior:contain stops
+  // the scroll from chaining to the page body.
+  // ── Mobile scroll strategy (see @include rs768 overrides below) ──────────
+  // iOS captures touch events inside cross-origin iframes and never lets them
+  // bubble — __scroll can't receive them, so it can't scroll. Instead we set
+  // __scroll to overflow:hidden and let the iframe fill 100% of the panel;
+  // HubSpot's responsive embed handles its own scrolling inside the iframe
+  // (one scroll surface, the iframe itself, working natively).
   &__scroll {
     width: 100%;
     height: 100%;
@@ -640,15 +647,24 @@ header {
       border-radius: 3px;
     }
     &::-webkit-scrollbar-thumb:hover { background: rgba($dark_purple, 0.4); }
+
+    @include rs768 {
+      overflow: hidden; // hand scrolling back to the iframe on mobile
+    }
   }
 
-  // iframe is always sized to its FULL content height by JS — it never needs
-  // its own scrollbar. __scroll handles any overflow above 92vh.
+  // iframe is always sized to its FULL content height by JS on desktop so it
+  // never needs its own scrollbar. On mobile it fills the panel and HubSpot
+  // scrolls internally.
   &__frame {
     width: 100%;
     height: 600px;  // initial fallback; overridden immediately by postMessage
     border: none;
     display: block;
+
+    @include rs768 {
+      height: 100%; // fill the full-screen panel; iframe handles its own scroll
+    }
   }
 }
 
