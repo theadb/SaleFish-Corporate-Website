@@ -259,7 +259,7 @@ $(function () {
       url: salefishAjax.ajaxurl,
       type: "POST",
       dataType: "json",
-      data: $(this).serialize() + "&action=mailchimp_register&nonce=" + salefishAjax.nonce,
+      data: $(this).serialize() + "&action=salefish_register&nonce=" + salefishAjax.nonce,
       success: function (res) {
         if (res.success) {
           sfShowCheckEmail(res.data && res.data.email ? res.data.email : "");
@@ -371,7 +371,7 @@ $(function () {
       url: salefishAjax.ajaxurl,
       type: "POST",
       dataType: "json",
-      data: $(this).serialize() + "&action=mailchimp_register&nonce=" + salefishAjax.nonce,
+      data: $(this).serialize() + "&action=salefish_register&nonce=" + salefishAjax.nonce,
       success: function (res) {
         if (res.success) {
           sfRegModalClose();

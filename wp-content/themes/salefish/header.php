@@ -539,8 +539,8 @@
 		</button>
 		<div class="sf-reg-modal__scroll">
 			<div class="sf-reg-modal__inner">
-				<h3>GET STARTED</h3>
-				<h1>Register for Access</h1>
+				<h3>Streamline Sales, Eliminate Mistakes &amp; Increase Your Bottom Line.</h3>
+				<h1>Don't Wait — You're Already Losing Ground.</h1>
 				<form id="sf_reg_form">
 					<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off">
 					<input type="hidden" name="sf_section" id="sf_reg_section" value="">
