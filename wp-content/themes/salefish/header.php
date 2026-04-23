@@ -530,6 +530,71 @@
 	</div>
 </div>
 
+<!-- Registration Modal -->
+<div class="sf-reg-modal" id="sf-reg-modal" role="dialog" aria-modal="true" aria-label="Register for Access">
+	<div class="sf-reg-modal__backdrop"></div>
+	<div class="sf-reg-modal__panel">
+		<button class="sf-reg-modal__close" aria-label="Close dialog">
+			<i data-lucide="x"></i>
+		</button>
+		<div class="sf-reg-modal__scroll">
+			<div class="sf-reg-modal__inner">
+				<h3>GET STARTED</h3>
+				<h1>Register for Access</h1>
+				<form id="sf_reg_form">
+					<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off">
+					<input type="hidden" name="sf_section" id="sf_reg_section" value="">
+					<div class="row">
+						<div class="col">
+							<label for="sf_reg_name">NAME</label>
+							<input type="text" placeholder="First Last" name="name" id="sf_reg_name" required>
+						</div>
+						<div class="col">
+							<label for="sf_reg_demo">Would you like a demo?</label>
+							<select name="demo" id="sf_reg_demo" required>
+								<option value="Yes">Yes</option>
+								<option value="No">No</option>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<label for="sf_reg_company">COMPANY</label>
+							<input type="text" placeholder="Acme Ltd." name="company" id="sf_reg_company" required>
+						</div>
+						<div class="col">
+							<label for="sf_reg_title">TITLE</label>
+							<input type="text" placeholder="Sales Manager" name="title" id="sf_reg_title" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<label for="sf_reg_email">EMAIL</label>
+							<input type="email" placeholder="name@developeremail.com" name="email" id="sf_reg_email" required>
+						</div>
+						<div class="col">
+							<label for="sf_reg_phone">PHONE NUMBER</label>
+							<input type="tel" placeholder="555-912-0088" name="phone" id="sf_reg_phone" required
+								data-parsley-minlength="12"
+								data-parsley-minlength-message="This value should be a valid phone number.">
+						</div>
+					</div>
+					<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
+					<div class="row row-turnstile">
+						<div class="cf-turnstile"
+							data-sitekey="<?php echo esc_attr( SALEFISH_CF_TURNSTILE_SITEKEY ); ?>"
+							data-theme="dark"></div>
+					</div>
+					<?php endif; ?>
+					<div class="row">
+						<input class="submit" type="submit" value="REGISTER">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="thank_you_msg">
 	<div class="thank_you_msg__backdrop close_thank_you_msg"></div>
 	<div class="thank_you_msg__panel">

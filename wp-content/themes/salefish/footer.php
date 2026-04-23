@@ -232,7 +232,6 @@ var salefishAjax = {
 	turnstileSitekey: '<?php echo esc_js( defined( "SALEFISH_CF_TURNSTILE_SITEKEY" ) ? SALEFISH_CF_TURNSTILE_SITEKEY : "" ); ?>'
 };
 </script>
-<script src="<?php echo get_template_directory_uri(); ?>/dest/app.js"></script>
 <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16/dist/smooth-scroll.polyfills.min.js"></script>
 

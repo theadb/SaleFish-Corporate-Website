@@ -31,6 +31,7 @@ $(function () {
   });
 
   $("#phone").mask("000-000-0000");
+  $("#sf_reg_phone").mask("000-000-0000");
 
   let activeMenu = pathname.startsWith("/de") ? ".floating_menu_de"
     : pathname.startsWith("/tr") ? ".floating_menu_tr"
@@ -240,6 +241,7 @@ $(function () {
   $("#reg_form").parsley();
   $("#agent_form").parsley();
   $("#partner_form").parsley();
+  $("#sf_reg_form").parsley();
 
   // ── Helper: show the "check your email" dialog after form submit ─────────────
   function sfShowCheckEmail(email) {
@@ -329,14 +331,54 @@ $(function () {
     $("#sf-demo-modal .sf-demo-modal__panel").css("height", "");
   }
 
+  // ── REGISTRATION MODAL ─────────────────────────────────────────────────────
+  // All meetings.hubspot.com links now open the inline registration form.
+  // The data-sf-section attribute on the clicked link identifies which CTA
+  // triggered the modal so it can be tracked in the admin notification email.
+
+  function sfRegModalOpen(section) {
+    $("#sf_reg_section").val(section || "");
+    $("#sf-reg-modal").fadeIn(200);
+    $("html, body").css("overflow", "hidden");
+  }
+
+  function sfRegModalClose() {
+    $("#sf-reg-modal").fadeOut(200, function () {
+      var form = document.getElementById("sf_reg_form");
+      if (form) form.reset();
+      if (window.turnstile && typeof window.turnstile.reset === "function") {
+        window.turnstile.reset();
+      }
+    });
+    $("html, body").css("overflow", "");
+  }
+
   $(document).on("click", 'a[href*="meetings.hubspot.com"]', function (e) {
     e.preventDefault();
-    sfDemoModalReset(); // clear any previous session's sizing
-    var rawUrl = $(this).attr("href");
-    var sep = rawUrl.indexOf("?") !== -1 ? "&" : "?";
-    $("#sf-demo-modal .sf-demo-modal__frame").attr("src", rawUrl + sep + "embed=true");
-    $("#sf-demo-modal").fadeIn(200);
-    $("html, body").css("overflow", "hidden"); // hide page scrollbar on all browsers
+    sfRegModalOpen($(this).data("sf-section") || "");
+  });
+
+  $(document).on(
+    "click",
+    "#sf-reg-modal .sf-reg-modal__backdrop, #sf-reg-modal .sf-reg-modal__close",
+    sfRegModalClose
+  );
+
+  // REG MODAL FORM SUBMIT
+  $("#sf_reg_form").on("submit", function (e) {
+    e.preventDefault();
+    $.ajax({
+      url: salefishAjax.ajaxurl,
+      type: "POST",
+      dataType: "json",
+      data: $(this).serialize() + "&action=mailchimp_register&nonce=" + salefishAjax.nonce,
+      success: function (res) {
+        if (res.success) {
+          sfRegModalClose();
+          sfShowCheckEmail(res.data && res.data.email ? res.data.email : "");
+        }
+      },
+    });
   });
 
   function sfCloseDemoModal() {
@@ -351,8 +393,9 @@ $(function () {
   );
 
   $(document).on("keydown", function (e) {
-    if (e.key === "Escape" && $("#sf-demo-modal").is(":visible")) {
-      sfCloseDemoModal();
+    if (e.key === "Escape") {
+      if ($("#sf-demo-modal").is(":visible")) sfCloseDemoModal();
+      if ($("#sf-reg-modal").is(":visible")) sfRegModalClose();
     }
   });
 

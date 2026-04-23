@@ -109,6 +109,7 @@ function salefish_format_ac_note( array $fields, string $form_type ): string {
 		'_ctx_browser'  => 'Browser',
 		'_ctx_os'       => 'OS',
 		'_ctx_source'   => 'Source Page',
+		'_ctx_section'  => 'CTA Section',
 	];
 
 	$lines      = [];
@@ -165,6 +166,7 @@ function salefish_notification_email_html( array $fields, string $form_type ): s
 		'_ctx_browser'  => 'Browser',
 		'_ctx_os'       => 'Operating System',
 		'_ctx_source'   => 'Source Page',
+		'_ctx_section'  => 'CTA Section',
 	];
 	$ctx = [];
 	foreach ( $fields as $key => $val ) {
