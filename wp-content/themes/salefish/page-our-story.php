@@ -18,13 +18,13 @@ get_header();
 	<section class="hero">
 		<div class="hero__slideshow" aria-hidden="true">
 			<div class="hero__slide is-active">
-				<img src="<?php echo get_template_directory_uri(); ?>/img/hero-slides/slide-1.jpg" alt="" loading="eager">
+				<img src="<?php echo get_template_directory_uri(); ?>/img/hero-slides/new-construction-sales-platform-condo-tower-2560w.png" alt="" loading="eager">
 			</div>
 			<div class="hero__slide">
-				<img src="<?php echo get_template_directory_uri(); ?>/img/hero-slides/slide-2.jpg" alt="" loading="lazy">
+				<img src="<?php echo get_template_directory_uri(); ?>/img/hero-slides/new-home-developer-platform-townhomes-2560w.png" alt="" loading="lazy">
 			</div>
 			<div class="hero__slide">
-				<img src="<?php echo get_template_directory_uri(); ?>/img/hero-slides/slide-3.jpg" alt="" loading="lazy">
+				<img src="<?php echo get_template_directory_uri(); ?>/img/hero-slides/new-home-sales-software-suburban-community-2560w.png" alt="" loading="lazy">
 			</div>
 		</div>
 		<div class="hero__overlay" aria-hidden="true"></div>
