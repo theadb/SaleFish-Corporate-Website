@@ -337,12 +337,22 @@ $(function () {
   // triggered the modal so it can be tracked in the admin notification email.
 
   function sfRegModalOpen(section) {
+    // Measure scrollbar width BEFORE hiding overflow so we can compensate.
+    // When overflow:hidden removes the scrollbar the viewport widens by exactly
+    // this amount — adding the same width as padding keeps the layout still.
+    var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
     $("#sf_reg_section").val(section || "");
-    $("#sf-reg-modal").fadeIn(200);
+    if (scrollbarW > 0) {
+      $("body").css("padding-right", scrollbarW + "px");
+      $("header").css("padding-right", scrollbarW + "px");
+    }
     $("html, body").css("overflow", "hidden");
+    $("#sf-reg-modal").fadeIn(200);
   }
 
   function sfRegModalClose() {
+    $("html, body").css("overflow", "");
+    $("body, header").css("padding-right", "");
     $("#sf-reg-modal").fadeOut(200, function () {
       var form = document.getElementById("sf_reg_form");
       if (form) form.reset();
@@ -350,7 +360,6 @@ $(function () {
         window.turnstile.reset();
       }
     });
-    $("html, body").css("overflow", "");
   }
 
   $(document).on("click", 'a[href*="meetings.hubspot.com"]', function (e) {
