@@ -296,4 +296,12 @@ main {
     transition: none !important;
     transform: scale(1.0) !important;
   }
+
+  // Platform showcase slider — no fade, show first image statically
+  .platform__img-slide {
+    transition: none !important;
+  }
+  .platform__img-slide img {
+    transition: none !important;
+  }
 }

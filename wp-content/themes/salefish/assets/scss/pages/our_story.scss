@@ -243,15 +243,32 @@
     &__showcase {
       text-align: center;
 
-      &:hover img { transform: scale(1.04); }
+      &:hover .platform__img-slide.is-active img { transform: scale(1.04); }
 
-      img {
+      .platform__img-stack {
+        position: relative;
         max-width: 720px;
         width: 100%;
-        display: block;
+        aspect-ratio: 1 / 1;
         margin: 0 auto 36px;
-        transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        will-change: transform;
+      }
+
+      .platform__img-slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &.is-active { opacity: 1; }
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          display: block;
+          transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          will-change: transform;
+        }
       }
 
       .button { display: inline-block; }
