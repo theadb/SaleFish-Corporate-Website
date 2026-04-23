@@ -517,19 +517,6 @@
 	</div>
 </div>
 
-<!-- Book a Demo Modal -->
-<div class="sf-demo-modal" id="sf-demo-modal" role="dialog" aria-modal="true" aria-label="Book a Free Demo">
-	<div class="sf-demo-modal__backdrop"></div>
-	<div class="sf-demo-modal__panel">
-		<button class="sf-demo-modal__close" aria-label="Close dialog">
-			<i data-lucide="x"></i>
-		</button>
-		<div class="sf-demo-modal__scroll">
-			<iframe class="sf-demo-modal__frame" src="" frameborder="0" title="Book a Free Demo — SaleFish"></iframe>
-		</div>
-	</div>
-</div>
-
 <!-- Registration Modal -->
 <div class="sf-reg-modal" id="sf-reg-modal" role="dialog" aria-modal="true" aria-label="Register for Access">
 	<div class="sf-reg-modal__backdrop"></div>

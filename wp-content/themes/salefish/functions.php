@@ -169,12 +169,6 @@ remove_filter('wp_mail',             'wp_staticize_emoji_for_email');
 remove_action('wp_head', 'rest_output_link_wp_head');
 remove_action('wp_head', 'wp_oembed_add_discovery_links');
 
-// Disable HubSpot chat widget (leadin plugin tracking script loads the chat)
-add_action( 'wp_enqueue_scripts', function() {
-    wp_dequeue_script( 'leadin-script-loader-js' );
-    wp_deregister_script( 'leadin-script-loader-js' );
-}, 100 );
-
 // ─── SOCIAL / OG META TAGS ────────────────────────────────────────────────────
 // Suppress Yoast's duplicate meta description and OG tags — we handle them
 // below with richer, page-specific copy (runs at priority 1, before Yoast).
