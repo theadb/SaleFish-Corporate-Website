@@ -257,6 +257,21 @@ $(function () {
     });
   }());
 
+  // ── Platform showcase image crossfade ─────────────────────────────────────
+  (function () {
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.platform__img-stack').forEach(function (stack) {
+      var slides = stack.querySelectorAll('.platform__img-slide');
+      if (slides.length < 2 || reducedMotion) return;
+      var idx = 0;
+      setInterval(function () {
+        slides[idx].classList.remove('is-active');
+        idx = (idx + 1) % slides.length;
+        slides[idx].classList.add('is-active');
+      }, 3500);
+    });
+  }());
+
   $("#reg_form").parsley();
   $("#agent_form").parsley();
   $("#partner_form").parsley();
