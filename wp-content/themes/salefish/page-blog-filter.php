@@ -93,7 +93,7 @@ get_header();
                         <span class="blog-card__date">Published: <?php echo esc_html( $date ); ?></span>
                         <span class="blog-card__author">By <?php echo esc_html( $author ); ?></span>
                         <h3 class="blog-card__title"><?php echo esc_html( $title ); ?></h3>
-                        <span class="blog-card__link"><?php echo $is_video ? 'Watch Video' : 'Read More'; ?></span>
+                        <span class="blog-card__link"><?php echo $is_video ? 'Watch Video' : sf_post_cta( $cat_slug ); ?></span>
                     </div>
                 </a>
                 <?php $card_i++; endforeach; ?>
@@ -139,7 +139,7 @@ get_header();
         (post.date ? '<span class="blog-card__date">Published: ' + post.date + '</span>' : '') +
         (post.author ? '<span class="blog-card__author">By ' + post.author + '</span>' : '') +
         '<h3 class="blog-card__title">' + post.title + '</h3>' +
-        '<span class="blog-card__link">' + (is_video ? 'Watch Video' : 'Read More') + '</span>' +
+        '<span class="blog-card__link">' + (is_video ? 'Watch Video' : ({ 'success-stories': 'See the Results', 'press': 'Read It', 'blog': 'Dig In' }[cat_slug] || 'Keep Reading')) + '</span>' +
       '</div>';
     return card;
   }

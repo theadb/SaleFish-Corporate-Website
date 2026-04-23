@@ -32,14 +32,14 @@ $counter = 0;
                     <h3><?php echo esc_html( $sub_title ); ?></h3>
                     <h2><?php echo esc_html( $title ); ?></h2>
                     <p><?php echo wp_kses_post( $content ); ?></p>
-                    <a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Features — Button"><?php echo esc_html( $button_text ); ?></a>
+                    <a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Features — Button">See It in Action</a>
                 </div>
                 <?php else: ?>
                 <div class="content context_info" data-aos="fade-right">
                     <h3><?php echo esc_html( $sub_title ); ?></h3>
                     <h2><?php echo esc_html( $title ); ?></h2>
                     <p><?php echo wp_kses_post( $content ); ?></p>
-                    <a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Features — Button"><?php echo esc_html( $button_text ); ?></a>
+                    <a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Features — Button">See It in Action</a>
                 </div>
                 <div class="content content_image" data-aos="fade-left">
                     <img src="<?php echo esc_url( $image ); ?>" loading="lazy" decoding="async">
