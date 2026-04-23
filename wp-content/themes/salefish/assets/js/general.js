@@ -312,27 +312,8 @@ $(function () {
     $("body").css("overflow", "");
   });
 
-  // ── BOOK A DEMO MODAL ───────────────────────────────────────────────────────
-  // Intercept all meetings.hubspot.com links and open them inline.
-  // embed=true strips HubSpot's own chrome. HubSpot fires
-  // postMessage({meetingsEmbedHeight: N}) on every content-height change;
-  // we use that to:
-  //   1. Set the PANEL to min(contentH, 92vh) → no white space below content
-  //   2. Set the IFRAME to the full contentH → iframe never needs its own scrollbar
-  //   3. __scroll (height:100% of panel) handles overflow → single scrollbar
-
-  // Strip target="_blank" from all HubSpot meeting links so that mobile
-  // browsers cannot open them in a new tab before our click handler fires.
-  // The click handler below intercepts and shows the inline modal instead.
-  $('a[href*="meetings.hubspot.com"]').attr("target", "_self");
-
-  function sfDemoModalReset() {
-    $("#sf-demo-modal .sf-demo-modal__frame").attr("src", "").css("height", "");
-    $("#sf-demo-modal .sf-demo-modal__panel").css("height", "");
-  }
-
   // ── REGISTRATION MODAL ─────────────────────────────────────────────────────
-  // All meetings.hubspot.com links now open the inline registration form.
+  // All [data-sf-modal="register"] links open the inline registration form.
   // The data-sf-section attribute on the clicked link identifies which CTA
   // triggered the modal so it can be tracked in the admin notification email.
 
@@ -362,7 +343,7 @@ $(function () {
     });
   }
 
-  $(document).on("click", 'a[href*="meetings.hubspot.com"]', function (e) {
+  $(document).on("click", '[data-sf-modal="register"]', function (e) {
     e.preventDefault();
     sfRegModalOpen($(this).data("sf-section") || "");
   });
@@ -390,51 +371,10 @@ $(function () {
     });
   });
 
-  function sfCloseDemoModal() {
-    $("#sf-demo-modal").fadeOut(200, sfDemoModalReset);
-    $("html, body").css("overflow", ""); // restore scroll on both html and body
-  }
-
-  $(document).on(
-    "click",
-    "#sf-demo-modal .sf-demo-modal__backdrop, #sf-demo-modal .sf-demo-modal__close",
-    sfCloseDemoModal
-  );
-
   $(document).on("keydown", function (e) {
     if (e.key === "Escape") {
-      if ($("#sf-demo-modal").is(":visible")) sfCloseDemoModal();
       if ($("#sf-reg-modal").is(":visible")) sfRegModalClose();
     }
-  });
-
-  // HubSpot postMessage listener — fires on load, step changes, confirmation, etc.
-  //
-  // Desktop (> 768 px):
-  //   Both iframe AND panel are set to min(contentH, 92vh).
-  //   Capping the iframe at the same value as the panel means HubSpot sees a
-  //   constrained viewport and uses its own internal scroll for any overflow —
-  //   no second (external) scrollbar is ever added on our side.
-  //
-  // Mobile (≤ 768 px):
-  //   Skip — iframe is height:100% via CSS and HubSpot scrolls its own content
-  //   inside the iframe (iOS touch events don't bubble out of cross-origin iframes
-  //   so a JS-driven outer scroll wrapper doesn't work on mobile).
-  window.addEventListener("message", function (e) {
-    if (!$("#sf-demo-modal").is(":visible")) return;
-    if (window.innerWidth <= 768) return; // mobile: CSS handles it
-    var data = e.data;
-    if (typeof data === "string") {
-      try { data = JSON.parse(data); } catch (err) { return; }
-    }
-    if (!data || typeof data !== "object") return;
-    var h = data.meetingsEmbedHeight;
-    if (typeof h !== "number" || h < 100) return;
-
-    // Cap both iframe and panel at 96vh — HubSpot handles its own internal overflow
-    var clampedH = Math.min(h, Math.round(window.innerHeight * 0.96));
-    $("#sf-demo-modal .sf-demo-modal__frame").css("height", clampedH + "px");
-    $("#sf-demo-modal .sf-demo-modal__panel").css("height", clampedH + "px");
   });
 
 });

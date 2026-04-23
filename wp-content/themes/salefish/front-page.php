@@ -50,7 +50,7 @@ $the_numbers = get_field('the_numbers');
 					<h1 data-aos="fade-up" data-aos-delay="280">
 						<?php echo wp_kses_post( $hero_header ); ?>
 					</h1>
-					<a class="button" data-aos="fade-up" data-aos-delay="460" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c" data-sf-section="Homepage — Hero">Book a Free Demo</a>
+					<a class="button" data-aos="fade-up" data-aos-delay="460" href="#" data-sf-modal="register" data-sf-section="Homepage — Hero">Book a Free Demo</a>
 				</div>
 				<div class="right" data-aos="fade-left" data-aos-delay="200">
 					<img class="salefish_demo"
@@ -206,7 +206,7 @@ foreach((is_array($the_numbers) ? $the_numbers : []) as $row):
 				</div>
 			</div>
 
-			<a class="button" target="_blank" rel="noopener noreferrer" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c" data-sf-section="Homepage — Numbers CTA">Book a Free Demo</a>
+			<a class="button" href="#" data-sf-modal="register" data-sf-section="Homepage — Numbers CTA">Book a Free Demo</a>
 		</div>
 		<?php get_template_part('/partials/contact-general'); ?>
 	</section>

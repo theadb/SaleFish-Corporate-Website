@@ -766,7 +766,7 @@
       <div class="comp-section-title">Key Stats</div>
       <div class="stat-row"><span class="stat-key">Market Focus</span><span class="stat-val">New home developer sales & marketing</span></div>
       <div class="stat-row"><span class="stat-key">Strength</span><span class="stat-val">Marketing layer, lead funnel, digital sales centers</span></div>
-      <div class="stat-row"><span class="stat-key">Integration</span><span class="stat-val">CRM platforms (HubSpot, Salesforce)</span></div>
+      <div class="stat-row"><span class="stat-key">Integration</span><span class="stat-val">CRM platforms (Salesforce and others)</span></div>
       <div class="stat-row"><span class="stat-key">Differentiator</span><span class="stat-val">Modern UX, marketing automation focus</span></div>
     </div>
 
@@ -1878,7 +1878,7 @@
     <div class="rec-num">5</div>
     <div class="rec-body">
       <div class="rec-title">API/Integration Partner Program <span class="badge badge-blue" style="margin-left:8px;">MEDIUM</span></div>
-      <div class="rec-desc">Lone Wolf and Constellation win enterprise deals partly through their deep integration ecosystems. SaleFish needs a formal API partner program targeting: Salesforce CRM, HubSpot, DocuSign/HelloSign, mortgage origination platforms, and accounting tools. A published API with documentation and a partner badge program would accelerate enterprise sales.</div>
+      <div class="rec-desc">Lone Wolf and Constellation win enterprise deals partly through their deep integration ecosystems. SaleFish needs a formal API partner program targeting: Salesforce CRM, DocuSign/HelloSign, mortgage origination platforms, and accounting tools. A published API with documentation and a partner badge program would accelerate enterprise sales.</div>
     </div>
   </div>
 
