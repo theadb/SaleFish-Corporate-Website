@@ -731,6 +731,215 @@ header {
   }
 }
 
+// ─── PARTNER REGISTRATION MODAL ──────────────────────────────────────────────
+// Same dark-purple style as sf-reg-modal — wider panel to accommodate the
+// two dropdown rows. Triggered by [data-sf-modal="partner"] links.
+.sf-partner-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  display: none;
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    cursor: pointer;
+  }
+
+  &__panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 48px);
+    max-width: 800px;
+    max-height: 90vh;
+    background: $dark_purple;
+    border-radius: var(--sf-radius-lg);
+    box-shadow: var(--sf-shadow-lg), 0 0 0 1px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    @include rs600 {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      max-width: none;
+      max-height: none;
+      border-radius: 0;
+      transform: none;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 1px solid hsl(var(--sf-border));
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+    cursor: pointer;
+    color: hsl(220 9% 46%);
+    padding: 0;
+    transition: background 0.15s ease, border-color 0.15s ease;
+
+    &:hover { background: hsl(var(--sf-muted)); }
+
+    svg { width: 16px; height: 16px; stroke-width: 2; }
+  }
+
+  &__scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+  }
+
+  &__inner {
+    padding: 48px 48px 56px;
+
+    @include rs600 {
+      padding: 48px 24px 48px;
+    }
+
+    h3 {
+      display: block;
+      font-family: $PSB;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: $gold;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      color: #fff;
+      margin-bottom: 0;
+
+      @include rs600 {
+        font-size: 1.65rem;
+      }
+
+      span {
+        display: block;
+
+        @include rs600 {
+          display: inline;
+        }
+      }
+    }
+
+    form {
+      margin-top: 40px;
+
+      .row {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        margin: 20px 0;
+        gap: 20px;
+
+        @include rs550 {
+          flex-direction: column;
+          align-items: flex-end;
+        }
+
+        &.row-turnstile {
+          justify-content: flex-start;
+          margin: 4px 0;
+        }
+
+        .col {
+          width: 50%;
+
+          @include rs550 {
+            width: 100%;
+          }
+
+          label {
+            display: block;
+            font-family: $PL;
+            color: #fff;
+            font-size: 0.85em;
+
+            @include rs550 {
+              font-size: 1em;
+            }
+          }
+
+          input,
+          select {
+            width: 100%;
+            box-sizing: border-box;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-top: 8px;
+            outline: none;
+            font-family: $PL;
+            color: #484848;
+            font-size: 1em;
+
+            &:focus-visible {
+              outline: 3px solid rgba(255, 255, 255, 0.85);
+              outline-offset: 2px;
+            }
+
+            &::placeholder {
+              opacity: 0.7;
+            }
+          }
+
+          select {
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: #fff;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23484848' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px;
+            cursor: pointer;
+
+            option {
+              font-family: $PL !important;
+              color: #484848 !important;
+              font-size: 1em !important;
+            }
+          }
+        }
+
+        .submit {
+          background: $gold;
+          margin-top: 20px;
+          padding: 10px 25px;
+          border-radius: 5px;
+          color: $black;
+          font-family: $PSB;
+          font-size: 0.85em;
+          border: none;
+          cursor: pointer;
+
+          @include rs550 {
+            width: fit-content;
+          }
+        }
+      }
+    }
+  }
+}
+
 .sales_login_menu {
   position: fixed;
   top: 70px;

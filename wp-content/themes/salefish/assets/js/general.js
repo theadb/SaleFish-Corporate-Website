@@ -242,6 +242,7 @@ $(function () {
   $("#agent_form").parsley();
   $("#partner_form").parsley();
   $("#sf_reg_form").parsley();
+  $("#sf_partner_form").parsley();
 
   // ── Helper: show the "check your email" dialog after form submit ─────────────
   function sfShowCheckEmail(email) {
@@ -371,9 +372,72 @@ $(function () {
     });
   });
 
+  // ── PARTNER REGISTRATION MODAL ─────────────────────────────────────────────
+  // Opened by [data-sf-modal="partner"] links. An optional data-sf-partner-type
+  // attribute pre-selects the "What do you want to do?" dropdown so the user
+  // lands on the relevant option for the card they clicked.
+
+  function sfPartnerModalOpen(partnerType, section) {
+    var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+    if (scrollbarW > 0) {
+      $("body").css("padding-right", scrollbarW + "px");
+      $("header").css("padding-right", scrollbarW + "px");
+    }
+    // Pre-select the dropdown if a type was passed via data attribute
+    if (partnerType) {
+      $("#sf_partner_want_to_do").val(partnerType);
+    }
+    $("html, body").css("overflow", "hidden");
+    $("#sf-partner-modal").fadeIn(200);
+  }
+
+  function sfPartnerModalClose() {
+    $("html, body").css("overflow", "");
+    $("body, header").css("padding-right", "");
+    $("#sf-partner-modal").fadeOut(200, function () {
+      var form = document.getElementById("sf_partner_form");
+      if (form) form.reset();
+      if (window.turnstile && typeof window.turnstile.reset === "function") {
+        window.turnstile.reset();
+      }
+    });
+  }
+
+  $(document).on("click", '[data-sf-modal="partner"]', function (e) {
+    e.preventDefault();
+    sfPartnerModalOpen(
+      $(this).data("sf-partner-type") || "",
+      $(this).data("sf-section") || ""
+    );
+  });
+
+  $(document).on(
+    "click",
+    "#sf-partner-modal .sf-partner-modal__backdrop, #sf-partner-modal .sf-partner-modal__close",
+    sfPartnerModalClose
+  );
+
+  // PARTNER MODAL FORM SUBMIT
+  $("#sf_partner_form").on("submit", function (e) {
+    e.preventDefault();
+    $.ajax({
+      url: salefishAjax.ajaxurl,
+      type: "POST",
+      dataType: "json",
+      data: $(this).serialize() + "&action=partner_register&nonce=" + salefishAjax.nonce,
+      success: function (res) {
+        if (res.success) {
+          sfPartnerModalClose();
+          sfShowCheckEmail(res.data && res.data.email ? res.data.email : "");
+        }
+      },
+    });
+  });
+
   $(document).on("keydown", function (e) {
     if (e.key === "Escape") {
       if ($("#sf-reg-modal").is(":visible")) sfRegModalClose();
+      if ($("#sf-partner-modal").is(":visible")) sfPartnerModalClose();
     }
   });
 

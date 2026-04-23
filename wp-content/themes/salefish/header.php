@@ -582,6 +582,74 @@
 	</div>
 </div>
 
+<!-- Partner Registration Modal -->
+<div class="sf-partner-modal" id="sf-partner-modal" role="dialog" aria-modal="true" aria-label="Partner with SaleFish">
+	<div class="sf-partner-modal__backdrop"></div>
+	<div class="sf-partner-modal__panel">
+		<button class="sf-partner-modal__close" aria-label="Close dialog">
+			<i data-lucide="x"></i>
+		</button>
+		<div class="sf-partner-modal__scroll">
+			<div class="sf-partner-modal__inner">
+				<h3>Got Clients, Code, or Just Great Contacts? SaleFish Makes It Easy to Earn and Integrate.</h3>
+				<h1>Want In? Pick Your Lane. <span>We'll Handle the Rest.</span></h1>
+				<form id="sf_partner_form">
+					<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off">
+					<div class="row">
+						<div class="col">
+							<label for="sf_partner_name">NAME</label>
+							<input type="text" placeholder="First Last" name="name" id="sf_partner_name" required>
+						</div>
+						<div class="col">
+							<label for="sf_partner_company">COMPANY</label>
+							<input type="text" placeholder="Acme Ltd." name="company" id="sf_partner_company">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<label for="sf_partner_phone">PHONE NUMBER</label>
+							<input type="tel" placeholder="555-912-0088" name="phone" id="sf_partner_phone">
+						</div>
+						<div class="col">
+							<label for="sf_partner_email">EMAIL</label>
+							<input type="email" placeholder="name@company.com" name="email" id="sf_partner_email" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<label for="sf_partner_want_to_do">WHAT DO YOU WANT TO DO?</label>
+							<select name="want_to_do" id="sf_partner_want_to_do" required>
+								<option value="Refer builders, brokers, or developers">Refer builders, brokers, or developers</option>
+								<option value="Resell the SaleFish platform">Resell the SaleFish platform</option>
+								<option value="Integrate my app/tool">Integrate my app/tool</option>
+								<option value="Something else">Something else</option>
+							</select>
+						</div>
+						<div class="col">
+							<label for="sf_partner_clients">HOW MANY CLIENTS COULD THIS HELP?</label>
+							<select name="clients" id="sf_partner_clients" required>
+								<option value="1–3">1–3</option>
+								<option value="4–10">4–10</option>
+								<option value="10+">10+</option>
+							</select>
+						</div>
+					</div>
+					<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
+					<div class="row row-turnstile">
+						<div class="cf-turnstile"
+							data-sitekey="<?php echo esc_attr( SALEFISH_CF_TURNSTILE_SITEKEY ); ?>"
+							data-theme="dark"></div>
+					</div>
+					<?php endif; ?>
+					<div class="row">
+						<input class="submit" type="submit" value="REGISTER">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="thank_you_msg">
 	<div class="thank_you_msg__backdrop close_thank_you_msg"></div>
 	<div class="thank_you_msg__panel">

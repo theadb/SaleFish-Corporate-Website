@@ -39,7 +39,7 @@ if (is_array($fade_msg)) {
                 </h1>
                 <p data-aos="fade-up" data-aos-delay="400">You’ve got the network. We’ve got the tech.</p>
                 <p data-aos="fade-up" data-aos-delay="500"> Let’s stop selling the old way—and start building what’s next.</p>
-                <a class="button" data-aos="fade-up" data-aos-delay="620" href="#contact_us">Let’s Partner Up</a>
+                <a class="button" data-aos="fade-up" data-aos-delay="620" href="#" data-sf-modal="partner" data-sf-section="Partners — Hero">Let’s Partner Up</a>
             </div>
         </div>
         <div class="wrapper wrapper_bottom" data-aos="fade-up">
@@ -79,7 +79,7 @@ if (is_array($fade_msg)) {
                             and become part of the new home sales tech stack. We’ll
                             help you slot in, sync up, and scale faster.
                         </p>
-                        <a class="button" href="#contact_us">Integrate & Dominate</a>
+                        <a class="button" href="#" data-sf-modal="partner" data-sf-partner-type="Integrate my app/tool" data-sf-section="Partners — Technology Card">Integrate & Dominate</a>
                     </div>
                     <div class="content_img">
                         <img
@@ -119,7 +119,7 @@ if (is_array($fade_msg)) {
                             got the software that actually works. Send them our way. We’ll
                             demo. We’ll close. You’ll get cash every time we book a meeting.
                         </p>
-                        <a class="button" href="#contact_us">Start Cashing In</a>
+                        <a class="button" href="#" data-sf-modal="partner" data-sf-partner-type="Refer builders, brokers, or developers" data-sf-section="Partners — Referral Card">Start Cashing In</a>
                     </div>
                     <div class="content_img">
                         <img
@@ -135,7 +135,7 @@ if (is_array($fade_msg)) {
                             Earn commission while helping sales teams move more real estate,
                             more easily. Everyone wins. Especially you.
                         </p>
-                        <a class="button" href="#contact_us">You Had Me at Commission</a>
+                        <a class="button" href="#" data-sf-modal="partner" data-sf-partner-type="Resell the SaleFish platform" data-sf-section="Partners — Reseller Card">You Had Me at Commission</a>
                     </div>
                     <div class="content_img">
                         <img
