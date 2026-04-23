@@ -1,8 +1,8 @@
 <?php
 $features = get_field('features', 'option');
-$service_support = get_field('service_support', 'option');
-$service_support_button = $service_support['button'];
-$service_support_button_text = mb_convert_case($service_support_button['text'], MB_CASE_TITLE, 'UTF-8');
+$service_support = get_field('service_support', 'option') ?: [];
+$service_support_button = $service_support['button'] ?? [];
+$service_support_button_text = mb_convert_case($service_support_button['text'] ?? '', MB_CASE_TITLE, 'UTF-8');
 $service_support_button_link = 'https://chatting.page/salefish';
 $counter = 0;
 ?>
@@ -14,7 +14,7 @@ $counter = 0;
             <p>Every Tool You Need to Close Deals—No Matter Where You Are.</p>
         </div>
         <div class="features">
-            <?php foreach($features as $row):
+            <?php foreach((is_array($features) ? $features : []) as $row):
                 $is_even = $counter % 2 == 0;
                 $image = $row['image'];
                 $sub_title = mb_convert_case($row['sub_title'], MB_CASE_TITLE, 'UTF-8');

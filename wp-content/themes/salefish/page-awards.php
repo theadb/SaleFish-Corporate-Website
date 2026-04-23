@@ -36,7 +36,7 @@ $awards = get_field('awards');
         <div class="timeline">
             <?php
             $globalDelay = 0;
-            foreach ( $awards as $row ) :
+            foreach ( (is_array($awards) ? $awards : []) as $row ) :
                 $year  = $row['year'];
                 $award = $row['award'];
             ?>
