@@ -42,9 +42,9 @@ $the_numbers    = get_field('the_numbers');
 					<div class="home-hero__ctas">
 						<a class="sf-btn" target="_blank" rel="noopener noreferrer"
 							href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">
-							Book a Free Demo
+							See Why They're Beating You
 						</a>
-						<a class="sf-btn sf-btn--ghost" href="#features">Explore Features</a>
+						<a class="sf-btn sf-btn--ghost" href="#features">See the Platform</a>
 					</div>
 				</div>
 				<?php if ( $hero_image ): ?>
@@ -112,7 +112,7 @@ $the_numbers    = get_field('the_numbers');
 			<div class="home-stats__cta">
 				<a class="sf-btn" target="_blank" rel="noopener noreferrer"
 					href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c">
-					Book a Free Demo
+					Get My Demo
 				</a>
 			</div>
 		</div>

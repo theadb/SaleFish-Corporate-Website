@@ -63,7 +63,7 @@ get_header();
 						<?php if ( $f_excerpt ) : ?>
 						<p class="blog-featured__excerpt"><?php echo esc_html( $f_excerpt ); ?></p>
 						<?php endif; ?>
-						<span class="blog-read-more"><?php echo $f_video ? 'Watch Video' : 'Read More'; ?></span>
+						<span class="blog-read-more"><?php echo sf_post_cta( $f_cat_slug ); ?></span>
 					</div>
 				</a>
 
@@ -92,7 +92,7 @@ get_header();
 							<?php endif; ?>
 							<span class="blog-post-date">Published: <?php echo esc_html( $s_date ); ?></span>
 							<h3 class="blog-featured__side-title"><?php echo esc_html( $s_title ); ?></h3>
-							<span class="blog-read-more"><?php echo $s_video ? 'Watch Video' : 'Read More'; ?></span>
+							<span class="blog-read-more"><?php echo sf_post_cta( $s_cat_slug ); ?></span>
 						</div>
 					</a>
 					<?php endfor; ?>
@@ -142,7 +142,7 @@ get_header();
 						<?php endif; ?>
 						<span class="blog-card__date">Published: <?php echo esc_html( $date ); ?></span>
 						<h3 class="blog-card__title"><?php echo esc_html( $title ); ?></h3>
-						<span class="blog-card__link"><?php echo $is_video ? 'Watch Video' : 'Read More'; ?></span>
+						<span class="blog-card__link"><?php echo sf_post_cta( $cat_slug ); ?></span>
 					</div>
 				</a>
 				<?php endforeach; ?>
@@ -221,6 +221,8 @@ get_header();
             var cat_name = cat.name;
             var pub_date = post.date || '';
             var is_video = cat_slug === 'videos';
+            var cta_map = { 'videos': 'Watch Now', 'success-stories': 'See the Results', 'press': 'Read It', 'blog': 'Dig In' };
+            var cta = cta_map[cat_slug] || 'Keep Reading';
 
             var card = document.createElement('a');
             card.href = post.link;
@@ -235,7 +237,7 @@ get_header();
                 '<span class="sf-badge sf-badge--' + cat_slug + ' blog-card__cat">' + cat_name + '</span>' +
                 (pub_date ? '<span class="blog-card__date">Published: ' + pub_date + '</span>' : '') +
                 '<h3 class="blog-card__title">' + post.title + '</h3>' +
-                '<span class="blog-card__link">' + (is_video ? 'Watch Video' : 'Read More') + '</span>' +
+                '<span class="blog-card__link">' + cta + '</span>' +
               '</div>';
 
             grid.appendChild(card);

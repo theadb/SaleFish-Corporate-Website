@@ -128,7 +128,7 @@ get_header();
 							<?php endif; ?>
 							<p class="sp-related__meta"><?php echo esc_html( $rel_date ); ?> — <span><?php echo $rel_read; ?> min read</span></p>
 							<h3 class="sp-related__title"><?php echo esc_html( $rel_title ); ?></h3>
-							<span class="blog-read-more">Read More</span>
+							<span class="blog-read-more"><?php echo sf_post_cta( $rel_slug ); ?></span>
 						</div>
 					</a>
 					<?php endif; ?>
@@ -147,20 +147,90 @@ get_header();
 </article>
 </main>
 
+<?php
+// Category-aware CTA strip
+$post_cat_slug  = isset( $category[0] ) ? $category[0]->category_nicename : '';
+$is_success     = $post_cat_slug === 'success-stories';
+$cta_heading    = $is_success
+    ? 'Ready to See Results Like These?'
+    : 'See SaleFish in Action';
+$cta_subtext    = $is_success
+    ? 'Join the builders and developers who are outselling the competition with SaleFish.'
+    : 'The all-in-one platform built for new home sales teams who expect to win.';
+$cta_label      = $is_success ? 'Get My Demo' : 'Get a Demo';
+?>
+
+<!-- POST CTA STRIP -->
+<section class="sp-cta sf-gradient-primary sf-section">
+	<div class="sf-container">
+		<div class="sp-cta__inner">
+			<h2><?php echo esc_html( $cta_heading ); ?></h2>
+			<p><?php echo esc_html( $cta_subtext ); ?></p>
+			<button class="sf-btn sp-cta__btn" data-open-form-popup>
+				<?php echo esc_html( $cta_label ); ?>
+			</button>
+		</div>
+	</div>
+</section>
+<!-- END POST CTA STRIP -->
+
+<!-- FORM POPUP -->
+<div class="sp-form-popup" id="sp-form-popup" role="dialog" aria-modal="true" aria-label="Get a Demo">
+	<div class="sp-form-popup__overlay"></div>
+	<div class="sp-form-popup__card">
+		<button class="sp-form-popup__close" aria-label="Close">
+			<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+				<path d="M18 6 6 18M6 6l12 12"/>
+			</svg>
+		</button>
+		<div class="home-contact">
+			<?php get_template_part('/partials/contact-general'); ?>
+		</div>
+	</div>
+</div>
+<!-- END FORM POPUP -->
+
 <script>
 (function () {
+	// Copy link button
 	var btn = document.querySelector('[data-copy-link]');
-	if (!btn) return;
-	btn.addEventListener('click', function () {
-		navigator.clipboard.writeText(window.location.href).then(function () {
-			btn.classList.add('copied');
-			btn.querySelector('span').textContent = 'Copied!';
-			setTimeout(function () {
-				btn.classList.remove('copied');
-				btn.querySelector('span').textContent = 'Copy link';
-			}, 2000);
+	if (btn) {
+		btn.addEventListener('click', function () {
+			navigator.clipboard.writeText(window.location.href).then(function () {
+				btn.classList.add('copied');
+				btn.querySelector('span').textContent = 'Copied!';
+				setTimeout(function () {
+					btn.classList.remove('copied');
+					btn.querySelector('span').textContent = 'Copy link';
+				}, 2000);
+			});
 		});
-	});
+	}
+
+	// Form popup
+	(function () {
+		var popup   = document.getElementById('sp-form-popup');
+		if (!popup) return;
+		var overlay  = popup.querySelector('.sp-form-popup__overlay');
+		var closeBtn = popup.querySelector('.sp-form-popup__close');
+		var triggers = document.querySelectorAll('[data-open-form-popup]');
+
+		function openPopup() {
+			popup.classList.add('active');
+			document.body.style.overflow = 'hidden';
+		}
+		function closePopup() {
+			popup.classList.remove('active');
+			document.body.style.overflow = '';
+		}
+
+		triggers.forEach(function (el) { el.addEventListener('click', openPopup); });
+		if (overlay)  overlay.addEventListener('click', closePopup);
+		if (closeBtn) closeBtn.addEventListener('click', closePopup);
+		document.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape') closePopup();
+		});
+	}());
 }());
 </script>
 

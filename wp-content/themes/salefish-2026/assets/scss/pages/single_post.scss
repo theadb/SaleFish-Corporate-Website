@@ -284,3 +284,107 @@ figcaption {
   color: hsl(var(--sf-muted-fg));
   margin-top: 6px;
 }
+
+// ─── POST CTA STRIP ───────────────────────────────────────────────────────
+
+.sp-cta {
+  text-align: center;
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    h2 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      color: hsl(var(--sf-primary-fg));
+      margin: 0;
+    }
+
+    p {
+      font-size: 1.05rem;
+      color: hsl(var(--sf-primary-fg) / 0.8);
+      max-width: 480px;
+      margin: 0;
+    }
+  }
+
+  &__btn {
+    background: hsl(var(--sf-primary-fg));
+    color: hsl(var(--sf-primary));
+    margin-top: 4px;
+
+    &:hover { opacity: 0.9; }
+  }
+}
+
+// ─── FORM POPUP ───────────────────────────────────────────────────────────
+
+.sp-form-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 9010;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+  &.active { display: flex; }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+
+  &__card {
+    position: relative;
+    z-index: 1;
+    background: hsl(var(--sf-card));
+    border: 1px solid hsl(var(--sf-card-border));
+    border-radius: var(--sf-radius-lg);
+    width: 100%;
+    max-width: 720px;
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
+    box-shadow: var(--sf-shadow-lg);
+  }
+
+  &__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: hsl(var(--sf-muted) / 0.5);
+    border-radius: var(--sf-radius);
+    color: hsl(var(--sf-muted-fg));
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background: hsl(var(--sf-muted));
+      color: hsl(var(--sf-fg));
+    }
+
+    svg { display: block; flex-shrink: 0; }
+  }
+
+  // Inside the popup the home-contact card styling needs no outer border/shadow
+  // since the popup card already provides that container
+  .home-contact .bottom {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
