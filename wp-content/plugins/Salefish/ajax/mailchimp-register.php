@@ -5,7 +5,7 @@ require_once plugin_dir_path( __FILE__ ) . '../includes/class-activecampaign.php
 require_once plugin_dir_path( __FILE__ ) . '../includes/class-email-verify.php';
 require_once plugin_dir_path( __FILE__ ) . '../includes/email-templates.php';
 
-function salefish_mailchimp_register() {
+function salefish_register() {
 	check_ajax_referer( 'salefish_nonce', 'nonce' );
 
 	if ( ! empty( $_POST['sf_hp'] ) ) {
@@ -49,5 +49,5 @@ function salefish_mailchimp_register() {
 	wp_send_json_success( [ 'email' => $email ] );
 }
 
-add_action( 'wp_ajax_mailchimp_register',        'salefish_mailchimp_register' );
-add_action( 'wp_ajax_nopriv_mailchimp_register', 'salefish_mailchimp_register' );
+add_action( 'wp_ajax_salefish_register',        'salefish_register' );
+add_action( 'wp_ajax_nopriv_salefish_register', 'salefish_register' );
