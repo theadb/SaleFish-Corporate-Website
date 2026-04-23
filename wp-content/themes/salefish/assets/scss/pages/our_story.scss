@@ -117,18 +117,10 @@
   }
 
   // ── Intro ───────────────────────────────────────────────────────────────
-  // Negative margin cancels the dead layout space left by the hero's
-  // clip-path (which visually clips to 80% on the left but still occupies
-  // 100vh of layout). position:relative + z-index:1 ensures text renders
-  // above the hero's clipped (transparent) region.
   .intro {
     padding: 48px 60px 80px;
-    margin-top: -20vh;
-    position: relative;
-    z-index: 1;
 
     @include rs768 { padding: 40px 20px 60px; }
-    @include rs550 { margin-top: -55px; } // hero is fixed 550px; clip at 90% = 55px dead space
 
     &__wrap {
       max-width: 760px;
