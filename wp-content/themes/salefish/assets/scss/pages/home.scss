@@ -969,53 +969,6 @@
   }
 }
 
-/* release popup */
-.selling_popup_container {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 1000;
-  display: none;
-}
-
-.selling_popup_container .phone_link {
-  position: absolute;
-  top: 85%;
-  width: 100%;
-  height: 4%;
-  display: block;
-}
-
-.selling_popup_container .selling_popup {
-  width: 500px;
-  max-width: 90%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-height: 85vh;
-
-  /* max-width: calc(85vh/0.80); */
-  max-width: 90%;
-}
-
-.selling_popup_container .selling_popup .popup {
-  width: 100%;
-  display: none;
-}
-
-.selling_popup_container .selling_popup .close_icon {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 30px;
-  cursor: pointer;
-  z-index: 3;
-  display: none;
-}
 
 .scaling_builder_logo {
   scale: 1.5;

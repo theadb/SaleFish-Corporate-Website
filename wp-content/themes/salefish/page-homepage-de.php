@@ -42,17 +42,6 @@ $the_numbers = get_field('the_numbers');
 </script>
 
 <main class="home">
-	<!-- POPUP -->
-	<div class="selling_popup_container">
-		<div class="selling_popup">
-			<a href="#contact_us" class="scroll_link button-image">
-				<img src="<?php echo get_template_directory_uri(); ?>/img/popup.png"
-					class="popup" alt="Demo buchen">
-			</a>
-			<img src="<?php echo get_template_directory_uri(); ?>/img/x-closed.svg"
-				class="close_icon" alt="" aria-hidden="true">
-		</div>
-	</div>
 	<!-- HERO -->
 	<section class="hero">
 		<div class="wrapper">

@@ -146,36 +146,6 @@ $(function () {
     })();
     // ── End logo marquee ────────────────────────────────────────────────────
 
-    let popupStatus = localStorage.getItem("popup");
-
-    //sale popup
-
-    setTimeout(function () {
-      if (!popupStatus) {
-        localStorage.setItem("popup", true);
-        $(".close_icon").fadeIn();
-        $(".popup").fadeIn();
-        $(".selling_popup_container").fadeIn();
-      }
-    }, 5000);
-
-    $(".selling_popup_container").on("click", function (e) {
-      if (e.target !== this) {
-        return;
-      }
-
-      $(".selling_popup_container").fadeOut();
-    });
-    $(".selling_popup_container .close_icon").on("click", function (e) {
-      $(".selling_popup_container").fadeOut();
-    });
-
-    $(".button-image").on("click", function () {
-      $(".selling_popup_container").fadeOut();
-    });
-
-    //end popup
-
     let numbersSwiper = new Swiper(".numbersSwiper", {
       modules: [Navigation],
       loop: true,
