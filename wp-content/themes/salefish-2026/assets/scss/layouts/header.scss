@@ -92,8 +92,31 @@ header {
             }
           }
         }
+
+        &.nav-demo {
+          margin-left: 8px;
+
+          a {
+            background: hsl(var(--sf-primary));
+            color: hsl(var(--sf-primary-fg));
+            font-weight: 700;
+            padding: 7px 14px;
+
+            &:hover {
+              background: hsl(var(--sf-primary));
+              color: hsl(var(--sf-primary-fg));
+              opacity: 0.9;
+            }
+          }
+        }
       }
     }
+  }
+
+  // Mobile nav demo link — highlighted in the slide-in drawer
+  .nav-demo-mobile a {
+    color: hsl(var(--sf-primary)) !important;
+    font-weight: 700 !important;
   }
 
   // Grouped lang+theme pill

@@ -193,6 +193,20 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/jetpack.php';
 
 
+/**
+ * Returns a context-appropriate CTA label for blog post cards/links.
+ * Maps category slug to a specific, brand-aligned call to action.
+ */
+function sf_post_cta( $cat_slug ) {
+    switch ( $cat_slug ) {
+        case 'videos':          return 'Watch Now';
+        case 'success-stories': return 'See the Results';
+        case 'press':           return 'Read It';
+        case 'blog':            return 'Dig In';
+        default:                return 'Keep Reading';
+    }
+}
+
 function limit_text($text, $limit)
 {
     if (str_word_count($text, 0) > $limit) {

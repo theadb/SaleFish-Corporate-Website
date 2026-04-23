@@ -65,6 +65,10 @@
 				<li class="contact_us_nav">
 					<a href="/contact-us">Contact</a>
 				</li>
+				<li class="nav-demo">
+					<a href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c"
+					   target="_blank" rel="noopener noreferrer">Get a Demo</a>
+				</li>
 				<li class="sales_login">
 					<span>Login</span>
 				</li>
@@ -134,6 +138,10 @@
 				<li class="contact_us_nav">
 					<a href="/contact-us">Contact</a>
 				</li>
+				<li class="nav-demo">
+					<a href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c"
+					   target="_blank" rel="noopener noreferrer">Get a Demo</a>
+				</li>
 				<li class="sales_login">
 					<span>Login</span>
 				</li>
@@ -178,6 +186,7 @@
 				<li class="partners_nav"><a href="/partners">PARTNER</a></li>
 				<li class="blog_nav"><a href="/blog">BLOG</a></li>
 				<li class="contact_us_nav"><a href="/contact-us">KONTAKTIERE UNS</a></li>
+				<li class="nav-demo"><a href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c" target="_blank" rel="noopener noreferrer">Get a Demo</a></li>
 				<li class="sales_login"><span>EINLOGGEN</span></li>
 			</ul>
 			<div class="sf-header-controls">
@@ -220,6 +229,7 @@
 				<li class="blog_nav"><a href="/blog">BLOG</a></li>
 				<li class="partners_nav"><a href="/partners">ORTAKLAR</a></li>
 				<li class="contact_us_nav"><a href="/tr/contact">BİZE ULAŞIN</a></li>
+				<li class="nav-demo"><a href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c" target="_blank" rel="noopener noreferrer">Get a Demo</a></li>
 				<li class="sales_login"><span>GİRİŞ YAPMA</span></li>
 			</ul>
 			<div class="sf-header-controls">
@@ -285,6 +295,10 @@
 					<li class="mobile contact_us_nav">
 						<a href="/contact-us">Contact Us</a>
 					</li>
+					<li class="mobile nav-demo-mobile">
+						<a href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c"
+						   target="_blank" rel="noopener noreferrer">Get a Demo</a>
+					</li>
 					<li class="our_story_nav">
 						<a href="/our-story">Our Story</a>
 					</li>
@@ -347,7 +361,10 @@
 					<li class="mobile contact_us_nav">
 						<a href="/tr/contact">Bi̇ze Ulaşin</a>
 					</li>
-
+					<li class="mobile nav-demo-mobile">
+						<a href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c"
+						   target="_blank" rel="noopener noreferrer">Get a Demo</a>
+					</li>
 					<li class="our_story_nav">
 						<a href="/our-story">Bi̇zi̇m Hi̇kayemi̇zk</a>
 					</li>
@@ -408,6 +425,10 @@
 					</li>
 					<li class="mobile contact_us_nav">
 						<a href="/contact-us">Kontaktiere Uns</a>
+					</li>
+					<li class="mobile nav-demo-mobile">
+						<a href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c"
+						   target="_blank" rel="noopener noreferrer">Get a Demo</a>
 					</li>
 					<li class="our_story_nav">
 						<a href="/our-story">Unsere Geschichte</a>
