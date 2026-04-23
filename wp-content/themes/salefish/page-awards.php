@@ -81,7 +81,7 @@ $awards = get_field('awards');
                     PRESIDENT &amp; CO-FOUNDER
                 </p>
             </div>
-            <a class="button" href="#" data-sf-modal="register" data-sf-section="Awards — CTA">Book a Free Demo</a>
+            <a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Awards — CTA">Book a Free Demo</a>
         </div>
         <?php get_template_part('/partials/contact-general'); ?>
 

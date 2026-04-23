@@ -164,7 +164,7 @@ $builders_header_button_link = $builders_header_button['link'] ?? '';
 							<span>Senior Sales Manager</span>
 						</div>
 						<div class="cta_button">
-							<a class="button" href="#" data-sf-modal="register" data-sf-section="Agents — Top CTA">BOOK A FREE DEMO</a>
+							<a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Agents — Top CTA">BOOK A FREE DEMO</a>
 							<a class="button hollow" href="tel:+16475425325">CALL</a>
 							<a class="button hollow" href="mailto:dannyl@salefish.app">EMAIL</a>
 						</div>
@@ -230,7 +230,7 @@ $builders_header_button_link = $builders_header_button['link'] ?? '';
 							<span>DIRECTOR OF SALES AND CUSTOMER SUCCESS</span>
 						</div>
 						<div class="cta_button">
-							<a class="button" href="#" data-sf-modal="register" data-sf-section="Agents — Bottom CTA">BOOK A FREE DEMO</a>
+							<a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Agents — Bottom CTA">BOOK A FREE DEMO</a>
 							<a class="button hollow" href="tel:+14167290773">CALL</a>
 							<a class="button hollow" href="mailto:clloyd@salefish.app">EMAIL</a>
 						</div>
