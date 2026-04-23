@@ -143,6 +143,9 @@
 				<li class="contact_us_nav">
 					<a href="/contact-us">Contact Us</a>
 				</li>
+				<li class="nav-demo">
+					<a href="javascript:void(0)" data-sf-modal="register">Get a Demo</a>
+				</li>
 			</ul>
 			<div class="menu">
 				<button class="sf-menu-btn" type="button" aria-label="Toggle menu" aria-expanded="false">
@@ -203,6 +206,9 @@
 				<li class="contact_us_nav">
 					<a href="/contact-us">Contact Us</a>
 				</li>
+				<li class="nav-demo">
+					<a href="javascript:void(0)" data-sf-modal="register">Get a Demo</a>
+				</li>
 			</ul>
 			<div class="menu">
 				<button class="sf-menu-btn" type="button" aria-label="Toggle menu" aria-expanded="false">
@@ -257,6 +263,9 @@
 				</li>
 				<li class="contact_us_nav">
 					<a href="/contact-us">KONTAKTIERE UNS</a>
+				</li>
+				<li class="nav-demo">
+					<a href="javascript:void(0)" data-sf-modal="register">Get a Demo</a>
 				</li>
 			</ul>
 			<div class="menu">
@@ -313,6 +322,9 @@
 				<li class="contact_us_nav">
 					<a href="/tr/contact">BİZE ULAŞIN </a>
 				</li>
+				<li class="nav-demo">
+					<a href="javascript:void(0)" data-sf-modal="register">Get a Demo</a>
+				</li>
 			</ul>
 			<div class="menu">
 				<button class="sf-menu-btn" type="button" aria-label="Toggle menu" aria-expanded="false">
@@ -353,6 +365,9 @@
 					<li class="mobile contact_us_nav">
 						<a href="/contact-us">Contact Us</a>
 					</li>
+					<li class="mobile nav-demo-mobile">
+						<a href="javascript:void(0)" data-sf-modal="register">Get a Demo</a>
+					</li>
 					<li class="mobile menu-sep"></li>
 					<li>
 						<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer">Live Chat Support</a>
@@ -390,6 +405,9 @@
 					
 					<li class="mobile contact_us_nav">
 						<a href="/tr/contact">Bi̇ze Ulaşin</a>
+					</li>
+					<li class="mobile nav-demo-mobile">
+						<a href="javascript:void(0)" data-sf-modal="register">Get a Demo</a>
 					</li>
 	
 					<li class="our_story_nav">
@@ -442,6 +460,9 @@
 					</li>
 					<li class="mobile contact_us_nav">
 						<a href="/contact-us">Kontaktiere Uns</a>
+					</li>
+					<li class="mobile nav-demo-mobile">
+						<a href="javascript:void(0)" data-sf-modal="register">Get a Demo</a>
 					</li>
 					<li class="our_story_nav">
 						<a href="/our-story">Unsere Geschichte</a>

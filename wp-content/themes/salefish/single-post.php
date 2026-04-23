@@ -193,7 +193,7 @@ get_header();
 							</div>
 							<h3 class="blog-sticky__card-title"><?php echo esc_html( get_the_title( $sp_id ) ); ?></h3>
 							<p class="blog-sticky__card-meta"><?php echo esc_html( $sp_date ); ?> &middot; <?php echo esc_html( $sp_author ); ?></p>
-							<span class="blog-sticky__card-link"><?php echo $sp_video ? 'Watch Video' : 'Read More'; ?></span>
+							<span class="blog-sticky__card-link"><?php echo $sp_video ? 'Watch Video' : sf_post_cta( $sp_cat_slug ); ?></span>
 						</div>
 					</a>
 					<?php endforeach; ?>
@@ -222,5 +222,30 @@ get_header();
 	});
 }());
 </script>
+
+<?php
+// Category-aware CTA strip
+$post_cat_slug = isset( $category[0] ) ? $category[0]->category_nicename : '';
+$is_success    = $post_cat_slug === 'success-stories';
+$cta_heading   = $is_success ? 'Ready to See Results Like These?' : 'See SaleFish in Action';
+$cta_subtext   = $is_success
+    ? 'Join the builders and developers who are outselling the competition with SaleFish.'
+    : 'The all-in-one platform built for new home sales teams who expect to win.';
+$cta_label     = $is_success ? 'Get My Demo' : 'Get a Demo';
+?>
+
+<!-- POST CTA STRIP -->
+<section class="sp-cta">
+	<div class="max_wrapper">
+		<div class="sp-cta__inner">
+			<h2><?php echo esc_html( $cta_heading ); ?></h2>
+			<p><?php echo esc_html( $cta_subtext ); ?></p>
+			<button class="sp-cta__btn" data-sf-modal="register">
+				<?php echo esc_html( $cta_label ); ?>
+			</button>
+		</div>
+	</div>
+</section>
+<!-- END POST CTA STRIP -->
 
 <?php get_footer(); ?>

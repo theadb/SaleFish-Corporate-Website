@@ -150,6 +150,21 @@ header {
             font-family: $PSB;
           }
         }
+
+        &.nav-demo {
+          margin-left: 6px;
+
+          a {
+            background: $gold;
+            color: $black;
+            font-family: $PSB;
+            padding: 7px 16px;
+            border-radius: 6px;
+            transition: opacity 0.15s ease;
+
+            &:hover { opacity: 0.88; }
+          }
+        }
       }
     }
 
@@ -1134,6 +1149,12 @@ header {
       }
     }
   }
+}
+
+// Mobile floating menu — Get a Demo highlighted in gold
+.floating_menu .nav-demo-mobile a {
+  color: $dark_purple !important;
+  font-family: $PSB !important;
 }
 
 .hover-main-menu-style:hover {

@@ -69,7 +69,7 @@ get_header();
 						<?php if ( $f_excerpt ) : ?>
 						<p class="blog-featured__excerpt"><?php echo esc_html( $f_excerpt ); ?></p>
 						<?php endif; ?>
-						<span class="blog-read-more"><?php echo $f_video ? 'Watch Video' : 'Read More'; ?></span>
+						<span class="blog-read-more"><?php echo $f_video ? 'Watch Video' : sf_post_cta( $f_cat_slug ); ?></span>
 					</div>
 				</a>
 
@@ -104,7 +104,7 @@ get_header();
 							<?php endif; ?>
 							<span class="blog-post-date">Published: <?php echo esc_html( $s_date ); ?></span>
 							<h3 class="blog-featured__side-title"><?php echo esc_html( $s_title ); ?></h3>
-							<span class="blog-read-more"><?php echo $s_video ? 'Watch Video' : 'Read More'; ?></span>
+							<span class="blog-read-more"><?php echo $s_video ? 'Watch Video' : sf_post_cta( $s_cat_slug ); ?></span>
 						</div>
 					</a>
 					<?php endfor; ?>
@@ -155,7 +155,7 @@ get_header();
 							</div>
 							<h3 class="blog-sticky__card-title"><?php echo esc_html( get_the_title( $sp_id ) ); ?></h3>
 							<p class="blog-sticky__card-meta"><?php echo esc_html( $sp_date ); ?> &middot; <?php echo esc_html( $sp_author ); ?></p>
-							<span class="blog-sticky__card-link"><?php echo $sp_video ? 'Watch Video' : 'Read More'; ?></span>
+							<span class="blog-sticky__card-link"><?php echo $sp_video ? 'Watch Video' : sf_post_cta( $sp_cat_slug ); ?></span>
 						</div>
 					</a>
 					<?php endforeach; ?>
@@ -216,7 +216,7 @@ get_header();
 						<span class="blog-card__date">Published: <?php echo esc_html( $date ); ?></span>
 						<span class="blog-card__author">By <?php echo esc_html( $author ); ?></span>
 						<h3 class="blog-card__title"><?php echo esc_html( $title ); ?></h3>
-						<span class="blog-card__link"><?php echo $is_video ? 'Watch Video' : 'Read More'; ?></span>
+						<span class="blog-card__link"><?php echo $is_video ? 'Watch Video' : sf_post_cta( $cat_slug ); ?></span>
 					</div>
 				</a>
 				<?php $card_i++; endforeach; ?>
@@ -263,7 +263,7 @@ get_header();
         (post.date ? '<span class="blog-card__date">Published: ' + post.date + '</span>' : '') +
         (post.author ? '<span class="blog-card__author">By ' + post.author + '</span>' : '') +
         '<h3 class="blog-card__title">' + post.title + '</h3>' +
-        '<span class="blog-card__link">' + (is_video ? 'Watch Video' : 'Read More') + '</span>' +
+        '<span class="blog-card__link">' + (is_video ? 'Watch Video' : ({ 'success-stories': 'See the Results', 'press': 'Read It', 'blog': 'Dig In' }[cat_slug] || 'Keep Reading')) + '</span>' +
       '</div>';
     return card;
   }
