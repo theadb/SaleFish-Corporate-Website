@@ -1025,9 +1025,13 @@
 .salefish_features {
   background: #fff;
 
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
   .container > .header {
     padding: 100px 60px 64px 60px;
-    max-width: 1800px;
     margin: 0 auto;
     text-align: center;
 
