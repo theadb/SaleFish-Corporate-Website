@@ -16,9 +16,18 @@ get_header();
 <main class="our_story">
 	<!-- HERO -->
 	<section class="hero">
-		<img class="hero_bg"
-			src="<?php echo get_template_directory_uri(); ?>/img/our_story/hero.jpg"
-			alt="Living Room">
+		<div class="hero__slideshow" aria-hidden="true">
+			<div class="hero__slide is-active">
+				<img src="<?php echo get_template_directory_uri(); ?>/img/hero-slides/slide-1.jpg" alt="" loading="eager">
+			</div>
+			<div class="hero__slide">
+				<img src="<?php echo get_template_directory_uri(); ?>/img/hero-slides/slide-2.jpg" alt="" loading="lazy">
+			</div>
+			<div class="hero__slide">
+				<img src="<?php echo get_template_directory_uri(); ?>/img/hero-slides/slide-3.jpg" alt="" loading="lazy">
+			</div>
+		</div>
+		<div class="hero__overlay" aria-hidden="true"></div>
 		<div class="wrapper">
 			<div class="wrap">
 				<span class="eyebrow" data-aos="fade-up" data-aos-delay="50">The SaleFish Story</span>

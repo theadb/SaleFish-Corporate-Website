@@ -238,6 +238,25 @@ $(function () {
     $(this).addClass("active");
   });
 
+  // ── Hero background slideshow ──────────────────────────────────────────────
+  // Cross-fades between slides every 5.5 s with a subtle Ken Burns zoom.
+  // Runs only when the user has not requested reduced motion.
+  (function () {
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.hero__slideshow').forEach(function (slideshow) {
+      var slides = slideshow.querySelectorAll('.hero__slide');
+      if (slides.length < 2) return;
+      // First slide already carries is-active in HTML for instant display.
+      if (reducedMotion) return; // leave first slide permanently visible
+      var idx = 0;
+      setInterval(function () {
+        slides[idx].classList.remove('is-active');
+        idx = (idx + 1) % slides.length;
+        slides[idx].classList.add('is-active');
+      }, 5500);
+    });
+  }());
+
   $("#reg_form").parsley();
   $("#agent_form").parsley();
   $("#partner_form").parsley();
