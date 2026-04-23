@@ -6,7 +6,7 @@ get_header();
 // HERO
 $fade_msg = get_field('fade_messages');
 $fade = array();
-foreach ($fade_msg as $msg) {
+foreach ((is_array($fade_msg) ? $fade_msg : []) as $msg) {
     $text = $msg['text'];
     array_push($fade, $text);
 }

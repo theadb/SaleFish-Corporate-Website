@@ -70,7 +70,7 @@ $pillars = get_field('pillars');
 			</div> -->
 			<div class="swiper pillarsSwiper" data-aos="fade-zoom-in">
 				<div class="swiper-wrapper">
-					<?php foreach($pillars as $row):
+					<?php foreach((is_array($pillars) ? $pillars : []) as $row):
 					    $icon = $row['icon'];
 					    $title = $row['title'];
 					    $description = $row['description'];
