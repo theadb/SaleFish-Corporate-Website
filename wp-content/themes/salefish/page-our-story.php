@@ -93,20 +93,7 @@ get_header();
 			</div>
 
 			<div class="platform__showcase" data-aos="zoom-in">
-				<div class="platform__img-stack">
-					<div class="platform__img-slide is-active">
-						<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-homes.png" alt="SaleFish — Single Family Homes" loading="lazy" decoding="async">
-					</div>
-					<div class="platform__img-slide">
-						<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-condos.png" alt="SaleFish — Condos" loading="lazy" decoding="async">
-					</div>
-					<div class="platform__img-slide">
-						<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-townhomes-a.png" alt="SaleFish — Townhomes" loading="lazy" decoding="async">
-					</div>
-					<div class="platform__img-slide">
-						<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-townhomes-b.png" alt="SaleFish — Townhomes" loading="lazy" decoding="async">
-					</div>
-				</div>
+				<img src="https://salefish.app/wp-content/uploads/2024/09/Group-1441.png" alt="SaleFish Platform" loading="lazy" decoding="async">
 				<a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Our Story — Platform Showcase">Book a Free Demo</a>
 			</div>
 
@@ -130,9 +117,20 @@ get_header();
 					<p>SaleFish is the <strong>only</strong> real estate platform with a CyberSecure Canada certification — meeting the highest levels of international cybersecurity standards. You only get the best, from our tech, our team, and our policies.</p>
 				</div>
 				<div class="security__badge" data-aos="fade-left">
-					<a href="https://ised-isde.canada.ca/site/cybersecure-canada/en" target="_blank" rel="noopener noreferrer">
-						<img src="https://salefish.app/wp-content/uploads/2024/09/Group-1427.jpg" alt="CyberSecure Canada Certification" loading="lazy">
-					</a>
+					<div class="platform__img-stack">
+						<div class="platform__img-slide is-active">
+							<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-homes.png" alt="SaleFish — Single Family Homes" loading="lazy" decoding="async">
+						</div>
+						<div class="platform__img-slide">
+							<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-condos.png" alt="SaleFish — Condos" loading="lazy" decoding="async">
+						</div>
+						<div class="platform__img-slide">
+							<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-townhomes-a.png" alt="SaleFish — Townhomes" loading="lazy" decoding="async">
+						</div>
+						<div class="platform__img-slide">
+							<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-townhomes-b.png" alt="SaleFish — Townhomes" loading="lazy" decoding="async">
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
