@@ -319,6 +319,11 @@ $(function () {
   //   2. Set the IFRAME to the full contentH → iframe never needs its own scrollbar
   //   3. __scroll (height:100% of panel) handles overflow → single scrollbar
 
+  // Strip target="_blank" from all HubSpot meeting links so that mobile
+  // browsers cannot open them in a new tab before our click handler fires.
+  // The click handler below intercepts and shows the inline modal instead.
+  $('a[href*="meetings.hubspot.com"]').attr("target", "_self");
+
   function sfDemoModalReset() {
     $("#sf-demo-modal .sf-demo-modal__frame").attr("src", "").css("height", "");
     $("#sf-demo-modal .sf-demo-modal__panel").css("height", "");
@@ -331,12 +336,12 @@ $(function () {
     var sep = rawUrl.indexOf("?") !== -1 ? "&" : "?";
     $("#sf-demo-modal .sf-demo-modal__frame").attr("src", rawUrl + sep + "embed=true");
     $("#sf-demo-modal").fadeIn(200);
-    $("body").css("overflow", "hidden");
+    $("html, body").css("overflow", "hidden"); // hide page scrollbar on all browsers
   });
 
   function sfCloseDemoModal() {
     $("#sf-demo-modal").fadeOut(200, sfDemoModalReset);
-    $("body").css("overflow", "");
+    $("html, body").css("overflow", ""); // restore scroll on both html and body
   }
 
   $(document).on(
