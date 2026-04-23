@@ -53,20 +53,9 @@ $the_numbers = get_field('the_numbers');
 					<a class="button" data-aos="fade-up" data-aos-delay="460" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Homepage — Hero">Book a Free Demo</a>
 				</div>
 				<div class="right" data-aos="fade-left" data-aos-delay="200">
-					<div class="hero__img-stack">
-						<div class="hero__img-slide is-active">
-							<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-homes.png" alt="">
-						</div>
-						<div class="hero__img-slide">
-							<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-condos.png" alt="">
-						</div>
-						<div class="hero__img-slide">
-							<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-townhomes-a.png" alt="">
-						</div>
-						<div class="hero__img-slide">
-							<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-townhomes-b.png" alt="">
-						</div>
-					</div>
+					<img class="salefish_demo"
+						src="<?php echo esc_url( $hero_image ); ?>"
+						alt="Salefish App Demo">
 				</div>
 			</div>
 		</div>
