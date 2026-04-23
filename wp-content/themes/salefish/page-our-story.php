@@ -119,7 +119,7 @@ get_header();
 				<div class="security__badge" data-aos="fade-left">
 					<div class="platform__img-stack">
 						<div class="platform__img-slide is-active">
-							<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-homes.png" alt="SaleFish — Single Family Homes" loading="lazy" decoding="async">
+							<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-homes.png" alt="SaleFish — Single Family Homes" loading="eager" decoding="async">
 						</div>
 						<div class="platform__img-slide">
 							<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-condos.png" alt="SaleFish — Condos" loading="lazy" decoding="async">
