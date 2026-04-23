@@ -287,4 +287,13 @@ main {
   .img-zoom img {
     transition: none !important;
   }
+
+  // Hero slideshow — disable Ken Burns zoom; keep first slide visible, no fade
+  .hero__slide {
+    transition: none !important;
+  }
+  .hero__slide img {
+    transition: none !important;
+    transform: scale(1.0) !important;
+  }
 }

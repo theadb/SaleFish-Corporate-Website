@@ -26,9 +26,18 @@ if (is_array($fade_msg)) {
 <main class="partners">
     <!-- HERO -->
     <section class="hero">
-        <img class="hero_bg"
-            src="<?php echo get_template_directory_uri(); ?>/img/partners/partners.png"
-            alt="Living Room">
+        <div class="hero__slideshow" aria-hidden="true">
+            <div class="hero__slide is-active">
+                <img src="<?php echo get_template_directory_uri(); ?>/img/hero-slides/slide-1.jpg" alt="" loading="eager">
+            </div>
+            <div class="hero__slide">
+                <img src="<?php echo get_template_directory_uri(); ?>/img/hero-slides/slide-2.jpg" alt="" loading="lazy">
+            </div>
+            <div class="hero__slide">
+                <img src="<?php echo get_template_directory_uri(); ?>/img/hero-slides/slide-3.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="hero__overlay" aria-hidden="true"></div>
         <div class="wrapper">
             <div class="wrap">
                 <h3 data-aos="fade-up" data-aos-delay="100">Make Money. Look Good Doing It.</h3>
