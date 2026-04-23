@@ -133,7 +133,7 @@ $the_numbers = get_field('the_numbers');
 			<div class="content">
 				<?php
                             $counter = 0;
-foreach($the_numbers as $row):
+foreach((is_array($the_numbers) ? $the_numbers : []) as $row):
     $prefix = $row['prefix'];
     $number = $row['number'];
     $suffix = $row['suffix'];
@@ -191,7 +191,7 @@ foreach($the_numbers as $row):
 				</div>
 				<div class="swiper pillarsSwiper" data-aos="fade-zoom-in">
 					<div class="swiper-wrapper">
-						<?php foreach($pillars as $row):
+						<?php foreach((is_array($pillars) ? $pillars : []) as $row):
 						    $icon = $row['icon'];
 						    $title = ucwords( strtolower( $row['title'] ) );
 						    $description = $row['description'];

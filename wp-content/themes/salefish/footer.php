@@ -221,23 +221,11 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
 <?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <?php endif; ?>
-<!-- jQuery is now loaded via wp_enqueue_script (footer, before app.js) -->
-<script>
-var salefishAjax = {
-	ajaxurl: '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>',
-	nonce: '<?php echo esc_js( wp_create_nonce( 'salefish_nonce' ) ); ?>',
-	loadMoreNonce: '<?php echo esc_js( wp_create_nonce( 'salefish_load_more' ) ); ?>',
-	turnstileSitekey: '<?php echo esc_js( defined( "SALEFISH_CF_TURNSTILE_SITEKEY" ) ? SALEFISH_CF_TURNSTILE_SITEKEY : "" ); ?>'
-};
-</script>
+<!-- jQuery loaded via wp_enqueue_script — salefishAjax provided by wp_localize_script -->
 <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16/dist/smooth-scroll.polyfills.min.js"></script>
-
-
-
 <script>
-const BASEURL = '<?php echo get_template_directory_uri(); ?>'
-const ajaxurl = '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>';
+const BASEURL = '<?php echo get_template_directory_uri(); ?>';
 </script>
 
 <script type="text/javascript">
