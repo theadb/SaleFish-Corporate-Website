@@ -94,7 +94,7 @@ get_header();
 
 			<div class="platform__showcase" data-aos="zoom-in">
 				<img src="https://salefish.app/wp-content/uploads/2024/09/Group-1441.png" alt="SaleFish Platform" loading="lazy" decoding="async">
-				<a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Our Story — Platform Showcase">Book a Free Demo</a>
+				<a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Our Story — Platform Showcase">See It in Action</a>
 			</div>
 
 		</div>
@@ -154,7 +154,7 @@ get_header();
 					President &amp; Co-Founder
 				</p>
 			</div>
-			<a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Our Story — Contact CTA">Book a Free Demo</a>
+			<a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Our Story — Contact CTA">Get My Demo</a>
 		</div>
 		<?php get_template_part('/partials/contact-general'); ?>
 
