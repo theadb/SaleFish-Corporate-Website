@@ -174,12 +174,20 @@ $(function () {
   }
 
   if (pathname === "/" || pathname === "/au/") {
+    const imgSlides = document.querySelectorAll('.hero__img-slide');
     let i = 0;
-    setInterval(() => {
-      $("#app_for_home").fadeOut(400, function () {
-        $(this).html(textArray[i]).fadeIn(400);
-        i == 3 ? (i = 0) : i++;
+
+    setInterval(function () {
+      // Crossfade image at the same moment text starts fading out
+      if (imgSlides.length) {
+        imgSlides.forEach(function (s) { s.classList.remove('is-active'); });
+        if (imgSlides[i]) imgSlides[i].classList.add('is-active');
+      }
+
+      $("#app_for_home").fadeOut(600, function () {
+        $(this).html(textArray[i]).fadeIn(600);
+        i = (i + 1) % (textArray.length || 4);
       });
-    }, 2000);
+    }, 3800);
   }
 });
