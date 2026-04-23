@@ -550,7 +550,7 @@
 ?>
 	<div class="wrapper">
 		<h1>Privacy Policy</h1>
-		<i data-lucide="x" class="close_privacy"></i>
+		<button class="close_privacy" aria-label="Close"><i data-lucide="x"></i></button>
 		<div class="wrap">
 			<?php echo wp_kses_post( $content->post_content ); ?>
 
@@ -564,7 +564,7 @@
 ?>
 	<div class="wrapper">
 		<h1>Terms of Use</h1>
-		<i data-lucide="x" class="close_terms"></i>
+		<button class="close_terms" aria-label="Close"><i data-lucide="x"></i></button>
 		<div class="wrap">
 			<?php echo wp_kses_post( $content->post_content ); ?>
 

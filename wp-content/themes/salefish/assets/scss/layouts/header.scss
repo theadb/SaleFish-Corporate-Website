@@ -378,27 +378,25 @@ header {
 
   &__close {
     position: absolute;
-    top: 18px;
-    right: 18px;
-    width: 34px;
-    height: 34px;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba($dark_purple, 0.06);
-    border: none;
-    border-radius: 50%;
+    background: #fff;
+    border: 1px solid hsl(var(--sf-border));
+    border-radius: 8px;
     cursor: pointer;
-    color: $dark_purple;
+    color: hsl(220 9% 46%);
     padding: 0;
-    transition: background 0.18s ease, transform 0.18s ease;
+    transition: background 0.15s ease, border-color 0.15s ease;
 
-    &:hover {
-      background: rgba($dark_purple, 0.12);
-      transform: rotate(90deg);
-    }
+    &:hover { background: hsl(var(--sf-muted)); }
 
-    svg { width: 18px; height: 18px; stroke-width: 2; }
+    svg { width: 16px; height: 16px; stroke-width: 2; }
   }
 
   &__icon-wrap {
@@ -481,31 +479,25 @@ header {
 
   &__close {
     position: absolute;
-    top: 18px;
-    right: 18px;
-    width: 34px;
-    height: 34px;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba($dark_purple, 0.06);
-    border: none;
-    border-radius: 50%;
+    background: #fff;
+    border: 1px solid hsl(var(--sf-border));
+    border-radius: 8px;
     cursor: pointer;
-    color: $dark_purple;
+    color: hsl(220 9% 46%);
     padding: 0;
-    transition: background 0.18s ease, transform 0.18s ease;
+    transition: background 0.15s ease, border-color 0.15s ease;
 
-    &:hover {
-      background: rgba($dark_purple, 0.12);
-      transform: rotate(90deg);
-    }
+    &:hover { background: hsl(var(--sf-muted)); }
 
-    svg {
-      width: 18px;
-      height: 18px;
-      stroke-width: 2;
-    }
+    svg { width: 16px; height: 16px; stroke-width: 2; }
   }
 
   &__eyebrow {
@@ -569,8 +561,8 @@ header {
     // JS sets an explicit pixel height via postMessage → panel shrink-wraps content.
     // min/max are fallbacks before the first postMessage arrives.
     height: auto;
-    max-height: 92vh;
-    min-height: 400px;
+    max-height: 96vh;
+    min-height: 520px;
     background: #fff;
     border-radius: var(--sf-radius-lg);
     box-shadow: var(--sf-shadow-lg), 0 0 0 1px rgba(0, 0, 0, 0.05);
@@ -593,33 +585,29 @@ header {
   }
 
   // Close button is position:absolute inside the panel so it never scrolls away.
-  // White background + shadow keeps it legible against any iframe content.
+  // Extra box-shadow keeps it legible against any HubSpot iframe content.
   &__close {
     position: absolute;
-    top: 14px;
-    right: 14px;
+    top: 16px;
+    right: 16px;
     z-index: 2; // above __scroll
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #fff;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.06);
-    border: none;
-    border-radius: 50%;
+    border: 1px solid hsl(var(--sf-border));
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12); // extra lift to stand out over iframe
     cursor: pointer;
-    color: $dark_purple;
+    color: hsl(220 9% 46%);
     padding: 0;
-    transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+    transition: background 0.15s ease, border-color 0.15s ease;
 
-    &:hover {
-      background: rgba($dark_purple, 0.06);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.06);
-      transform: rotate(90deg);
-    }
+    &:hover { background: hsl(var(--sf-muted)); }
 
-    svg { width: 18px; height: 18px; stroke-width: 2; }
+    svg { width: 16px; height: 16px; stroke-width: 2; }
   }
 
   // __scroll is a passthrough container on all screen sizes — it never scrolls.
@@ -639,7 +627,7 @@ header {
   // Mobile: height:100% fills the full-screen panel; HubSpot scrolls internally.
   &__frame {
     width: 100%;
-    height: 600px;  // initial fallback; overridden immediately by postMessage
+    height: 780px;  // initial fallback (+30%); overridden immediately by postMessage
     border: none;
     display: block;
 
@@ -737,8 +725,8 @@ header {
     background: #fff;
     margin-top: 20px;
     padding: 40px 5px 40px 40px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    border-radius: 20px;
+    box-shadow: var(--sf-shadow-lg);
     position: relative;
     max-width: 800px;
 
@@ -746,15 +734,30 @@ header {
     .close_terms {
       position: absolute;
       top: 20px;
-      right: 30px;
-      font-size: 30px;
+      right: 20px;
+      z-index: 2;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      border: 1px solid hsl(var(--sf-border));
+      border-radius: 8px;
       cursor: pointer;
+      color: hsl(220 9% 46%);
+      padding: 0;
+      transition: background 0.15s ease, border-color 0.15s ease;
+
+      &:hover { background: hsl(var(--sf-muted)); }
+
+      svg { width: 16px; height: 16px; stroke-width: 2; }
     }
 
     h1 {
       padding-bottom: 20px;
       border-bottom: 1px solid $gray;
-      width: calc(100% - 40px);
+      width: calc(100% - 60px); // leave room for the close button
       font-size: 2.5em;
     }
 
