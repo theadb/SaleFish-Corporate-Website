@@ -297,11 +297,9 @@ main {
     transform: scale(1.0) !important;
   }
 
-  // Platform showcase slider — no fade/animation, show first image statically
+  // Platform showcase slider — no fade, show first image statically
   .platform__img-slide {
     transition: none !important;
-    animation: none !important;
-    clip-path: none !important;
   }
   .platform__img-slide img {
     transition: none !important;
