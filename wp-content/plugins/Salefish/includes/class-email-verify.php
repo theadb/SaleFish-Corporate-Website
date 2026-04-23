@@ -175,7 +175,7 @@ class Salefish_Email_Verify {
 			);
 		}
 
-		wp_redirect( home_url( '/thank-you-for-registering/' ) );
+		wp_redirect( add_query_arg( 'salefish_verified', '1', home_url( '/thank-you-for-registering/' ) ) );
 		exit;
 	}
 }
