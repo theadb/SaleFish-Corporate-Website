@@ -319,8 +319,20 @@
         text-align: center;
 
         .pillar {
-          height: 70px;
-          margin-bottom: 10px;
+          width: 140px;
+          height: 140px;
+          object-fit: contain;
+          margin-bottom: 16px;
+
+          @include rs768 {
+            width: 120px;
+            height: 120px;
+          }
+
+          @include rs550 {
+            width: 100px;
+            height: 100px;
+          }
         }
 
         h3 {

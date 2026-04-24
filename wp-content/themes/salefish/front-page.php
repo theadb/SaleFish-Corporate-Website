@@ -111,10 +111,19 @@ $the_numbers = get_field('the_numbers');
 			</div>
 			<div class="swiper pillarsSwiper" data-aos="fade-zoom-in">
 				<div class="swiper-wrapper">
-					<?php foreach((is_array($pillars) ? $pillars : []) as $row):
-					    $icon = $row['icon'];
+					<?php
+					$pillar_icons = array(
+					    get_template_directory_uri() . '/img/pillar-handshake.png',
+					    get_template_directory_uri() . '/img/pillar-shield.png',
+					    get_template_directory_uri() . '/img/pillar-puzzle.png',
+					    get_template_directory_uri() . '/img/pillar-tablet.png',
+					);
+					$pillar_i = 0;
+					foreach((is_array($pillars) ? $pillars : []) as $row):
+					    $icon = isset( $pillar_icons[ $pillar_i ] ) ? $pillar_icons[ $pillar_i ] : esc_url( $row['icon'] );
 					    $title = ucwords( strtolower( $row['title'] ) );
 					    $description = $row['description'];
+					    $pillar_i++;
 					    ?>
 					<div class="swiper-slide">
 						<img class="pillar"
