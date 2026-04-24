@@ -219,9 +219,11 @@ function salefish_notification_email_html( array $fields, string $form_type ): s
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <meta name="supported-color-schemes" content="dark">
   <title>New <?php echo $form_label; ?> — SaleFish</title>
 </head>
-<body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background-color:#0f0f0f;">
+<body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background-color:#0f0f0f;color-scheme:dark;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0f0f0f;padding:40px 20px;">
     <tr>
       <td align="center">
@@ -235,8 +237,8 @@ function salefish_notification_email_html( array $fields, string $form_type ): s
           <!-- Body -->
           <tr>
             <td style="padding:0 40px 40px;">
-              <h1 style="color:#ffffff;font-size:24px;font-weight:600;margin:0 0 10px;text-align:left;">New <?php echo $form_label; ?></h1>
-              <p style="color:#a1a1a1;font-size:16px;line-height:1.6;margin:0 0 30px;">A new contact submitted the <strong style="color:#ffffff;"><?php echo $form_label; ?></strong> form on salefish.app</p>
+              <h1 style="color:#ffffff;font-size:28px;font-weight:700;line-height:1.2;margin:0 0 20px;text-align:left;">New <?php echo $form_label; ?></h1>
+              <p style="color:#a1a1a1;font-size:16px;line-height:1.7;margin:0 0 30px;">A new contact submitted the <strong style="color:#ffffff;"><?php echo $form_label; ?></strong> form on salefish.app</p>
 
               <!-- Contact card -->
               <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;">
@@ -276,7 +278,7 @@ function salefish_notification_email_html( array $fields, string $form_type ): s
           <!-- Footer -->
           <tr>
             <td style="padding:30px 40px;border-top:1px solid #2a2a2a;text-align:center;">
-              <p style="color:#666666;font-size:14px;margin:0 0 5px;font-weight:600;">Real Estate Inventory &amp; Sales Powered by SaleFish</p>
+              <p style="color:#666666;font-size:14px;margin:0 0 8px;font-weight:600;">Real Estate Inventory &amp; Sales Powered by SaleFish</p>
               <p style="color:#4a4a4a;font-size:13px;margin:0;">Real Estate Sales Management Platform</p>
             </td>
           </tr>
@@ -329,9 +331,11 @@ function salefish_autoresponder_email_html( string $first_name, string $form_typ
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <meta name="supported-color-schemes" content="dark">
   <title>Thanks for registering — SaleFish</title>
 </head>
-<body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background-color:#0f0f0f;">
+<body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background-color:#0f0f0f;color-scheme:dark;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0f0f0f;padding:40px 20px;">
     <tr>
       <td align="center">
