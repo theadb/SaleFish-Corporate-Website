@@ -126,6 +126,15 @@ $(function () {
         document.hidden ? stop() : start();
       });
 
+      // Re-measure whenever the track's width changes (lazy images loading in).
+      // This keeps halfWidth accurate so the seamless-reset fires at the right
+      // point even if some logos were still loading when init() first ran.
+      if (typeof ResizeObserver !== "undefined") {
+        new ResizeObserver(function () {
+          measure();
+        }).observe(track);
+      }
+
       // Measure after all images have loaded so scrollWidth is accurate,
       // then kick off the loop
       function init() {
