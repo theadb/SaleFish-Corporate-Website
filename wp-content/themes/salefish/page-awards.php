@@ -25,7 +25,7 @@ $awards = get_field('awards');
                 </h3>
             </div>
             <div class="right" data-aos="fade-left" data-aos-delay="200">
-                <img src="<?php echo get_template_directory_uri(); ?>/img/trophy.png"
+                <img src="<?php echo get_template_directory_uri(); ?>/img/trophy-confetti.gif"
                     class="trophy" loading="lazy" decoding="async" alt="SaleFish awards trophy">
             </div>
         </div>
@@ -66,7 +66,7 @@ $awards = get_field('awards');
 
     <!-- TROPHY — mobile only, shown below the timeline -->
     <div class="timeline-trophy-mobile">
-        <img src="<?php echo get_template_directory_uri(); ?>/img/trophy.png"
+        <img src="<?php echo get_template_directory_uri(); ?>/img/trophy-confetti.gif"
              loading="lazy" decoding="async" alt="SaleFish awards trophy">
     </div>
 
