@@ -157,7 +157,7 @@ header {
           a {
             background: $gold;
             color: $black;
-            font-family: $PSB;
+            font-family: $PR;
             padding: 7px 16px;
             border-radius: 6px;
             transition: opacity 0.15s ease;
@@ -732,7 +732,7 @@ header {
           padding: 10px 25px;
           border-radius: 5px;
           color: $black;
-          font-family: $PSB;
+          font-family: $PR;
           font-size: 0.85em;
           border: none;
           cursor: pointer;
@@ -941,7 +941,7 @@ header {
           padding: 10px 25px;
           border-radius: 5px;
           color: $black;
-          font-family: $PSB;
+          font-family: $PR;
           font-size: 0.85em;
           border: none;
           cursor: pointer;
@@ -1151,10 +1151,32 @@ header {
   }
 }
 
-// Mobile floating menu — Get a Demo highlighted in gold
-.floating_menu .nav-demo-mobile a {
-  color: $dark_purple !important;
-  font-family: $PSB !important;
+// Mobile floating menu — Get a Demo styled as a gold button
+.floating_menu .nav-demo-mobile {
+  padding: 6px 16px;
+
+  &:hover {
+    background: transparent !important; // suppress the full-row hover tint
+  }
+
+  a {
+    display: block !important;
+    background: $gold;
+    color: $black !important;
+    font-family: $PR !important;
+    font-size: 0.85em;
+    padding: 10px 20px !important;
+    border-radius: 6px;
+    text-align: center !important;
+    width: 100%;
+    box-sizing: border-box;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+      background: $gold; // stay gold
+      opacity: 0.88;
+    }
+  }
 }
 
 .hover-main-menu-style:hover {

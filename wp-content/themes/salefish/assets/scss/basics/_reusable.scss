@@ -5,9 +5,21 @@
   border-radius: 5px;
   text-decoration: none;
   color: $black;
-  font-family: $PSB;
+  font-family: $PR;
   font-size: 0.85em;
   text-align: center;
+}
+
+.button.hollow {
+  background: transparent;
+  border: 2px solid $gold;
+  color: $gold;
+  padding: 8px 23px; // compensates for the 2px border
+
+  &:hover {
+    background: rgba($gold, 0.15);
+    color: $gold;
+  }
 }
 
 // CONTACT
@@ -280,7 +292,7 @@
             padding: 10px 25px;
             border-radius: 5px;
             color: $black;
-            font-family: $PSB;
+            font-family: $PR;
             font-size: 0.85em;
             border: none;
             cursor: pointer;
