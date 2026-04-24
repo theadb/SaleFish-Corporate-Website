@@ -246,8 +246,12 @@
         width: auto;
         flex-shrink: 0;
         object-fit: contain;
+        transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform;
 
         @include rs550 { height: 32px; }
+
+        &:hover { transform: scale(1.1); }
       }
 
       // Static grid no longer needed — marquee now works on all devices
@@ -323,6 +327,8 @@
           height: 140px;
           object-fit: contain;
           margin-bottom: 16px;
+          transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          will-change: transform;
 
           @include rs768 {
             width: 120px;
@@ -333,6 +339,8 @@
             width: 100px;
             height: 100px;
           }
+
+          &:hover { transform: scale(1.08); }
         }
 
         h3 {
