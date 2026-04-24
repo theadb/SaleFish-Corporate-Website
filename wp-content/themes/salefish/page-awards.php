@@ -64,6 +64,12 @@ $awards = get_field('awards');
         </div>
     </div>
 
+    <!-- TROPHY — mobile only, shown below the timeline -->
+    <div class="timeline-trophy-mobile">
+        <img src="<?php echo get_template_directory_uri(); ?>/img/trophy.png"
+             loading="lazy" decoding="async" alt="SaleFish awards trophy">
+    </div>
+
 <!-- CONTACT -->
     <section class="contact">
         <div class="top_overlay"></div>
