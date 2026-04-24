@@ -377,8 +377,8 @@
         .controls {
           position: absolute;
           top: 35%;
-          left: 0;
-          right: 0;
+          left: 16px;
+          right: 16px;
           transform: translateY(-50%);
           display: flex;
           justify-content: space-between;
@@ -920,13 +920,13 @@
           &:active { background: rgba(#fff, 0.25); }
 
           &.left_arrow {
-            left: 0;
+            left: 36px;
             top: 50%;
             transform: translateY(-50%);
           }
 
           &.right_arrow {
-            right: 0;
+            right: 36px;
             top: 50%;
             transform: translateY(-50%);
           }

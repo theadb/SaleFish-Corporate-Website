@@ -228,14 +228,14 @@
     transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
     flex-shrink: 0;
 
-    // All Lucide icons are stroke-based — inherit color via currentColor
+    // Brand icons use fill="currentColor" — color is inherited via currentColor
     color: $black;
-    svg { stroke: currentColor; fill: none; }
 
     &--linkedin:hover { background: #0077B5; color: #fff; border-color: #0077B5; }
     &--x:hover        { background: #000;    color: #fff; border-color: #000; }
     &--facebook:hover { background: #1877F2; color: #fff; border-color: #1877F2; }
     &--whatsapp:hover { background: #25D366; color: #fff; border-color: #25D366; }
+    &--bluesky:hover  { background: #0085ff; color: #fff; border-color: #0085ff; }
     &--sms:hover      { background: #34C759; color: #fff; border-color: #34C759; }
     &--email:hover    { background: $dark_purple; color: #fff; border-color: $dark_purple; }
   }

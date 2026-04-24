@@ -29,21 +29,6 @@ $(function () {
       $("#count_3").data("number"),
       options_2
     );
-    let count_1_mobile = new CountUp(
-      "count_1_mobile",
-      $("#count_1").data("number"),
-      options
-    );
-    let count_2_mobile = new CountUp(
-      "count_2_mobile",
-      $("#count_2").data("number"),
-      options
-    );
-    let count_3_mobile = new CountUp(
-      "count_3_mobile",
-      $("#count_3").data("number"),
-      options_2
-    );
     $(window).on("resize scroll", function () {
       if ($(".contact .content .col").isInViewport()) {
         setTimeout(() => {
@@ -53,15 +38,6 @@ $(function () {
         }, 500);
       } else {
         // do something else
-      }
-    });
-    $(window).on("resize scroll", function () {
-      if ($(".contact .mobile_content").isInViewport()) {
-        setTimeout(() => {
-          count_1_mobile.start();
-          count_2_mobile.start();
-          count_3_mobile.start();
-        }, 500);
       }
     });
     let pillarsSwiper = new Swiper(".pillarsSwiper", {
@@ -164,20 +140,6 @@ $(function () {
       },
     });
 
-    numbersSwiper.on("slideChange", function () {
-      let index = numbersSwiper.realIndex;
-      switch (index) {
-        case 0:
-          count_1_mobile.start();
-          break;
-        case 1:
-          count_2_mobile.start();
-          break;
-        case 2:
-          count_3_mobile.start();
-          break;
-      }
-    });
 
 
   }
