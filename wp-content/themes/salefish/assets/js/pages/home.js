@@ -61,6 +61,15 @@ $(function () {
     // CSS animation is unreliable on webkit: the compositor drops the animated
     // layer when combined with overflow:hidden on the parent, causing the logos
     // to vanish. RAF-driven translateX is compositor-safe on all browsers.
+    //
+    // Root-cause of previous "restarts halfway" bug: the cloned (second) set of
+    // logos was loading="lazy", so scrollWidth on first measure only counted the
+    // first set. halfWidth was therefore half of what it should be, triggering
+    // the seamless-reset after just one half-cycle. Both sets are now eager.
+    // Additionally: init() now waits until ALL img.naturalWidth > 0 before
+    // starting, so halfWidth is guaranteed correct from the first tick.
+    // The reset uses x += halfWidth (not x = 0) to handle any single-frame
+    // overshoot cleanly.
     (function () {
       const track = document.querySelector(".builders_track");
       if (!track) return;
@@ -70,55 +79,60 @@ $(function () {
       let x = 0;
       let halfWidth = 0;
       let rafId = null;
+      let everStarted = false;
 
       function measure() {
-        // scrollWidth includes all cloned logos; half = one full set
-        halfWidth = track.scrollWidth / 2;
+        // halfWidth only grows — prevents a mid-reflow shrink from corrupting
+        // the loop boundary after the marquee is already running.
+        var w = track.scrollWidth / 2;
+        if (w > halfWidth) halfWidth = w;
       }
 
       function tick() {
         x -= SPEED;
-        if (halfWidth > 0 && Math.abs(x) >= halfWidth) {
-          x = 0; // seamless jump — visually identical because logos repeat
+        if (halfWidth > 0 && x <= -halfWidth) {
+          x += halfWidth; // add halfWidth instead of resetting to 0 — handles
+                          // any single-frame overshoot without a visible jump
         }
         track.style.transform = "translateX(" + x + "px)";
         rafId = requestAnimationFrame(tick);
       }
 
       function start() {
-        if (!rafId) tick();
+        if (!rafId) { everStarted = true; tick(); }
       }
 
       function stop() {
-        if (rafId) {
-          cancelAnimationFrame(rafId);
-          rafId = null;
-        }
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
       }
 
-      // Pause when tab is hidden; resume when visible — prevents position
-      // drift accumulating while the RAF was paused by the browser
+      // Pause when tab is hidden; resume when visible — prevents drift while
+      // the browser has paused RAF
       document.addEventListener("visibilitychange", function () {
-        document.hidden ? stop() : start();
+        if (document.hidden) { stop(); } else if (everStarted) { start(); }
       });
 
-      // Re-measure whenever the track's width changes (lazy images loading in).
-      // This keeps halfWidth accurate so the seamless-reset fires at the right
-      // point even if some logos were still loading when init() first ran.
+      // Re-measure if the track ever grows (e.g. a font loads late and affects
+      // logo container widths). halfWidth is only allowed to increase.
       if (typeof ResizeObserver !== "undefined") {
-        new ResizeObserver(function () {
-          measure();
-        }).observe(track);
+        new ResizeObserver(function () { measure(); }).observe(track);
       }
 
-      // Measure after all images have loaded so scrollWidth is accurate,
-      // then kick off the loop
+      // Only start once every image in the track has its natural dimensions.
+      // This guarantees scrollWidth is final, so halfWidth is exactly correct.
       function init() {
-        measure();
-        if (halfWidth > 0) {
-          start();
+        var imgs = Array.from(track.querySelectorAll("img"));
+        var allReady = imgs.length > 0 && imgs.every(function (img) {
+          return img.complete && img.naturalWidth > 0;
+        });
+        if (allReady) {
+          measure();
+          if (halfWidth > 0) {
+            start();
+          } else {
+            setTimeout(init, 100);
+          }
         } else {
-          // Images still loading — retry until they settle
           setTimeout(init, 100);
         }
       }

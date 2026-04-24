@@ -78,7 +78,7 @@ $the_numbers = get_field('the_numbers');
 							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="" loading="eager" decoding="async">
 							<?php endforeach; ?>
 							<?php foreach((is_array($builders) ? $builders : []) as $builder): ?>
-							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async">
+							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="" aria-hidden="true" loading="eager" decoding="async">
 							<?php endforeach; ?>
 						</div>
 					</div>
