@@ -109,14 +109,19 @@ $the_numbers = get_field('the_numbers');
 				<h1>The SaleFish Pillars</h1>
 				<p class="subheader">We Build Tools for People Who Expect to Win.</p>
 			</div>
-			<div class="swiper pillarsSwiper" data-aos="fade-zoom-in">
+			<div class="swiper pillarsSwiper">
 				<div class="swiper-wrapper">
-					<?php foreach((is_array($pillars) ? $pillars : []) as $row):
+					<?php
+					$pillar_idx = 0;
+					foreach((is_array($pillars) ? $pillars : []) as $row):
 					    $icon        = $row['icon'];
 					    $title       = ucwords( strtolower( $row['title'] ) );
 					    $description = $row['description'];
 					    ?>
-					<div class="swiper-slide">
+					<div class="swiper-slide"
+					     data-aos="fade-up"
+					     data-aos-delay="<?php echo $pillar_idx * 100; ?>"
+					     data-aos-anchor=".pillarsSwiper">
 						<img class="pillar"
 							src="<?php echo esc_url( $icon ); ?>" loading="lazy" decoding="async" alt="" aria-hidden="true">
 						<h3>
@@ -126,7 +131,7 @@ $the_numbers = get_field('the_numbers');
 							<?php echo wp_kses_post( $description ); ?>
 						</p>
 					</div>
-					<?php endforeach; ?>
+					<?php $pillar_idx++; endforeach; ?>
 				</div>
 				<div class="controls">
 					<button class="arrow left_arrow" type="button" aria-label="Previous slide">
@@ -179,7 +184,7 @@ foreach((is_array($the_numbers) ? $the_numbers : []) as $row):
 				</div>
 				<?php endforeach; ?>
 			</div>
-			<div class="mobile_content">
+			<div class="mobile_content" data-aos="fade-up">
 				<div class="swiper numbersSwiper">
 					<div class="swiper-wrapper">
 						<div class="swiper-slide">
@@ -206,7 +211,7 @@ foreach((is_array($the_numbers) ? $the_numbers : []) as $row):
 				</div>
 			</div>
 
-			<a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Homepage — Numbers CTA">Get My Demo</a>
+			<a class="button" data-aos="fade-up" data-aos-delay="300" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Homepage — Numbers CTA">Get My Demo</a>
 		</div>
 		<?php get_template_part('/partials/contact-general'); ?>
 	</section>
