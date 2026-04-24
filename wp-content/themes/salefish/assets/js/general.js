@@ -103,17 +103,32 @@ $(function () {
     $("body").css("overflow", "hidden");
   });
 
-  // Apply correct header state immediately on DOM ready.
-  // Handles hash-anchor navigation (e.g. /#features) where the browser has
-  // already jumped to the anchor position before the scroll listener fires,
-  // leaving the header transparent against non-hero content.
+  // Apply correct header state on load.
+  //
+  // Problem: navigating from another page to /#features causes the browser
+  // to jump to the anchor AFTER DOM-ready (especially iOS Safari), and that
+  // jump does NOT fire a 'scroll' event — so the header stays transparent
+  // over non-hero content until the user manually scrolls.
+  //
+  // Fix: if the URL already has a hash on load, the page will end up scrolled
+  // past the hero regardless of timing, so we activate the header immediately.
+  // We also recheck at 0 ms, 100 ms, and 300 ms to cover every browser's
+  // anchor-resolution timing.
   (function applyInitialHeaderState() {
-    var scrolled = $(window).scrollTop() > 1;
-    var isMobile = $(window).width() <= 768;
-    var menuTop  = isMobile ? "80px" : (scrolled ? "60px" : "70px");
-    if (scrolled) { $("header").addClass("active"); }
-    $(".floating_menu").css("top", menuTop);
-    $(".sales_login_menu").css("top", menuTop);
+    function check() {
+      var scrolled = $(window).scrollTop() > 1;
+      var hasHash  = window.location.hash.length > 1;
+      var active   = scrolled || hasHash;
+      var isMobile = $(window).width() <= 768;
+      var menuTop  = isMobile ? "80px" : (active ? "60px" : "70px");
+      if (active) { $("header").addClass("active"); }
+      $(".floating_menu").css("top", menuTop);
+      $(".sales_login_menu").css("top", menuTop);
+    }
+    check();                       // immediate — catches pre-DOMReady jumps
+    setTimeout(check, 0);         // next tick  — catches synchronous post-DOMReady jumps
+    setTimeout(check, 100);       // short delay — catches most mobile browsers
+    setTimeout(check, 300);       // fallback   — catches slow iOS Safari
   }());
 
   $(window).on("scroll", function () {
