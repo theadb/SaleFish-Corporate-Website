@@ -197,7 +197,10 @@
     cursor: pointer;
     transition: background 0.15s ease, color 0.15s ease;
     white-space: nowrap;
-    width: 100%;
+    // Desktop: match the exact width of the 4-icon grid row below (4×36 + 3×8)
+    width: calc(4 * 36px + 3 * 8px);
+
+    @include rs768 { width: 100%; }
 
     &:hover { background: darken($gray, 4%); }
 
@@ -209,9 +212,19 @@
   }
 
   .sp-share__icons {
-    display: flex;
+    // Desktop: 4-column grid so the row width matches the copy button exactly.
+    // align-self: flex-start prevents the flex-column parent from stretching
+    // this element beyond the grid's natural 168px width.
+    display: grid;
+    grid-template-columns: repeat(4, 36px);
     gap: 8px;
-    flex-wrap: wrap;
+    align-self: flex-start;
+
+    @include rs768 {
+      display: flex;
+      flex-wrap: wrap;
+      align-self: auto;
+    }
   }
 
   .sp-share__icon {
