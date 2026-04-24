@@ -103,6 +103,19 @@ $(function () {
     $("body").css("overflow", "hidden");
   });
 
+  // Apply correct header state immediately on DOM ready.
+  // Handles hash-anchor navigation (e.g. /#features) where the browser has
+  // already jumped to the anchor position before the scroll listener fires,
+  // leaving the header transparent against non-hero content.
+  (function applyInitialHeaderState() {
+    var scrolled = $(window).scrollTop() > 1;
+    var isMobile = $(window).width() <= 768;
+    var menuTop  = isMobile ? "80px" : (scrolled ? "60px" : "70px");
+    if (scrolled) { $("header").addClass("active"); }
+    $(".floating_menu").css("top", menuTop);
+    $(".sales_login_menu").css("top", menuTop);
+  }());
+
   $(window).on("scroll", function () {
     var isMobile = $(window).width() <= 768;
     var menuTop  = isMobile ? "80px" : ($(window).scrollTop() > 1 ? "60px" : "70px");

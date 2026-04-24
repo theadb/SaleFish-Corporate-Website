@@ -171,6 +171,22 @@
     }
   }
 
+  // ── Mobile-only trophy (sits below timeline on small screens) ─────────
+  .timeline-trophy-mobile {
+    display: none; // hidden on desktop — trophy appears in the hero there
+
+    @include rs768 {
+      display: flex;
+      justify-content: center;
+      padding: 0 0 48px;
+
+      img {
+        width: 180px;
+        filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.14));
+      }
+    }
+  }
+
   // ── Award Card — styled like blog cards ───────────────────────────────
   .award-card {
     background: hsl(var(--sf-card));
