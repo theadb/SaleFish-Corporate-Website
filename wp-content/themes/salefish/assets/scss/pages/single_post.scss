@@ -427,14 +427,13 @@
   }
 
   &__btn {
-    margin-top: 4px;
     background: $gold;
     color: $black;
     border: none;
-    padding: 13px 30px;
-    border-radius: 8px;
-    font-family: $PR;
-    font-size: 1rem;
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-family: $PSB;
+    font-size: 0.85em;
     cursor: pointer;
     transition: opacity 0.15s ease;
 

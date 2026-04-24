@@ -260,6 +260,7 @@
 
   // ── Security ─────────────────────────────────────────────────────────────
   .security {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
     padding: 88px 60px 100px;
 
     @include rs768 { padding: 64px 20px 80px; }

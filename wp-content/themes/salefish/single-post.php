@@ -120,25 +120,29 @@ get_header();
 								<a class="sp-share__icon sp-share__icon--whatsapp"
 								   href="https://api.whatsapp.com/send?text=<?php echo $share_title; ?>%20<?php echo $share_url; ?>"
 								   target="_blank" rel="noopener" title="Share on WhatsApp">
-									<i data-lucide="message-circle" width="16" height="16"></i>
+									<!-- WhatsApp — Lucide doesn't have a WhatsApp icon; using matching stroke-style speech-bubble -->
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
 								</a>
 
 								<a class="sp-share__icon sp-share__icon--facebook"
 								   href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $share_url; ?>&quote=<?php echo $share_title; ?>"
 								   target="_blank" rel="noopener" title="Share on Facebook">
-									<i data-lucide="facebook" width="16" height="16"></i>
+									<!-- Facebook — removed from Lucide; inline stroke-style F icon -->
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
 								</a>
 
 								<a class="sp-share__icon sp-share__icon--x"
 								   href="https://x.com/intent/tweet?url=<?php echo $share_url; ?>&text=<?php echo $share_title; ?>"
 								   target="_blank" rel="noopener" title="Share on X">
-									<i data-lucide="twitter" width="15" height="15"></i>
+									<!-- X/Twitter — "twitter" removed from Lucide; inline stroke-style X -->
+									<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
 								</a>
 
 								<a class="sp-share__icon sp-share__icon--linkedin"
 								   href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $share_url; ?>&title=<?php echo $share_title; ?>&summary=<?php echo $share_desc; ?>"
 								   target="_blank" rel="noopener" title="Share on LinkedIn">
-									<i data-lucide="linkedin" width="16" height="16"></i>
+									<!-- LinkedIn — inline stroke-style IN icon matching Lucide style -->
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
 								</a>
 
 							</div>
