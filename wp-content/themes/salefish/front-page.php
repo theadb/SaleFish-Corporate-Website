@@ -197,12 +197,12 @@ foreach((is_array($the_numbers) ? $the_numbers : []) as $row):
 					</div>
 				</div>
 				<div class="arrows numbersSwiperArrow">
-					<img class="arrow left_arrow"
-						src="<?php echo get_template_directory_uri(); ?>/img/light_left_arrow.png"
-						alt="Left Arrow" loading="lazy" decoding="async">
-					<img class="arrow right_arrow"
-						src="<?php echo get_template_directory_uri(); ?>/img/light_right_arrow.png"
-						alt="Right Arrow" loading="lazy" decoding="async">
+					<button class="arrow left_arrow" type="button" aria-label="Previous slide">
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+					</button>
+					<button class="arrow right_arrow" type="button" aria-label="Next slide">
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+					</button>
 				</div>
 			</div>
 

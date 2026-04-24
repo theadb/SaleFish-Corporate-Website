@@ -323,21 +323,21 @@
         text-align: center;
 
         .pillar {
-          width: 140px;
-          height: 140px;
+          width: 187px;
+          height: 187px;
           object-fit: contain;
           margin-bottom: 16px;
           transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           will-change: transform;
 
           @include rs768 {
-            width: 120px;
-            height: 120px;
+            width: 160px;
+            height: 160px;
           }
 
           @include rs550 {
-            width: 100px;
-            height: 100px;
+            width: 133px;
+            height: 133px;
           }
 
           &:hover { transform: scale(1.08); }
@@ -901,18 +901,32 @@
       .arrows {
         .arrow {
           position: absolute;
-          width: 25px;
           cursor: pointer;
+          color: rgba(#fff, 0.85);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 34px;
+          height: 34px;
+          border-radius: 50%;
+          transition: background 0.2s ease;
+          appearance: none;
+          background: none;
+          border: none;
+          padding: 0;
           z-index: 2;
 
+          &:hover  { background: rgba(#fff, 0.15); }
+          &:active { background: rgba(#fff, 0.25); }
+
           &.left_arrow {
-            left: 15px;
+            left: 0;
             top: 50%;
             transform: translateY(-50%);
           }
 
           &.right_arrow {
-            right: 15px;
+            right: 0;
             top: 50%;
             transform: translateY(-50%);
           }
