@@ -183,15 +183,15 @@ foreach((is_array($the_numbers) ? $the_numbers : []) as $row):
 				<div class="swiper numbersSwiper">
 					<div class="swiper-wrapper">
 						<div class="swiper-slide">
-							<h1>$<span id="count_1_mobile"></span>B</h1>
+							<h1>$<?php echo esc_html( $the_numbers[0]['number'] ?? '' ); ?>B</h1>
 							<p>in global new home sales</p>
 						</div>
 						<div class="swiper-slide">
-							<h1><span id="count_2_mobile"></span>+</h1>
+							<h1><?php echo esc_html( $the_numbers[1]['number'] ?? '' ); ?>+</h1>
 							<p>builders, developers & sales partners</p>
 						</div>
 						<div class="swiper-slide">
-							<h1><span id="count_3_mobile"></span>M</h1>
+							<h1><?php echo esc_html( $the_numbers[2]['number'] ?? '' ); ?>M</h1>
 							<p>users of the SaleFish platform</p>
 						</div>
 					</div>
