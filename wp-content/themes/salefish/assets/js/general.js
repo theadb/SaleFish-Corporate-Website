@@ -1,4 +1,5 @@
 import $ from "jquery";
+import SmoothScroll from "smooth-scroll";
 import parsley from "./tools/parsley";
 import flowtype from "./tools/flowtype";
 import mask from "./tools/jquery.mask";
@@ -131,11 +132,14 @@ $(function () {
     setTimeout(check, 300);       // fallback   — catches slow iOS Safari
   }());
 
-  $(window).on("scroll", function () {
-    var isMobile = $(window).width() <= 768;
-    var menuTop  = isMobile ? "80px" : ($(window).scrollTop() > 1 ? "60px" : "70px");
+  // passive: true lets the browser scroll immediately without waiting for this
+  // callback — safe here because we never call preventDefault().
+  window.addEventListener('scroll', function () {
+    var scrollTop = window.scrollY;
+    var isMobile  = window.innerWidth <= 768;
+    var menuTop   = isMobile ? "80px" : (scrollTop > 1 ? "60px" : "70px");
 
-    if ($(window).scrollTop() > 1) {
+    if (scrollTop > 1) {
       $("header").addClass("active");
       $(".floating_menu").css("top", menuTop);
       $(".sales_login_menu").css("top", menuTop);
@@ -160,7 +164,7 @@ $(function () {
         height: "calc(100% - 100px)",
       });
     }
-  });
+  }, { passive: true });
 
   $(".floating_menu .mobile").on("click", function () {
     $(".sf-menu-btn").toggleClass("is-active");

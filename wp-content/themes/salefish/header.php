@@ -59,6 +59,10 @@
 	?>
 	<meta name="theme-color" content="<?php echo esc_attr( $_sf_theme_color ); ?>">
 	<link rel="preload" as="image" href="<?php echo esc_url( get_template_directory_uri() ); ?>/img/dark_salefish_logo.png">
+	<!-- Preload the two most-used Poppins weights so they're fetched in parallel
+	     with CSS, eliminating FOUT on first paint. -->
+	<link rel="preload" as="font" type="font/woff2" crossorigin href="<?php echo esc_url( get_template_directory_uri() ); ?>/fonts/Poppins-Regular.woff2">
+	<link rel="preload" as="font" type="font/woff2" crossorigin href="<?php echo esc_url( get_template_directory_uri() ); ?>/fonts/Poppins-SemiBold.woff2">
 	<?php wp_head(); ?>
 	<script>
 		if ('serviceWorker' in navigator) {

@@ -131,13 +131,12 @@ add_action('widgets_init', '_pc_widgets_init');
 
 function kickass_scripts()
 {
-    // Replace WP's bundled jQuery with the CDN version already used site-wide.
-    // This ensures jQuery loads in the footer BEFORE app.js (which depends on it).
-    wp_deregister_script( 'jquery' );
-    wp_register_script( 'jquery', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js', [], '3.6.0', true );
+    // jQuery is bundled into app.js via webpack's ProvidePlugin (autoload in
+    // webpack.mix.js). No separate CDN script needed — one less network request.
+    wp_deregister_script( 'jquery' ); // prevent WP or plugins re-enqueueing the old CDN copy
 
     wp_enqueue_style('style-name', get_template_directory_uri() . '/dest/app.css', [], filemtime(get_template_directory() . '/dest/app.css'));
-    wp_enqueue_script('script-name', get_template_directory_uri() . '/dest/app.js', array('jquery'), filemtime(get_template_directory() . '/dest/app.js'), true);
+    wp_enqueue_script('script-name', get_template_directory_uri() . '/dest/app.js', [], filemtime(get_template_directory() . '/dest/app.js'), true);
     wp_localize_script('script-name', 'salefishAjax', [
         'ajaxurl'        => admin_url('admin-ajax.php'),
         'nonce'          => wp_create_nonce('salefish_nonce'),
@@ -149,8 +148,7 @@ add_action('wp_enqueue_scripts', 'kickass_scripts');
 
 // ── Performance: resource hints ───────────────────────────────────────────────
 add_action('wp_head', function() {
-    echo '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>' . "\n";
-    echo '<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>' . "\n";
+    // cdn.jsdelivr.net and cdnjs no longer used — removed preconnects
     echo '<link rel="preconnect" href="https://maps.googleapis.com" crossorigin>' . "\n";
     echo '<link rel="preconnect" href="https://maps.gstatic.com" crossorigin>' . "\n";
     echo '<link rel="dns-prefetch" href="//code.tidio.co">' . "\n";
@@ -167,9 +165,23 @@ remove_filter('the_content_feed',    'wp_staticize_emoji');
 remove_filter('comment_text_rss',    'wp_staticize_emoji');
 remove_filter('wp_mail',             'wp_staticize_emoji_for_email');
 
-// ── Performance: remove unused REST API header links ──────────────────────────
+// ── Performance: remove unused REST API / WP head junk ────────────────────────
 remove_action('wp_head', 'rest_output_link_wp_head');
 remove_action('wp_head', 'wp_oembed_add_discovery_links');
+remove_action('wp_head', 'wp_generator');          // hides WP version from attackers
+remove_action('wp_head', 'rsd_link');              // Windows Live Writer RSD — unused
+remove_action('wp_head', 'wp_shortlink_wp_head');  // WP shortlink tag — unused
+
+// ── Performance: remove Gutenberg block CSS from front-end ────────────────────
+// This theme uses a fully custom template system — no block editor output on
+// front-end pages. Removing block library styles saves ~8 KB of inline CSS on
+// every page. Blog posts that may contain block markup retain any block-specific
+// inline styles they emit directly; those are unaffected by this dequeue.
+add_action('wp_enqueue_scripts', function() {
+    wp_dequeue_style('wp-block-library');        // core block styles
+    wp_dequeue_style('wp-block-library-theme');  // block theme overrides
+    wp_dequeue_style('global-styles');           // WP global styles / CSS vars
+}, 100);
 
 // ─── SOCIAL / OG META TAGS ────────────────────────────────────────────────────
 // Suppress Yoast's duplicate meta description and OG tags — we handle them
