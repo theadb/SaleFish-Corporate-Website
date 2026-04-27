@@ -156,6 +156,24 @@ body {
   background: $gray; // prevents white gaps where clip-paths expose the page background
   -webkit-overflow-scrolling: touch; // enable momentum scrolling on older iOS
   overscroll-behavior-x: none;       // block horizontal overscroll without affecting vertical
+  // Crisp subpixel-free text rendering — noticeable on Retina/P3 displays in Safari
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ── iOS / Safari interaction polish ──────────────────────────────────────────
+// 1. Remove the blue-grey tap flash that iOS applies to tappable elements.
+// 2. touch-action: manipulation eliminates the 300 ms tap delay on iOS without
+//    needing a polyfill — the browser fires click immediately on touch-end.
+a,
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+.button,
+label {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 // Tidio chat widget: ensure visible on all screen sizes
@@ -183,7 +201,9 @@ main {
   background-size: 160px auto;
   background-position: center center;
   background-repeat: no-repeat;
-  transition: 500ms all ease-in-out;
+  // Animate only the properties we actually change — avoids Safari re-evaluating
+  // every CSS property on every frame, which 'all' would force.
+  transition: opacity 250ms ease, visibility 250ms ease;
   z-index: 9999;
   opacity: 1;
   visibility: visible;
