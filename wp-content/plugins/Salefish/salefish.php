@@ -60,3 +60,14 @@ if ( ! wp_next_scheduled( 'salefish_purge_expired_regs' ) ) {
 if ( is_admin() ) {
 	require_once 'admin/email-preview.php';
 }
+
+// ── Remove Marketplace CPT entirely ──────────────────────────────────────────
+// CPT UI registered it in the DB; unregister it at runtime and hide it from
+// wp-admin so it no longer appears anywhere in the back-end.
+add_action( 'init', function() {
+	unregister_post_type( 'marketplace' );
+}, 99 );
+
+add_action( 'admin_menu', function() {
+	remove_menu_page( 'edit.php?post_type=marketplace' );
+}, 99 );
