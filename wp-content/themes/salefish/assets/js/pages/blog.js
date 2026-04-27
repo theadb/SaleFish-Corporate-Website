@@ -46,11 +46,11 @@ function openVideoDialog(embedUrl) {
   var fallback = dialog.querySelector('.sf-video-dialog__fallback');
   if (fallback) fallback.href = toNativeWatchUrl(embedUrl);
   dialog.hidden = false;
-  // rAF so the browser paints the unhidden state before the transition class is added
+  // Single rAF — gives the browser one frame to paint the unhidden state,
+  // then the transition class triggers the fade. Double rAF added a wasted
+  // ~16ms; single rAF feels more responsive without losing the transition.
   requestAnimationFrame(function () {
-    requestAnimationFrame(function () {
-      dialog.classList.add('is-open');
-    });
+    dialog.classList.add('is-open');
   });
   document.body.style.overflow = 'hidden';
 }
