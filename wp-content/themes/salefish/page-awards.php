@@ -78,7 +78,7 @@ $awards = get_field('awards');
         <div class="top">
             <div class="top_content_center" data-aos="fade-up">
                 <h2>
-                    "Awards aren't the destination, they're a signal. Each recognition tells us the decisions we pushed hardest for — security built into the foundation, workflows designed for the real chaos of a new home sales office — are actually landing. The real win is a builder who closes faster and a buyer who trusts the process."
+                    "Awards are a signal, not a destination. When the industry recognizes SaleFish, it tells us the hard decisions — around security, simplicity, and the chaos of a real sales launch — were the right ones."
                 </h2>
                 <p>
                     ANDREW BLAIR <br />
