@@ -1,0 +1,29 @@
+# SaleFish
+
+> SaleFish is a real estate sales platform built for homebuilders, developers, and sales teams. It streamlines inventory management, buyer engagement, worksheets, and deal-closing for new home and condo projects — from pre-construction through to sold. Operated by The Plus Group and used by builders across Canada, Australia, Turkey, and internationally.
+
+## Key pages
+
+- [Home](https://salefish.app/): Product overview, key features, builder logos, platform stats (billions in sales, thousands of users), and demo CTA.
+- [Features](https://salefish.app/#features): Platform capabilities including inventory management, site plans, DealStream lead generation, Broker Link worksheets, virtual sales tools, and CRM integrations.
+- [Our Story](https://salefish.app/our-story/): The founding story of SaleFish — a problem-solution startup from The Plus Group that grew into one of Canada's leading proptech companies.
+- [Awards](https://salefish.app/awards/): Industry recognition and awards earned by the SaleFish platform.
+- [Partners](https://salefish.app/partners/): Integration and channel partners across the real estate technology ecosystem.
+- [Blog](https://salefish.app/blog/): Articles on real estate technology, new home sales strategy, market trends, and platform updates.
+- [Contact Us](https://salefish.app/contact-us/): Book a demo or get in touch with the SaleFish sales team.
+
+## Blog categories
+
+- [Success Stories](https://salefish.app/blog/success-stories/): Case studies and testimonials from builders using SaleFish.
+- [Press](https://salefish.app/blog/press/): News and media coverage about SaleFish.
+- [Videos](https://salefish.app/blog/videos/): Product demos, event recordings, and customer stories.
+
+## About the company
+
+SaleFish was founded to solve a real pain point in new home sales — the gap between how homes are sold and the technology available to support it. The platform is built for speed, simplicity, and scale: letting sales teams manage inventory in real time, capture and re-engage leads, process worksheets digitally, and give buyers a modern purchase experience. SaleFish is part of The Plus Group, a real estate technology and services company based in Toronto, Canada.
+
+## Optional
+
+- [Sitemap](https://salefish.app/sitemap_index.xml)
+- [Privacy Policy](https://salefish.app/privacy-policy/)
+- [Terms of Use](https://salefish.app/terms-of-use/)
