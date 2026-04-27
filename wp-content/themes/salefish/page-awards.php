@@ -78,13 +78,11 @@ $awards = get_field('awards');
         <div class="top">
             <div class="top_content_center" data-aos="fade-up">
                 <h2>
-                    "Builders, developers, and sales teams don't want to be sold
-                    to. But the SaleFish experience speaks for itself. Their job
-                    has never been easier."
+                    "Awards aren't the destination, they're a signal. Each recognition tells us the decisions we pushed hardest for — security built into the foundation, workflows designed for the real chaos of a new home sales office — are actually landing. The real win is a builder who closes faster and a buyer who trusts the process."
                 </h2>
                 <p>
-                    RICK HAWS <br />
-                    PRESIDENT &amp; CO-FOUNDER
+                    ANDREW BLAIR <br />
+                    DIRECTOR OF PRODUCT
                 </p>
             </div>
             <a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Awards — CTA">Get a Demo</a>
