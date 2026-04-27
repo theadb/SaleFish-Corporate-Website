@@ -10,8 +10,8 @@ function getDialog() {
 // always sends the user to a place where the video actually plays.
 function toNativeWatchUrl(embedUrl) {
   if (!embedUrl) return '';
-  // YouTube: https://www.youtube.com/embed/<ID>?... → https://www.youtube.com/watch?v=<ID>
-  var ytm = /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/.exec(embedUrl);
+  // YouTube: youtube[-nocookie].com/embed/<ID>?... → youtube.com/watch?v=<ID>
+  var ytm = /(?:youtube\.com|youtube-nocookie\.com)\/embed\/([a-zA-Z0-9_-]{11})/.exec(embedUrl);
   if (ytm) return 'https://www.youtube.com/watch?v=' + ytm[1];
   // Vimeo: https://player.vimeo.com/video/<ID>?... → https://vimeo.com/<ID>
   var vm = /player\.vimeo\.com\/video\/(\d+)/.exec(embedUrl);

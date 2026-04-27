@@ -555,6 +555,13 @@ function sf_video_embed_url( $url, $autoplay = true ) {
     $ap  = $autoplay ? '1' : '0';
 
     // ── YouTube ──────────────────────────────────────────────────────────────
+    // Use youtube-nocookie.com instead of youtube.com — YouTube's privacy-
+    // enhanced embed mode that does NOT require third-party cookies. Safari's
+    // Intelligent Tracking Prevention (ITP) and cross-site cookie blocking
+    // cause the standard youtube.com embed to fail with player error 153 in
+    // Safari. The nocookie variant bypasses this entirely while still serving
+    // the same video. Same domain works in Chrome too — drop-in upgrade.
+    //
     // Params:
     //   autoplay      — 1 in modal (click triggered), 0 on direct page load
     //   rel=0         — only show related videos from the same channel
@@ -562,10 +569,10 @@ function sf_video_embed_url( $url, $autoplay = true ) {
     //   playsinline=1 — required for iOS Safari to play inline rather than
     //                   force-fullscreen, which kills autoplay on mobile
     if ( preg_match(
-        '/(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/',
+        '/(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/)|youtu\.be\/|youtube-nocookie\.com\/embed\/)([a-zA-Z0-9_-]{11})/',
         $url, $m
     ) ) {
-        return 'https://www.youtube.com/embed/' . $m[1]
+        return 'https://www.youtube-nocookie.com/embed/' . $m[1]
              . '?autoplay=' . $ap
              . '&rel=0&modestbranding=1&playsinline=1';
     }
