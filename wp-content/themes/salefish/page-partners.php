@@ -79,6 +79,33 @@ if (is_array($fade_msg)) {
                 <p>We’ll handle the heavy lifting. You keep the upside.</p>
                 <p>Let’s change how new real estate gets sold—and make you a key part of it.</p>
             </div>
+
+            <!-- LOGO STRIP -->
+            <div class="logo-strip" data-aos="fade-up">
+                <p class="logo-strip__label">Tools You Already Trust. Now Working Together.</p>
+                <div class="logo-strip__grid">
+                    <div class="logo-strip__col">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_1.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
+                    </div>
+                    <div class="logo-strip__col">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_2.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
+                    </div>
+                    <div class="logo-strip__col">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_3.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
+                    </div>
+                    <div class="logo-strip__col">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_4.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
+                    </div>
+                    <div class="logo-strip__col">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_5.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
+                    </div>
+                    <div class="logo-strip__col">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_6.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
+                    </div>
+                </div>
+            </div>
+            <!-- END LOGO STRIP -->
+
             <div class="items">
                 <div class="item" data-aos="fade-up">
                     <div class="info">
@@ -96,31 +123,7 @@ if (is_array($fade_msg)) {
                             alt="CRM integration dashboard screenshot">
                     </div>
                 </div>
-                <div class="item_img" data-aos="fade-up">
-                    <p>Tools You Already Trust. Now Working Together.</p>
-                    <div class="logos">
-                        <div class="col">
-                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_1.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
-                        </div>
-                        <div class="col">
-                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_2.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
-                        </div>
-                        <div class="col">
-                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_3.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
-                        </div>
-                        <div class="col">
-                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_4.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
-                        </div>
-                        <div class="col">
-                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_5.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
-                        </div>
-                        <div class="col">
-                            <img src="<?php echo get_template_directory_uri(); ?>/img/partners/logo_6.png" loading="lazy" decoding="async" alt="" aria-hidden="true">
-                        </div>
-
-                    </div>
-                </div>
-                <div class="item" data-aos="fade-up">
+                <div class="item" data-aos="fade-up" data-aos-delay="100">
                     <div class="info">
                         <h4>Know People? Get Paid.</h4>
                         <h3>Referral Partners</h3>
@@ -136,7 +139,7 @@ if (is_array($fade_msg)) {
                             alt="SaleFish referral notification illustration">
                     </div>
                 </div>
-                <div class="item" data-aos="fade-up">
+                <div class="item" data-aos="fade-up" data-aos-delay="200">
                     <div class="info">
                         <h4>Sell the Platform That Sells.</h4>
                         <h3>Reseller Partners</h3>
