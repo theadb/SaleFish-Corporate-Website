@@ -219,12 +219,12 @@
 
       &__grid {
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        gap: 0 40px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px 48px;
         align-items: center;
         justify-items: center;
 
-        @include rs990 { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+        @include rs990 { gap: 32px 36px; }
         @include rs550 { grid-template-columns: repeat(2, 1fr); gap: 28px 24px; }
       }
 
@@ -237,15 +237,15 @@
         img {
           width: 100%;
           height: auto;
-          max-height: 52px;
+          max-height: 80px;
           object-fit: contain;
           display: block;
           opacity: 0.72;
           transition: opacity 0.25s ease, transform 0.25s ease;
           will-change: transform, opacity;
 
-          @include rs990 { max-height: 48px; }
-          @include rs550 { max-height: 44px; }
+          @include rs990 { max-height: 68px; }
+          @include rs550 { max-height: 56px; }
         }
 
         &:hover img {
