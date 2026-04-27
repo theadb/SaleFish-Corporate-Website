@@ -3,6 +3,16 @@ RewriteCond %{HTTP_HOST} salefish\.app [NC]
 RewriteCond %{SERVER_PORT} 80
 RewriteRule ^(.*)$ https://salefish.app/$1 [R,L]
 
+# BEGIN Sensitive Path Blocking
+# Block direct web access to .git, .env, and similar sensitive paths
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^\.git(/.*)?$  - [F,L]
+RewriteRule ^\.env$        - [F,L]
+RewriteRule ^wp-config\.php$ - [F,L]
+</IfModule>
+# END Sensitive Path Blocking
+
 # BEGIN Security Headers
 <IfModule mod_headers.c>
     Header always set X-Frame-Options "SAMEORIGIN"
