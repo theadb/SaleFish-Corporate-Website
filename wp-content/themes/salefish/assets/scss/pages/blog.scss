@@ -627,4 +627,34 @@
       max-height: 100vh;
     }
   }
+
+  // Fallback "Watch on YouTube" link — sits below the iframe, only visible
+  // when the user can see this corner (handy if the embed errors and the
+  // panel shows blank/dark). Subtle so it doesn't compete with a working
+  // video; clear enough that it's findable when the embed fails.
+  &__fallback {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    color: rgba(#fff, 0.7);
+    font-family: $PSB;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: color 0.15s ease, background 0.15s ease;
+    pointer-events: auto;
+    white-space: nowrap;
+
+    &:hover {
+      color: #fff;
+      background: rgba(0, 0, 0, 0.6);
+    }
+  }
 }
