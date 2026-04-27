@@ -7,6 +7,30 @@ $title        = get_the_title();
 $content      = get_the_content();
 $category     = get_the_category( $id );
 $thumb        = get_the_post_thumbnail( $id, 'large' );
+
+// ── Video post detection ─────────────────────────────────────────────────
+// For posts in the "Videos" category, the post body is just the video URL.
+// wp_kses_post() strips the auto-embedded iframe, so the body would render
+// as empty <p></p>. Detect and render the video as the hero instead.
+$is_video_post = false;
+$video_embed   = '';
+if ( $category ) {
+	foreach ( $category as $cat ) {
+		if ( $cat->category_nicename === 'videos' ) {
+			$is_video_post = true;
+			break;
+		}
+	}
+}
+if ( $is_video_post ) {
+	// autoplay=false on direct page load — browsers block autoplay without
+	// user interaction anyway, and the page should let the user read meta first
+	$video_embed = sf_video_embed_url( $content, false );
+	// Fall back to thumb image if URL didn't resolve to a known video host
+	if ( $video_embed === trim( strip_tags( $content ) ) ) {
+		$is_video_post = false;
+	}
+}
 $date         = get_the_date( 'M j, Y' );
 $author_id    = get_post_field( 'post_author', $id );
 $author_fname = get_the_author_meta( 'first_name', $author_id );
@@ -62,8 +86,22 @@ get_header();
 		</div>
 	</div>
 
-	<!-- HERO IMAGE -->
-	<?php if ( $thumb ) : ?>
+	<!-- HERO: video for video posts, image otherwise -->
+	<?php if ( $is_video_post && $video_embed ) : ?>
+	<div class="sp-hero-wrap">
+		<div class="max_wrapper">
+			<div class="sp-hero sp-hero--video">
+				<iframe
+					src="<?php echo esc_url( $video_embed ); ?>"
+					title="<?php echo esc_attr( $title ); ?>"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+					referrerpolicy="strict-origin-when-cross-origin"
+					allowfullscreen
+					loading="lazy"></iframe>
+			</div>
+		</div>
+	</div>
+	<?php elseif ( $thumb ) : ?>
 	<div class="sp-hero-wrap">
 		<div class="max_wrapper">
 			<div class="sp-hero"><?php echo $thumb; ?></div>
@@ -161,7 +199,21 @@ get_header();
 
 				<!-- ARTICLE CONTENT -->
 				<div class="sp-content">
-					<?php echo wp_kses_post( apply_filters( 'the_content', $content ) ); ?>
+					<?php
+					if ( $is_video_post ) {
+						// Video URL is already rendered as the hero player above.
+						// Show a small "Watch on YouTube/Vimeo" caption instead of
+						// echoing the URL through the_content (which strips iframes
+						// via wp_kses_post and produced an empty <p></p>).
+						$raw_url = trim( strip_tags( $content ) );
+						if ( $raw_url ) {
+							$platform = ( strpos( $raw_url, 'youtu' ) !== false ) ? 'YouTube' : 'Vimeo';
+							echo '<p class="sp-content__video-caption"><a href="' . esc_url( $raw_url ) . '" target="_blank" rel="noopener noreferrer">Watch on ' . esc_html( $platform ) . ' &rarr;</a></p>';
+						}
+					} else {
+						echo wp_kses_post( apply_filters( 'the_content', $content ) );
+					}
+					?>
 				</div>
 
 			</div><!-- .sp-body -->
