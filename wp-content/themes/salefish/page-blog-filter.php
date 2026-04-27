@@ -173,4 +173,26 @@ get_header();
 }());
 </script>
 
+<?php
+// Category-aware CTA copy — mirrors single-post.php logic
+$is_success_cat = ( $cat_filter === 'success-stories' );
+$cta_heading    = $is_success_cat ? 'Ready to See Results Like These?' : 'See SaleFish in Action';
+$cta_subtext    = $is_success_cat
+    ? 'Join the builders and developers who are outselling the competition with SaleFish.'
+    : 'The all-in-one platform built for new home sales teams who expect to win.';
+$cta_label      = $is_success_cat ? 'Get My Demo' : 'Get a Demo';
+?>
+
+<!-- BLOG CATEGORY CTA STRIP -->
+<section class="sp-cta">
+	<div class="max_wrapper">
+		<div class="sp-cta__inner">
+			<h2><?php echo esc_html( $cta_heading ); ?></h2>
+			<p><?php echo esc_html( $cta_subtext ); ?></p>
+			<button class="sp-cta__btn" data-sf-modal="register"><?php echo esc_html( $cta_label ); ?></button>
+		</div>
+	</div>
+</section>
+<!-- END BLOG CATEGORY CTA STRIP -->
+
 <?php get_footer(); ?>

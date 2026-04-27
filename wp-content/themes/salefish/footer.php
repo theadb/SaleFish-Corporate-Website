@@ -270,9 +270,10 @@ s.parentNode.insertBefore(b, s);})(window.lintrk);
 
 <!-- Pinned to a specific version so the browser can cache across visits.
      v0.468.0 is post-brand-icon removal (linkedin/instagram were removed in v0.453).
-     To update: change the version number and clear the CDN cache. -->
-<script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-<script>lucide.createIcons();</script>
+     To update: change the version number and clear the CDN cache.
+     async: non-blocking — does not delay window.load; onload fires createIcons()
+     once the script is ready regardless of when that happens. -->
+<script async src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js" onload="lucide.createIcons()"></script>
 </body>
 
 </html>

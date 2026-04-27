@@ -107,7 +107,7 @@
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
 <header class="default" >
-	<div class="max_wrapper" data-aos="fade-down" data-aos-delay="200">
+	<div class="max_wrapper" data-aos="fade-down">
 		<div class="salefish">
 			<a href="/">
 				<img class="salefish_logo"
@@ -170,7 +170,7 @@
 </header>
 
 <header class="blog_header">
-	<div class="max_wrapper" data-aos="fade-down" data-aos-delay="200">
+	<div class="max_wrapper" data-aos="fade-down">
 		<div class="salefish">
 			<a href="/">
 				<img class="salefish_logo"
@@ -234,7 +234,7 @@
 </header>
 
 <header class="de_header">
-	<div class="max_wrapper" data-aos="fade-down" data-aos-delay="200">
+	<div class="max_wrapper" data-aos="fade-down">
 		<div class="salefish">
 			<a href="/">
 				<img class="salefish_logo"
@@ -291,7 +291,7 @@
 </header>
 
 <header class="tr_header">
-	<div class="max_wrapper" data-aos="fade-down" data-aos-delay="200">
+	<div class="max_wrapper" data-aos="fade-down">
 		<div class="salefish">
 			<a href="/">
 				<img class="salefish_logo"
