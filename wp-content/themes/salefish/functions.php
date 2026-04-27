@@ -150,10 +150,12 @@ add_action('wp_enqueue_scripts', 'kickass_scripts');
 // ── Performance: resource hints ───────────────────────────────────────────────
 add_action('wp_head', function() {
     echo '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>' . "\n";
+    echo '<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>' . "\n";
     echo '<link rel="preconnect" href="https://maps.googleapis.com" crossorigin>' . "\n";
     echo '<link rel="preconnect" href="https://maps.gstatic.com" crossorigin>' . "\n";
     echo '<link rel="dns-prefetch" href="//code.tidio.co">' . "\n";
     echo '<link rel="dns-prefetch" href="//www.googletagmanager.com">' . "\n";
+    echo '<link rel="dns-prefetch" href="//snap.licdn.com">' . "\n";
 }, 2);
 
 // ── Performance: remove unused WordPress emoji scripts ─────────────────────────

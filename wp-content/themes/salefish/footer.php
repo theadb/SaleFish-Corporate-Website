@@ -226,8 +226,8 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <?php endif; ?>
 <!-- jQuery loaded via wp_enqueue_script — salefishAjax provided by wp_localize_script -->
-<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16/dist/smooth-scroll.polyfills.min.js"></script>
+<!-- isotope-layout: removed — was imported but never called; CDN request was dead weight -->
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16/dist/smooth-scroll.polyfills.min.js" defer></script>
 <script>
 const BASEURL = '<?php echo get_template_directory_uri(); ?>';
 </script>
@@ -269,7 +269,10 @@ s.parentNode.insertBefore(b, s);})(window.lintrk);
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+<!-- Pinned to a specific version so the browser can cache across visits.
+     v0.468.0 is post-brand-icon removal (linkedin/instagram were removed in v0.453).
+     To update: change the version number and clear the CDN cache. -->
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js"></script>
 <script>lucide.createIcons();</script>
 </body>
 

@@ -65,9 +65,21 @@ import { single_post } from "./pages/single_post";
   });
 }());
 
+// Show the footer and dismiss the loading overlay.
+// We use window.load so the overlay stays until images are painted, but cap
+// it at 3 000 ms so a slow external script (Maps, HubSpot, etc.) never keeps
+// the footer hidden indefinitely.
+var _sfFooterShown = false;
+function _sfShowFooter() {
+  if (_sfFooterShown) return;
+  _sfFooterShown = true;
+  $(".loading").addClass("active");
+  $("footer").css("display", "block");
+}
+
 window.addEventListener("load", function () {
-  setTimeout(function () {
-    $(".loading").addClass("active");
-    $("footer").css("display", "block");
-  }, 150);
+  setTimeout(_sfShowFooter, 150);
 });
+
+// Safety cap: always show footer within 3 s regardless of load state.
+setTimeout(_sfShowFooter, 3000);
