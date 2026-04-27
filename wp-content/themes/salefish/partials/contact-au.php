@@ -49,6 +49,11 @@
 						data-parsley-minlength-message="This value should be a valid phone number.">
 				</div>
 			</div>
+			<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
+			<div class="row row-turnstile">
+				<div class="cf-turnstile" data-sitekey="<?php echo esc_attr( SALEFISH_CF_TURNSTILE_SITEKEY ); ?>" data-theme="dark"></div>
+			</div>
+			<?php endif; ?>
 			<div class="row">
 				<input class="submit" type="submit" value="REGISTER">
 			</div>

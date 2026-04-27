@@ -59,13 +59,100 @@ function salefish_trigger_preview_automations() {
 }
 add_action( 'wp_ajax_salefish_trigger_preview_automations', 'salefish_trigger_preview_automations' );
 
+// ── AJAX: SMTP diagnostic — tests each layer and captures PHPMailer debug ────
+
+function salefish_mail_diagnostic() {
+	check_ajax_referer( 'salefish_send_previews', 'nonce' );
+	if ( ! current_user_can( 'manage_options' ) ) wp_die( 'Unauthorized' );
+
+	$log = [];
+
+	// Layer 1 — TCP connectivity to SendGrid port 587
+	$log[] = '=== Layer 1: TCP connectivity to smtp.sendgrid.net:587 ===';
+	$errno = 0; $errstr = '';
+	$socket = @fsockopen( 'smtp.sendgrid.net', 587, $errno, $errstr, 8 );
+	if ( $socket ) {
+		fclose( $socket );
+		$log[] = '✓ TCP connection SUCCEEDED';
+	} else {
+		$log[] = "✗ TCP connection FAILED — errno={$errno} errstr={$errstr}";
+		$log[] = 'DIAGNOSIS: Server firewall is blocking outbound port 587. SMTP cannot work.';
+	}
+
+	// Layer 2 — PHP extensions
+	$log[] = '';
+	$log[] = '=== Layer 2: PHP extensions ===';
+	$log[] = 'OpenSSL: ' . ( extension_loaded( 'openssl' ) ? '✓ loaded' : '✗ MISSING — TLS impossible' );
+	$log[] = 'OpenSSL version: ' . ( defined( 'OPENSSL_VERSION_TEXT' ) ? OPENSSL_VERSION_TEXT : 'unknown' );
+
+	// Layer 3 — SMTP constants
+	$log[] = '';
+	$log[] = '=== Layer 3: SMTP configuration in wp-config.php ===';
+	$log[] = 'SALEFISH_SMTP_HOST:   ' . ( defined( 'SALEFISH_SMTP_HOST'   ) ? SALEFISH_SMTP_HOST   : 'NOT DEFINED' );
+	$log[] = 'SALEFISH_SMTP_PORT:   ' . ( defined( 'SALEFISH_SMTP_PORT'   ) ? SALEFISH_SMTP_PORT   : 'NOT DEFINED' );
+	$log[] = 'SALEFISH_SMTP_USER:   ' . ( defined( 'SALEFISH_SMTP_USER'   ) ? SALEFISH_SMTP_USER   : 'NOT DEFINED' );
+	$log[] = 'SALEFISH_SMTP_PASS:   ' . ( defined( 'SALEFISH_SMTP_PASS'   ) ? '(set, length=' . strlen( SALEFISH_SMTP_PASS ) . ')' : 'NOT DEFINED' );
+	$log[] = 'SALEFISH_SMTP_SECURE: ' . ( defined( 'SALEFISH_SMTP_SECURE' ) ? SALEFISH_SMTP_SECURE : 'NOT DEFINED' );
+
+	// Layer 4 — wp_mail() with full PHPMailer debug capture
+	$log[] = '';
+	$log[] = '=== Layer 4: wp_mail() test (sending to andrewdavidblair@gmail.com) ===';
+
+	$debug_lines = [];
+	$debug_hook  = function ( PHPMailer\PHPMailer\PHPMailer $mailer ) use ( &$debug_lines ) {
+		$mailer->SMTPDebug   = 3; // 3 = full client+server transcript
+		$mailer->Debugoutput = function ( string $msg, int $level ) use ( &$debug_lines ) {
+			$debug_lines[] = trim( $msg );
+		};
+	};
+	add_action( 'phpmailer_init', $debug_hook, 20 );
+
+	$mail_error = null;
+	$fail_hook  = function ( WP_Error $err ) use ( &$mail_error ) {
+		$mail_error = $err->get_error_message();
+		$data       = $err->get_error_data();
+		if ( ! empty( $data['phpmailer_exception_code'] ) ) {
+			$mail_error .= ' (code ' . $data['phpmailer_exception_code'] . ')';
+		}
+	};
+	add_action( 'wp_mail_failed', $fail_hook );
+
+	$sent = wp_mail(
+		'andrewdavidblair@gmail.com',
+		'SaleFish SMTP Diagnostic — ' . date( 'H:i:s' ),
+		'<p>This is a diagnostic email from the SaleFish admin panel. If you received it, SMTP is working.</p>',
+		[ 'Content-Type: text/html; charset=UTF-8', 'From: SaleFish <hello@salefish.app>' ]
+	);
+
+	remove_action( 'phpmailer_init', $debug_hook, 20 );
+	remove_action( 'wp_mail_failed', $fail_hook );
+
+	$log[] = 'wp_mail() returned: ' . ( $sent ? '✓ TRUE — accepted by transport' : '✗ FALSE — transport rejected it' );
+	if ( $mail_error ) {
+		$log[] = 'wp_mail_failed error: ' . $mail_error;
+	}
+	if ( $debug_lines ) {
+		$log[] = '';
+		$log[] = '--- PHPMailer SMTP transcript ---';
+		foreach ( $debug_lines as $line ) {
+			$log[] = $line;
+		}
+	} else {
+		$log[] = '(No PHPMailer debug output captured — transport may not be SMTP)';
+	}
+
+	wp_send_json_success( [ 'log' => $log ] );
+}
+add_action( 'wp_ajax_salefish_mail_diagnostic', 'salefish_mail_diagnostic' );
+
 // ── AJAX: send all 7 test emails directly via wp_mail() ──────────────────────
 
 function salefish_send_test_emails() {
 	check_ajax_referer( 'salefish_send_previews', 'nonce' );
 	if ( ! current_user_can( 'manage_options' ) ) wp_die( 'Unauthorized' );
 
-	$test_email = 'andrewdb@salefish.app';
+	// Send to real Gmail inbox so we bypass any salefish.app mailbox issues
+	$test_email = 'andrewdavidblair@gmail.com';
 	$test_first = 'Andrew';
 
 	$sample_general = [
@@ -92,12 +179,16 @@ function salefish_send_test_emails() {
 	$token = Salefish_Email_Verify::create( 'general', $sample_general );
 	$results['verification'] = Salefish_Email_Verify::send_confirmation( $test_email, $token, 'general' ) ? 'sent' : 'failed';
 
-	// 2–4. Admin notification emails (→ hello@salefish.app)
-	$results['notification_general'] = salefish_send_notification( $sample_general, 'general' ) ? 'sent' : 'failed';
-	$results['notification_agent']   = salefish_send_notification( $sample_agent,   'agent'   ) ? 'sent' : 'failed';
-	$results['notification_partner'] = salefish_send_notification( $sample_partner, 'partner' ) ? 'sent' : 'failed';
+	// 2–4. Admin notification emails (redirected to Gmail for testing)
+	$notif_headers = [
+		'Content-Type: text/html; charset=UTF-8',
+		'From: SaleFish <hello@salefish.app>',
+	];
+	$results['notification_general'] = wp_mail( $test_email, '[TEST] New Registration — SaleFish (General)', salefish_notification_email_html( $sample_general, 'general' ), $notif_headers ) ? 'sent' : 'failed';
+	$results['notification_agent']   = wp_mail( $test_email, '[TEST] New Registration — SaleFish (Agent)',   salefish_notification_email_html( $sample_agent,   'agent'   ), $notif_headers ) ? 'sent' : 'failed';
+	$results['notification_partner'] = wp_mail( $test_email, '[TEST] New Registration — SaleFish (Partner)', salefish_notification_email_html( $sample_partner, 'partner' ), $notif_headers ) ? 'sent' : 'failed';
 
-	// 5–7. Autoresponder emails (→ andrewdb@salefish.app)
+	// 5–7. Autoresponder emails (→ Gmail)
 	$results['autoresponder_general'] = salefish_send_autoresponder( $test_email, $test_first, 'general' ) ? 'sent' : 'failed';
 	$results['autoresponder_agent']   = salefish_send_autoresponder( $test_email, $test_first, 'agent'   ) ? 'sent' : 'failed';
 	$results['autoresponder_partner'] = salefish_send_autoresponder( $test_email, $test_first, 'partner' ) ? 'sent' : 'failed';
@@ -169,13 +260,26 @@ function salefish_email_preview_page() {
 	<div class="wrap">
 		<h1>SaleFish Email Previews</h1>
 
+		<!-- SMTP Diagnostic panel -->
+		<div style="background:#e3f2fd;border:1px solid #2196f3;border-radius:4px;padding:16px 20px;margin-bottom:12px;max-width:800px">
+			<strong>Step 1 — Run SMTP Diagnostic (start here if emails aren't arriving):</strong>
+			<p style="margin:8px 0 12px;color:#333;font-size:13px;">
+				Sends ONE email to <code>andrewdavidblair@gmail.com</code> and captures the full PHPMailer SMTP transcript.
+				Reveals exactly which layer is failing: TCP, TLS, auth, or delivery.
+			</p>
+			<div style="display:flex;align-items:center;gap:16px;">
+				<button id="sf-diagnostic" class="button button-primary">Run SMTP Diagnostic</button>
+				<span id="sf-diag-status" style="font-weight:bold;font-size:13px;"></span>
+			</div>
+			<pre id="sf-diag-log" style="display:none;margin-top:12px;font-size:11px;line-height:1.5;background:#0a0a0a;color:#e0e0e0;padding:14px;border-radius:4px;overflow-x:auto;white-space:pre-wrap;"></pre>
+		</div>
+
 		<!-- Test send panel -->
 		<div style="background:#e8f5e9;border:1px solid #4caf50;border-radius:4px;padding:16px 20px;margin-bottom:16px;max-width:800px">
-			<strong>Send all 7 test emails via wp_mail() right now:</strong>
+			<strong>Step 2 — Send all 7 test emails via wp_mail():</strong>
 			<p style="margin:8px 0 12px;color:#333;font-size:13px;">
-				Sends verification + 3 autoresponders to <code>andrewdb@salefish.app</code>
-				and 3 admin notifications to <code>hello@salefish.app</code>.
-				No ActiveCampaign involvement — this tests raw email delivery only.
+				Sends verification + 3 autoresponders + 3 admin notifications to <code>andrewdavidblair@gmail.com</code>.
+				No ActiveCampaign involvement — run the diagnostic first to confirm SMTP is working.
 			</p>
 			<div style="display:flex;align-items:center;gap:16px;">
 				<button id="sf-send-emails" class="button button-primary">Send All 7 Test Emails Now</button>
@@ -236,6 +340,49 @@ function salefish_email_preview_page() {
 	</div>
 
 	<script>
+	// SMTP Diagnostic
+	document.getElementById('sf-diagnostic').addEventListener('click', function() {
+		var btn    = this;
+		var status = document.getElementById('sf-diag-status');
+		var log    = document.getElementById('sf-diag-log');
+		btn.disabled = true;
+		status.style.color = '#333';
+		status.textContent = 'Running diagnostic…';
+		log.style.display = 'none';
+
+		var fd = new FormData();
+		fd.append('action', 'salefish_mail_diagnostic');
+		fd.append('nonce', '<?php echo esc_js( $nonce ); ?>');
+		fetch('<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>', { method: 'POST', body: fd })
+			.then(function(r) { return r.text(); })
+			.then(function(raw) {
+				log.style.display = 'block';
+				try {
+					var res = JSON.parse(raw);
+					if (res.success && res.data && res.data.log) {
+						log.textContent = res.data.log.join('\n');
+						var hasError = res.data.log.some(function(l){ return l.indexOf('✗') !== -1 || l.indexOf('FAILED') !== -1; });
+						status.style.color = hasError ? 'orange' : 'green';
+						status.textContent = hasError ? '⚠ Issues found — see transcript' : '✓ Diagnostic complete';
+					} else {
+						log.textContent = 'Unexpected response:\n' + JSON.stringify(res, null, 2);
+						status.style.color = 'red';
+						status.textContent = 'Error — see log';
+					}
+				} catch(e) {
+					log.textContent = 'Raw response (not JSON):\n' + raw;
+					status.style.color = 'red';
+					status.textContent = 'PHP error — see raw response above';
+				}
+				btn.disabled = false;
+			})
+			.catch(function(err) {
+				status.style.color = 'red';
+				status.textContent = 'Network error: ' + err.message;
+				btn.disabled = false;
+			});
+	});
+
 	// Trigger AC automations
 	document.getElementById('sf-trigger-test').addEventListener('click', function() {
 		var btn = this, status = document.getElementById('sf-send-status');

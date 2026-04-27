@@ -225,9 +225,8 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
 <?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <?php endif; ?>
-<!-- jQuery loaded via wp_enqueue_script — salefishAjax provided by wp_localize_script -->
+<!-- jQuery and smooth-scroll are bundled into app.js via webpack — no CDN requests needed -->
 <!-- isotope-layout: removed — was imported but never called; CDN request was dead weight -->
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16/dist/smooth-scroll.polyfills.min.js" defer></script>
 <script>
 const BASEURL = '<?php echo get_template_directory_uri(); ?>';
 </script>
