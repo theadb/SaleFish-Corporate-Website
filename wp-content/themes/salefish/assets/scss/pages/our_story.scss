@@ -254,7 +254,26 @@
         will-change: transform;
       }
 
-      .button { display: inline-block; }
+      // Matches the transparent text-link CTA style used in the Features section
+      // and Partners cards — no gold background, just dark-purple text + arrow.
+      .button {
+        background: transparent;
+        color: $dark_purple;
+        padding: 0;
+        border-radius: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: $PSB;
+        font-size: 0.85em;
+
+        &::after {
+          content: '→';
+          transition: transform 0.2s ease;
+        }
+
+        &:hover::after { transform: translateX(4px); }
+      }
     }
   }
 

@@ -1,5 +1,3 @@
-import isotope from "isotope-layout/dist/isotope.pkgd";
-
 // ── Video Dialog ────────────────────────────────────────────────────────────
 // Lazily resolves the dialog element so it works regardless of script/HTML order.
 function getDialog() {

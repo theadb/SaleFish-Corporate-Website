@@ -34,7 +34,7 @@ if (page === 'contact_us') {
 
 		google.maps.event.addListener(marker, "click", function () {
 			window.open(
-				"https://www.google.com/maps/place/8395+Jane+St+%23203,+Concord,+ON+L4K+5Y2/@43.8121808,-79.5277303,17z/data=!3m1!4b1!4m5!3m4!1s0x882b2f0f9ebd82b9:0x617bae8e4bdb708b!8m2!3d43.8121808!4d-79.5277303",
+				"https://www.google.com/maps/place/SaleFish/@43.81222,-79.5303027,17z/data=!3m2!4b1!5s0x882b2f0f9f26ad5d:0x5d7ceb7d2cfbb7ab!4m6!3m5!1s0x882b2f0fa479e625:0xb7be17627d10ba9f!8m2!3d43.81222!4d-79.5277278!16s%2Fg%2F11bxfkmkzj?entry=ttu&g_ep=EgoyMDI2MDQxOS4wIKXMDSoASAFQAw%3D%3D",
 				"_blank"
 			);
 		});
