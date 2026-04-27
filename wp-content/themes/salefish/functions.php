@@ -541,24 +541,40 @@ add_filter( 'embed_oembed_html', function ( $html, $url, $attr, $post_id ) {
 // ── Video helpers ─────────────────────────────────────────────────────────────
 
 /**
- * Return a normalised autoplay embed URL for YouTube or Vimeo.
+ * Return a normalised embed URL for YouTube or Vimeo.
  * Supports: youtube.com/watch?v=, youtu.be/, youtube.com/shorts/, vimeo.com/ID
  * Falls back to the original URL for any unrecognised input.
+ *
+ * @param string $url      Source URL (raw post content or single URL)
+ * @param bool   $autoplay Whether to autoplay (true for click-triggered modal,
+ *                         false for in-page hero where the user hasn't yet
+ *                         interacted — modern browsers block autoplay anyway)
  */
-function sf_video_embed_url( $url ) {
+function sf_video_embed_url( $url, $autoplay = true ) {
     $url = trim( strip_tags( $url ) );
+    $ap  = $autoplay ? '1' : '0';
 
     // ── YouTube ──────────────────────────────────────────────────────────────
+    // Params:
+    //   autoplay      — 1 in modal (click triggered), 0 on direct page load
+    //   rel=0         — only show related videos from the same channel
+    //   modestbranding=1 — minimal YouTube branding for cleaner UI
+    //   playsinline=1 — required for iOS Safari to play inline rather than
+    //                   force-fullscreen, which kills autoplay on mobile
     if ( preg_match(
         '/(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/',
         $url, $m
     ) ) {
-        return 'https://www.youtube.com/embed/' . $m[1] . '?autoplay=1&rel=0';
+        return 'https://www.youtube.com/embed/' . $m[1]
+             . '?autoplay=' . $ap
+             . '&rel=0&modestbranding=1&playsinline=1';
     }
 
     // ── Vimeo ─────────────────────────────────────────────────────────────────
     if ( preg_match( '/vimeo\.com\/(?:video\/)?(\d+)/', $url, $m ) ) {
-        return 'https://player.vimeo.com/video/' . $m[1] . '?autoplay=1';
+        return 'https://player.vimeo.com/video/' . $m[1]
+             . '?autoplay=' . $ap
+             . '&dnt=1&playsinline=1';
     }
 
     return $url;

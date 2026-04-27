@@ -255,7 +255,7 @@ s.parentNode.insertBefore(b, s);})(window.lintrk);
     <button class="sf-video-dialog__close" aria-label="Close video">
       <i data-lucide="x"></i>
     </button>
-    <iframe class="sf-video-dialog__iframe" src="" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture" title="Video player"></iframe>
+    <iframe class="sf-video-dialog__iframe" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Video player"></iframe>
   </div>
 </div>
 

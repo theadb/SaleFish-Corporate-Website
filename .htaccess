@@ -7,6 +7,11 @@ RewriteRule ^(.*)$ https://salefish.app/$1 [R,L]
 <IfModule mod_headers.c>
     Header always set X-Frame-Options "SAMEORIGIN"
     Header always set X-Content-Type-Options "nosniff"
+    # Unset any duplicate Referrer-Policy added by hosting/PHP/security plugins
+    # so our value below is the only one sent. Without this dedup, browsers
+    # honour the most restrictive — when the duplicate is "no-referrer",
+    # YouTube embed iframes get no Referer and fail with player error 153.
+    Header always unset Referrer-Policy
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
     Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
 </IfModule>
