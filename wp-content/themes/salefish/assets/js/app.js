@@ -84,6 +84,12 @@ import { single_post } from "./pages/single_post";
       io.observe(el);
     });
 
+    // Immediately reveal anything already in or above the viewport at setup time.
+    // Fixes the fast-scroll-before-DOMContentLoaded bug: if the user was already
+    // scrolled down when .sf-anim was added, the IO's downward-only rootMargin
+    // never fires for elements above the fold, leaving them stuck hidden.
+    sweep();
+
     window.addEventListener('scroll', function () {
       clearTimeout(sweepTimer);
       sweepTimer = setTimeout(sweep, 120);
@@ -120,25 +126,23 @@ function _sfShowFooter() {
   $("footer").css("display", "block");
 }
 
-// Dismiss overlay as soon as the DOM is ready.
-// Defensive readyState check: app.js is a footer script, so DOMContentLoaded
-// may have already fired by the time this code runs. Both paths call the same
-// function so behaviour is identical regardless of execution order.
+// Dismiss overlay AND show footer as soon as the DOM is ready.
+//
+// Footer was previously deferred to window.load, but that meant users who
+// scrolled quickly to the bottom would see a blank/missing footer for up to
+// 3 s while third-party scripts (Tidio, Lucide, GTM) finished loading.
+// The loading overlay covers the page until DOMContentLoaded anyway, so
+// there is no visual benefit to hiding the footer any longer than the overlay.
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', function () {
     setTimeout(_sfDismissOverlay, 100);
+    setTimeout(_sfShowFooter, 100);
   });
 } else {
-  // DOM already parsed — dismiss immediately (+ 100 ms micro-delay for paint)
   setTimeout(_sfDismissOverlay, 100);
+  setTimeout(_sfShowFooter, 100);
 }
-// Absolute safety cap: guarantees overlay is gone within 1.5 s even if
-// something unusual prevents both paths above from running.
+// Safety caps — guarantee both are done within 1.5 s even if DOMContentLoaded
+// never fires on a broken page.
 setTimeout(_sfDismissOverlay, 1500);
-
-// Show footer once all page resources have loaded
-window.addEventListener("load", function () {
-  setTimeout(_sfShowFooter, 150);
-});
-// Safety cap: always show footer within 3 s regardless of load state.
-setTimeout(_sfShowFooter, 3000);
+setTimeout(_sfShowFooter, 1500);

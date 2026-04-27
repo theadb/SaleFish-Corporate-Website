@@ -1,5 +1,8 @@
 import $ from "jquery";
-import SmoothScroll from "smooth-scroll";
+// SmoothScroll removed — replaced by native `scroll-behavior: smooth` on html
+// plus `scroll-margin-top: 80px` on [id] elements (see _general.scss).
+// This eliminates SmoothScroll's document-level click listener which ran
+// synchronously on every single click event on the page.
 import parsley from "./tools/parsley";
 import flowtype from "./tools/flowtype";
 import mask from "./tools/jquery.mask";
@@ -24,12 +27,6 @@ $(function () {
   };
 
   let pathname = $(location).attr("pathname");
-
-  let scroll = new SmoothScroll('a[href*="#"]', {
-    offset: function (anchor, toggle) {
-      return 70;
-    },
-  });
 
   $("#phone").mask("000-000-0000");
   $("#sf_reg_phone").mask("000-000-0000");
