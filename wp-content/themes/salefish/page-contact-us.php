@@ -96,4 +96,7 @@ get_header();
 </main>
 
 <?php get_footer(); ?>
-<script async src="https://maps.googleapis.com/maps/api/js?key=<?php echo esc_attr( defined( 'GOOGLE_MAPS_API_KEY' ) ? GOOGLE_MAPS_API_KEY : '' ); ?>&callback=initMap"></script>
+<!-- Google Maps loader. loading=async per Google's best-practice guidance
+     (https://goo.gle/js-api-loading) — silences the "loaded directly without
+     loading=async" performance warning and lets Maps load non-blocking. -->
+<script async src="https://maps.googleapis.com/maps/api/js?key=<?php echo esc_attr( defined( 'GOOGLE_MAPS_API_KEY' ) ? GOOGLE_MAPS_API_KEY : '' ); ?>&callback=initMap&loading=async&libraries=marker&v=weekly"></script>
