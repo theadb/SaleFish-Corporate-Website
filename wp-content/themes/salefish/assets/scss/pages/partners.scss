@@ -322,11 +322,10 @@
 
           h3 {
             color: $dark_purple;
-            font-size: 1.9em;
+            font-size: 1.6em;
             line-height: 1.2;
             margin-bottom: 14px;
-
-            @include rs990 { font-size: 1.6em; }
+            white-space: nowrap;
           }
 
           p {
