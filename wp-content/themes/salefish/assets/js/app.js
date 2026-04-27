@@ -120,12 +120,20 @@ function _sfShowFooter() {
   $("footer").css("display", "block");
 }
 
-// Dismiss overlay as soon as the DOM is ready
-document.addEventListener('DOMContentLoaded', function () {
+// Dismiss overlay as soon as the DOM is ready.
+// Defensive readyState check: app.js is a footer script, so DOMContentLoaded
+// may have already fired by the time this code runs. Both paths call the same
+// function so behaviour is identical regardless of execution order.
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function () {
+    setTimeout(_sfDismissOverlay, 100);
+  });
+} else {
+  // DOM already parsed — dismiss immediately (+ 100 ms micro-delay for paint)
   setTimeout(_sfDismissOverlay, 100);
-});
-// Absolute safety cap for overlay (e.g. slow device where DOMContentLoaded
-// is already in the past by the time this script executes)
+}
+// Absolute safety cap: guarantees overlay is gone within 1.5 s even if
+// something unusual prevents both paths above from running.
 setTimeout(_sfDismissOverlay, 1500);
 
 // Show footer once all page resources have loaded

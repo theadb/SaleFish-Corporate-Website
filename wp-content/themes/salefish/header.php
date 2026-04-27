@@ -80,8 +80,30 @@
 	}
 </style>
 
-<!-- Live Chat -->
-<script src="//code.tidio.co/yz7mnwj2v5al4l2zvbdjaqbuge76emda.js" async></script>
+<!-- Live Chat — loaded lazily on first user interaction so it never competes
+     with the initial page render in Safari. Falls back to window.load + 3 s
+     for passive visitors (e.g. someone who pauses reading before scrolling). -->
+<script>
+(function () {
+  var _tidioLoaded = false;
+  function _loadTidio() {
+    if (_tidioLoaded) return;
+    _tidioLoaded = true;
+    var s = document.createElement('script');
+    s.src = '//code.tidio.co/yz7mnwj2v5al4l2zvbdjaqbuge76emda.js';
+    s.async = true;
+    document.body.appendChild(s);
+  }
+  // Fire on first meaningful user interaction
+  ['touchstart', 'mouseover', 'scroll', 'keydown', 'click'].forEach(function (e) {
+    document.addEventListener(e, _loadTidio, { once: true, passive: true });
+  });
+  // Fallback: load 3 s after window.load even if no interaction yet
+  window.addEventListener('load', function () {
+    setTimeout(_loadTidio, 3000);
+  });
+}());
+</script>
 
 
 <!-- Google Tag Manager -->
