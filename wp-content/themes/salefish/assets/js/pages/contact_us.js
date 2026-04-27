@@ -35,12 +35,17 @@ if (page === 'contact_us') {
 		const marker = new AdvancedMarkerElement({
 			position: uluru,
 			map,
-			content: pin.element,
+			// Pass the PinElement directly — `pin.element` is deprecated as
+			// of the latest Maps v3 API ("<gmp-pin>: element property is
+			// deprecated. Please use the PinElement directly.")
+			content: pin,
 			title: "SaleFish HQ",
 			gmpClickable: true,
 		});
 
-		marker.addListener("click", function () {
+		// gmp-click is the new event name for AdvancedMarkerElement; the
+		// generic 'click' was deprecated by Maps v3 with a console warning.
+		marker.addEventListener("gmp-click", function () {
 			window.open(
 				"https://www.google.com/maps/place/8395+Jane+St+%23203,+Concord,+ON+L4K+5Y2/@43.8121808,-79.5277303,17z/data=!3m1!4b1!4m5!3m4!1s0x882b2f0f9ebd82b9:0x617bae8e4bdb708b!8m2!3d43.8121808!4d-79.5277303",
 				"_blank"
