@@ -50,7 +50,7 @@ $the_numbers = get_field('the_numbers');
 					<h1 data-aos="fade-up" data-aos-delay="280">
 						<?php echo wp_kses_post( $hero_header ); ?>
 					</h1>
-					<a class="button" data-aos="fade-up" data-aos-delay="460" href="https://meetings.hubspot.com/cindy-lloyd?uuid=f03a4178-d44c-48de-9a97-6795425bd38c" target="_blank" rel="noopener noreferrer" data-sf-section="Homepage — Hero">See Why They're Beating You</a>
+					<a class="button" data-aos="fade-up" data-aos-delay="460" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Homepage — Hero">See Why They're Beating You</a>
 				</div>
 				<div class="right" data-aos="fade-left" data-aos-delay="200">
 					<img class="salefish_demo"

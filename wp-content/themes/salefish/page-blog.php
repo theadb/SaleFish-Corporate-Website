@@ -325,4 +325,16 @@ get_header();
 }());
 </script>
 
+<!-- BLOG CTA STRIP -->
+<section class="sp-cta">
+	<div class="max_wrapper">
+		<div class="sp-cta__inner">
+			<h2>Stay Ahead of the Competition</h2>
+			<p>Insights, success stories, and strategies — backed by the platform builders trust to sell more homes.</p>
+			<button class="sp-cta__btn" data-sf-modal="register">Get a Demo</button>
+		</div>
+	</div>
+</section>
+<!-- END BLOG CTA STRIP -->
+
 <?php get_footer(); ?>
