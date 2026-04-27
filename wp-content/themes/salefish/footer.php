@@ -256,6 +256,12 @@ s.parentNode.insertBefore(b, s);})(window.lintrk);
       <i data-lucide="x"></i>
     </button>
     <iframe class="sf-video-dialog__iframe" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Video player"></iframe>
+    <!-- Fallback: if the embed errors out (e.g. third-party cookies blocked,
+         tracking protection, hosting-injected Referrer-Policy), the user
+         can always open the video natively. JS shows the original watch URL. -->
+    <a class="sf-video-dialog__fallback" href="" target="_blank" rel="noopener noreferrer">
+      Trouble loading? Watch on YouTube &rarr;
+    </a>
   </div>
 </div>
 
