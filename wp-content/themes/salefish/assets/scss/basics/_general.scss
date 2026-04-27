@@ -96,7 +96,8 @@ h1 {
   font-family: $PB;
   font-size: 4em;
   line-height: 1.1;
-  text-wrap: balance;
+  // text-wrap: balance removed — forces O(log n) layout iterations per element,
+  // causing cumulative jank on pages with many headings (esp. Safari on iOS).
 
   @include rs550 {
     font-size: 2.5em;
@@ -107,7 +108,6 @@ h2 {
   font-family: $PB;
   font-size: 3.75em;
   line-height: 1.2;
-  text-wrap: balance;
 
   @include rs550 {
     font-size: 2.2em;
@@ -118,7 +118,6 @@ h3 {
   font-family: $PSB;
   font-size: 1.05em;
   line-height: 1.5;
-  text-wrap: balance;
 
   @include rs550 {
     font-size: 1.1em;
@@ -129,7 +128,7 @@ p {
   font-family: $PL;
   font-size: 1.75em;
   line-height: 1.5;
-  text-wrap: pretty;
+  // text-wrap: pretty removed — extra layout passes not worth the cost globally.
 
   // Scale down for mobile: 1.75em = 28px at the 16px browser root — too large
   // for body copy on a 375px phone. Cap to comfortable reading sizes.
@@ -212,6 +211,19 @@ main {
     opacity: 0;
     visibility: hidden;
   }
+}
+
+// ── Hero orb compositor layers (desktop) ─────────────────────────────────────
+// Promote each orb pseudo-element to its own GPU compositing layer so the
+// continuous transform+opacity animation never triggers a main-thread repaint.
+// The mobile block below resets this to 'auto' when animations are disabled.
+.hero::before, .hero::after,
+.sf-page-hero::before, .sf-page-hero::after,
+.sf-ty-page::before, .sf-ty-page::after,
+.os-hero::before, .os-hero::after,
+.terms-hero::before, .terms-hero::after,
+.partners-hero::before, .partners-hero::after {
+  will-change: transform, opacity;
 }
 
 // ── Disable hero orb animations on mobile — GPU-intensive, cause scroll jank ─
