@@ -96,7 +96,10 @@ get_header();
 </main>
 
 <?php get_footer(); ?>
-<!-- Google Maps loader. loading=async per Google's best-practice guidance
-     (https://goo.gle/js-api-loading) — silences the "loaded directly without
-     loading=async" performance warning and lets Maps load non-blocking. -->
-<script async src="https://maps.googleapis.com/maps/api/js?key=<?php echo esc_attr( defined( 'GOOGLE_MAPS_API_KEY' ) ? GOOGLE_MAPS_API_KEY : '' ); ?>&callback=initMap&loading=async"></script>
+<!-- Google Maps loader. The HTML `async` attribute makes the script load
+     non-blocking. We tried adding `loading=async` to the URL too (per Google's
+     newer best-practice guidance) but it caused the map tiles to stop
+     rendering — likely a conflict with the legacy initMap callback pattern.
+     The remaining "loaded directly without loading=async" warning is purely
+     informational and accepted as a tradeoff for a working map. -->
+<script async src="https://maps.googleapis.com/maps/api/js?key=<?php echo esc_attr( defined( 'GOOGLE_MAPS_API_KEY' ) ? GOOGLE_MAPS_API_KEY : '' ); ?>&callback=initMap"></script>
