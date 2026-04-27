@@ -2,6 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 require_once plugin_dir_path( __FILE__ ) . '../includes/class-activecampaign.php';
+require_once plugin_dir_path( __FILE__ ) . '../includes/class-email-verify.php';
 require_once plugin_dir_path( __FILE__ ) . '../includes/email-templates.php';
 
 // ── Admin menu ────────────────────────────────────────────────────────────────
@@ -58,6 +59,53 @@ function salefish_trigger_preview_automations() {
 }
 add_action( 'wp_ajax_salefish_trigger_preview_automations', 'salefish_trigger_preview_automations' );
 
+// ── AJAX: send all 7 test emails directly via wp_mail() ──────────────────────
+
+function salefish_send_test_emails() {
+	check_ajax_referer( 'salefish_send_previews', 'nonce' );
+	if ( ! current_user_can( 'manage_options' ) ) wp_die( 'Unauthorized' );
+
+	$test_email = 'andrewdb@salefish.app';
+	$test_first = 'Andrew';
+
+	$sample_general = [
+		'name'    => 'Andrew Blair',
+		'email'   => $test_email,
+		'phone'   => '416-555-0100',
+		'company' => 'Acme Realty',
+		'title'   => 'Sales Director',
+		'demo'    => 'Yes',
+	];
+	$sample_agent = array_merge( $sample_general, [
+		'brokerage'           => 'Acme Realty',
+		'geo_expertise'       => 'Greater Toronto Area',
+		'property_expertise'  => 'Condos',
+	] );
+	$sample_partner = array_merge( $sample_general, [
+		'want_to_do' => 'Refer builders, brokers, or developers',
+		'clients'    => '4–10',
+	] );
+
+	$results = [];
+
+	// 1. Verification email
+	$token = Salefish_Email_Verify::create( 'general', $sample_general );
+	$results['verification'] = Salefish_Email_Verify::send_confirmation( $test_email, $token, 'general' ) ? 'sent' : 'failed';
+
+	// 2–4. Admin notification emails (→ hello@salefish.app)
+	$results['notification_general'] = salefish_send_notification( $sample_general, 'general' ) ? 'sent' : 'failed';
+	$results['notification_agent']   = salefish_send_notification( $sample_agent,   'agent'   ) ? 'sent' : 'failed';
+	$results['notification_partner'] = salefish_send_notification( $sample_partner, 'partner' ) ? 'sent' : 'failed';
+
+	// 5–7. Autoresponder emails (→ andrewdb@salefish.app)
+	$results['autoresponder_general'] = salefish_send_autoresponder( $test_email, $test_first, 'general' ) ? 'sent' : 'failed';
+	$results['autoresponder_agent']   = salefish_send_autoresponder( $test_email, $test_first, 'agent'   ) ? 'sent' : 'failed';
+	$results['autoresponder_partner'] = salefish_send_autoresponder( $test_email, $test_first, 'partner' ) ? 'sent' : 'failed';
+
+	wp_send_json_success( $results );
+}
+add_action( 'wp_ajax_salefish_send_test_emails', 'salefish_send_test_emails' );
+
 // ── Admin page render ─────────────────────────────────────────────────────────
 
 function salefish_email_preview_page() {
@@ -74,7 +122,15 @@ function salefish_email_preview_page() {
 		'partner' => defined( 'SALEFISH_AC_AUTO_PARTNER' ) ? (int) SALEFISH_AC_AUTO_PARTNER  : 0,
 	];
 
+	// Verification email uses a placeholder URL for preview
+	$preview_verify_url = home_url( '/thank-you-for-registering/?salefish_verify=PREVIEW_TOKEN_ONLY' );
+
 	$emails = [
+		'verification'          => [
+			'label'    => 'Verification — Confirm Registration (to registrant)',
+			'html'     => Salefish_Email_Verify::build_confirmation_html( $preview_verify_url ),
+			'auto_key' => null,
+		],
 		'general_autoresponder' => [
 			'label'    => 'General — Autoresponder (to registrant)',
 			'html'     => salefish_autoresponder_email_html( 'Jane', 'general' ),
@@ -107,12 +163,28 @@ function salefish_email_preview_page() {
 		],
 	];
 
-	$nonce       = wp_create_nonce( 'salefish_send_previews' );
+	$nonce          = wp_create_nonce( 'salefish_send_previews' );
 	$all_configured = array_sum( $autos ) > 0;
 	?>
 	<div class="wrap">
 		<h1>SaleFish Email Previews</h1>
 
+		<!-- Test send panel -->
+		<div style="background:#e8f5e9;border:1px solid #4caf50;border-radius:4px;padding:16px 20px;margin-bottom:16px;max-width:800px">
+			<strong>Send all 7 test emails via wp_mail() right now:</strong>
+			<p style="margin:8px 0 12px;color:#333;font-size:13px;">
+				Sends verification + 3 autoresponders to <code>andrewdb@salefish.app</code>
+				and 3 admin notifications to <code>hello@salefish.app</code>.
+				No ActiveCampaign involvement — this tests raw email delivery only.
+			</p>
+			<div style="display:flex;align-items:center;gap:16px;">
+				<button id="sf-send-emails" class="button button-primary">Send All 7 Test Emails Now</button>
+				<span id="sf-email-status" style="font-weight:bold;font-size:13px;"></span>
+			</div>
+			<div id="sf-email-results" style="display:none;margin-top:12px;font-family:monospace;font-size:12px;background:#fff;padding:10px;border-radius:4px;border:1px solid #ccc;"></div>
+		</div>
+
+		<!-- AC automation panel -->
 		<div style="background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:16px 20px;margin-bottom:24px;max-width:800px">
 			<strong>Setup required — create 3 automations in ActiveCampaign:</strong>
 			<ol style="margin:10px 0 0 20px;line-height:1.8">
@@ -124,20 +196,18 @@ function salefish_email_preview_page() {
 				<li>Save and activate the automation. <strong>Copy its ID from the URL</strong> (<code>/automations/<strong>42</strong>/edit</code>)</li>
 				<li>Paste each ID into <code>wp-config.php</code>: <code>SALEFISH_AC_AUTO_GENERAL</code>, <code>SALEFISH_AC_AUTO_AGENT</code>, <code>SALEFISH_AC_AUTO_PARTNER</code></li>
 			</ol>
+			<div style="display:flex;align-items:center;gap:16px;margin-top:16px">
+				<button id="sf-trigger-test" class="button button-secondary" <?php echo $all_configured ? '' : 'disabled title="Configure automation IDs in wp-config.php first"'; ?>>
+					Trigger Test Automations for andrewdb@salefish.app
+				</button>
+				<span id="sf-send-status" style="font-weight:bold"></span>
+			</div>
+			<?php if ( ! $all_configured ): ?>
+			<p style="color:#856404;margin:10px 0 0">
+				⚠ Automation IDs not yet set in <code>wp-config.php</code> — the trigger button will activate once all three are filled in.
+			</p>
+			<?php endif; ?>
 		</div>
-
-		<div style="display:flex;align-items:center;gap:16px;margin-bottom:24px">
-			<button id="sf-trigger-test" class="button button-primary" <?php echo $all_configured ? '' : 'disabled title="Configure automation IDs in wp-config.php first"'; ?>>
-				Trigger Test Automations for andrewdb@salefish.app
-			</button>
-			<span id="sf-send-status" style="font-weight:bold"></span>
-		</div>
-
-		<?php if ( ! $all_configured ): ?>
-		<p style="color:#856404;margin-bottom:24px">
-			⚠ Automation IDs not yet set in <code>wp-config.php</code> — the trigger button will activate once all three are filled in.
-		</p>
-		<?php endif; ?>
 
 		<nav style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
 			<?php foreach ( $emails as $key => $e ): ?>
@@ -166,6 +236,7 @@ function salefish_email_preview_page() {
 	</div>
 
 	<script>
+	// Trigger AC automations
 	document.getElementById('sf-trigger-test').addEventListener('click', function() {
 		var btn = this, status = document.getElementById('sf-send-status');
 		btn.disabled = true;
@@ -185,6 +256,44 @@ function salefish_email_preview_page() {
 					status.style.color = 'red';
 					status.textContent = 'Error: ' + (res.data || 'unknown');
 				}
+				btn.disabled = false;
+			});
+	});
+
+	// Send test emails via wp_mail()
+	document.getElementById('sf-send-emails').addEventListener('click', function() {
+		var btn    = this;
+		var status = document.getElementById('sf-email-status');
+		var results = document.getElementById('sf-email-results');
+		btn.disabled = true;
+		status.style.color = '#333';
+		status.textContent = 'Sending 7 emails…';
+		results.style.display = 'none';
+
+		var fd = new FormData();
+		fd.append('action', 'salefish_send_test_emails');
+		fd.append('nonce', '<?php echo esc_js( $nonce ); ?>');
+		fetch('<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>', { method: 'POST', body: fd })
+			.then(r => r.json())
+			.then(function(res) {
+				if (res.success) {
+					var d = res.data;
+					var allSent = Object.values(d).every(v => v === 'sent');
+					status.style.color = allSent ? 'green' : 'orange';
+					status.textContent = allSent ? '✓ All 7 emails sent!' : '⚠ Some emails failed — see results';
+					results.style.display = 'block';
+					results.innerHTML = Object.entries(d)
+						.map(([k, v]) => '<span style="color:' + (v === 'sent' ? 'green' : 'red') + '">' + (v === 'sent' ? '✓' : '✗') + '</span> ' + k + ': <strong>' + v + '</strong>')
+						.join('<br>');
+				} else {
+					status.style.color = 'red';
+					status.textContent = 'Error: ' + (res.data || 'unknown');
+				}
+				btn.disabled = false;
+			})
+			.catch(function(err) {
+				status.style.color = 'red';
+				status.textContent = 'Network error — check browser console';
 				btn.disabled = false;
 			});
 	});

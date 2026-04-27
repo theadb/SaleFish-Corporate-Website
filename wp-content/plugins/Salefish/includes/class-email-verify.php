@@ -67,16 +67,12 @@ class Salefish_Email_Verify {
 	}
 
 	/**
-	 * Send the confirmation email to the registrant.
+	 * Build the confirmation email HTML.
+	 * Extracted so the admin preview page can render it without sending.
+	 *
+	 * @param string $verify_url Full verification URL (or a placeholder for preview).
 	 */
-	public static function send_confirmation( string $email, string $token, string $type ): bool {
-		// Use the thank-you page as the base URL so the query string is on a
-		// dedicated page — this bypasses WP Super Cache's mod_rewrite rules which
-		// only serve cached files for requests with an empty query string.
-		$verify_url = add_query_arg( 'salefish_verify', $token, home_url( '/thank-you-for-registering/' ) );
-
-		$subject = 'Confirm your SaleFish registration';
-
+	public static function build_confirmation_html( string $verify_url ): string {
 		$logo = defined( 'SALEFISH_EMAIL_LOGO' ) ? SALEFISH_EMAIL_LOGO : '';
 
 		$body  = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark"><title>Confirm your SaleFish registration</title></head>';
@@ -108,6 +104,20 @@ class Salefish_Email_Verify {
 		$body .= '</td></tr>';
 
 		$body .= '</table></td></tr></table></body></html>';
+
+		return $body;
+	}
+
+	/**
+	 * Send the confirmation email to the registrant.
+	 */
+	public static function send_confirmation( string $email, string $token, string $type ): bool {
+		// Use the thank-you page as the base URL so the query string is on a
+		// dedicated page — this bypasses WP Super Cache's mod_rewrite rules which
+		// only serve cached files for requests with an empty query string.
+		$verify_url = add_query_arg( 'salefish_verify', $token, home_url( '/thank-you-for-registering/' ) );
+		$subject    = 'Confirm your SaleFish registration';
+		$body       = self::build_confirmation_html( $verify_url );
 
 		add_filter( 'wp_mail_content_type', fn() => 'text/html' );
 		$sent = wp_mail( $email, $subject, $body, [ 'From: SaleFish <hello@salefish.app>' ] );
