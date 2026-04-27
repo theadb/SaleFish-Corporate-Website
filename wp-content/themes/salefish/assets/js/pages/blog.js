@@ -22,8 +22,26 @@ function toNativeWatchUrl(embedUrl) {
 function openVideoDialog(embedUrl) {
   var dialog = getDialog();
   if (!dialog) return;
-  var iframe = dialog.querySelector('.sf-video-dialog__iframe');
-  if (iframe) iframe.src = embedUrl;
+
+  // Recreate the iframe from scratch each time the modal opens.
+  // Safari has a quirk where dynamically setting iframe.src AFTER the iframe
+  // was rendered with src="" doesn't always honor the referrerpolicy attribute
+  // — leading to YouTube error 153 in Safari incognito. Building a fresh
+  // iframe element with all attributes set BEFORE src is assigned guarantees
+  // the correct referrer policy is applied to the very first navigation.
+  var oldIframe = dialog.querySelector('.sf-video-dialog__iframe');
+  if (oldIframe) {
+    var newIframe = document.createElement('iframe');
+    newIframe.className = 'sf-video-dialog__iframe';
+    newIframe.setAttribute('allowfullscreen', '');
+    newIframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+    newIframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    newIframe.setAttribute('title', 'Video player');
+    // src LAST — every other attribute must be in place before the navigation begins
+    newIframe.src = embedUrl;
+    oldIframe.parentNode.replaceChild(newIframe, oldIframe);
+  }
+
   // Set fallback link to native watch URL so users always have a working option
   var fallback = dialog.querySelector('.sf-video-dialog__fallback');
   if (fallback) fallback.href = toNativeWatchUrl(embedUrl);
