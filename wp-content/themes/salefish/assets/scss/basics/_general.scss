@@ -143,8 +143,36 @@ p {
 
 // Prevent horizontal scrollbar without creating a new scroll container that
 // breaks iOS momentum/rubber-band scrolling. Must be on html AND body.
+// scroll-behavior: smooth replaces the SmoothScroll JS library — native is
+// faster (GPU-composited) and removes SmoothScroll's document-level click handler.
 html {
   overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+// Give every anchor target breathing room below the fixed header (~70–80px tall).
+// scroll-margin-top only activates during scroll-to-anchor; it has zero cost otherwise.
+[id] {
+  scroll-margin-top: 80px;
+}
+
+// ── Instant tap feedback ──────────────────────────────────────────────────────
+// `:active` fires on touchstart — before click — giving users immediate visual
+// confirmation that their tap was registered. Without this, after removing
+// -webkit-tap-highlight-color, there is ZERO visual response between tap and
+// page navigation, making the site feel unresponsive even if it's actually fast.
+header a:active,
+.floating_menu a:active {
+  opacity: 0.6;
+  // transition: none so the dim is instant on press (not delayed by 250ms ease)
+  transition: none !important;
+}
+
+.button:active,
+.sp-cta__btn:active,
+button:active {
+  opacity: 0.7;
+  transition: none !important;
 }
 
 body {
