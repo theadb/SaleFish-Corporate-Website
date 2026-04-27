@@ -2,50 +2,37 @@ let page = $('main').attr('class');
 if (page === 'contact_us') {
 	let map;
 
-	// initMap is async because we use the Maps importLibrary() pattern, which
-	// is the modern replacement for the deprecated google.maps.Marker. We
-	// import the "marker" library to get AdvancedMarkerElement + PinElement.
-	async function initMap() {
+	// Note on AdvancedMarkerElement vs google.maps.Marker:
+	// We tried migrating to AdvancedMarkerElement to silence the
+	// "google.maps.Marker is deprecated" warning. AdvancedMarkerElement
+	// requires a Cloud-created Map ID — the public DEMO_MAP_ID was retired
+	// by Google in 2025 and now causes the map to silently fail to render.
+	// To get rid of the warning fully, create a Map ID in Google Cloud
+	// Console (Maps Platform → Map Management → Create New) and replace
+	// the Marker block below with the Advanced version. Until then we
+	// stick with Marker (Google: "not scheduled to be discontinued").
+	function initMap() {
 		const uluru = { lat: 43.8122352, lng: -79.5276061 };
-
-		// Import the libraries we need (per Google's best practice — pairs
-		// with `loading=async&libraries=marker&v=weekly` on the loader URL)
-		const { Map } = await google.maps.importLibrary("maps");
-		const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
-
-		map = new Map(document.getElementById("map"), {
+		map = new google.maps.Map(document.getElementById("map"), {
 			center: uluru,
 			zoom: 12,
-			// AdvancedMarkerElement requires a mapId. "DEMO_MAP_ID" works for
-			// development; for production, replace with a real Map ID created
-			// in Google Cloud Console (Maps Platform → Map Management).
-			mapId: "DEMO_MAP_ID",
 		});
-
-		// Brand-coloured pin — replaces the old custom SVG path icon. The
-		// PinElement gives us SaleFish purple with a white border, matching
-		// the previous look without needing the deprecated icon API.
-		const pin = new PinElement({
-			background: "#452D8C",
-			borderColor: "#ffffff",
-			glyphColor: "#ffffff",
-			scale: 1.2,
-		});
-
-		const marker = new AdvancedMarkerElement({
+		const icon = {
+			path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
+			fillColor: '#452D8C',
+			fillOpacity: 1,
+			strokeColor: '#ffffff',
+			strokeWeight: 1.5,
+			scale: 2.2,
+			anchor: new google.maps.Point(12, 22),
+		};
+		const marker = new google.maps.Marker({
 			position: uluru,
-			map,
-			// Pass the PinElement directly — `pin.element` is deprecated as
-			// of the latest Maps v3 API ("<gmp-pin>: element property is
-			// deprecated. Please use the PinElement directly.")
-			content: pin,
-			title: "SaleFish HQ",
-			gmpClickable: true,
+			map: map,
+			icon: icon
 		});
 
-		// gmp-click is the new event name for AdvancedMarkerElement; the
-		// generic 'click' was deprecated by Maps v3 with a console warning.
-		marker.addEventListener("gmp-click", function () {
+		google.maps.event.addListener(marker, "click", function () {
 			window.open(
 				"https://www.google.com/maps/place/8395+Jane+St+%23203,+Concord,+ON+L4K+5Y2/@43.8121808,-79.5277303,17z/data=!3m1!4b1!4m5!3m4!1s0x882b2f0f9ebd82b9:0x617bae8e4bdb708b!8m2!3d43.8121808!4d-79.5277303",
 				"_blank"
