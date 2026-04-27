@@ -10,6 +10,15 @@
  * @package _pc
  */
 
+// Inline SVG strings for the three nav icons that must be visible immediately.
+// Lucide loads async from CDN — until it fires createIcons() all <i data-lucide>
+// elements are blank. The hamburger button is the primary mobile nav control,
+// so a blank icon on first paint is a hard UX regression on every mobile visit.
+// These match the exact paths from Lucide v0.468.0 so visual output is identical.
+$_sf_icon_hamburger = '<svg class="icon-grid" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>';
+$_sf_icon_close     = '<svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+$_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span>';
+
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -73,7 +82,7 @@
 	</script>
 
 </head>
-
+<body <?php body_class(); ?>>
 <style>
 	.cdp-copy-loader-overlay{
 		display: none;
@@ -142,7 +151,7 @@
 				<div class="flag_active">
 				</div>
 				<div class="arrow">
-					<i data-lucide="chevron-down" class="down_arrow" width="15" height="15"></i>
+					<?php echo $_sf_icon_chevron; ?>
 				</div>
 				<div class="languages_option">
 					<ul>
@@ -183,8 +192,8 @@
 			</ul>
 			<div class="menu">
 				<button class="sf-menu-btn" type="button" aria-label="Toggle menu" aria-expanded="false">
-					<i data-lucide="menu" class="icon-grid"></i>
-					<i data-lucide="x" class="icon-close"></i>
+					<?php echo $_sf_icon_hamburger; ?>
+					<?php echo $_sf_icon_close; ?>
 				</button>
 			</div>
 		</nav>
@@ -205,7 +214,7 @@
 				<div class="flag_active">
 				</div>
 				<div class="arrow">
-					<i data-lucide="chevron-down" class="down_arrow" width="15" height="15"></i>
+					<?php echo $_sf_icon_chevron; ?>
 				</div>
 				<div class="languages_option">
 					<ul>
@@ -246,8 +255,8 @@
 			</ul>
 			<div class="menu">
 				<button class="sf-menu-btn" type="button" aria-label="Toggle menu" aria-expanded="false">
-					<i data-lucide="menu" class="icon-grid"></i>
-					<i data-lucide="x" class="icon-close"></i>
+					<?php echo $_sf_icon_hamburger; ?>
+					<?php echo $_sf_icon_close; ?>
 				</button>
 			</div>
 		</nav>
@@ -269,7 +278,7 @@
 				<div class="flag_active">
 				</div>
 				<div class="arrow">
-					<i data-lucide="chevron-down" class="down_arrow" width="15" height="15"></i>
+					<?php echo $_sf_icon_chevron; ?>
 				</div>
 				<div class="languages_option">
 					<ul>
@@ -304,8 +313,8 @@
 			</ul>
 			<div class="menu">
 				<button class="sf-menu-btn" type="button" aria-label="Toggle menu" aria-expanded="false">
-					<i data-lucide="menu" class="icon-grid"></i>
-					<i data-lucide="x" class="icon-close"></i>
+					<?php echo $_sf_icon_hamburger; ?>
+					<?php echo $_sf_icon_close; ?>
 				</button>
 			</div>
 		</nav>
@@ -326,7 +335,7 @@
 				<div class="flag_active">
 				</div>
 				<div class="arrow">
-					<i data-lucide="chevron-down" class="down_arrow" width="15" height="15"></i>
+					<?php echo $_sf_icon_chevron; ?>
 				</div>
 				<div class="languages_option">
 					<ul>
@@ -362,8 +371,8 @@
 			</ul>
 			<div class="menu">
 				<button class="sf-menu-btn" type="button" aria-label="Toggle menu" aria-expanded="false">
-					<i data-lucide="menu" class="icon-grid"></i>
-					<i data-lucide="x" class="icon-close"></i>
+					<?php echo $_sf_icon_hamburger; ?>
+					<?php echo $_sf_icon_close; ?>
 				</button>
 			</div>
 		</nav>
@@ -376,7 +385,7 @@
 
 <div class="loading" style="background-image: url('<?php echo esc_url( get_template_directory_uri() ); ?>/img/dark_salefish_logo.png')"></div>
 
-<div class="floating_menu floating_menu_en">
+<div class="floating_menu floating_menu_en" inert>
 	<div class="wrapper">
 		<div class="wrap">
 			<div class="top">
@@ -422,7 +431,7 @@
 </div>
 
 
-<div class="floating_menu floating_menu_tr">
+<div class="floating_menu floating_menu_tr" inert>
 	<div class="wrapper">
 		<div class="wrap">
 			<div class="top">
@@ -478,7 +487,7 @@
 	</div>
 </div>
 
-<div class="floating_menu floating_menu_de">
+<div class="floating_menu floating_menu_de" inert>
 	<div class="wrapper">
 		<div class="wrap">
 			<div class="top">
@@ -533,7 +542,7 @@
 	</div>
 </div>
 
-<div class="sales_login_menu">
+<div class="sales_login_menu" inert>
 	<div class="wrapper">
 		<div class="wrap">
 			<ul>
@@ -779,5 +788,3 @@ if ($banner != ''):
 	</div>
 </div>
 <?php endif; ?>
-
-<body <?php body_class(); ?>>

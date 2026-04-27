@@ -8,6 +8,20 @@ import flowtype from "./tools/flowtype";
 import mask from "./tools/jquery.mask";
 
 $(function () {
+  // ── Menu open/close helpers ──────────────────────────────────────────────────
+  // CSS opacity/visibility transitions replace jQuery fadeToggle so menu
+  // animation is compositor-driven (no layout/paint per frame on Safari).
+  // `inert` prevents Tab focus reaching links inside a visually-hidden menu —
+  // supported in all current browsers (Safari 15.5+, Chrome 102+, Firefox 112+).
+  function sfMenuOpen($menu) {
+    $menu.addClass('is-open');
+    $menu[0].removeAttribute('inert');
+  }
+  function sfMenuClose($menu) {
+    $menu.removeClass('is-open');
+    $menu[0].setAttribute('inert', '');
+  }
+
   if ( new URLSearchParams( window.location.search ).get( 'salefish_verified' ) === '1' ) {
     $(".thank_you_msg").fadeIn();
     $("body").css("overflow", "hidden");
@@ -39,22 +53,23 @@ $(function () {
     $(this).toggleClass("is-active");
     var expanded = $(this).hasClass("is-active");
     $(".sf-menu-btn").attr("aria-expanded", expanded ? "true" : "false");
-    $(activeMenu).fadeToggle();
+    if (expanded) { sfMenuOpen($(activeMenu)); } else { sfMenuClose($(activeMenu)); }
   });
   $(".sales_login").on("click", function () {
-    $(".sales_login_menu").fadeToggle();
+    var $slm = $(".sales_login_menu");
+    if ($slm.hasClass('is-open')) { sfMenuClose($slm); } else { sfMenuOpen($slm); }
   });
   $(".languages").on("click", function () {
     $(".languages .down_arrow").toggleClass("active");
-    $(".languages_option").fadeToggle();
+    $(".languages_option").toggleClass("is-open");
   });
   $(document).on("click", function (e) {
     if ($(e.target).closest(".languages").length === 0) {
-      $(".languages_option").fadeOut();
+      $(".languages_option").removeClass("is-open");
       $(".languages .down_arrow").removeClass("active");
     }
     if ($(e.target).closest(".sales_login").length === 0) {
-      $(".sales_login_menu").fadeOut();
+      sfMenuClose($(".sales_login_menu"));
     }
     // ── Close hamburger menu when clicking outside ──────────────────────────
     if (
@@ -63,15 +78,15 @@ $(function () {
     ) {
       if ($(".sf-menu-btn").hasClass("is-active")) {
         $(".sf-menu-btn").removeClass("is-active").attr("aria-expanded", "false");
-        $(activeMenu).fadeOut();
+        sfMenuClose($(activeMenu));
       }
     }
   });
 
   $(".privacy_policy_menu").on("click", function () {
     $(".privacy_policy").addClass("active");
-    $(".sf-menu-btn").toggleClass("is-active");
-    $(activeMenu).fadeToggle();
+    $(".sf-menu-btn").removeClass("is-active").attr("aria-expanded", "false");
+    sfMenuClose($(activeMenu));
     $("body").css("overflow", "hidden");
   });
 
@@ -82,8 +97,8 @@ $(function () {
 
   $(".terms_menu").on("click", function () {
     $(".terms_popup").addClass("active");
-    $(".sf-menu-btn").toggleClass("is-active");
-    $(activeMenu).fadeToggle();
+    $(".sf-menu-btn").removeClass("is-active").attr("aria-expanded", "false");
+    sfMenuClose($(activeMenu));
     $("body").css("overflow", "hidden");
   });
 
@@ -164,10 +179,8 @@ $(function () {
   }, { passive: true });
 
   $(".floating_menu .mobile").on("click", function () {
-    $(".sf-menu-btn").toggleClass("is-active");
-    var expanded = $(".sf-menu-btn").hasClass("is-active");
-    $(".sf-menu-btn").attr("aria-expanded", expanded ? "true" : "false");
-    $(activeMenu).fadeToggle();
+    $(".sf-menu-btn").removeClass("is-active").attr("aria-expanded", "false");
+    sfMenuClose($(activeMenu));
   });
 
   switch (pathname) {
@@ -501,6 +514,14 @@ $(function () {
     if (e.key === "Escape") {
       if ($("#sf-reg-modal").is(":visible")) sfRegModalClose();
       if ($("#sf-partner-modal").is(":visible")) sfPartnerModalClose();
+      if ($(".sf-menu-btn").hasClass("is-active")) {
+        $(".sf-menu-btn").removeClass("is-active").attr("aria-expanded", "false").focus();
+        sfMenuClose($(activeMenu));
+      }
+      if ($(".languages_option").hasClass("is-open")) {
+        $(".languages_option").removeClass("is-open");
+        $(".languages .down_arrow").removeClass("active");
+      }
     }
   });
 

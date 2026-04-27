@@ -31,7 +31,7 @@ header {
   .salefish {
     .salefish_logo {
       width: 180px;
-      transition: 300ms all ease-in-out;
+      transition: width 300ms ease-in-out;
 
       @include rs550 {
         width: 135px;
@@ -77,7 +77,7 @@ header {
       width: 15px;
       height: 15px;
       margin-left: 5px;
-      transition: 300ms all ease-in-out;
+      transition: transform 300ms ease-in-out;
       display: inline-flex;
       align-items: center;
       color: #fff;
@@ -204,7 +204,16 @@ header {
   border-radius: 5px;
   padding: 10px 0px;
   box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.37);
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
 
   ul {
     display: flex;
@@ -248,7 +257,16 @@ header {
   transform: translate(-50%);
   width: 100%;
   max-width: 1800px;
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.18s ease, visibility 0.18s ease;
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
 
   @include rs768 {
   }
@@ -965,7 +983,16 @@ header {
   transform: translate(-50%);
   width: 100%;
   max-width: 1800px;
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.18s ease, visibility 0.18s ease;
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
 
   .wrapper {
     position: relative;
