@@ -18,6 +18,14 @@
 	<meta
 		charset="<?php bloginfo('charset'); ?>">
 	<meta content='width=device-width, initial-scale=1.0, viewport-fit=cover' name='viewport' />
+	<!-- Preconnect to YouTube domains so DNS + TLS happen during page idle,
+	     not after the user clicks "Watch Video". Cuts ~200-500ms off the
+	     iframe load time when the video modal opens. -->
+	<link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
+	<link rel="preconnect" href="https://www.youtube.com" crossorigin>
+	<link rel="preconnect" href="https://i.ytimg.com" crossorigin>
+	<link rel="preconnect" href="https://yt3.ggpht.com" crossorigin>
+	<link rel="dns-prefetch" href="https://www.google.com">
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 	<link rel="apple-touch-icon" sizes="152x152" href="/icon-152x152.png">
 	<link rel="apple-touch-icon" sizes="167x167" href="/icon-167x167.png">
