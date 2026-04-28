@@ -145,43 +145,19 @@ picture {
   animation: sf-skel-shimmer 1.4s ease-in-out infinite;
 }
 
-// ─── Hero text entrance (CSS-only, no JS dependency) ───────────────────────
-// Very subtle 250 ms fade-up on the hero. Previous 700 ms duration with a
-// 300 ms stagger meant the user watched content "build up" for almost a
-// full second after first paint — which they perceived as the page still
-// loading. The faster, simultaneous reveal feels snappy and Apple-like
-// rather than slow.
-@keyframes sf-rise {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 8px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-.hero h3,
-.hero h1,
-.hero p,
-.hero .button,
-.our_story .hero .eyebrow,
-.our_story .hero h1,
-.our_story .hero .button,
-.partners .hero h3,
-.partners .hero h1,
-.partners .hero p,
-.partners .hero .button {
-  animation: sf-rise 280ms cubic-bezier(0.2, 0, 0, 1) both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero h3, .hero h1, .hero p, .hero .button,
-  .our_story .hero .eyebrow, .our_story .hero h1, .our_story .hero .button,
-  .partners .hero h3, .partners .hero h1, .partners .hero p, .partners .hero .button {
-    animation: none !important;
-  }
-}
+// Hero text entrance animation removed (2026-04-28).
+//
+// On iOS Safari the `opacity: 0 → 1` keyframes with `animation-fill-mode: both`
+// were causing content to flash invisible when the user scrolled back up to
+// the hero. Root cause: when iOS recomposes the page (rotation, scroll-back,
+// app backgrounding), it sometimes re-runs the @keyframes from the start
+// frame, hiding text mid-animation.
+//
+// The Apple-feel polish on the site now comes from:
+//   • Frosted-glass header on scroll (desktop)
+//   • Smooth cubic-bezier easing on transitions
+//   • Properly-sized AVIF imagery
+// — all of which are zero-risk relative to compositing-layer bugs.
 
 input,
 select {

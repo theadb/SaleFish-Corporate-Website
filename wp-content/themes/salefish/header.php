@@ -209,6 +209,13 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
      fired during the very first second of the visit and forced 358 KB of
      chat-widget JS into the critical-resource budget on every page load. -->
 <script>
+// Live Chat — load only on a long idle window AFTER first paint, never on
+// click. Triggering Tidio's 358 KB script load on the user's first click
+// caused subsequent clicks to feel laggy: even with requestIdleCallback,
+// once the script arrived from the network it parsed on the main thread
+// and stalled it for 200-500 ms on Safari mobile. Loading purely on idle
+// (15 s after window.load) means clicks are never the trigger, and parse
+// happens during natural reading-pause idle time.
 (function () {
   var _tidioLoaded = false;
   function _loadTidio() {
@@ -219,14 +226,10 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
     s.async = true;
     document.body.appendChild(s);
   }
-  // First click queues Tidio for the next idle window. The click handler
-  // returns immediately so the menu/CTA the user actually clicked feels
-  // instantaneous; Tidio's 358 KB of JS only starts downloading after the
-  // browser has finished handling the click (and any animation it triggered).
-  document.addEventListener('click', function () {
-    var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 250); };
-    ric(_loadTidio, { timeout: 4000 });
-  }, { once: true, passive: true });
+  window.addEventListener('load', function () {
+    var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 1); };
+    setTimeout(function () { ric(_loadTidio, { timeout: 5000 }); }, 15000);
+  });
 }());
 </script>
 
@@ -249,19 +252,12 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-5CX687F';
 			document.head.appendChild(s);
 		}
-		// First user signal queues GTM for the next idle window. Wrapping the
-		// load in requestIdleCallback means the click that triggered it
-		// finishes immediately — the user's NEXT click isn't competing with
-		// 123 KB of GTM (and its third-party tag cascade) parsing on the
-		// main thread.
-		function _scheduleGTM() {
-			var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 250); };
-			ric(_loadGTM, { timeout: 4000 });
-		}
-		document.addEventListener('click', _scheduleGTM, { once: true, passive: true });
-		document.addEventListener('scroll', _scheduleGTM, { once: true, passive: true });
+		// GTM loads on idle after window.load only — no click/scroll triggers.
+		// 123 KB + its tag cascade was hijacking the main thread on the user's
+		// first click. Now it loads quietly during natural reading-pause time.
 		window.addEventListener('load', function () {
-			setTimeout(_scheduleGTM, 60000);
+			var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 1); };
+			setTimeout(function () { ric(_loadGTM, { timeout: 5000 }); }, 8000);
 		});
 	}());
 </script>
