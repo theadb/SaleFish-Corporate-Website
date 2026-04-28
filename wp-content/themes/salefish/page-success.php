@@ -40,7 +40,7 @@ $pillars = get_field('pillars');
 			<div class="right">
 				<a href="<?php echo esc_url( sf_video_embed_url( 'https://www.youtube.com/watch?v=IsXY6NuAGFo' ) ); ?>"
 				   data-video-url="<?php echo esc_url( sf_video_embed_url( 'https://www.youtube.com/watch?v=IsXY6NuAGFo' ) ); ?>">
-					<img src="<?php echo get_template_directory_uri(); ?>/img/success/success_hero.png">
+					<?php sf_picture( get_template_directory_uri() . '/img/success/success_hero.png', [ 'loading' => 'eager', 'fetchpriority' => 'high', 'alt' => 'Customer success — watch the story' ] ); ?>
 				</a>
 			</div>
 		</div>

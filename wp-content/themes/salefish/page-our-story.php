@@ -18,13 +18,13 @@ get_header();
 	<section class="hero">
 		<div class="hero__slideshow" aria-hidden="true">
 			<div class="hero__slide is-active">
-				<img src="<?php echo get_template_directory_uri(); ?>/img/hero-slides/new-construction-sales-platform-condo-tower-2560w.png" alt="" loading="eager">
+				<?php sf_picture( get_template_directory_uri() . '/img/hero-slides/new-construction-sales-platform-condo-tower-2560w.png', [ 'loading' => 'eager', 'fetchpriority' => 'high' ] ); ?>
 			</div>
 			<div class="hero__slide">
-				<img src="<?php echo get_template_directory_uri(); ?>/img/hero-slides/new-home-developer-platform-townhomes-2560w.png" alt="" loading="lazy">
+				<?php sf_picture( get_template_directory_uri() . '/img/hero-slides/new-home-developer-platform-townhomes-2560w.png' ); ?>
 			</div>
 			<div class="hero__slide">
-				<img src="<?php echo get_template_directory_uri(); ?>/img/hero-slides/new-home-sales-software-suburban-community-2560w.png" alt="" loading="lazy">
+				<?php sf_picture( get_template_directory_uri() . '/img/hero-slides/new-home-sales-software-suburban-community-2560w.png' ); ?>
 			</div>
 		</div>
 		<div class="hero__overlay" aria-hidden="true"></div>
@@ -119,16 +119,16 @@ get_header();
 				<div class="security__badge" data-aos="fade-left">
 					<div class="platform__img-stack">
 						<div class="platform__img-slide is-active">
-							<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-homes-v2.png" alt="SaleFish — Single Family Homes" loading="eager" decoding="async">
+							<?php sf_picture( get_template_directory_uri() . '/img/homepage/hero-homes-v2.png', [ 'alt' => 'SaleFish — Single Family Homes', 'loading' => 'eager' ] ); ?>
 						</div>
 						<div class="platform__img-slide">
-							<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-condos-v2.png" alt="SaleFish — Condos" loading="lazy" decoding="async">
+							<?php sf_picture( get_template_directory_uri() . '/img/homepage/hero-condos-v2.png', [ 'alt' => 'SaleFish — Condos' ] ); ?>
 						</div>
 						<div class="platform__img-slide">
-							<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-townhomes-a-v2.png" alt="SaleFish — Townhomes" loading="lazy" decoding="async">
+							<?php sf_picture( get_template_directory_uri() . '/img/homepage/hero-townhomes-a-v2.png', [ 'alt' => 'SaleFish — Townhomes' ] ); ?>
 						</div>
 						<div class="platform__img-slide">
-							<img src="<?php echo get_template_directory_uri(); ?>/img/homepage/hero-townhomes-b-v2.png" alt="SaleFish — Townhomes" loading="lazy" decoding="async">
+							<?php sf_picture( get_template_directory_uri() . '/img/homepage/hero-townhomes-b-v2.png', [ 'alt' => 'SaleFish — Townhomes' ] ); ?>
 						</div>
 					</div>
 				</div>

@@ -26,7 +26,7 @@ $counter = 0;
             <div class="feature">
                 <?php if ($is_even): ?>
                 <div class="content content_image" data-aos="fade-right">
-                    <img src="<?php echo esc_url( $image ); ?>" loading="lazy" decoding="async">
+                    <?php sf_picture( $image, [ 'alt' => $title ] ); ?>
                 </div>
                 <div class="content context_info" data-aos="fade-left">
                     <h3><?php echo esc_html( $sub_title ); ?></h3>
@@ -42,7 +42,7 @@ $counter = 0;
                     <a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Features — Button">See It in Action</a>
                 </div>
                 <div class="content content_image" data-aos="fade-left">
-                    <img src="<?php echo esc_url( $image ); ?>" loading="lazy" decoding="async">
+                    <?php sf_picture( $image, [ 'alt' => $title ] ); ?>
                 </div>
                 <?php endif; ?>
             </div>
