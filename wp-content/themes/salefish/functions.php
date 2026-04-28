@@ -852,11 +852,31 @@ function sf_picture( $url, $args = [] ) {
         $abs_path = $upload_dir['basedir'] . substr( $url, strlen( $upload_dir['baseurl'] ) );
     }
 
-    $avif_url = '';
+    $avif_url    = '';
+    $avif_srcset = '';
     if ( $abs_path && preg_match( '/\.(png|jpe?g)$/i', $abs_path ) ) {
         $avif_path = preg_replace( '/\.(png|jpe?g)$/i', '.avif', $abs_path );
         if ( $abs_path !== $avif_path && file_exists( $avif_path ) ) {
             $avif_url = preg_replace( '/\.(png|jpe?g)$/i', '.avif', $url );
+            // Look for size-variant siblings like `name-480w.avif`. When
+            // present, emit a srcset so mobile gets the smaller file.
+            $base   = preg_replace( '/\.(png|jpe?g)$/i', '', $abs_path );
+            $base_u = preg_replace( '/\.(png|jpe?g)$/i', '', $url );
+            $variants = [];
+            foreach ( [ 320, 480, 640, 800, 1024, 1280 ] as $w ) {
+                $variant_path = $base . '-' . $w . 'w.avif';
+                if ( file_exists( $variant_path ) ) {
+                    $variants[] = esc_url( $base_u . '-' . $w . 'w.avif' ) . ' ' . $w . 'w';
+                }
+            }
+            if ( $variants ) {
+                // Add the full-size as the largest fallback so very wide
+                // viewports still get the original.
+                if ( ! empty( $args['width'] ) ) {
+                    $variants[] = esc_url( $avif_url ) . ' ' . intval( $args['width'] ) . 'w';
+                }
+                $avif_srcset = implode( ', ', $variants );
+            }
         }
     }
 
@@ -897,7 +917,15 @@ function sf_picture( $url, $args = [] ) {
 
     if ( $avif_url ) {
         echo '<picture>';
-        echo '<source type="image/avif" srcset="' . esc_url( $avif_url ) . '">';
+        if ( $avif_srcset ) {
+            // Default `sizes` for hero-style large images: full-width on
+            // mobile (≤768 px), half-width on tablet+. Callers can override
+            // via the `sizes` arg.
+            $sizes_attr = $args['sizes'] ?: '(max-width: 768px) 100vw, 50vw';
+            echo '<source type="image/avif" srcset="' . $avif_srcset . '" sizes="' . esc_attr( $sizes_attr ) . '">';
+        } else {
+            echo '<source type="image/avif" srcset="' . esc_url( $avif_url ) . '">';
+        }
         echo '<img src="' . esc_url( $url ) . '"' . $attr . '>';
         echo '</picture>';
     } else {

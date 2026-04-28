@@ -94,8 +94,25 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			if ( $_sf_hero_path && preg_match( '/\.(png|jpe?g)$/i', $_sf_hero_path ) ) {
 				$_sf_avif_path = preg_replace( '/\.(png|jpe?g)$/i', '.avif', $_sf_hero_path );
 				if ( file_exists( $_sf_avif_path ) ) {
-					$_sf_avif_url = preg_replace( '/\.(png|jpe?g)$/i', '.avif', $_sf_hero_url );
-					echo '<link rel="preload" as="image" type="image/avif" href="' . esc_url( $_sf_avif_url ) . '" fetchpriority="high">' . "\n";
+					$_sf_avif_url  = preg_replace( '/\.(png|jpe?g)$/i', '.avif', $_sf_hero_url );
+					// Look for a `-480w` mobile variant; if present, preload
+					// via imagesrcset so the device picks the right size.
+					$_sf_base_path = preg_replace( '/\.(png|jpe?g)$/i', '', $_sf_hero_path );
+					$_sf_base_url  = preg_replace( '/\.(png|jpe?g)$/i', '', $_sf_hero_url );
+					$_sf_variants  = [];
+					foreach ( [ 320, 480, 640, 800 ] as $w ) {
+						if ( file_exists( $_sf_base_path . '-' . $w . 'w.avif' ) ) {
+							$_sf_variants[] = esc_url( $_sf_base_url . '-' . $w . 'w.avif' ) . ' ' . $w . 'w';
+						}
+					}
+					if ( $_sf_variants ) {
+						$_sf_size = @getimagesize( $_sf_avif_path );
+						$_sf_full_w = ! empty( $_sf_size[0] ) ? $_sf_size[0] : 1024;
+						$_sf_variants[] = esc_url( $_sf_avif_url ) . ' ' . $_sf_full_w . 'w';
+						echo '<link rel="preload" as="image" type="image/avif" imagesrcset="' . implode( ', ', $_sf_variants ) . '" imagesizes="(max-width: 768px) 100vw, 50vw" fetchpriority="high">' . "\n";
+					} else {
+						echo '<link rel="preload" as="image" type="image/avif" href="' . esc_url( $_sf_avif_url ) . '" fetchpriority="high">' . "\n";
+					}
 				}
 			}
 		}
