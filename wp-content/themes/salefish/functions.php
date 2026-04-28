@@ -841,6 +841,24 @@ function sf_picture( $url, $args = [] ) {
         }
     }
 
+    // Auto-detect intrinsic width/height when not supplied by the caller.
+    // The browser uses these to reserve aspect-ratio space *before* the
+    // image loads — eliminating CLS (cumulative layout shift), which is a
+    // major mobile PageSpeed metric. We cache results in a transient so
+    // we pay the file-stat cost only once per image per day.
+    if ( $abs_path && ( ! $args['width'] || ! $args['height'] ) && file_exists( $abs_path ) ) {
+        $cache_key = 'sf_imgsize_' . md5( $abs_path . filemtime( $abs_path ) );
+        $size = get_transient( $cache_key );
+        if ( $size === false ) {
+            $size = @getimagesize( $abs_path );
+            set_transient( $cache_key, $size ?: [ 0, 0 ], DAY_IN_SECONDS );
+        }
+        if ( ! empty( $size[0] ) ) {
+            if ( ! $args['width'] )  $args['width']  = $size[0];
+            if ( ! $args['height'] ) $args['height'] = $size[1];
+        }
+    }
+
     // Build the <img> attribute string — used inside <picture> AND as
     // the standalone fallback when no AVIF exists.
     $attr = '';

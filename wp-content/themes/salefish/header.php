@@ -72,6 +72,32 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 	     with CSS, eliminating FOUT on first paint. -->
 	<link rel="preload" as="font" type="font/woff2" crossorigin href="<?php echo esc_url( get_template_directory_uri() ); ?>/fonts/Poppins-Regular.woff2">
 	<link rel="preload" as="font" type="font/woff2" crossorigin href="<?php echo esc_url( get_template_directory_uri() ); ?>/fonts/Poppins-SemiBold.woff2">
+	<?php
+	// ── LCP image preload ──────────────────────────────────────────────────────
+	// Preload the page's hero AVIF as image with type=image/avif so it starts
+	// downloading at the same time as CSS, instead of waiting for the body
+	// parser to discover the <img>. Major PageSpeed mobile LCP win.
+	// Only emit when the AVIF actually exists on disk — never preload a 404.
+	if ( is_front_page() ) {
+		$_sf_hero_url = get_field( 'hero_image' );
+		if ( $_sf_hero_url ) {
+			$_sf_upload = wp_get_upload_dir();
+			$_sf_hero_path = '';
+			if ( strpos( $_sf_hero_url, $_sf_upload['baseurl'] ) === 0 ) {
+				$_sf_hero_path = $_sf_upload['basedir'] . substr( $_sf_hero_url, strlen( $_sf_upload['baseurl'] ) );
+			} elseif ( strpos( $_sf_hero_url, get_template_directory_uri() ) === 0 ) {
+				$_sf_hero_path = get_template_directory() . substr( $_sf_hero_url, strlen( get_template_directory_uri() ) );
+			}
+			if ( $_sf_hero_path && preg_match( '/\.(png|jpe?g)$/i', $_sf_hero_path ) ) {
+				$_sf_avif_path = preg_replace( '/\.(png|jpe?g)$/i', '.avif', $_sf_hero_path );
+				if ( file_exists( $_sf_avif_path ) ) {
+					$_sf_avif_url = preg_replace( '/\.(png|jpe?g)$/i', '.avif', $_sf_hero_url );
+					echo '<link rel="preload" as="image" type="image/avif" href="' . esc_url( $_sf_avif_url ) . '" fetchpriority="high">' . "\n";
+				}
+			}
+		}
+	}
+	?>
 	<?php wp_head(); ?>
 	<script>
 		if ('serviceWorker' in navigator) {
