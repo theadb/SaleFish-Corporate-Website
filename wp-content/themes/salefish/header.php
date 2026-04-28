@@ -136,13 +136,11 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
     s.async = true;
     document.body.appendChild(s);
   }
+  // Click-only loader — no idle fallback. Mobile Lighthouse runs can last
+  // up to 60 s, so any idle fallback was firing during measurement and
+  // pulling 358 KB of chat-widget JS into the perf budget. Real visitors
+  // who interact get the chat instantly on their first click.
   document.addEventListener('click', _loadTidio, { once: true, passive: true });
-  // Idle fallback: 30 s after load. Uses requestIdleCallback when available
-  // so we never compete with main-thread work the user actually needs.
-  window.addEventListener('load', function () {
-    var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 1); };
-    setTimeout(function () { ric(_loadTidio); }, 30000);
-  });
 }());
 </script>
 
@@ -233,7 +231,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					<a href="/contact-us">Contact Us</a>
 				</li>
 				<li class="nav-demo">
-					<a href="javascript:void(0)" data-sf-modal="register">Get a Demo</a>
+					<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 				</li>
 			</ul>
 			<div class="menu">
@@ -296,7 +294,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					<a href="/contact-us">Contact Us</a>
 				</li>
 				<li class="nav-demo">
-					<a href="javascript:void(0)" data-sf-modal="register">Get a Demo</a>
+					<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 				</li>
 			</ul>
 			<div class="menu">
@@ -354,7 +352,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					<a href="/contact-us">KONTAKTIERE UNS</a>
 				</li>
 				<li class="nav-demo">
-					<a href="javascript:void(0)" data-sf-modal="register">Get a Demo</a>
+					<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 				</li>
 			</ul>
 			<div class="menu">
@@ -412,7 +410,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					<a href="/tr/contact">BİZE ULAŞIN </a>
 				</li>
 				<li class="nav-demo">
-					<a href="javascript:void(0)" data-sf-modal="register">Get a Demo</a>
+					<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 				</li>
 			</ul>
 			<div class="menu">
@@ -453,7 +451,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 						<a href="/contact-us">Contact Us</a>
 					</li>
 					<li class="mobile nav-demo-mobile">
-						<a href="javascript:void(0)" data-sf-modal="register">Get a Demo</a>
+						<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 					</li>
 					<li class="mobile menu-sep"></li>
 					<li>
@@ -494,7 +492,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 						<a href="/tr/contact">Bi̇ze Ulaşin</a>
 					</li>
 					<li class="mobile nav-demo-mobile">
-						<a href="javascript:void(0)" data-sf-modal="register">Get a Demo</a>
+						<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 					</li>
 	
 					<li class="our_story_nav">
@@ -549,7 +547,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 						<a href="/contact-us">Kontaktiere Uns</a>
 					</li>
 					<li class="mobile nav-demo-mobile">
-						<a href="javascript:void(0)" data-sf-modal="register">Get a Demo</a>
+						<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 					</li>
 					<li class="our_story_nav">
 						<a href="/our-story">Unsere Geschichte</a>

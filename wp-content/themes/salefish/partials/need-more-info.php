@@ -14,7 +14,7 @@
                         <span>Senior Sales Manager</span>
                     </div>
                     <div class="cta_button">
-                        <a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Need More Info — CTA">Get a Demo</a>
+                        <a class="button" href="/contact-us/" data-sf-modal="register" data-sf-section="Need More Info — CTA">Get a Demo</a>
 							<a class="button hollow" href="tel:+16475425325">Call</a>
 							<a class="button hollow" href="mailto:dannyl@salefish.app">Email</a>
                     </div>

@@ -25,8 +25,7 @@ $awards = get_field('awards');
                 </h3>
             </div>
             <div class="right" data-aos="fade-left" data-aos-delay="200">
-                <img src="<?php echo get_template_directory_uri(); ?>/img/trophy-v3.png"
-                    class="trophy" loading="lazy" decoding="async" alt="SaleFish awards trophy">
+                <?php sf_picture( get_template_directory_uri() . '/img/trophy-v3.png', [ 'class' => 'trophy', 'alt' => 'SaleFish awards trophy', 'loading' => 'eager', 'fetchpriority' => 'high' ] ); ?>
             </div>
         </div>
     </section>
@@ -66,8 +65,7 @@ $awards = get_field('awards');
 
     <!-- TROPHY — mobile only, shown below the timeline -->
     <div class="timeline-trophy-mobile">
-        <img src="<?php echo get_template_directory_uri(); ?>/img/trophy-v3.png"
-             loading="lazy" decoding="async" alt="SaleFish awards trophy">
+        <?php sf_picture( get_template_directory_uri() . '/img/trophy-v3.png', [ 'alt' => 'SaleFish awards trophy' ] ); ?>
     </div>
 
 <!-- CONTACT -->
@@ -85,7 +83,7 @@ $awards = get_field('awards');
                     DIRECTOR OF PRODUCT
                 </p>
             </div>
-            <a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Awards — CTA">Get a Demo</a>
+            <a class="button" href="/contact-us/" data-sf-modal="register" data-sf-section="Awards — CTA">Get a Demo</a>
         </div>
         <?php get_template_part('/partials/contact-general'); ?>
 
