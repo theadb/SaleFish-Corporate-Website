@@ -4,7 +4,12 @@ header {
   width: 100%;
   z-index: 999;
   background: rgba($dark_purple, 0);
-  transition: height 300ms ease-in-out; // background must snap instantly — do not include it here
+  // Apple-canonical easing for height + background-color transitions on
+  // scroll. Background colour transitions in 250 ms so the frosted-glass
+  // appearance feels instant but still smooth.
+  transition: height 320ms cubic-bezier(0.4, 0, 0.2, 1),
+              background 250ms cubic-bezier(0.4, 0, 0.2, 1),
+              backdrop-filter 250ms cubic-bezier(0.4, 0, 0.2, 1);
   height: 100px;
   display: flex;
   align-items: center;
@@ -59,7 +64,15 @@ header {
   }
 
   &.active {
-    background: rgba($dark_purple, 1);
+    // Apple-style frosted-glass header — semi-transparent purple with a
+    // backdrop blur + saturation boost. Falls back to opaque purple when
+    // backdrop-filter isn't supported.
+    background: rgba($dark_purple, 0.78);
+    @supports (backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px)) {
+      background: rgba($dark_purple, 0.62);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
     height: 70px;
 
     @include rs768 {

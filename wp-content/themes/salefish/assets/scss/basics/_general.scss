@@ -98,13 +98,126 @@ img {
 }
 
 // <picture> elements wrap <img> so we can serve AVIF with a PNG/JPG fallback.
-// Without `display: contents` the picture creates its own inline box, which
-// breaks any existing CSS that expects the <img> to be a direct child of the
-// surrounding flex/grid container. `display: contents` makes the picture
-// layout-transparent — the <img> inside behaves as if it were a direct child
-// of the picture's parent, so no template CSS needs updating.
+// `display: contents` makes the picture layout-transparent — the <img> inside
+// behaves as if it were a direct child of the picture's parent.
 picture {
   display: contents;
+}
+
+// ─── Apple-style premium polish ─────────────────────────────────────────────
+//
+// 1. Image fade-in: every image renders at 0 opacity until its `load` event
+//    fires, then fades in over 400 ms with the canonical Apple easing. Kills
+//    the harsh "snap" of images appearing without animation. JS in app.js
+//    adds .sf-loaded once each img completes (synchronously for cached imgs).
+//
+// 2. Skeleton shimmer: while an image is loading, its <picture> parent (or
+//    the wrapping div for bare imgs) shows a subtle moving gradient — the
+//    same trick Apple/Stripe/Linear use. Covered by the image once loaded.
+//
+// 3. Frosted-glass header on scroll: backdrop-filter blur(20px) saturate
+//    gives the iOS/macOS Big Sur look. WebKit-prefixed for Safari ≤15.
+
+@keyframes sf-skel-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+img {
+  // Note: keep this rule lighter than `:not([fetchpriority="high"])` so the
+  // hero LCP image isn't faded in (would delay LCP measurement).
+  &:not([fetchpriority="high"]) {
+    opacity: 0;
+    transition: opacity 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &.sf-loaded {
+      opacity: 1;
+    }
+  }
+
+  // Skeleton shimmer is applied to the <img> itself when it has reserved
+  // dimensions (width/height) and hasn't loaded yet. Once .sf-loaded is
+  // added, the gradient is replaced by the actual image.
+  &[width][height]:not(.sf-loaded):not([fetchpriority="high"]) {
+    background-color: rgba(0, 0, 0, 0.04);
+    background-image: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0)   0%,
+      rgba(255, 255, 255, 0.6) 50%,
+      rgba(255, 255, 255, 0)   100%
+    );
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: sf-skel-shimmer 1.4s ease-in-out infinite;
+  }
+}
+
+// On dark-background sections the white shimmer is too bright; tone down.
+.hero img:not(.sf-loaded),
+.contact img:not(.sf-loaded),
+.partners img:not(.sf-loaded),
+.our_story .hero img:not(.sf-loaded) {
+  background-color: rgba(255, 255, 255, 0.08);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0)    0%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0)    100%
+  );
+}
+
+// Reduced-motion users skip the fade — content is just visible immediately.
+@media (prefers-reduced-motion: reduce) {
+  img:not([fetchpriority="high"]) {
+    opacity: 1 !important;
+    transition: none !important;
+    animation: none !important;
+    background-image: none !important;
+  }
+}
+
+// ─── Hero text entrance (CSS-only, no JS dependency) ───────────────────────
+// Subtle staggered fade-up on the hero headline, button, and supporting
+// copy. Plays on every page load. Uses the Apple-canonical easing curve
+// and doesn't gate on JS — so on Safari/iOS it always plays even if app.js
+// is delayed by network conditions.
+@keyframes sf-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+.hero h3,
+.hero h1,
+.hero p,
+.hero .button,
+.hero .salefish_demo,
+.our_story .hero .eyebrow,
+.our_story .hero h1,
+.our_story .hero .button,
+.partners .hero h3,
+.partners .hero h1,
+.partners .hero p,
+.partners .hero .button {
+  animation: sf-rise 700ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+// Stagger the elements — typography first, then graphic / CTA.
+.hero h3,                .our_story .hero .eyebrow, .partners .hero h3 { animation-delay:  60ms; }
+.hero h1,                .our_story .hero h1,       .partners .hero h1 { animation-delay: 140ms; }
+.hero p,                                              .partners .hero p { animation-delay: 220ms; }
+.hero .button,           .our_story .hero .button,  .partners .hero .button { animation-delay: 300ms; }
+.hero .salefish_demo                                                   { animation-delay: 200ms; animation-duration: 900ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero h3, .hero h1, .hero p, .hero .button, .hero .salefish_demo,
+  .our_story .hero .eyebrow, .our_story .hero h1, .our_story .hero .button,
+  .partners .hero h3, .partners .hero h1, .partners .hero p, .partners .hero .button {
+    animation: none !important;
+  }
 }
 
 input,

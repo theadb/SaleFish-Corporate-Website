@@ -5,14 +5,40 @@ import { contact_us } from "./pages/contact_us";
 import { blog } from "./pages/blog";
 import { single_post } from "./pages/single_post";
 
-// ── Scroll-reveal removed (2026-04-28) ──────────────────────────────────────
-// All [data-aos] content now renders immediately as fully-styled HTML+CSS.
-// No JS-gated visibility, no fade-ins, no IntersectionObserver, no flicker.
+// ── Image fade-in (apple-style premium polish) ──────────────────────────────
+// Every image starts at opacity:0 with a skeleton-shimmer background (see
+// _general.scss). Once the image's `load` event fires we add `.sf-loaded`,
+// which opacity-fades it in over 420 ms with the canonical iOS easing curve
+// cubic-bezier(0.4, 0, 0.2, 1).
 //
-// Why: the previous JS-driven reveal system caused Safari/iOS users to see
-// content "pop in" on scroll, occasionally vanish on scroll-back, and
-// generally feel sluggish. Removing the system makes the site instantaneous
-// and visually consistent on all devices.
+// LCP-critical images (those marked fetchpriority="high") are excluded by
+// the CSS so they paint at full opacity instantly and don't delay LCP.
 //
-// The CSS rules that depended on .sf-anim / .sf-has-anim / .sf-revealed
-// have also been removed from _general.scss — content is visible by default.
+// We attach via event delegation on document so newly-inserted images
+// (e.g. swiper clones) also fade in. We also do an initial sweep on
+// DOMContentLoaded to catch images that already completed loading from
+// the HTTP cache before our handler attached.
+(function () {
+  function markLoaded(img) {
+    if (!img || img.classList.contains('sf-loaded')) return;
+    img.classList.add('sf-loaded');
+  }
+  // Capture-phase listener — `load` doesn't bubble, so we have to use capture
+  // to delegate via document.
+  document.addEventListener('load', function (e) {
+    if (e.target && e.target.tagName === 'IMG') markLoaded(e.target);
+  }, true);
+  // Initial sweep — covers cached images that loaded before the listener.
+  function sweep() {
+    document.querySelectorAll('img').forEach(function (img) {
+      if (img.complete && img.naturalWidth > 0) markLoaded(img);
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', sweep);
+  } else {
+    sweep();
+  }
+  // Re-sweep after window.load too, in case any image just finished.
+  window.addEventListener('load', sweep);
+}());
