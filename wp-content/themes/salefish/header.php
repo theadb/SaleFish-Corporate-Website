@@ -162,7 +162,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 		var openId = null;
 		var lastFocused = null;
 
-		function targetEl(m)   { return document.querySelector(m.target); }
+		function targetEls(m)  { return Array.from(document.querySelectorAll(m.target)); }
 		function triggerEls(m) { return Array.from(document.querySelectorAll(m.triggerBtn)); }
 
 		function applyState(m, open) {
@@ -170,13 +170,19 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 				b.classList.toggle('is-active', open);
 				b.setAttribute('aria-expanded', open ? 'true' : 'false');
 			});
-			var t = targetEl(m);
-			if (t) {
+			// Toggle ALL matching targets, not just the first. The header
+			// has 4 language-variant copies — each with its own
+			// .languages_option — and only the variant matching the
+			// current page is actually visible (others hidden by CSS).
+			// Without this, opening the picker on /de or /tr toggled the
+			// hidden English one's panel and the visible panel never
+			// updated.
+			targetEls(m).forEach(function (t) {
 				t.classList.toggle('is-open', open);
 				if (open) t.removeAttribute('inert');
 				else      t.setAttribute('inert', '');
-			}
-			// The languages picker has a chevron sibling that flips on open.
+			});
+			// The languages picker has chevron siblings that flip on open.
 			if (m.id === 'languages') {
 				document.querySelectorAll('.languages .down_arrow').forEach(function (a) {
 					a.classList.toggle('active', open);
@@ -219,12 +225,15 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 				}
 			}
 			// Outside click: close the open menu unless the click is inside
-			// its own panel.
+			// any of its panels (multiple panels exist for language-variant
+			// triggers — see applyState comment).
 			if (!openId) return;
 			var openMenu = menus.find(function (x) { return x.id === openId; });
 			if (!openMenu) { openId = null; return; }
-			var t = targetEl(openMenu);
-			if (t && t.contains(e.target)) return; // click inside panel — keep open
+			var insidePanel = targetEls(openMenu).some(function (t) {
+				return t.contains(e.target);
+			});
+			if (insidePanel) return; // click inside an open panel — keep open
 			close(openId);
 		}, false);
 
