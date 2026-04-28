@@ -78,10 +78,10 @@ $the_numbers = get_field('the_numbers');
 					<div class="builders_marquee">
 						<div class="builders_track">
 							<?php foreach((is_array($builders) ? $builders : []) as $builder): ?>
-							<?php sf_picture( $builder, [ 'class' => 'builder_logo', 'loading' => 'eager' ] ); ?>
+							<?php sf_picture( $builder, [ 'class' => 'builder_logo' ] ); ?>
 							<?php endforeach; ?>
 							<?php foreach((is_array($builders) ? $builders : []) as $builder): ?>
-							<?php sf_picture( $builder, [ 'class' => 'builder_logo', 'loading' => 'eager', 'attrs' => 'aria-hidden="true"' ] ); ?>
+							<?php sf_picture( $builder, [ 'class' => 'builder_logo', 'attrs' => 'aria-hidden="true"' ] ); ?>
 							<?php endforeach; ?>
 						</div>
 					</div>
