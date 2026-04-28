@@ -72,6 +72,56 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 	     with CSS, eliminating FOUT on first paint. -->
 	<link rel="preload" as="font" type="font/woff2" crossorigin href="<?php echo esc_url( get_template_directory_uri() ); ?>/fonts/Poppins-Regular.woff2">
 	<link rel="preload" as="font" type="font/woff2" crossorigin href="<?php echo esc_url( get_template_directory_uri() ); ?>/fonts/Poppins-SemiBold.woff2">
+	<!-- ───────────────────────────────────────────────────────────────────────
+	     Critical above-the-fold CSS, inlined to eliminate render-blocking on
+	     app.css (186 KB). Without this, Safari blanks the screen for 300-1000 ms
+	     while parsing the full stylesheet. With it, the page paints with
+	     correct colors, fonts, and layout in the first <head> read, then
+	     app.css polishes it asynchronously below.
+	     ─────────────────────────────────────────────────────────────────────── -->
+	<style>
+	/* Reset + base — keep TINY to minimise <head> bytes */
+	*,*::before,*::after{box-sizing:border-box}
+	html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+	html,body{margin:0;padding:0}
+	body{background:#F3F5F9;color:#484848;font-family:Poppins,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;line-height:1.4;overflow-x:hidden}
+	img,svg{display:block;max-width:100%;height:auto}
+	a{color:inherit;text-decoration:none}
+	button{font:inherit;cursor:pointer;border:0;background:transparent;color:inherit}
+
+	/* Poppins font — declared inline so first paint already uses correct font */
+	@font-face{font-family:Poppins;src:url(<?php echo esc_url( get_template_directory_uri() ); ?>/fonts/Poppins-Regular.woff2) format('woff2');font-weight:400;font-style:normal;font-display:swap}
+	@font-face{font-family:Poppins;src:url(<?php echo esc_url( get_template_directory_uri() ); ?>/fonts/Poppins-SemiBold.woff2) format('woff2');font-weight:600;font-style:normal;font-display:swap}
+	@font-face{font-family:Poppins;src:url(<?php echo esc_url( get_template_directory_uri() ); ?>/fonts/Poppins-Bold.woff2) format('woff2');font-weight:700;font-style:normal;font-display:swap}
+
+	/* Page background — purple on dark-header pages, white on light-header pages.
+	   Matches the theme-color meta below so there's never a white flash. */
+	<?php if ( ! $_sf_light_header ): ?>
+	body{background:#452D8C;color:#fff}
+	<?php endif; ?>
+
+	/* Hero scaffolding — enough layout that the headline + button paint in
+	   roughly the right place even before app.css loads. The full styles below
+	   refine spacing, but this prevents a visible jump. */
+	main{display:block}
+	.hero{position:relative;padding:80px 0 60px;color:#fff;background:#452D8C;min-height:60vh}
+	.hero .max_wrapper,.max_wrapper{max-width:1280px;margin:0 auto;padding:0 60px;width:100%}
+	.hero h1{font-family:Poppins,sans-serif;font-weight:700;font-size:clamp(36px,5.5vw,68px);line-height:1.1;margin:0 0 24px}
+	.hero h3{font-family:Poppins,sans-serif;font-weight:600;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 16px;opacity:.9}
+	.hero .button,a.button,.button{display:inline-block;padding:14px 28px;background:#EDBB85;color:#452D8C;font-family:Poppins,sans-serif;font-weight:600;border-radius:6px;font-size:15px;line-height:1.2}
+
+	/* Header layout — flex row, white logo + nav on dark pages */
+	header{position:relative;z-index:50;width:100%}
+	header .max_wrapper{display:flex;align-items:center;justify-content:space-between;padding-top:24px;padding-bottom:24px}
+	.salefish_logo{height:32px;width:auto;max-width:160px}
+
+	/* Footer — visible by default. The previous display:none was the bottom-of-
+	   page slow-render culprit. */
+	footer{display:block;background:#F3F5F9;color:#484848}
+
+	/* Hide-while-fonts-load FOUT prevention: nothing aggressive — font-display:swap
+	   on the @font-face above means text renders in fallback then swaps in. */
+	</style>
 	<?php wp_head(); ?>
 	<script>
 		if ('serviceWorker' in navigator) {
@@ -81,27 +131,6 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 		}
 	</script>
 
-	<!-- Critical: gate scroll-reveal hiding via inline script in <head>.
-	     Why this matters: previously every [data-aos] element was hidden by JS
-	     after DOMContentLoaded, which on Safari/iOS causes a flash of visible
-	     content → flash of hidden content → fade-in. By setting the gate class
-	     synchronously here BEFORE body parses, the hide+reveal happens in one
-	     paint cycle. The 1.5s safety timer guarantees content is never hidden
-	     longer than that, even if the IntersectionObserver never fires. -->
-	<script>
-	(function () {
-		var d = document.documentElement;
-		// Only gate animation when the user prefers it AND IntersectionObserver
-		// exists. Reduced-motion or older browsers see content immediately.
-		if ('IntersectionObserver' in window &&
-		    !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) {
-			d.classList.add('sf-has-anim');
-		}
-		// Hard safety net: after 1.5s, reveal EVERYTHING regardless of IO state.
-		// Never let hidden state outlast a typical Safari load.
-		setTimeout(function () { d.classList.add('sf-revealed'); }, 1500);
-	})();
-	</script>
 </head>
 <body <?php body_class(); ?>>
 <style>

@@ -261,57 +261,12 @@ main {
   }
 }
 
-// ── Scroll-reveal animations (Intersection Observer) ─────────────────────────
-// Content-first architecture:
-//   1. By default, [data-aos] elements are FULLY VISIBLE (no opacity:0). This
-//      means content renders immediately on first paint — Safari/iOS users see
-//      the page exactly as fast as the HTML+CSS arrive, with no JS dependency.
-//   2. The hide-then-fade-in is gated on `html.sf-has-anim`, set synchronously
-//      by an inline script in <head> only when JS is running AND prefers-
-//      reduced-motion is not set. This avoids the FOUC pattern entirely.
-//   3. JS adds .sf-anim only to elements that are BELOW the viewport when JS
-//      runs (above-the-fold content stays visible — no animation, no delay).
-//   4. `html.sf-revealed` is set by a 1.5s safety timer and force-reveals all
-//      animated content unconditionally. Hidden state can never outlast the
-//      first 1.5s of the page lifecycle.
-.sf-has-anim .sf-anim {
-  opacity: 0;
-  transition: opacity 0.52s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              transform 0.52s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-
-  &:not([data-sf-dir]),
-  &[data-sf-dir="fade-up"],
-  &[data-sf-dir="fade"] {
-    transform: translateY(20px);
-  }
-
-  &[data-sf-dir="fade-down"]  { transform: translateY(-20px); }
-  &[data-sf-dir="fade-left"]  { transform: translateX(24px);  }
-  &[data-sf-dir="fade-right"] { transform: translateX(-24px); }
-  &[data-sf-dir="fade-in"]    { transform: none; }
-
-  &.sf-in {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-// 1.5s safety net — force-reveal every animated element regardless of state.
-// Catches IO-callback races, Safari's conservative scheduling, and any edge
-// case where the IO never fires. Content is never invisible past this point.
-.sf-revealed .sf-anim {
-  opacity: 1 !important;
-  transform: none !important;
-}
-
-// On mobile, drop the translate entirely — opacity-only is less jarring and
-// removes any chance of horizontal scroll-jitter from translateX(24px).
-@media screen and (max-width: 768px) {
-  .sf-has-anim .sf-anim {
-    transform: none !important;
-    transition: opacity 0.35s ease;
-  }
-}
+// ── Scroll-reveal removed (2026-04-28) ──────────────────────────────────────
+// All [data-aos] content renders fully visible — no JS-gated hiding, no
+// fade-in animations. The previous system caused Safari/iOS to render content
+// inconsistently (content sometimes vanishing on scroll-back). Hard-coding
+// content as visible removes every possible failure mode and makes first
+// paint match final paint exactly.
 
 // ── Respect prefers-reduced-motion ───────────────────────────────────────────
 // Disable all decorative animations for users who prefer reduced motion.

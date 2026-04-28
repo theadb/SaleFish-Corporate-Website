@@ -137,6 +137,9 @@ function kickass_scripts()
 
     wp_enqueue_style('style-name', get_template_directory_uri() . '/dest/app.css', [], filemtime(get_template_directory() . '/dest/app.css'));
     wp_enqueue_script('script-name', get_template_directory_uri() . '/dest/app.js', [], filemtime(get_template_directory() . '/dest/app.js'), true);
+    // Tell WordPress this stylesheet should be loaded asynchronously.
+    // The filter below converts it to a non-render-blocking <link>.
+    wp_style_add_data( 'style-name', 'sf-async', true );
     wp_localize_script('script-name', 'salefishAjax', [
         'ajaxurl'        => admin_url('admin-ajax.php'),
         'nonce'          => wp_create_nonce('salefish_nonce'),
@@ -145,6 +148,38 @@ function kickass_scripts()
     ]);
 }
 add_action('wp_enqueue_scripts', 'kickass_scripts');
+
+/**
+ * Make app.css non-render-blocking using the well-known media-swap pattern:
+ *   <link rel="stylesheet" media="print" onload="this.media='all'">
+ *
+ * The browser fetches the sheet but treats it as a print-only resource until
+ * onload fires — so it doesn't block the parser or first paint. A <noscript>
+ * fallback ensures CSS still applies for users with JS disabled.
+ *
+ * Critical above-the-fold styles are inlined in header.php so the page paints
+ * with correct colors/fonts/layout immediately while app.css streams in.
+ */
+add_filter( 'style_loader_tag', function ( $tag, $handle ) {
+    if ( ! wp_styles()->get_data( $handle, 'sf-async' ) ) {
+        return $tag;
+    }
+    // Inject media="print" + onload swap, plus a <noscript> fallback.
+    $async = preg_replace(
+        '/(\s)media=([\'"]).*?\2/',
+        '$1media="print" onload="this.media=\'all\';this.onload=null"',
+        $tag
+    );
+    // If the original tag had no media attribute, add one.
+    if ( $async === $tag ) {
+        $async = str_replace(
+            '<link ',
+            '<link media="print" onload="this.media=\'all\';this.onload=null" ',
+            $tag
+        );
+    }
+    return $async . "<noscript>" . $tag . "</noscript>\n";
+}, 10, 2 );
 
 // ── Performance: resource hints ───────────────────────────────────────────────
 add_action('wp_head', function() {
