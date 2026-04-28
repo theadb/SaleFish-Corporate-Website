@@ -4,12 +4,20 @@ header {
   width: 100%;
   z-index: 999;
   background: rgba($dark_purple, 0);
-  // Apple-canonical easing for height + background-color transitions on
-  // scroll. Background colour transitions in 250 ms so the frosted-glass
-  // appearance feels instant but still smooth.
+  // The header sits above the iOS / iPadOS safe-area inset (notch /
+  // dynamic-island / home-indicator regions). Adding the inset as
+  // padding-top makes the purple background extend up under the status
+  // bar instead of leaving a translucent strip there. Combined with the
+  // `viewport-fit=cover` meta tag in <head>, this is the iOS-canonical
+  // way to handle the notch.
+  padding-top: env(safe-area-inset-top);
+  // Apple-canonical easing for height + background-color transitions
+  // on scroll. Background colour transitions in 250 ms so the new state
+  // feels instant but still smooth. backdrop-filter intentionally NOT
+  // listed — it's removed on mobile (see below) and applied only on
+  // desktop where the GPU cost is acceptable.
   transition: height 320ms cubic-bezier(0.4, 0, 0.2, 1),
-              background 250ms cubic-bezier(0.4, 0, 0.2, 1),
-              backdrop-filter 250ms cubic-bezier(0.4, 0, 0.2, 1);
+              background 250ms cubic-bezier(0.4, 0, 0.2, 1);
   height: 100px;
   display: flex;
   align-items: center;
@@ -64,16 +72,20 @@ header {
   }
 
   &.active {
-    // Apple-style frosted-glass header — semi-transparent purple with a
-    // backdrop blur + saturation boost. Falls back to opaque purple when
-    // backdrop-filter isn't supported.
-    background: rgba($dark_purple, 0.78);
-    @supports (backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px)) {
-      background: rgba($dark_purple, 0.62);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-    }
+    // Solid-purple background by default. Frosted glass (backdrop-filter)
+    // is applied DESKTOP-ONLY because on iOS Safari it causes severe layout
+    // jank when combined with click handlers — every menu open re-runs the
+    // blur compositing and can stall the main thread for 200-400 ms.
+    background: rgba($dark_purple, 0.95);
     height: 70px;
+
+    @media (min-width: 769px) {
+      @supports (backdrop-filter: blur(18px)) or (-webkit-backdrop-filter: blur(18px)) {
+        background: rgba($dark_purple, 0.62);
+        backdrop-filter: blur(18px) saturate(180%);
+        -webkit-backdrop-filter: blur(18px) saturate(180%);
+      }
+    }
 
     @include rs768 {
       height: 80px; // no shrink on mobile — always 80px
