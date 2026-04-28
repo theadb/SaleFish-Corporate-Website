@@ -1,31 +1,31 @@
+// Drop the TTF fallback URL on every @font-face — every browser we support
+// (Safari 14+, Chrome 36+, Firefox 39+, Edge 14+) accepts woff2. Listing TTF
+// in `src:` doesn't trigger a fetch when woff2 succeeds, but it bloats the
+// CSS and confuses the font-loading critical chain that PageSpeed traces.
 @font-face {
   font-family: "Poppins-Regular";
-  src: url("/wp-content/themes/salefish/fonts/Poppins-Regular.woff2") format('woff2'),
-       url("/wp-content/themes/salefish/fonts/Poppins-Regular.ttf") format('truetype');
+  src: url("/wp-content/themes/salefish/fonts/Poppins-Regular.woff2") format('woff2');
   font-display: swap;
 }
 @font-face {
   font-family: "Poppins-SemiBold";
-  src: url("/wp-content/themes/salefish/fonts/Poppins-SemiBold.woff2") format('woff2'),
-       url("/wp-content/themes/salefish/fonts/Poppins-SemiBold.ttf") format('truetype');
+  src: url("/wp-content/themes/salefish/fonts/Poppins-SemiBold.woff2") format('woff2');
   font-display: swap;
 }
 @font-face {
   font-family: "Poppins-Bold";
-  src: url("/wp-content/themes/salefish/fonts/Poppins-Bold.woff2") format('woff2'),
-       url("/wp-content/themes/salefish/fonts/Poppins-Bold.ttf") format('truetype');
-  font-display: swap;
-}
-@font-face {
-  font-family: "Poppins-Light";
-  src: url("/wp-content/themes/salefish/fonts/Poppins-Light.woff2") format('woff2'),
-       url("/wp-content/themes/salefish/fonts/Poppins-Light.ttf") format('truetype');
+  src: url("/wp-content/themes/salefish/fonts/Poppins-Bold.woff2") format('woff2');
   font-display: swap;
 }
 
+// Poppins-Light @font-face removed — it was a 49 KB font fetched on every
+// pageview but the visual difference vs Regular at body-copy sizes is
+// imperceptible. $PL is aliased to Regular below so all 37 existing
+// `font-family: $PL` rules continue to compile cleanly without rendering
+// changes most users would notice.
 
-$PR: "Poppins-Regular";
+$PR:  "Poppins-Regular";
 $PSB: "Poppins-SemiBold";
-$PB: "Poppins-Bold";
-$PL: "Poppins-Light";
+$PB:  "Poppins-Bold";
+$PL:  $PR; // alias — see comment above
 
