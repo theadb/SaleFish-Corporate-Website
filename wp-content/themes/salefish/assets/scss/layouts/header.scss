@@ -290,11 +290,18 @@ header {
 
 .floating_menu {
   position: fixed;
-  top: 70px;
+  // Top is driven by `html.is-scrolled` (set by header-scroll handler in
+  // header.php) so JS doesn't have to write inline `top: …px` on every
+  // scroll frame. Default = unscrolled (taller header). is-scrolled =
+  // header has shrunk to 70px.
+  top: 100px;
   left: 50%;
 
+  .is-scrolled & { top: 70px; }
+
   @include rs768 {
-    top: 80px; // matches fixed 80px mobile header
+    top: 80px; // mobile header is always 80 px regardless of scroll
+    .is-scrolled & { top: 80px; }
   }
   z-index: 9999;
   background: #fff;
@@ -1017,11 +1024,14 @@ header {
 
 .sales_login_menu {
   position: fixed;
-  top: 70px;
+  top: 100px;
   left: 50%;
 
+  .is-scrolled & { top: 70px; }
+
   @include rs768 {
-    top: 80px; // matches fixed 80px mobile header
+    top: 80px;
+    .is-scrolled & { top: 80px; }
   }
   z-index: 9999;
   transform: translate(-50%);
