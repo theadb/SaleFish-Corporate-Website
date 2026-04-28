@@ -1,7 +1,10 @@
 // Tools
 @import "tools/reset";
-@import "tools/dropdown";
-@import "tools/transition";
+// Semantic UI dropdown + transition imports removed — nothing in the
+// rendered output uses .ui.dropdown / .ui.transition classes. Together
+// they were 86 KB of unused CSS shipped on every page-view (~100 ms
+// wasted on mobile). Custom dropdowns (language picker, mobile menu) use
+// their own scoped styles in layouts/header.scss.
 @import "swiper/css";
 @import "swiper/css/navigation";
 @import "swiper/css/pagination";
