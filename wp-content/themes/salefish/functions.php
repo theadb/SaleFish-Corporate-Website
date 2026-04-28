@@ -146,6 +146,21 @@ function kickass_scripts()
 }
 add_action('wp_enqueue_scripts', 'kickass_scripts');
 
+/**
+ * NOTE: The Cache-Control: no-store header on this site is set at the
+ * server (Apache/cPanel) level — a duplicate header is injected after PHP
+ * flushes its response, and PHP-side filters (nocache_headers,
+ * header_register_callback, header_remove) cannot override it. Fixing it
+ * requires either:
+ *   • cPanel access to disable the per-virtualhost mod_security/mod_headers
+ *     rule that injects the no-store header, or
+ *   • Migrating to a host where Cache-Control isn't forced.
+ *
+ * Once removed at the server level, the browser will be able to use its
+ * bf-cache (instant back/forward) and cache the HTML for the duration we
+ * specify in WP-Super-Cache (currently max-age=3, must-revalidate).
+ */
+
 // ── Performance: resource hints ───────────────────────────────────────────────
 add_action('wp_head', function() {
     // cdn.jsdelivr.net and cdnjs no longer used — removed preconnects
