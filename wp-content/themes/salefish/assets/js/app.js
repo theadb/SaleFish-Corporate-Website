@@ -5,21 +5,25 @@ import { contact_us } from "./pages/contact_us";
 import { blog } from "./pages/blog";
 import { single_post } from "./pages/single_post";
 
-// ── Scroll-reveal: lightweight IntersectionObserver ─────────────────────────
-// Elements are always visible on mobile (< 769px) or if JS is unavailable.
-// On desktop: [data-aos] elements get .sf-anim (initial hidden state) then
-// .sf-in (revealed) when they approach the viewport.
-// Supports data-aos direction variants: fade-up (default), fade-down,
-//   fade-left, fade-right, fade-in (opacity only, no translate).
-// Supports data-aos-delay (ms) and data-aos-duration (ms, default 520).
+// ── Scroll-reveal: content-first IntersectionObserver ───────────────────────
+// Architecture (rewritten 2026-04-28 to fix Safari/iOS slow-loading feel):
 //
-// Fast-scroll resilience: two complementary strategies
-//   1. Large rootMargin (350 px desktop / 160 px mobile) — elements are
-//      queued for reveal well before they reach the viewport, so even at
-//      high scroll velocity the IO callback has time to fire.
-//   2. Scroll-stop sweep — 120 ms after scrolling ceases, any .sf-anim
-//      element already inside the viewport is revealed immediately (no
-//      transition delay) so nothing stays hidden after a fast scroll.
+//   1. Content is visible by default — we never hide an element unless we are
+//      certain it is BELOW the current viewport. That eliminates the previous
+//      pattern's "flash of visible → flash of hidden → fade in" stutter that
+//      Safari users experienced on every navigation.
+//
+//   2. The CSS hide/reveal rules live under `html.sf-has-anim` (set inline in
+//      <head>). If JS never runs, the class is never added and content stays
+//      visible — guaranteed graceful degradation.
+//
+//   3. A 1.5 s hard safety timer in <head> sets `html.sf-revealed`, which
+//      force-reveals every animated element regardless of IO state. Hidden
+//      content can never outlast 1.5 s of the page lifecycle.
+//
+//   4. Below-the-fold elements still fade in as they scroll into view; the
+//      animation is preserved for visual polish but no longer gates first
+//      paint.
 (function () {
   if (
     !window.IntersectionObserver ||
@@ -34,8 +38,6 @@ import { single_post } from "./pages/single_post";
     el.classList.add('sf-in');
     var dur = el.getAttribute('data-aos-duration');
     if (dur) el.style.transitionDuration = parseInt(dur, 10) + 'ms';
-    // When called from the sweep (skipDelay=true) don't honour data-aos-delay
-    // so elements that were already past the trigger zone appear instantly.
     if (skipDelay) el.style.transitionDelay = '0ms';
   }
 
@@ -55,94 +57,55 @@ import { single_post } from "./pages/single_post";
     },
     {
       threshold: 0,
-      // Large look-ahead: start the reveal animation well before the element
-      // reaches the visible area, giving the IO callback time to fire even
-      // when the user scrolls quickly.
       rootMargin: isMobile ? '0px 0px 160px 0px' : '0px 0px 350px 0px',
     }
   );
 
-  // Sweep: after scrolling stops, immediately reveal any .sf-anim element
-  // whose top edge is already inside (or above) the viewport.
-  var sweepTimer;
-  function sweep() {
+  function init() {
+    // Scroll position at the moment we initialise. If the user is at the top
+    // (the common case), every element with top < viewport-height is treated
+    // as above-the-fold and stays visible without animation. If the user
+    // navigated to a hash deep in the page, the same logic still works.
     var vh = window.innerHeight;
-    document.querySelectorAll('.sf-anim:not(.sf-in)').forEach(function (el) {
-      if (el.getBoundingClientRect().top < vh) {
-        revealEl(el, true);
-        io.unobserve(el);
-      }
-    });
-  }
+    var triggerLine = vh; // any element with top < this is already visible
 
-  document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('[data-aos]').forEach(function (el) {
-      // Store direction for CSS to read via a data attribute (simpler than class)
+      var top = el.getBoundingClientRect().top;
+
+      // Above the fold — render visible immediately, no animation, no class.
+      // This is the key change: we don't add .sf-anim to elements that are
+      // already on screen, so they never flash hidden.
+      if (top < triggerLine) return;
+
+      // Below the fold — set up the fade-in animation
       var dir = el.getAttribute('data-aos') || 'fade-up';
       el.setAttribute('data-sf-dir', dir);
       el.classList.add('sf-anim');
       io.observe(el);
     });
 
-    // Immediately reveal anything already in or above the viewport at setup time.
-    // Fixes the fast-scroll-before-DOMContentLoaded bug: if the user was already
-    // scrolled down when .sf-anim was added, the IO's downward-only rootMargin
-    // never fires for elements above the fold, leaving them stuck hidden.
-    sweep();
-
+    // Sweep: 120 ms after every scroll-stop, reveal any .sf-anim element whose
+    // top edge has crossed the viewport. Catches IO callback races during
+    // fast scrolls or Safari's conservative scheduling.
+    var sweepTimer;
+    function sweep() {
+      var vhNow = window.innerHeight;
+      document.querySelectorAll('.sf-anim:not(.sf-in)').forEach(function (el) {
+        if (el.getBoundingClientRect().top < vhNow) {
+          revealEl(el, true);
+          io.unobserve(el);
+        }
+      });
+    }
     window.addEventListener('scroll', function () {
       clearTimeout(sweepTimer);
       sweepTimer = setTimeout(sweep, 120);
     }, { passive: true });
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 }());
-
-// ── Loading overlay & footer visibility ──────────────────────────────────────
-//
-// Two separate concerns, two separate timers:
-//
-// 1. Overlay — dismissed at DOMContentLoaded + 100 ms so the page content is
-//    visible as soon as the HTML and CSS are parsed. We do NOT wait for
-//    window.load because third-party scripts (Tidio, GTM, Turnstile) can delay
-//    that event by 2–5 s, causing a blank-screen experience the user sees as
-//    the site being broken.
-//
-// 2. Footer — shown at window.load + 150 ms (keeps footer hidden during the
-//    brief period before layout stabilises). Safety cap at 3 s so a hung
-//    third-party script never hides the footer indefinitely.
-//
-var _sfOverlayDone = false;
-function _sfDismissOverlay() {
-  if (_sfOverlayDone) return;
-  _sfOverlayDone = true;
-  $(".loading").addClass("active");
-}
-
-var _sfFooterShown = false;
-function _sfShowFooter() {
-  if (_sfFooterShown) return;
-  _sfFooterShown = true;
-  _sfDismissOverlay(); // belt-and-suspenders: ensure overlay is gone
-  $("footer").css("display", "block");
-}
-
-// Dismiss overlay AND show footer as soon as the DOM is ready.
-//
-// Footer was previously deferred to window.load, but that meant users who
-// scrolled quickly to the bottom would see a blank/missing footer for up to
-// 3 s while third-party scripts (Tidio, Lucide, GTM) finished loading.
-// The loading overlay covers the page until DOMContentLoaded anyway, so
-// there is no visual benefit to hiding the footer any longer than the overlay.
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function () {
-    setTimeout(_sfDismissOverlay, 100);
-    setTimeout(_sfShowFooter, 100);
-  });
-} else {
-  setTimeout(_sfDismissOverlay, 100);
-  setTimeout(_sfShowFooter, 100);
-}
-// Safety caps — guarantee both are done within 1.5 s even if DOMContentLoaded
-// never fires on a broken page.
-setTimeout(_sfDismissOverlay, 1500);
-setTimeout(_sfShowFooter, 1500);

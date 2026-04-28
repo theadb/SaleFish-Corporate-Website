@@ -2,7 +2,10 @@ footer {
   padding: 48px 60px 2em;
   background: $gray;
   margin-top: 0; // prevent orphaned gap from preceding section margins
-  display: none;
+  // Footer is now visible by default. Previously hidden via display:none and
+  // shown via JS — that pattern caused the bottom of the page to be blank
+  // for 100ms-3s on Safari/iOS while waiting for window.load + third-party
+  // scripts (Tidio, GTM). Visible-by-default removes the JS dependency.
 
   @include rs600 {
     padding: 40px 20px 1.5em;

@@ -218,28 +218,11 @@ main {
   overflow-x: clip; // 'clip' does not create a scroll container — iOS keeps momentum scrolling
 }
 
-.loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: $dark_purple;
-  background-size: 160px auto;
-  background-position: center center;
-  background-repeat: no-repeat;
-  // Animate only the properties we actually change — avoids Safari re-evaluating
-  // every CSS property on every frame, which 'all' would force.
-  transition: opacity 250ms ease, visibility 250ms ease;
-  z-index: 9999;
-  opacity: 1;
-  visibility: visible;
-
-  &.active {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
+// Loading overlay was removed — content is now visible immediately on first paint.
+// The previous .loading { } cover-up created a 100-1500ms perceived delay on
+// Safari/iOS while JS waited to dismiss it. The new approach: render content
+// immediately, treat scroll-reveal as a progressive enhancement that animates
+// only below-the-fold elements as they enter the viewport.
 
 // ── Hero orb compositor layers (desktop) ─────────────────────────────────────
 // Promote each orb pseudo-element to its own GPU compositing layer so the
@@ -279,17 +262,23 @@ main {
 }
 
 // ── Scroll-reveal animations (Intersection Observer) ─────────────────────────
-// Elements are always visible without JS (no .sf-anim class = no hidden state).
-// JS assigns .sf-anim + data-sf-dir to [data-aos] elements, which sets the
-// initial hidden offset below. Adding .sf-in reveals the element.
-// Direction variants driven by data-sf-dir attribute set by JS.
-.sf-anim {
+// Content-first architecture:
+//   1. By default, [data-aos] elements are FULLY VISIBLE (no opacity:0). This
+//      means content renders immediately on first paint — Safari/iOS users see
+//      the page exactly as fast as the HTML+CSS arrive, with no JS dependency.
+//   2. The hide-then-fade-in is gated on `html.sf-has-anim`, set synchronously
+//      by an inline script in <head> only when JS is running AND prefers-
+//      reduced-motion is not set. This avoids the FOUC pattern entirely.
+//   3. JS adds .sf-anim only to elements that are BELOW the viewport when JS
+//      runs (above-the-fold content stays visible — no animation, no delay).
+//   4. `html.sf-revealed` is set by a 1.5s safety timer and force-reveals all
+//      animated content unconditionally. Hidden state can never outlast the
+//      first 1.5s of the page lifecycle.
+.sf-has-anim .sf-anim {
   opacity: 0;
-  // Default direction — overridden per-direction below
   transition: opacity 0.52s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               transform 0.52s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
-  // fade-up (default, also handles unrecognised values)
   &:not([data-sf-dir]),
   &[data-sf-dir="fade-up"],
   &[data-sf-dir="fade"] {
@@ -307,12 +296,20 @@ main {
   }
 }
 
-// On mobile use a lighter variant: opacity only (no translate) so the reveal
-// is unobtrusive and never causes layout shifts on small screens.
+// 1.5s safety net — force-reveal every animated element regardless of state.
+// Catches IO-callback races, Safari's conservative scheduling, and any edge
+// case where the IO never fires. Content is never invisible past this point.
+.sf-revealed .sf-anim {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+// On mobile, drop the translate entirely — opacity-only is less jarring and
+// removes any chance of horizontal scroll-jitter from translateX(24px).
 @media screen and (max-width: 768px) {
-  .sf-anim {
-    transform: none !important; // override all direction variants
-    transition: opacity 0.4s ease;
+  .sf-has-anim .sf-anim {
+    transform: none !important;
+    transition: opacity 0.35s ease;
   }
 }
 
@@ -336,11 +333,6 @@ main {
   .card-animate {
     animation: none !important;
     opacity: 1 !important;
-  }
-
-  // Loading screen transition
-  .loading {
-    transition: none !important;
   }
 
   // Image zoom hover
