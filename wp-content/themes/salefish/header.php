@@ -518,9 +518,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			</div>
 			<hr>
 			<div class="bottom">
-				<img class="fish"
-					src="<?php echo get_template_directory_uri(); ?>/img/fish.png"
-					alt="Salefish" width="80" height="80" loading="lazy" decoding="async">
+				<?php sf_picture( get_template_directory_uri() . '/img/fish.png', [ 'class' => 'fish', 'alt' => 'Salefish', 'width' => 80, 'height' => 80 ] ); ?>
 				<a href="tel:+905333311236" class="hover-main-menu-style">+90 533 331 12 36</a>
 				<a href="tel:+902122341494" class="hover-main-menu-style">+90 212 234 14 94</a>
 				<a class="email hover-main-menu-style-email" href="mailto:hello@salefish.app">hello@salefish.app</a>
@@ -573,9 +571,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			</div>
 			<hr>
 			<div class="bottom">
-				<img class="fish"
-					src="<?php echo get_template_directory_uri(); ?>/img/fish.png"
-					alt="Salefish" width="80" height="80" loading="lazy" decoding="async">
+				<?php sf_picture( get_template_directory_uri() . '/img/fish.png', [ 'class' => 'fish', 'alt' => 'Salefish', 'width' => 80, 'height' => 80 ] ); ?>
 				<a href="tel:+18778927741" class="hover-main-menu-style">1.877.892.7741</a>
 				<a href="tel:+19057615364" class="hover-main-menu-style">1.905.761.5364</a>
 				<a class="email hover-main-menu-style-email" href="mailto:hello@salefish.app">hello@salefish.app</a>

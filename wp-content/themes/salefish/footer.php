@@ -290,7 +290,7 @@ window._linkedin_data_partner_ids.push(_linkedin_partner_id);
   <div class="sf-video-dialog__backdrop"></div>
   <div class="sf-video-dialog__panel">
     <button class="sf-video-dialog__close" aria-label="Close video">
-      <i data-lucide="x"></i>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
     </button>
     <iframe class="sf-video-dialog__iframe" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Video player"></iframe>
     <!-- Fallback: if the embed errors out (e.g. third-party cookies blocked,
@@ -302,12 +302,25 @@ window._linkedin_data_partner_ids.push(_linkedin_partner_id);
   </div>
 </div>
 
-<!-- Pinned to a specific version so the browser can cache across visits.
-     v0.468.0 is post-brand-icon removal (linkedin/instagram were removed in v0.453).
-     To update: change the version number and clear the CDN cache.
-     async: non-blocking — does not delay window.load; onload fires createIcons()
-     once the script is ready regardless of when that happens. -->
-<script async src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js" onload="lucide.createIcons()"></script>
+<!-- Lucide CDN removed — was 81 KB to render 3 icons (circle-check-big on
+     the thank-you page, plus 2 close X's). All Lucide-using markup now
+     embeds inline SVG paths directly. The hamburger / close / chevron
+     icons in the header were already inline (see header.php top). -->
+<script>
+// Backwards-compat shim for any leftover <i data-lucide="..."> tags emitted
+// elsewhere — replace each with an inline SVG so it never renders blank.
+// Tiny mapping; expand as new icons are added.
+(function () {
+  var icons = {
+    'circle-check-big': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>',
+    'x': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>'
+  };
+  document.querySelectorAll('i[data-lucide]').forEach(function (el) {
+    var name = el.getAttribute('data-lucide');
+    if (icons[name]) el.outerHTML = icons[name];
+  });
+}());
+</script>
 </body>
 
 </html>
