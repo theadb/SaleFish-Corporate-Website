@@ -49,39 +49,10 @@ $(function () {
     : pathname.startsWith("/tr") ? ".floating_menu_tr"
     : ".floating_menu_en";
 
-  $(".sf-menu-btn").on("click", function () {
-    $(this).toggleClass("is-active");
-    var expanded = $(this).hasClass("is-active");
-    $(".sf-menu-btn").attr("aria-expanded", expanded ? "true" : "false");
-    if (expanded) { sfMenuOpen($(activeMenu)); } else { sfMenuClose($(activeMenu)); }
-  });
-  $(".sales_login").on("click", function () {
-    var $slm = $(".sales_login_menu");
-    if ($slm.hasClass('is-open')) { sfMenuClose($slm); } else { sfMenuOpen($slm); }
-  });
-  $(".languages").on("click", function () {
-    $(".languages .down_arrow").toggleClass("active");
-    $(".languages_option").toggleClass("is-open");
-  });
-  $(document).on("click", function (e) {
-    if ($(e.target).closest(".languages").length === 0) {
-      $(".languages_option").removeClass("is-open");
-      $(".languages .down_arrow").removeClass("active");
-    }
-    if ($(e.target).closest(".sales_login").length === 0) {
-      sfMenuClose($(".sales_login_menu"));
-    }
-    // ── Close hamburger menu when clicking outside ──────────────────────────
-    if (
-      $(e.target).closest(".floating_menu").length === 0 &&
-      $(e.target).closest(".sf-menu-btn").length === 0
-    ) {
-      if ($(".sf-menu-btn").hasClass("is-active")) {
-        $(".sf-menu-btn").removeClass("is-active").attr("aria-expanded", "false");
-        sfMenuClose($(activeMenu));
-      }
-    }
-  });
+  // Menu/dropdown click handling lives in an inline <head> script in
+  // header.php so it runs before app.js parses (~200-500 ms earlier on
+  // mobile) and clicks register instantly. The jQuery handlers that used
+  // to live here would have double-toggled the same classes.
 
   $(".privacy_policy_menu").on("click", function () {
     $(".privacy_policy").addClass("active");

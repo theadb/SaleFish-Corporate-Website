@@ -126,6 +126,72 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			});
 		}
 	</script>
+	<!-- Vanilla menu / dropdown handler — runs before jQuery loads so clicks
+	     register instantly during the first 200-500 ms of page parse where
+	     app.js (defer) hasn't executed yet. Same behaviour the jQuery
+	     handlers in general.js implement, but available immediately. The
+	     jQuery handlers later become no-ops because the class is already
+	     in the right state, so there's no double-toggle. -->
+	<script>
+	(function () {
+		var path = location.pathname;
+		var activeMenu = path.indexOf('/de') === 0 ? '.floating_menu_de'
+			: path.indexOf('/tr') === 0 ? '.floating_menu_tr'
+			: '.floating_menu_en';
+
+		function toggleAll(sel, fn) {
+			document.querySelectorAll(sel).forEach(fn);
+		}
+		function setMenuOpen(open) {
+			toggleAll('.sf-menu-btn', function (b) {
+				b.classList.toggle('is-active', open);
+				b.setAttribute('aria-expanded', open ? 'true' : 'false');
+			});
+			var menu = document.querySelector(activeMenu);
+			if (menu) {
+				menu.classList.toggle('is-open', open);
+				if (open) menu.removeAttribute('inert');
+				else menu.setAttribute('inert', '');
+			}
+		}
+		function setSalesLoginOpen(open) {
+			var slm = document.querySelector('.sales_login_menu');
+			if (!slm) return;
+			slm.classList.toggle('is-open', open);
+			if (open) slm.removeAttribute('inert');
+			else slm.setAttribute('inert', '');
+		}
+
+		document.addEventListener('click', function (e) {
+			var btn = e.target.closest('.sf-menu-btn');
+			if (btn) {
+				e.preventDefault();
+				setMenuOpen(!btn.classList.contains('is-active'));
+				return;
+			}
+			if (e.target.closest('.sales_login') && !e.target.closest('.sales_login_menu')) {
+				var slm = document.querySelector('.sales_login_menu');
+				setSalesLoginOpen(!(slm && slm.classList.contains('is-open')));
+				return;
+			}
+			if (e.target.closest('.languages') && !e.target.closest('.languages_option')) {
+				toggleAll('.languages .down_arrow', function (a) { a.classList.toggle('active'); });
+				toggleAll('.languages_option', function (a) { a.classList.toggle('is-open'); });
+				return;
+			}
+			// Outside-click closures
+			if (!e.target.closest('.languages')) {
+				toggleAll('.languages_option', function (a) { a.classList.remove('is-open'); });
+				toggleAll('.languages .down_arrow', function (a) { a.classList.remove('active'); });
+			}
+			if (!e.target.closest('.sales_login')) setSalesLoginOpen(false);
+			if (!e.target.closest('.floating_menu') && !e.target.closest('.sf-menu-btn')) {
+				var anyOpen = document.querySelector('.sf-menu-btn.is-active');
+				if (anyOpen) setMenuOpen(false);
+			}
+		}, { passive: false });
+	})();
+	</script>
 
 </head>
 <body <?php body_class(); ?>>
