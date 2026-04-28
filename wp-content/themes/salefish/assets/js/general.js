@@ -8,19 +8,11 @@ import flowtype from "./tools/flowtype";
 import mask from "./tools/jquery.mask";
 
 $(function () {
-  // ── Menu open/close helpers ──────────────────────────────────────────────────
-  // CSS opacity/visibility transitions replace jQuery fadeToggle so menu
-  // animation is compositor-driven (no layout/paint per frame on Safari).
-  // `inert` prevents Tab focus reaching links inside a visually-hidden menu —
-  // supported in all current browsers (Safari 15.5+, Chrome 102+, Firefox 112+).
-  function sfMenuOpen($menu) {
-    $menu.addClass('is-open');
-    $menu[0].removeAttribute('inert');
-  }
-  function sfMenuClose($menu) {
-    $menu.removeClass('is-open');
-    $menu[0].setAttribute('inert', '');
-  }
+  // Menu open/close + scroll header state are managed by the SaleFish Menu
+  // Controller (vanilla JS, inline in header.php). No jQuery helpers needed
+  // here. Privacy/Terms popups and modal-related close calls below use
+  // the controller indirectly by toggling the same `is-active` / `is-open`
+  // classes that the controller reads.
 
   if ( new URLSearchParams( window.location.search ).get( 'salefish_verified' ) === '1' ) {
     $(".thank_you_msg").fadeIn();
@@ -56,8 +48,15 @@ $(function () {
 
   $(".privacy_policy_menu").on("click", function () {
     $(".privacy_policy").addClass("active");
-    $(".sf-menu-btn").removeClass("is-active").attr("aria-expanded", "false");
-    sfMenuClose($(activeMenu));
+    // Close any open menu via the controller's class hooks
+    document.querySelectorAll('.sf-menu-btn.is-active').forEach(function (b) {
+      b.classList.remove('is-active');
+      b.setAttribute('aria-expanded', 'false');
+    });
+    document.querySelectorAll('.floating_menu.is-open').forEach(function (m) {
+      m.classList.remove('is-open');
+      m.setAttribute('inert', '');
+    });
     $("body").css("overflow", "hidden");
   });
 
@@ -68,8 +67,14 @@ $(function () {
 
   $(".terms_menu").on("click", function () {
     $(".terms_popup").addClass("active");
-    $(".sf-menu-btn").removeClass("is-active").attr("aria-expanded", "false");
-    sfMenuClose($(activeMenu));
+    document.querySelectorAll('.sf-menu-btn.is-active').forEach(function (b) {
+      b.classList.remove('is-active');
+      b.setAttribute('aria-expanded', 'false');
+    });
+    document.querySelectorAll('.floating_menu.is-open').forEach(function (m) {
+      m.classList.remove('is-open');
+      m.setAttribute('inert', '');
+    });
     $("body").css("overflow", "hidden");
   });
 
@@ -87,71 +92,21 @@ $(function () {
     $("body").css("overflow", "hidden");
   });
 
-  // Apply correct header state on load.
-  //
-  // Problem: navigating from another page to /#features causes the browser
-  // to jump to the anchor AFTER DOM-ready (especially iOS Safari), and that
-  // jump does NOT fire a 'scroll' event — so the header stays transparent
-  // over non-hero content until the user manually scrolls.
-  //
-  // Fix: if the URL already has a hash on load, the page will end up scrolled
-  // past the hero regardless of timing, so we activate the header immediately.
-  // We also recheck at 0 ms, 100 ms, and 300 ms to cover every browser's
-  // anchor-resolution timing.
-  (function applyInitialHeaderState() {
-    function check() {
-      var scrolled = $(window).scrollTop() > 1;
-      var hasHash  = window.location.hash.length > 1;
-      var active   = scrolled || hasHash;
-      var isMobile = $(window).width() <= 768;
-      var menuTop  = isMobile ? "80px" : (active ? "60px" : "70px");
-      if (active) { $("header").addClass("active"); }
-      $(".floating_menu").css("top", menuTop);
-      $(".sales_login_menu").css("top", menuTop);
-    }
-    check();                       // immediate — catches pre-DOMReady jumps
-    setTimeout(check, 0);         // next tick  — catches synchronous post-DOMReady jumps
-    setTimeout(check, 100);       // short delay — catches most mobile browsers
-    setTimeout(check, 300);       // fallback   — catches slow iOS Safari
-  }());
-
-  // passive: true lets the browser scroll immediately without waiting for this
-  // callback — safe here because we never call preventDefault().
-  window.addEventListener('scroll', function () {
-    var scrollTop = window.scrollY;
-    var isMobile  = window.innerWidth <= 768;
-    var menuTop   = isMobile ? "80px" : (scrollTop > 1 ? "60px" : "70px");
-
-    if (scrollTop > 1) {
-      $("header").addClass("active");
-      $(".floating_menu").css("top", menuTop);
-      $(".sales_login_menu").css("top", menuTop);
-      $(".privacy_policy").css({
-        top: "70px",
-        height: "calc(100% - 70px)",
-      });
-      $(".terms_popup").css({
-        top: "70px",
-        height: "calc(100% - 70px)",
-      });
-    } else {
-      $("header").removeClass("active");
-      $(".floating_menu").css("top", menuTop);
-      $(".sales_login_menu").css("top", menuTop);
-      $(".privacy_policy").css({
-        top: "100px",
-        height: "calc(100% - 100px)",
-      });
-      $(".terms_popup").css({
-        top: "100px",
-        height: "calc(100% - 100px)",
-      });
-    }
-  }, { passive: true });
-
-  $(".floating_menu .mobile").on("click", function () {
-    $(".sf-menu-btn").removeClass("is-active").attr("aria-expanded", "false");
-    sfMenuClose($(activeMenu));
+  // Header scroll state lives in the inline controller in header.php, which
+  // toggles `html.is-scrolled` once per animation frame via rAF. CSS reads
+  // that single class and adjusts header height + floating-menu / sales-
+  // login top offsets — no per-frame JS layout writes.
+  // The inline controller also closes any open menu when a link inside
+  // .floating_menu is clicked (so navigation works as expected on mobile).
+  $(document).on('click', '.floating_menu a, .floating_menu .mobile', function () {
+    document.querySelectorAll('.sf-menu-btn.is-active').forEach(function (b) {
+      b.classList.remove('is-active');
+      b.setAttribute('aria-expanded', 'false');
+    });
+    document.querySelectorAll('.floating_menu.is-open').forEach(function (m) {
+      m.classList.remove('is-open');
+      m.setAttribute('inert', '');
+    });
   });
 
   switch (pathname) {
@@ -481,19 +436,12 @@ $(function () {
     });
   });
 
+  // Escape key handling for modals only — the menu controller in
+  // header.php already handles Esc for hamburger / languages / sales-login.
   $(document).on("keydown", function (e) {
-    if (e.key === "Escape") {
-      if ($("#sf-reg-modal").is(":visible")) sfRegModalClose();
-      if ($("#sf-partner-modal").is(":visible")) sfPartnerModalClose();
-      if ($(".sf-menu-btn").hasClass("is-active")) {
-        $(".sf-menu-btn").removeClass("is-active").attr("aria-expanded", "false").focus();
-        sfMenuClose($(activeMenu));
-      }
-      if ($(".languages_option").hasClass("is-open")) {
-        $(".languages_option").removeClass("is-open");
-        $(".languages .down_arrow").removeClass("active");
-      }
-    }
+    if (e.key !== "Escape") return;
+    if ($("#sf-reg-modal").is(":visible"))     sfRegModalClose();
+    if ($("#sf-partner-modal").is(":visible")) sfPartnerModalClose();
   });
 
 });

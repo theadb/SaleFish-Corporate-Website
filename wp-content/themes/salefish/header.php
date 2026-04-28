@@ -126,70 +126,150 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			});
 		}
 	</script>
-	<!-- Vanilla menu / dropdown handler — runs before jQuery loads so clicks
-	     register instantly during the first 200-500 ms of page parse where
-	     app.js (defer) hasn't executed yet. Same behaviour the jQuery
-	     handlers in general.js implement, but available immediately. The
-	     jQuery handlers later become no-ops because the class is already
-	     in the right state, so there's no double-toggle. -->
+	<!-- ─── SaleFish Menu Controller ──────────────────────────────────────
+	     Single source of truth for every open/close UI on the site:
+	       • Hamburger menu (.sf-menu-btn → .floating_menu_{en|de|tr})
+	       • Languages picker (.languages → .languages_option)
+	       • Sales-login menu (.sales_login → .sales_login_menu)
+
+	     Industry-standard pattern:
+	       • One delegated click listener on document
+	       • Central registry of (trigger, target, options)
+	       • At most ONE menu open at a time — opening menu A auto-closes B/C
+	       • Outside click closes the open menu; Esc closes and returns focus
+	       • aria-expanded + `inert` attribute toggled in step
+	       • No jQuery, no app.js dependency, no scroll listener
+	       • Inline in <head> so clicks work the moment the DOM exists
+
+	     Replaces ALL prior menu/dropdown handlers (vanilla + jQuery). -->
 	<script>
 	(function () {
+		'use strict';
 		var path = location.pathname;
-		var activeMenu = path.indexOf('/de') === 0 ? '.floating_menu_de'
+		var activeMenuSel = path.indexOf('/de') === 0 ? '.floating_menu_de'
 			: path.indexOf('/tr') === 0 ? '.floating_menu_tr'
 			: '.floating_menu_en';
 
-		function toggleAll(sel, fn) {
-			document.querySelectorAll(sel).forEach(fn);
-		}
-		function setMenuOpen(open) {
-			toggleAll('.sf-menu-btn', function (b) {
+		// Each menu is { trigger: outer wrapper to test for inside-click,
+		//                triggerBtn: inner element that toggles state,
+		//                target: the panel that opens } — selectors only.
+		var menus = [
+			{ id: 'nav',        triggerBtn: '.sf-menu-btn',  target: activeMenuSel },
+			{ id: 'languages',  triggerBtn: '.languages',    target: '.languages_option', insideTarget: '.languages_option', insideTrigger: '.languages' },
+			{ id: 'salesLogin', triggerBtn: '.sales_login',  target: '.sales_login_menu', insideTarget: '.sales_login_menu', insideTrigger: '.sales_login' },
+		];
+
+		var openId = null;
+		var lastFocused = null;
+
+		function targetEl(m)   { return document.querySelector(m.target); }
+		function triggerEls(m) { return Array.from(document.querySelectorAll(m.triggerBtn)); }
+
+		function applyState(m, open) {
+			triggerEls(m).forEach(function (b) {
 				b.classList.toggle('is-active', open);
 				b.setAttribute('aria-expanded', open ? 'true' : 'false');
 			});
-			var menu = document.querySelector(activeMenu);
-			if (menu) {
-				menu.classList.toggle('is-open', open);
-				if (open) menu.removeAttribute('inert');
-				else menu.setAttribute('inert', '');
+			var t = targetEl(m);
+			if (t) {
+				t.classList.toggle('is-open', open);
+				if (open) t.removeAttribute('inert');
+				else      t.setAttribute('inert', '');
+			}
+			// The languages picker has a chevron sibling that flips on open.
+			if (m.id === 'languages') {
+				document.querySelectorAll('.languages .down_arrow').forEach(function (a) {
+					a.classList.toggle('active', open);
+				});
 			}
 		}
-		function setSalesLoginOpen(open) {
-			var slm = document.querySelector('.sales_login_menu');
-			if (!slm) return;
-			slm.classList.toggle('is-open', open);
-			if (open) slm.removeAttribute('inert');
-			else slm.setAttribute('inert', '');
+
+		function close(id) {
+			var m = menus.find(function (x) { return x.id === id; });
+			if (!m) return;
+			applyState(m, false);
+			if (openId === id) openId = null;
+		}
+		function closeAll() { menus.forEach(function (m) { close(m.id); }); }
+		function open(id) {
+			if (openId && openId !== id) close(openId);
+			var m = menus.find(function (x) { return x.id === id; });
+			if (!m) return;
+			lastFocused = document.activeElement;
+			applyState(m, true);
+			openId = id;
+		}
+		function toggle(id) {
+			if (openId === id) close(id);
+			else open(id);
 		}
 
 		document.addEventListener('click', function (e) {
-			var btn = e.target.closest('.sf-menu-btn');
-			if (btn) {
-				e.preventDefault();
-				setMenuOpen(!btn.classList.contains('is-active'));
-				return;
+			// Match a trigger — the *outer* trigger element (so inner
+			// children like SVG icons still register).
+			for (var i = 0; i < menus.length; i++) {
+				var m = menus[i];
+				if (e.target.closest(m.triggerBtn)) {
+					// Don't toggle if the click is inside the panel itself
+					// (e.g. clicking a link inside the languages_option list).
+					if (m.insideTarget && e.target.closest(m.insideTarget)) return;
+					e.preventDefault();
+					toggle(m.id);
+					return;
+				}
 			}
-			if (e.target.closest('.sales_login') && !e.target.closest('.sales_login_menu')) {
-				var slm = document.querySelector('.sales_login_menu');
-				setSalesLoginOpen(!(slm && slm.classList.contains('is-open')));
-				return;
+			// Outside click: close the open menu unless the click is inside
+			// its own panel.
+			if (!openId) return;
+			var openMenu = menus.find(function (x) { return x.id === openId; });
+			if (!openMenu) { openId = null; return; }
+			var t = targetEl(openMenu);
+			if (t && t.contains(e.target)) return; // click inside panel — keep open
+			close(openId);
+		}, false);
+
+		// Esc closes whatever is open and restores focus to whoever opened it.
+		document.addEventListener('keydown', function (e) {
+			if (e.key !== 'Escape' || !openId) return;
+			var prev = lastFocused;
+			close(openId);
+			if (prev && typeof prev.focus === 'function') prev.focus();
+		});
+
+		// Close on viewport resize past breakpoint (avoid orphaned-open menus
+		// when rotating a phone or resizing a window).
+		var lastWidth = window.innerWidth;
+		window.addEventListener('resize', function () {
+			if (Math.abs(window.innerWidth - lastWidth) > 80) {
+				lastWidth = window.innerWidth;
+				if (openId) close(openId);
 			}
-			if (e.target.closest('.languages') && !e.target.closest('.languages_option')) {
-				toggleAll('.languages .down_arrow', function (a) { a.classList.toggle('active'); });
-				toggleAll('.languages_option', function (a) { a.classList.toggle('is-open'); });
-				return;
-			}
-			// Outside-click closures
-			if (!e.target.closest('.languages')) {
-				toggleAll('.languages_option', function (a) { a.classList.remove('is-open'); });
-				toggleAll('.languages .down_arrow', function (a) { a.classList.remove('active'); });
-			}
-			if (!e.target.closest('.sales_login')) setSalesLoginOpen(false);
-			if (!e.target.closest('.floating_menu') && !e.target.closest('.sf-menu-btn')) {
-				var anyOpen = document.querySelector('.sf-menu-btn.is-active');
-				if (anyOpen) setMenuOpen(false);
-			}
-		}, { passive: false });
+		}, { passive: true });
+
+		// ── Header scroll state (rAF-throttled) ────────────────────────────
+		// Single class toggle on <html>: `is-scrolled`. CSS handles every
+		// derived layout change (header height, floating-menu top offset,
+		// etc.) so we never write inline styles or thrash layout. This
+		// replaces a jQuery handler in general.js that wrote `top` to four
+		// elements on every scroll frame.
+		var ticking = false;
+		var docEl = document.documentElement;
+		var headerEl = document.querySelector('header');
+		function applyScrollState() {
+			ticking = false;
+			var scrolled = window.scrollY > 1;
+			docEl.classList.toggle('is-scrolled', scrolled);
+			if (headerEl) headerEl.classList.toggle('active', scrolled);
+		}
+		window.addEventListener('scroll', function () {
+			if (!ticking) { ticking = true; requestAnimationFrame(applyScrollState); }
+		}, { passive: true });
+		// Initial state — handles direct-link-with-hash navigation
+		// (browser scrolls past hero before any scroll event fires).
+		applyScrollState();
+		// Re-check at common iOS post-load timing windows.
+		setTimeout(applyScrollState, 100);
+		setTimeout(applyScrollState, 300);
 	})();
 	</script>
 
