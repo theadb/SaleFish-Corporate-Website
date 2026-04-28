@@ -106,74 +106,43 @@ picture {
 
 // ─── Apple-style premium polish ─────────────────────────────────────────────
 //
-// 1. Image fade-in: every image renders at 0 opacity until its `load` event
-//    fires, then fades in over 400 ms with the canonical Apple easing. Kills
-//    the harsh "snap" of images appearing without animation. JS in app.js
-//    adds .sf-loaded once each img completes (synchronously for cached imgs).
+// IMPORTANT: image fade-in via `opacity: 0` was reverted because it caused
+// content to disappear if JS didn't run, was delayed, or any image's `load`
+// event didn't fire (e.g. swiper-cloned slides, cached imgs that loaded
+// before the listener attached, browser bfcache restoration). The skeleton
+// shimmer effect is preserved as a CSS-only background gradient on
+// containers that explicitly opt-in via `.sf-skel`, which is empty unless
+// we deliberately add it for components that need a placeholder.
 //
-// 2. Skeleton shimmer: while an image is loading, its <picture> parent (or
-//    the wrapping div for bare imgs) shows a subtle moving gradient — the
-//    same trick Apple/Stripe/Linear use. Covered by the image once loaded.
+// What remains active globally:
+//   • Frosted-glass header on scroll (header.scss)
+//   • Hero text staggered entrance (CSS keyframes below)
+//   • Apple cubic-bezier easing on transitions
 //
-// 3. Frosted-glass header on scroll: backdrop-filter blur(20px) saturate
-//    gives the iOS/macOS Big Sur look. WebKit-prefixed for Safari ≤15.
+// All of these are CSS-only and work even if JS never runs.
 
 @keyframes sf-skel-shimmer {
   0%   { background-position: -200% 0; }
   100% { background-position:  200% 0; }
 }
 
-img {
-  // Note: keep this rule lighter than `:not([fetchpriority="high"])` so the
-  // hero LCP image isn't faded in (would delay LCP measurement).
-  &:not([fetchpriority="high"]) {
-    opacity: 0;
-    transition: opacity 0.42s cubic-bezier(0.4, 0, 0.2, 1);
-
-    &.sf-loaded {
-      opacity: 1;
-    }
-  }
-
-  // Skeleton shimmer is applied to the <img> itself when it has reserved
-  // dimensions (width/height) and hasn't loaded yet. Once .sf-loaded is
-  // added, the gradient is replaced by the actual image.
-  &[width][height]:not(.sf-loaded):not([fetchpriority="high"]) {
-    background-color: rgba(0, 0, 0, 0.04);
-    background-image: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0)   0%,
-      rgba(255, 255, 255, 0.6) 50%,
-      rgba(255, 255, 255, 0)   100%
-    );
-    background-size: 200% 100%;
-    background-repeat: no-repeat;
-    animation: sf-skel-shimmer 1.4s ease-in-out infinite;
-  }
-}
-
-// On dark-background sections the white shimmer is too bright; tone down.
-.hero img:not(.sf-loaded),
-.contact img:not(.sf-loaded),
-.partners img:not(.sf-loaded),
-.our_story .hero img:not(.sf-loaded) {
-  background-color: rgba(255, 255, 255, 0.08);
+// Opt-in skeleton container — apply `.sf-skel` to a div that wraps an
+// image you want to show a placeholder for while loading. We don't apply
+// this globally because it depends on the wrapper having reserved
+// dimensions (which most of our markup doesn't have).
+.sf-skel {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.04);
   background-image: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0)    0%,
-    rgba(255, 255, 255, 0.18) 50%,
-    rgba(255, 255, 255, 0)    100%
+    rgba(255, 255, 255, 0)   0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0)   100%
   );
-}
-
-// Reduced-motion users skip the fade — content is just visible immediately.
-@media (prefers-reduced-motion: reduce) {
-  img:not([fetchpriority="high"]) {
-    opacity: 1 !important;
-    transition: none !important;
-    animation: none !important;
-    background-image: none !important;
-  }
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: sf-skel-shimmer 1.4s ease-in-out infinite;
 }
 
 // ─── Hero text entrance (CSS-only, no JS dependency) ───────────────────────
