@@ -68,10 +68,13 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 	?>
 	<meta name="theme-color" content="<?php echo esc_attr( $_sf_theme_color ); ?>">
 	<link rel="preload" as="image" href="<?php echo esc_url( get_template_directory_uri() ); ?>/img/dark_salefish_logo.png">
-	<!-- Preload the two most-used Poppins weights so they're fetched in parallel
-	     with CSS, eliminating FOUT on first paint. -->
+	<!-- Preload the three Poppins weights used above the fold so they're
+	     fetched in parallel with CSS instead of after it. Poppins-Bold is the
+	     LCP-critical hero headline weight — without this preload Lighthouse's
+	     critical-request chain is HTML → CSS → Bold (8 s LCP on mobile). -->
 	<link rel="preload" as="font" type="font/woff2" crossorigin href="<?php echo esc_url( get_template_directory_uri() ); ?>/fonts/Poppins-Regular.woff2">
 	<link rel="preload" as="font" type="font/woff2" crossorigin href="<?php echo esc_url( get_template_directory_uri() ); ?>/fonts/Poppins-SemiBold.woff2">
+	<link rel="preload" as="font" type="font/woff2" crossorigin href="<?php echo esc_url( get_template_directory_uri() ); ?>/fonts/Poppins-Bold.woff2">
 	<?php
 	// ── LCP image preload ──────────────────────────────────────────────────────
 	// Preload the page's hero AVIF as image with type=image/avif so it starts
@@ -115,9 +118,13 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 	}
 </style>
 
-<!-- Live Chat — loaded lazily on first user interaction so it never competes
-     with the initial page render in Safari. Falls back to window.load + 3 s
-     for passive visitors (e.g. someone who pauses reading before scrolling). -->
+<!-- Live Chat — heavily deferred. Tidio's widget is 358 KB of JS and was
+     the dominant unused-JS hit in PSI. We now load it ONLY on:
+       • click  — user clicks anywhere on the page (signals engagement), or
+       • idle   — 30 s after window load via requestIdleCallback
+     This removes scroll/mouseover/touchstart/keydown auto-triggers, which
+     fired during the very first second of the visit and forced 358 KB of
+     chat-widget JS into the critical-resource budget on every page load. -->
 <script>
 (function () {
   var _tidioLoaded = false;
@@ -129,13 +136,12 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
     s.async = true;
     document.body.appendChild(s);
   }
-  // Fire on first meaningful user interaction
-  ['touchstart', 'mouseover', 'scroll', 'keydown', 'click'].forEach(function (e) {
-    document.addEventListener(e, _loadTidio, { once: true, passive: true });
-  });
-  // Fallback: load 3 s after window.load even if no interaction yet
+  document.addEventListener('click', _loadTidio, { once: true, passive: true });
+  // Idle fallback: 30 s after load. Uses requestIdleCallback when available
+  // so we never compete with main-thread work the user actually needs.
   window.addEventListener('load', function () {
-    setTimeout(_loadTidio, 3000);
+    var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 1); };
+    setTimeout(function () { ric(_loadTidio); }, 30000);
   });
 }());
 </script>
@@ -169,7 +175,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			<a href="/">
 				<img class="salefish_logo"
 					src="<?php echo get_template_directory_uri(); ?>/img/salefish_logo.png"
-					alt="Salefish">
+					alt="Salefish" width="255" height="56" decoding="async">
 			</a>
 		</div>
 		<nav>
@@ -232,7 +238,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			<a href="/">
 				<img class="salefish_logo"
 					src="<?php echo get_template_directory_uri(); ?>/img/salefish_logo.png"
-					alt="Salefish">
+					alt="Salefish" width="255" height="56" decoding="async">
 			</a>
 		</div>
 		<nav>
@@ -296,7 +302,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			<a href="/">
 				<img class="salefish_logo"
 					src="<?php echo get_template_directory_uri(); ?>/img/salefish_logo.png"
-					alt="Salefish">
+					alt="Salefish" width="255" height="56" decoding="async">
 			</a>
 		</div>
 		<nav>
@@ -353,7 +359,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			<a href="/">
 				<img class="salefish_logo"
 					src="<?php echo get_template_directory_uri(); ?>/img/salefish_logo.png"
-					alt="Salefish">
+					alt="Salefish" width="255" height="56" decoding="async">
 			</a>
 		</div>
 		<nav>
@@ -502,7 +508,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			<div class="bottom">
 				<img class="fish"
 					src="<?php echo get_template_directory_uri(); ?>/img/fish.png"
-					alt="Salefish">
+					alt="Salefish" width="80" height="80" loading="lazy" decoding="async">
 				<a href="tel:+905333311236" class="hover-main-menu-style">+90 533 331 12 36</a>
 				<a href="tel:+902122341494" class="hover-main-menu-style">+90 212 234 14 94</a>
 				<a class="email hover-main-menu-style-email" href="mailto:hello@salefish.app">hello@salefish.app</a>
@@ -557,7 +563,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			<div class="bottom">
 				<img class="fish"
 					src="<?php echo get_template_directory_uri(); ?>/img/fish.png"
-					alt="Salefish">
+					alt="Salefish" width="80" height="80" loading="lazy" decoding="async">
 				<a href="tel:+18778927741" class="hover-main-menu-style">1.877.892.7741</a>
 				<a href="tel:+19057615364" class="hover-main-menu-style">1.905.761.5364</a>
 				<a class="email hover-main-menu-style-email" href="mailto:hello@salefish.app">hello@salefish.app</a>
