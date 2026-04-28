@@ -53,9 +53,12 @@ $the_numbers = get_field('the_numbers');
 					<a class="button" data-aos="fade-up" data-aos-delay="460" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Homepage — Hero">See Why They're Beating You</a>
 				</div>
 				<div class="right" data-aos="fade-left" data-aos-delay="200">
-					<img class="salefish_demo"
-						src="<?php echo esc_url( $hero_image ); ?>"
-						alt="Salefish App Demo">
+					<?php sf_picture( $hero_image, [
+						'class'         => 'salefish_demo',
+						'alt'           => 'Salefish App Demo',
+						'loading'       => 'eager',
+						'fetchpriority' => 'high',
+					] ); ?>
 				</div>
 			</div>
 		</div>
@@ -75,10 +78,10 @@ $the_numbers = get_field('the_numbers');
 					<div class="builders_marquee">
 						<div class="builders_track">
 							<?php foreach((is_array($builders) ? $builders : []) as $builder): ?>
-							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="" loading="eager" decoding="async">
+							<?php sf_picture( $builder, [ 'class' => 'builder_logo', 'loading' => 'eager' ] ); ?>
 							<?php endforeach; ?>
 							<?php foreach((is_array($builders) ? $builders : []) as $builder): ?>
-							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="" aria-hidden="true" loading="eager" decoding="async">
+							<?php sf_picture( $builder, [ 'class' => 'builder_logo', 'loading' => 'eager', 'attrs' => 'aria-hidden="true"' ] ); ?>
 							<?php endforeach; ?>
 						</div>
 					</div>
@@ -86,7 +89,7 @@ $the_numbers = get_field('the_numbers');
 						<div class="row">
 							<?php foreach((is_array($builders) ? $builders : []) as $builder): ?>
 							<div class="col">
-								<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="" loading="lazy" decoding="async">
+								<?php sf_picture( $builder, [ 'class' => 'builder_logo' ] ); ?>
 							</div>
 							<?php endforeach; ?>
 						</div>
@@ -122,8 +125,7 @@ $the_numbers = get_field('the_numbers');
 					     data-aos="fade-up"
 					     data-aos-delay="<?php echo $pillar_idx * 100; ?>"
 					     data-aos-anchor=".pillarsSwiper">
-						<img class="pillar"
-							src="<?php echo esc_url( $icon ); ?>" loading="lazy" decoding="async" alt="" aria-hidden="true">
+						<?php sf_picture( $icon, [ 'class' => 'pillar', 'attrs' => 'aria-hidden="true"' ] ); ?>
 						<h3>
 							<?php echo esc_html( $title ); ?>
 						</h3>
