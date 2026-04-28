@@ -241,7 +241,15 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
     s.defer = true;
     document.head.appendChild(s);
   }
-  document.addEventListener('click', _loadTurnstile, { once: true, passive: true });
+  // Click queues Turnstile for the next idle window. Without this wrap,
+  // four deferred scripts (Tidio + GTM + LinkedIn + Turnstile) all start
+  // downloading + parsing simultaneously on the user's first click and
+  // make the SECOND click feel laggy. requestIdleCallback distributes
+  // the work across idle frames.
+  document.addEventListener('click', function () {
+    var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 250); };
+    ric(_loadTurnstile, { timeout: 4000 });
+  }, { once: true, passive: true });
 }());
 </script>
 <?php endif; ?>
@@ -276,11 +284,13 @@ window._linkedin_data_partner_ids.push(_linkedin_partner_id);
     b.src = 'https://snap.licdn.com/li.lms-analytics/insight.min.js';
     document.head.appendChild(b);
   }
-  // Click-only — no idle fallback. LinkedIn pixel is purely conversion
-  // tracking; if a visitor never interacts (bounces immediately), there's
-  // no conversion to attribute, so loading the pixel adds zero value while
-  // generating console errors that hurt BP scores.
-  document.addEventListener('click', _loadLinkedIn, { once: true, passive: true });
+  // Click queues LinkedIn for the next idle window so the click itself
+  // finishes immediately. requestIdleCallback prevents the pixel's
+  // insight.min.js parse from competing with subsequent user clicks.
+  document.addEventListener('click', function () {
+    var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 250); };
+    ric(_loadLinkedIn, { timeout: 4000 });
+  }, { once: true, passive: true });
 }());
 </script>
 <style>.sf-hp-field{display:none !important;position:absolute;left:-9999px;}</style>
