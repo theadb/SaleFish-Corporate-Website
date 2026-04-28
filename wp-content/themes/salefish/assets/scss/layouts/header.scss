@@ -17,23 +17,10 @@ header {
   // hero. Without this, iOS shows the body background (gray) up under
   // the dynamic-island until the user scrolls and the header gains its
   // .active purple background.
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: env(safe-area-inset-top);
-    background: $dark_purple;
-    pointer-events: none;
-    z-index: 0;
-  }
-  // Light-header pages (contact, awards, privacy, terms, blog) get a
-  // white status-bar fill instead of purple — matches the page's own
-  // light background and the theme-color meta on those routes.
-  body.sf-light-header &::before {
-    background: #fff;
-  }
+  // Notch fill is now handled by the real <div class="sf-notch-fill">
+  // injected at the top of <body> in header.php. See sf-notch-fill rules
+  // below — pseudo-element approach didn't reliably render in WebKit's
+  // safe-area zone.
 
   // Apple-canonical easing for height + background-color transitions
   // on scroll. Background colour transitions in 250 ms so the new state
