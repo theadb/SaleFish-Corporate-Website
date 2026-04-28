@@ -81,6 +81,27 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 		}
 	</script>
 
+	<!-- Critical: gate scroll-reveal hiding via inline script in <head>.
+	     Why this matters: previously every [data-aos] element was hidden by JS
+	     after DOMContentLoaded, which on Safari/iOS causes a flash of visible
+	     content → flash of hidden content → fade-in. By setting the gate class
+	     synchronously here BEFORE body parses, the hide+reveal happens in one
+	     paint cycle. The 1.5s safety timer guarantees content is never hidden
+	     longer than that, even if the IntersectionObserver never fires. -->
+	<script>
+	(function () {
+		var d = document.documentElement;
+		// Only gate animation when the user prefers it AND IntersectionObserver
+		// exists. Reduced-motion or older browsers see content immediately.
+		if ('IntersectionObserver' in window &&
+		    !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+			d.classList.add('sf-has-anim');
+		}
+		// Hard safety net: after 1.5s, reveal EVERYTHING regardless of IO state.
+		// Never let hidden state outlast a typical Safari load.
+		setTimeout(function () { d.classList.add('sf-revealed'); }, 1500);
+	})();
+	</script>
 </head>
 <body <?php body_class(); ?>>
 <style>
@@ -382,8 +403,6 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 
 
 
-
-<div class="loading" style="background-image: url('<?php echo esc_url( get_template_directory_uri() ); ?>/img/dark_salefish_logo.png')"></div>
 
 <div class="floating_menu floating_menu_en" inert>
 	<div class="wrapper">
