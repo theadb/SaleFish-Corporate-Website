@@ -44,14 +44,30 @@ function sf_defer_trackers_filter( $html ) {
     $html = preg_replace_callback(
         '#<script[^>]*>([^<]*?_linkedin_partner_id\s*=.*?snap\.licdn\.com[^<]*?)</script>#is',
         function ( $m ) {
-            // Replace synchronous insight.min.js loader with click-deferred
-            // version. The original block sets _linkedin_partner_id and
-            // appends a script tag; we keep the partner-id setup but defer
-            // the createElement('script') call.
             $original = $m[1];
             $deferred = "(function(){var f=function(){\n" . $original . "\n};document.addEventListener('click',f,{once:true,passive:true});}());";
             return '<script>' . $deferred . '</script>';
         },
+        $html
+    );
+
+    // ── Strip Tidio plugin's eager preconnect ─────────────────────────────
+    // Tidio Live Chat plugin's WidgetLoader::addPreconnectLink() fires on
+    // wp_head and emits a preconnect to code.tidio.co even though we now
+    // load the widget click-only. Lighthouse flags wasted preloads.
+    $html = preg_replace(
+        '#<link[^>]*rel=["\']preconnect["\'][^>]*tidio\.co[^>]*/?>#i',
+        '',
+        $html
+    );
+
+    // ── Strip Tidio plugin's footer auto-loader ────────────────────────────
+    // The plugin emits a <script> that auto-loads Tidio at window.load.
+    // We already have a click-only loader in header.php; the duplicate
+    // forces Tidio to load on every page-view despite our defer.
+    $html = preg_replace(
+        '#<script[^>]*>\s*document\.tidioChatCode\s*=.*?</script>#is',
+        '',
         $html
     );
 
