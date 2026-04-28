@@ -320,6 +320,34 @@ $(function () {
   // The data-sf-section attribute on the clicked link identifies which CTA
   // triggered the modal so it can be tracked in the admin notification email.
 
+  // Render (or re-render) any unrendered Turnstile widgets inside a
+  // freshly-opened modal. Turnstile's auto-render skips elements that
+  // are display:none at script-load time, so widgets inside our modals
+  // need an explicit render call once visible. Polls briefly if the API
+  // isn't ready yet, then gives up after 8 s with a graceful fallback.
+  function sfRenderTurnstileIn($modal) {
+    var node = $modal.find('.cf-turnstile').get(0);
+    if (!node) return;
+    var attempts = 0;
+    function tryRender() {
+      attempts++;
+      if (window.turnstile && typeof window.turnstile.render === 'function') {
+        // Already rendered? skip (the widget div has child iframes).
+        if (node.querySelector('iframe')) return;
+        try {
+          window.turnstile.render(node, {
+            sitekey: node.getAttribute('data-sitekey'),
+            theme:   node.getAttribute('data-theme') || 'auto',
+          });
+        } catch (e) { /* turnstile may double-render — safe to ignore */ }
+        return;
+      }
+      // API not loaded yet — retry up to ~8 s, then bail.
+      if (attempts < 80) setTimeout(tryRender, 100);
+    }
+    tryRender();
+  }
+
   function sfRegModalOpen(section) {
     // Measure scrollbar width BEFORE hiding overflow so we can compensate.
     // When overflow:hidden removes the scrollbar the viewport widens by exactly
@@ -331,7 +359,9 @@ $(function () {
       $("header").css("padding-right", scrollbarW + "px");
     }
     $("html, body").css("overflow", "hidden");
-    $("#sf-reg-modal").fadeIn(200);
+    $("#sf-reg-modal").fadeIn(200, function () {
+      sfRenderTurnstileIn($("#sf-reg-modal"));
+    });
   }
 
   function sfRegModalClose() {
@@ -390,7 +420,9 @@ $(function () {
       $("#sf_partner_want_to_do").val(partnerType);
     }
     $("html, body").css("overflow", "hidden");
-    $("#sf-partner-modal").fadeIn(200);
+    $("#sf-partner-modal").fadeIn(200, function () {
+      sfRenderTurnstileIn($("#sf-partner-modal"));
+    });
   }
 
   function sfPartnerModalClose() {
