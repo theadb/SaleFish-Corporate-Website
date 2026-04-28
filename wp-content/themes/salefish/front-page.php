@@ -50,7 +50,7 @@ $the_numbers = get_field('the_numbers');
 					<h1 data-aos="fade-up" data-aos-delay="280">
 						<?php echo wp_kses_post( $hero_header ); ?>
 					</h1>
-					<a class="button" data-aos="fade-up" data-aos-delay="460" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Homepage — Hero">See Why They're Beating You</a>
+					<a class="button" data-aos="fade-up" data-aos-delay="460" href="/contact-us/" data-sf-modal="register" data-sf-section="Homepage — Hero">See Why They're Beating You</a>
 				</div>
 				<div class="right" data-aos="fade-left" data-aos-delay="200">
 					<?php sf_picture( $hero_image, [
@@ -213,7 +213,7 @@ foreach((is_array($the_numbers) ? $the_numbers : []) as $row):
 				</div>
 			</div>
 
-			<a class="button" data-aos="fade-up" data-aos-delay="300" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Homepage — Numbers CTA">Get My Demo</a>
+			<a class="button" data-aos="fade-up" data-aos-delay="300" href="/contact-us/" data-sf-modal="register" data-sf-section="Homepage — Numbers CTA">Get My Demo</a>
 		</div>
 		<?php get_template_part('/partials/contact-general'); ?>
 	</section>

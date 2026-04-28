@@ -34,7 +34,7 @@ get_header();
 				<h1 data-aos="fade-up" data-aos-delay="100">The Best Way <br />
 					to Sell Real Estate. <br />
 					Period.</h1>
-				<a class="button" data-aos="fade-up" data-aos-delay="300" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Our Story — Hero">Make every sale a mic drop moment</a>
+				<a class="button" data-aos="fade-up" data-aos-delay="300" href="/contact-us/" data-sf-modal="register" data-sf-section="Our Story — Hero">Make every sale a mic drop moment</a>
 			</div>
 		</div>
 	</section>
@@ -94,7 +94,7 @@ get_header();
 
 			<div class="platform__showcase" data-aos="zoom-in">
 				<img src="https://salefish.app/wp-content/uploads/2024/09/Group-1441.png" alt="SaleFish Platform" loading="lazy" decoding="async">
-				<a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Our Story — Platform Showcase">See It in Action</a>
+				<a class="button" href="/contact-us/" data-sf-modal="register" data-sf-section="Our Story — Platform Showcase">See It in Action</a>
 			</div>
 
 		</div>
@@ -154,7 +154,7 @@ get_header();
 					President &amp; Co-Founder
 				</p>
 			</div>
-			<a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Our Story — Contact CTA">Get My Demo</a>
+			<a class="button" href="/contact-us/" data-sf-modal="register" data-sf-section="Our Story — Contact CTA">Get My Demo</a>
 		</div>
 		<?php get_template_part('/partials/contact-general'); ?>
 

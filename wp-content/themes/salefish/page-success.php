@@ -29,7 +29,7 @@ $pillars = get_field('pillars');
 						PRE-CONSTRUCTION<br/>
 						SALES POWER APP.
 					</h1>
-					<a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Success Page — CTA">BOOK A FREE DEMO</a>
+					<a class="button" href="/contact-us/" data-sf-modal="register" data-sf-section="Success Page — CTA">BOOK A FREE DEMO</a>
 				</div>
 				<div class="quote">
 					<p>“The deal process had been 
