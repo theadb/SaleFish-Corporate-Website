@@ -223,12 +223,17 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
 
 </footer>
 <?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
-<!-- Cloudflare Turnstile — deferred to first user interaction.
-     Loading Turnstile on every page-view eagerly fired hundreds of CSP /
-     TrustedScript / sandboxed-frame console errors from its about:blank
-     widget iframe even when the visitor never reached a form. Now we
-     load it on the first click (which is also when registration / contact
-     modals open and the .cf-turnstile widget needs to render). -->
+<!-- Cloudflare Turnstile — load *before* the user reaches the captcha.
+     Strategy:
+       • Pointer enter / touchstart on a modal trigger → start loading
+         immediately. Hover-to-click gives 50-300 ms head start;
+         touchstart is the equivalent on mobile. By the time the
+         modal animation finishes, the widget is rendered.
+       • Click is also a trigger (fallback for keyboard / programmatic).
+       • Adds preconnect to the Cloudflare challenge origin so DNS+TLS
+         is also pre-warmed.
+       • Auto-renders .cf-turnstile divs when the script arrives. -->
+<link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin>
 <script>
 (function () {
   var _tsLoaded = false;
@@ -241,15 +246,33 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
     s.defer = true;
     document.head.appendChild(s);
   }
-  // Turnstile loads only when the register / partner modal opens —
-  // that's the only place a .cf-turnstile widget exists. General page
-  // clicks no longer trigger Turnstile's heavy bot-detection iframe.
+  // Eager triggers: hover, focus, or touch on ANY modal-opening trigger.
+  // Each fires before the click that actually opens the modal, giving
+  // the network round-trip a head start so the widget is ready by the
+  // time the user sees the form.
+  var triggerSel = '[data-sf-modal], .cf-turnstile';
+  ['pointerenter', 'touchstart', 'focusin'].forEach(function (evt) {
+    document.addEventListener(evt, function (e) {
+      if (e.target && e.target.closest && e.target.closest(triggerSel)) {
+        _loadTurnstile();
+      }
+    }, { once: false, passive: true, capture: true });
+  });
+  // Click fallback (keyboard activation, programmatic clicks, etc.)
   document.addEventListener('click', function (e) {
-    if (e.target.closest && e.target.closest('[data-sf-modal]')) {
-      var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 250); };
-      ric(_loadTurnstile, { timeout: 4000 });
+    if (e.target && e.target.closest && e.target.closest(triggerSel)) {
+      _loadTurnstile();
     }
-  }, { once: true, passive: true });
+  }, { passive: true, capture: true });
+  // Form-page short-circuit: pages where a .cf-turnstile is already in
+  // the DOM at load time (e.g. /contact-us/) need the widget rendered
+  // immediately, not on click. Load it 1 s after window.load (off the
+  // LCP path) so the form is interactive before the user reaches it.
+  window.addEventListener('load', function () {
+    if (document.querySelector('.cf-turnstile')) {
+      setTimeout(_loadTurnstile, 1000);
+    }
+  });
 }());
 </script>
 <?php endif; ?>
