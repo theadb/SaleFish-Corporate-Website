@@ -147,6 +147,24 @@ function kickass_scripts()
 add_action('wp_enqueue_scripts', 'kickass_scripts');
 
 /**
+ * Add `defer` to our app.js script tag so the HTML parser never blocks on
+ * it. WordPress puts in_footer scripts at end-of-body, which avoids parser
+ * blocking on most modern browsers, but Safari's preloader is more
+ * conservative and treats footer-positioned scripts as parser-stop points
+ * anyway. `defer` makes the script execute after DOMContentLoaded, never
+ * blocking parsing or first paint.
+ */
+add_filter( 'script_loader_tag', function ( $tag, $handle ) {
+    if ( $handle === 'script-name' ) {
+        // Inject defer if not already present
+        if ( strpos( $tag, ' defer' ) === false && strpos( $tag, ' async' ) === false ) {
+            $tag = str_replace( '<script ', '<script defer ', $tag );
+        }
+    }
+    return $tag;
+}, 10, 2 );
+
+/**
  * NOTE: The Cache-Control: no-store header on this site is set at the
  * server (Apache/cPanel) level — a duplicate header is injected after PHP
  * flushes its response, and PHP-side filters (nocache_headers,

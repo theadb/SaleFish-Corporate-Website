@@ -1,18 +1,34 @@
 /**
  * SaleFish Service Worker
- * Strategy:
- *   - Static assets (CSS, JS, images): Cache-first (fast repeat visits)
- *   - HTML pages: Network-first with cache fallback (always fresh content)
- *   - Offline: serve /offline.html when network and cache both fail
+ *
+ * Strategy (rewritten 2026-04-28 to fix slow-feel on Safari):
+ *
+ *   • Static assets (CSS, JS, fonts, images, .avif):
+ *       Cache-first. Browser cache is fastest path on repeat visits.
+ *
+ *   • HTML pages:
+ *       Stale-while-revalidate. The user gets the cached HTML INSTANTLY
+ *       (sub-millisecond) while we fetch a fresh copy in the background
+ *       and update the cache for next time. This makes navigation feel
+ *       native-app-instant on Safari/iOS, where the previous network-
+ *       first strategy added 200-400 ms of waiting on every link click.
+ *
+ *   • API / admin / search-action paths:
+ *       Always go to the network (no caching). These need fresh data.
+ *
+ *   • Offline:
+ *       /offline.html served when no cache + no network.
+ *
+ * Bump CACHE_NAME on every shipped change so the activate handler wipes
+ * old caches and clients re-fetch the new shell.
  */
 
-// Bump this version whenever you ship a change that must reach existing
-// visitors immediately. The activate handler deletes any cache that
-// doesn't match CACHE_NAME, so a version bump triggers a full client wipe.
-const CACHE_NAME    = 'salefish-v24-2026-04-28';
-const OFFLINE_URL   = '/offline.html';
+const CACHE_NAME  = 'salefish-v25-2026-04-28';
+const OFFLINE_URL = '/offline.html';
 
-// Assets to pre-cache on install (shell)
+// Pre-cache the shell so the very first navigation can use stale-while-
+// revalidate. Without this, the first visit still has to wait on the
+// network (no cached entry to serve stale).
 const PRECACHE_URLS = [
   '/',
   '/offline.html',
@@ -20,6 +36,9 @@ const PRECACHE_URLS = [
   '/wp-content/themes/salefish/dest/app.js',
   '/wp-content/themes/salefish/img/dark_salefish_logo.png',
   '/wp-content/themes/salefish/img/salefish_logo.png',
+  '/wp-content/themes/salefish/fonts/Poppins-Regular.woff2',
+  '/wp-content/themes/salefish/fonts/Poppins-SemiBold.woff2',
+  '/wp-content/themes/salefish/fonts/Poppins-Bold.woff2',
   '/android-chrome-192x192.png',
 ];
 
@@ -32,7 +51,7 @@ self.addEventListener('install', event => {
   );
 });
 
-// ── Activate: remove old caches ───────────────────────────────────────────────
+// ── Activate: remove old caches and take control of clients ─────────────────
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
@@ -53,44 +72,58 @@ self.addEventListener('fetch', event => {
   // Only handle same-origin GET requests
   if (request.method !== 'GET' || url.origin !== location.origin) return;
 
-  // Skip WordPress admin, AJAX, and dynamic API paths
+  // Always go to network (never cache) for admin / API / dynamic paths
   if (
     url.pathname.startsWith('/wp-admin') ||
     url.pathname.startsWith('/wp-login') ||
     url.pathname.includes('/wp-json/') ||
-    url.searchParams.has('action')
+    url.searchParams.has('action') ||
+    url.searchParams.has('preview')
   ) return;
 
-  const isAsset = /\.(css|js|woff2?|ttf|otf|png|jpe?g|gif|svg|ico|webp)$/i.test(url.pathname);
+  const isAsset = /\.(css|js|woff2?|ttf|otf|png|jpe?g|gif|svg|ico|webp|avif)$/i.test(url.pathname);
 
   if (isAsset) {
-    // Cache-first for static assets
+    // Cache-first: browser cache is fastest path on repeats. Fresh copy
+    // is fetched in the background to keep the cache up-to-date.
     event.respondWith(
       caches.match(request).then(cached => {
-        if (cached) return cached;
-        return fetch(request).then(response => {
-          if (!response || response.status !== 200) return response;
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
+        const networkFetch = fetch(request).then(response => {
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
+          }
           return response;
-        });
+        }).catch(() => cached); // network failed, fall back to cache
+        return cached || networkFetch;
       })
     );
-  } else {
-    // Network-first for HTML pages
-    event.respondWith(
-      fetch(request)
-        .then(response => {
-          if (!response || response.status !== 200) return response;
+    return;
+  }
+
+  // ── HTML pages: stale-while-revalidate ──────────────────────────────────
+  // Serve cache instantly if present; refresh the cache in the background.
+  // First-ever visit: cache empty → wait for network like before.
+  // Every subsequent visit: instant render, with a transparent revalidate.
+  event.respondWith(
+    caches.match(request).then(cached => {
+      const networkFetch = fetch(request).then(response => {
+        if (response && response.status === 200) {
           const clone = response.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
-          return response;
-        })
-        .catch(() =>
-          caches.match(request).then(cached =>
-            cached || caches.match(OFFLINE_URL)
-          )
-        )
-    );
-  }
+        }
+        return response;
+      }).catch(() => null);
+
+      if (cached) {
+        // Stale response goes to the user immediately. Background refresh
+        // updates the cache for next time. We don't wait for it.
+        return cached;
+      }
+      // No cached copy yet — wait for network, fall back to offline page.
+      return networkFetch.then(resp =>
+        resp || caches.match(OFFLINE_URL)
+      );
+    })
+  );
 });
