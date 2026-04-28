@@ -6,16 +6,38 @@ header {
   background: rgba($dark_purple, 0);
   // The header sits above the iOS / iPadOS safe-area inset (notch /
   // dynamic-island / home-indicator regions). Adding the inset as
-  // padding-top makes the purple background extend up under the status
-  // bar instead of leaving a translucent strip there. Combined with the
-  // `viewport-fit=cover` meta tag in <head>, this is the iOS-canonical
-  // way to handle the notch.
+  // padding-top makes the visible header content sit BELOW the notch.
+  // The pseudo-element below paints the notch area itself in the
+  // brand colour FROM FIRST PAINT (regardless of header transparency)
+  // so the device's status-bar zone never shows the body background.
   padding-top: env(safe-area-inset-top);
+
+  // ── Status-bar / notch fill ─────────────────────────────────────────
+  // Always painted, even when the header itself is transparent over the
+  // hero. Without this, iOS shows the body background (gray) up under
+  // the dynamic-island until the user scrolls and the header gains its
+  // .active purple background.
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: env(safe-area-inset-top);
+    background: $dark_purple;
+    pointer-events: none;
+    z-index: 0;
+  }
+  // Light-header pages (contact, awards, privacy, terms, blog) get a
+  // white status-bar fill instead of purple — matches the page's own
+  // light background and the theme-color meta on those routes.
+  body.sf-light-header &::before {
+    background: #fff;
+  }
+
   // Apple-canonical easing for height + background-color transitions
   // on scroll. Background colour transitions in 250 ms so the new state
-  // feels instant but still smooth. backdrop-filter intentionally NOT
-  // listed — it's removed on mobile (see below) and applied only on
-  // desktop where the GPU cost is acceptable.
+  // feels instant but still smooth.
   transition: height 320ms cubic-bezier(0.4, 0, 0.2, 1),
               background 250ms cubic-bezier(0.4, 0, 0.2, 1);
   height: 100px;
