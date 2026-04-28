@@ -164,15 +164,25 @@ header {
     background: transparent;
     border: none;
     color: #fff;
-    padding: 6px;
+    // Apple HIG / Material Design both call for ≥44 px touch targets.
+    // The icon stays 22 px; padding extends the hit area to 48 px square
+    // so a hurried tap anywhere within ~13 px of the icon registers.
+    // Negative margins prevent the larger target from changing the
+    // header's visual layout.
+    padding: 13px;
+    margin: -7px;
+    min-width: 48px;
+    min-height: 48px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 
     svg {
       width: 22px;
       height: 22px;
+      pointer-events: none; // taps on the SVG bubble up to the button
     }
 
     .icon-close { display: none; }
