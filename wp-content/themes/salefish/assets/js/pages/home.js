@@ -118,18 +118,24 @@ $(function () {
         new ResizeObserver(function () { measure(); }).observe(track);
       }
 
-      // Only start once every image in the track has its natural dimensions.
-      // This guarantees scrollWidth is final, so halfWidth is exactly correct.
+      // Wait until every image in the track has its natural dimensions,
+      // OR until 2 seconds have passed (whichever comes first). The hard
+      // timeout means the marquee always starts — even if a single logo
+      // is slow or fails to load, the rest still scroll. Without this
+      // fallback, lazy-loaded or 404'd logos would freeze the marquee
+      // indefinitely.
+      var initStarted = Date.now();
       function init() {
         var imgs = Array.from(track.querySelectorAll("img"));
         var allReady = imgs.length > 0 && imgs.every(function (img) {
           return img.complete && img.naturalWidth > 0;
         });
-        if (allReady) {
+        var timedOut = Date.now() - initStarted > 2000;
+        if (allReady || timedOut) {
           measure();
           if (halfWidth > 0) {
             start();
-          } else {
+          } else if (!timedOut) {
             setTimeout(init, 100);
           }
         } else {
