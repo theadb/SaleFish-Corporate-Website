@@ -145,19 +145,51 @@ picture {
   animation: sf-skel-shimmer 1.4s ease-in-out infinite;
 }
 
-// Hero text entrance animation removed (2026-04-28).
+// ─── Scroll-reveal animations (one-shot, transition-based) ─────────────────
 //
-// On iOS Safari the `opacity: 0 → 1` keyframes with `animation-fill-mode: both`
-// were causing content to flash invisible when the user scrolled back up to
-// the hero. Root cause: when iOS recomposes the page (rotation, scroll-back,
-// app backgrounding), it sometimes re-runs the @keyframes from the start
-// frame, hiding text mid-animation.
+// Industry-standard pattern: elements opt-in via [data-reveal] attribute,
+// start at opacity:0 + translateY(24px), and TRANSITION (not animation) to
+// the visible state when an IntersectionObserver in header.php adds the
+// .sf-revealed class. Then the observer unobserves so the animation never
+// replays — scrolling back up leaves content visible.
 //
-// The Apple-feel polish on the site now comes from:
-//   • Frosted-glass header on scroll (desktop)
-//   • Smooth cubic-bezier easing on transitions
-//   • Properly-sized AVIF imagery
-// — all of which are zero-risk relative to compositing-layer bugs.
+// Why transition-based instead of @keyframes:
+//   The earlier hero-entrance @keyframes had a known iOS Safari bug where
+//   the animation re-ran on layer recomposition (rotation, scroll-back,
+//   bfcache restore) — flashing text invisible. Transitions don't have
+//   that bug because once the new opacity / transform is computed it's
+//   the actual rendered state, not a frozen keyframe end.
+//
+// Auto-revealed on bfcache restore: the JS pageshow handler re-applies
+// .sf-revealed to anything visible at that moment.
+//
+// Reduced-motion users skip the transform; opacity still fades in but
+// only over 1ms (effectively instant).
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition: opacity 600ms cubic-bezier(0.2, 0, 0, 1),
+              transform 600ms cubic-bezier(0.2, 0, 0, 1);
+  will-change: opacity, transform;
+
+  &.sf-revealed {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+// Stagger variants — apply via [data-reveal-delay="100"] etc. attribute.
+[data-reveal][data-reveal-delay="100"].sf-revealed { transition-delay: 100ms; }
+[data-reveal][data-reveal-delay="200"].sf-revealed { transition-delay: 200ms; }
+[data-reveal][data-reveal-delay="300"].sf-revealed { transition-delay: 300ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
 
 input,
 select {

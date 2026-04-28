@@ -247,29 +247,113 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 		}, { passive: true });
 
 		// ── Header scroll state (rAF-throttled) ────────────────────────────
-		// Single class toggle on <html>: `is-scrolled`. CSS handles every
-		// derived layout change (header height, floating-menu top offset,
-		// etc.) so we never write inline styles or thrash layout. This
-		// replaces a jQuery handler in general.js that wrote `top` to four
-		// elements on every scroll frame.
+		// Single class toggle on <html>: `is-scrolled`. CSS reads it for
+		// every derived layout change (header height, floating-menu top
+		// offset). Replaces the old jQuery scroll handler that wrote
+		// inline `top` to four elements every frame.
+		// We resolve the <header> elements lazily inside the callback
+		// because this script runs in <head> — before <body> parses, so
+		// querying eagerly would return null. Multiple <header> tags
+		// exist (one per language variant); we toggle .active on every
+		// one so the correct visible header always reflects scroll state.
 		var ticking = false;
 		var docEl = document.documentElement;
-		var headerEl = document.querySelector('header');
 		function applyScrollState() {
 			ticking = false;
 			var scrolled = window.scrollY > 1;
 			docEl.classList.toggle('is-scrolled', scrolled);
-			if (headerEl) headerEl.classList.toggle('active', scrolled);
+			document.querySelectorAll('header').forEach(function (h) {
+				h.classList.toggle('active', scrolled);
+			});
 		}
 		window.addEventListener('scroll', function () {
 			if (!ticking) { ticking = true; requestAnimationFrame(applyScrollState); }
 		}, { passive: true });
-		// Initial state — handles direct-link-with-hash navigation
-		// (browser scrolls past hero before any scroll event fires).
-		applyScrollState();
-		// Re-check at common iOS post-load timing windows.
+		// Initial state — applied after DOM parses so querySelectorAll
+		// has actual <header> elements to find. Multiple post-load
+		// rechecks cover hash navigation and slow iOS Safari.
+		document.addEventListener('DOMContentLoaded', applyScrollState);
 		setTimeout(applyScrollState, 100);
 		setTimeout(applyScrollState, 300);
+
+		// ── Scroll-reveal one-shot ───────────────────────────────────────────
+		// IntersectionObserver-based reveal. Each [data-reveal] element
+		// reveals exactly once when first intersecting the viewport, then
+		// stays revealed forever (observer is unobserved). Scrolling back
+		// up does NOT replay the animation — the .sf-revealed class
+		// persists, and the CSS uses a transition (not a keyframe) so
+		// iOS Safari's compositing-layer recreation never hides them.
+		//
+		// Safety: pageshow with persisted=true (bfcache restore) re-runs
+		// the sweep so anything that was visible before staying-back is
+		// visible again on return.
+		function sfRevealInit() {
+			// Auto-promote legacy [data-aos="…"] markup to [data-reveal] so
+			// the existing template attributes (left over from the old AOS
+			// system) become scroll-reveal triggers without per-template
+			// edits. The visual direction variants (fade-up / fade-left /
+			// etc.) are flattened to a single subtle rise — keeping the
+			// effect consistent and reduced-motion-friendly.
+			document.querySelectorAll('[data-aos]:not([data-reveal])').forEach(function (el) {
+				el.setAttribute('data-reveal', '');
+				var delay = el.getAttribute('data-aos-delay');
+				if (delay && parseInt(delay, 10) > 0 && !el.getAttribute('data-reveal-delay')) {
+					// Round to nearest 100ms bucket to match our CSS variants.
+					var d = parseInt(delay, 10);
+					var bucket = d <= 150 ? 100 : d <= 250 ? 200 : 300;
+					el.setAttribute('data-reveal-delay', String(bucket));
+				}
+			});
+
+			if (!('IntersectionObserver' in window)) {
+				// Old browsers: skip the animation entirely, content visible.
+				document.querySelectorAll('[data-reveal]').forEach(function (el) {
+					el.classList.add('sf-revealed');
+				});
+				return;
+			}
+			if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				document.querySelectorAll('[data-reveal]').forEach(function (el) {
+					el.classList.add('sf-revealed');
+				});
+				return;
+			}
+			var io = new IntersectionObserver(function (entries) {
+				entries.forEach(function (entry) {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('sf-revealed');
+						io.unobserve(entry.target);
+					}
+				});
+			}, {
+				rootMargin: '0px 0px -8% 0px',  // trigger slightly before fully in view
+				threshold: 0.01,
+			});
+			document.querySelectorAll('[data-reveal]:not(.sf-revealed)').forEach(function (el) {
+				// If the element is ALREADY in the viewport at init time,
+				// reveal immediately without waiting for IO (which would
+				// fire ~16ms later, causing a visible flash). This covers
+				// page loads where data-reveal elements are above the fold.
+				var rect = el.getBoundingClientRect();
+				if (rect.top < window.innerHeight && rect.bottom > 0) {
+					el.classList.add('sf-revealed');
+				} else {
+					io.observe(el);
+				}
+			});
+		}
+		document.addEventListener('DOMContentLoaded', sfRevealInit);
+		// bfcache restoration: re-reveal anything in viewport now.
+		window.addEventListener('pageshow', function (e) {
+			if (e.persisted) {
+				document.querySelectorAll('[data-reveal]:not(.sf-revealed)').forEach(function (el) {
+					var rect = el.getBoundingClientRect();
+					if (rect.top < window.innerHeight && rect.bottom > 0) {
+						el.classList.add('sf-revealed');
+					}
+				});
+			}
+		});
 	})();
 	</script>
 
