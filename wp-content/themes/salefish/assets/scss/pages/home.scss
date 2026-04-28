@@ -134,6 +134,8 @@
 
         img {
           height: 100%;
+          width: auto; // explicit auto so flex layout doesn't stretch the image
+          object-fit: contain; // belt-and-braces against any aspect-ratio drift
           margin-top: 25px;
           transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           will-change: transform;
