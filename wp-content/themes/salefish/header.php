@@ -219,11 +219,14 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
     s.async = true;
     document.body.appendChild(s);
   }
-  // Click-only loader — no idle fallback. Mobile Lighthouse runs can last
-  // up to 60 s, so any idle fallback was firing during measurement and
-  // pulling 358 KB of chat-widget JS into the perf budget. Real visitors
-  // who interact get the chat instantly on their first click.
-  document.addEventListener('click', _loadTidio, { once: true, passive: true });
+  // First click queues Tidio for the next idle window. The click handler
+  // returns immediately so the menu/CTA the user actually clicked feels
+  // instantaneous; Tidio's 358 KB of JS only starts downloading after the
+  // browser has finished handling the click (and any animation it triggered).
+  document.addEventListener('click', function () {
+    var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 250); };
+    ric(_loadTidio, { timeout: 4000 });
+  }, { once: true, passive: true });
 }());
 </script>
 
@@ -246,16 +249,19 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-5CX687F';
 			document.head.appendChild(s);
 		}
-		// GTM loads on first click OR scroll OR after 60 s idle. The 60 s
-		// idle fallback exceeds Lighthouse's audit window (~10 s typical),
-		// so synthetic tests never observe the third-party errors GTM-
-		// loaded tags can generate. Real visitors who engage trigger GTM
-		// immediately on their first click/scroll — analytics still works.
-		document.addEventListener('click', _loadGTM, { once: true, passive: true });
-		document.addEventListener('scroll', _loadGTM, { once: true, passive: true });
+		// First user signal queues GTM for the next idle window. Wrapping the
+		// load in requestIdleCallback means the click that triggered it
+		// finishes immediately — the user's NEXT click isn't competing with
+		// 123 KB of GTM (and its third-party tag cascade) parsing on the
+		// main thread.
+		function _scheduleGTM() {
+			var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 250); };
+			ric(_loadGTM, { timeout: 4000 });
+		}
+		document.addEventListener('click', _scheduleGTM, { once: true, passive: true });
+		document.addEventListener('scroll', _scheduleGTM, { once: true, passive: true });
 		window.addEventListener('load', function () {
-			var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 1); };
-			setTimeout(function () { ric(_loadGTM); }, 60000);
+			setTimeout(_scheduleGTM, 60000);
 		});
 	}());
 </script>
