@@ -274,7 +274,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 	</script>
 
 </head>
-<body <?php body_class(); ?>>
+<body <?php body_class( $_sf_light_header ? 'sf-light-header' : 'sf-dark-header' ); ?>>
 <style>
 	.cdp-copy-loader-overlay{
 		display: none;
