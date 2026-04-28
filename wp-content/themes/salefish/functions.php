@@ -162,13 +162,17 @@ add_action('wp_enqueue_scripts', 'kickass_scripts');
  */
 
 // ── Performance: resource hints ───────────────────────────────────────────────
+// Tidio + LinkedIn + GTM are all click-deferred now, so eager preconnect /
+// dns-prefetch hints would just be wasted DNS chatter on first paint
+// (and Lighthouse flags them as "preloaded but not used").
+//
+// Maps is only embedded on contact pages, so the preconnect is gated on the
+// page template. Other pages get nothing.
 add_action('wp_head', function() {
-    // cdn.jsdelivr.net and cdnjs no longer used — removed preconnects
-    echo '<link rel="preconnect" href="https://maps.googleapis.com" crossorigin>' . "\n";
-    echo '<link rel="preconnect" href="https://maps.gstatic.com" crossorigin>' . "\n";
-    echo '<link rel="dns-prefetch" href="//code.tidio.co">' . "\n";
-    echo '<link rel="dns-prefetch" href="//www.googletagmanager.com">' . "\n";
-    echo '<link rel="dns-prefetch" href="//snap.licdn.com">' . "\n";
+    if ( is_page_template( 'page-contact-us.php' ) || is_page_template( 'page-tr-contact.php' ) ) {
+        echo '<link rel="preconnect" href="https://maps.googleapis.com" crossorigin>' . "\n";
+        echo '<link rel="preconnect" href="https://maps.gstatic.com" crossorigin>' . "\n";
+    }
 }, 2);
 
 // ── Performance: remove unused WordPress emoji scripts ─────────────────────────

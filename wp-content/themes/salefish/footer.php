@@ -223,7 +223,27 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
 
 </footer>
 <?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<!-- Cloudflare Turnstile — deferred to first user interaction.
+     Loading Turnstile on every page-view eagerly fired hundreds of CSP /
+     TrustedScript / sandboxed-frame console errors from its about:blank
+     widget iframe even when the visitor never reached a form. Now we
+     load it on the first click (which is also when registration / contact
+     modals open and the .cf-turnstile widget needs to render). -->
+<script>
+(function () {
+  var _tsLoaded = false;
+  function _loadTurnstile() {
+    if (_tsLoaded) return;
+    _tsLoaded = true;
+    var s = document.createElement('script');
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    s.async = true;
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+  document.addEventListener('click', _loadTurnstile, { once: true, passive: true });
+}());
+</script>
 <?php endif; ?>
 <!-- jQuery and smooth-scroll are bundled into app.js via webpack — no CDN requests needed -->
 <!-- isotope-layout: removed — was imported but never called; CDN request was dead weight -->
