@@ -85,6 +85,16 @@ svg {
   -ms-interpolation-mode: nearest-neighbor;
 }
 
+// <picture> elements wrap <img> so we can serve AVIF with a PNG/JPG fallback.
+// Without `display: contents` the picture creates its own inline box, which
+// breaks any existing CSS that expects the <img> to be a direct child of the
+// surrounding flex/grid container. `display: contents` makes the picture
+// layout-transparent — the <img> inside behaves as if it were a direct child
+// of the picture's parent, so no template CSS needs updating.
+picture {
+  display: contents;
+}
+
 input,
 select {
   -webkit-appearance: none;
