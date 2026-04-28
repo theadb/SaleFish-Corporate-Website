@@ -241,14 +241,14 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
     s.defer = true;
     document.head.appendChild(s);
   }
-  // Click queues Turnstile for the next idle window. Without this wrap,
-  // four deferred scripts (Tidio + GTM + LinkedIn + Turnstile) all start
-  // downloading + parsing simultaneously on the user's first click and
-  // make the SECOND click feel laggy. requestIdleCallback distributes
-  // the work across idle frames.
-  document.addEventListener('click', function () {
-    var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 250); };
-    ric(_loadTurnstile, { timeout: 4000 });
+  // Turnstile loads only when the register / partner modal opens —
+  // that's the only place a .cf-turnstile widget exists. General page
+  // clicks no longer trigger Turnstile's heavy bot-detection iframe.
+  document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('[data-sf-modal]')) {
+      var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 250); };
+      ric(_loadTurnstile, { timeout: 4000 });
+    }
   }, { once: true, passive: true });
 }());
 </script>
@@ -284,12 +284,15 @@ window._linkedin_data_partner_ids.push(_linkedin_partner_id);
     b.src = 'https://snap.licdn.com/li.lms-analytics/insight.min.js';
     document.head.appendChild(b);
   }
-  // Click queues LinkedIn for the next idle window so the click itself
-  // finishes immediately. requestIdleCallback prevents the pixel's
-  // insight.min.js parse from competing with subsequent user clicks.
-  document.addEventListener('click', function () {
-    var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 250); };
-    ric(_loadLinkedIn, { timeout: 4000 });
+  // LinkedIn pixel loads only when the visitor opens a registration /
+  // partner modal — that's the only point where conversion attribution is
+  // meaningful. General clicks anywhere on the page no longer trigger it,
+  // so click latency stays low.
+  document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('[data-sf-modal]')) {
+      var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 250); };
+      ric(_loadLinkedIn, { timeout: 4000 });
+    }
   }, { once: true, passive: true });
 }());
 </script>
