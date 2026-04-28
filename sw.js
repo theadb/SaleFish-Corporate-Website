@@ -9,7 +9,7 @@
 // Bump this version whenever you ship a change that must reach existing
 // visitors immediately. The activate handler deletes any cache that
 // doesn't match CACHE_NAME, so a version bump triggers a full client wipe.
-const CACHE_NAME    = 'salefish-v10-2026-04-28';
+const CACHE_NAME    = 'salefish-v11-2026-04-28';
 const OFFLINE_URL   = '/offline.html';
 
 // Assets to pre-cache on install (shell)
