@@ -29,13 +29,32 @@ header {
   }
 
   .salefish {
+    display: inline-block;
+    cursor: pointer;
+
     .salefish_logo {
       width: 180px;
-      transition: width 300ms ease-in-out;
+      transform-origin: left center;
+      transition: width 300ms ease-in-out,
+                  transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  filter   300ms ease;
+      will-change: transform;
 
       @include rs550 {
         width: 135px;
       }
+    }
+
+    // Subtle scale-up + soft glow on hover; matches .img-zoom polish used
+    // elsewhere on the site. Keyboard-focus state matches for a11y.
+    &:hover .salefish_logo,
+    &:focus-visible .salefish_logo {
+      transform: scale(1.06);
+      filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.18));
+    }
+
+    &:active .salefish_logo {
+      transform: scale(1.02);
     }
   }
 
