@@ -85,6 +85,18 @@ svg {
   -ms-interpolation-mode: nearest-neighbor;
 }
 
+// HTML width/height attributes provide an aspect-ratio hint that the browser
+// uses to reserve layout space (CLS prevention). But when CSS sets one
+// dimension (usually width) without explicitly setting the other to auto,
+// the HTML height attribute wins — producing a stretched aspect ratio that
+// Lighthouse flags as image-aspect-ratio failure. This global rule ensures
+// every image scales to its natural ratio when only one CSS dimension is
+// specified.
+img {
+  height: auto;
+  max-width: 100%;
+}
+
 // <picture> elements wrap <img> so we can serve AVIF with a PNG/JPG fallback.
 // Without `display: contents` the picture creates its own inline box, which
 // breaks any existing CSS that expects the <img> to be a direct child of the
