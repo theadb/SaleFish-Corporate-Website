@@ -104,6 +104,37 @@ picture {
   display: contents;
 }
 
+// ─── Status-bar / notch fill (iOS / iPadOS / Android safe-area) ─────────────
+// Real <div> at the very top of <body> that paints the env(safe-area-inset-top)
+// region in the page's brand colour from first paint. Replaces a previous
+// header::before pseudo-element that didn't render reliably inside a
+// position:fixed parent within the safe-area zone on WebKit.
+//
+// z-index: 1000 sits above the header (z:999) — so even when the header
+// is transparent over the hero, the status-bar zone is opaque purple/white.
+// pointer-events: none means it never intercepts clicks.
+.sf-notch-fill {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: env(safe-area-inset-top);
+  background: $dark_purple;
+  z-index: 1000;
+  pointer-events: none;
+  // Hide entirely on devices/viewports that don't have a safe-area inset.
+  // env() returns 0 when not set, but height:0 is still rendered — this
+  // belt-and-braces media query keeps the element out of the layout.
+  @supports not (top: env(safe-area-inset-top)) {
+    display: none;
+  }
+}
+// Light-header pages (contact, awards, privacy, terms, blog) — fill matches
+// the page's white background instead of brand purple.
+body.sf-light-header .sf-notch-fill {
+  background: #fff;
+}
+
 // ─── Apple-style premium polish ─────────────────────────────────────────────
 //
 // IMPORTANT: image fade-in via `opacity: 0` was reverted because it caused

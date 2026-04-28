@@ -368,6 +368,12 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 
 </head>
 <body <?php body_class( $_sf_light_header ? 'sf-light-header' : 'sf-dark-header' ); ?>>
+<!-- Status-bar / notch fill — first child of <body> so iOS paints it
+     immediately at first paint. Position-fixed div instead of a header
+     pseudo-element because WebKit doesn't reliably render `::before`
+     elements inside `position: fixed` parents within the
+     env(safe-area-inset-top) zone. The real <div> is bullet-proof. -->
+<div class="sf-notch-fill" aria-hidden="true"></div>
 <style>
 	.cdp-copy-loader-overlay{
 		display: none;
