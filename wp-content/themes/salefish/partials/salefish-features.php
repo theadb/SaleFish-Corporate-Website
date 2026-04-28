@@ -22,27 +22,35 @@ $counter = 0;
                 $content = $row['content'];
                 $button = $row['button'];
                 $button_text = mb_convert_case($button['text'], MB_CASE_TITLE, 'UTF-8');
+                // First feature image is near the fold on most viewports — load
+                // it eagerly so it never lazy-loads in late. Subsequent images
+                // remain lazy.
+                $img_args = [ 'alt' => $title ];
+                if ( $counter === 0 ) {
+                    $img_args['loading']       = 'eager';
+                    $img_args['fetchpriority'] = 'high';
+                }
                 ?>
             <div class="feature">
                 <?php if ($is_even): ?>
-                <div class="content content_image" data-aos="fade-right">
-                    <?php sf_picture( $image, [ 'alt' => $title ] ); ?>
+                <div class="content content_image">
+                    <?php sf_picture( $image, $img_args ); ?>
                 </div>
-                <div class="content context_info" data-aos="fade-left">
+                <div class="content context_info">
                     <h3><?php echo esc_html( $sub_title ); ?></h3>
                     <h2><?php echo esc_html( $title ); ?></h2>
                     <p><?php echo wp_kses_post( $content ); ?></p>
                     <a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Features — Button">See It in Action</a>
                 </div>
                 <?php else: ?>
-                <div class="content context_info" data-aos="fade-right">
+                <div class="content context_info">
                     <h3><?php echo esc_html( $sub_title ); ?></h3>
                     <h2><?php echo esc_html( $title ); ?></h2>
                     <p><?php echo wp_kses_post( $content ); ?></p>
                     <a class="button" href="javascript:void(0)" data-sf-modal="register" data-sf-section="Features — Button">See It in Action</a>
                 </div>
-                <div class="content content_image" data-aos="fade-left">
-                    <?php sf_picture( $image, [ 'alt' => $title ] ); ?>
+                <div class="content content_image">
+                    <?php sf_picture( $image, $img_args ); ?>
                 </div>
                 <?php endif; ?>
             </div>
