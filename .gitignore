@@ -2,8 +2,7 @@
 wp-config.php
 wp-config-local.php
 
-# Uploads and generated files
-wp-content/uploads/
+# Generated / transient content (uploads are tracked — see wp-content/uploads/)
 wp-content/upgrade/
 wp-content/cache/
 wp-content/boost-cache/
