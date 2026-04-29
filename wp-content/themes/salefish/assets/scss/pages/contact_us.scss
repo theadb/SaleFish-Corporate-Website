@@ -158,13 +158,123 @@
   }
 
   // ── Map ────────────────────────────────────────────────────────────────
-  .cu-map {
+  .cu-map-wrap {
+    position: relative;
     width: 100%;
     height: 460px;
-    display: block;
 
     @include rs768 { height: 360px; }
     @include rs550 { height: 280px; }
+  }
+
+  .cu-map {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  // ── HQ location card (overlaid on map) ─────────────────────────────────
+  .cu-hq-card {
+    position: absolute;
+    bottom: 28px;
+    left: 24px;
+    z-index: 2;
+    width: 210px;
+    background: var(--sf-card-gradient);
+    background-color: hsl(var(--sf-card));
+    border-radius: var(--sf-radius-lg);
+    box-shadow: var(--sf-shadow-md);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+    border: 1px solid hsl(var(--sf-card-border));
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--sf-shadow-lg);
+    }
+
+    &__header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: $dark_purple;
+      padding: 14px 16px;
+    }
+
+    &__pin {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      background: rgba(#fff, 0.12);
+      border-radius: 10px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    &__label {
+      font-family: $PSB;
+      font-size: 0.875rem;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    &__body {
+      padding: 14px 16px 16px;
+    }
+
+    &__addr {
+      font-family: $PR;
+      font-size: 0.775rem;
+      line-height: 1.6;
+      color: hsl(var(--sf-muted-fg));
+      margin: 0 0 12px;
+    }
+
+    &__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: $PSB;
+      font-size: 0.775rem;
+      color: $dark_purple;
+      letter-spacing: 0.01em;
+
+      svg { flex-shrink: 0; transition: transform 160ms ease; }
+    }
+
+    &:hover &__cta svg {
+      transform: translateX(3px);
+    }
+
+    @include rs550 {
+      width: calc(100% - 32px);
+      left: 16px;
+      bottom: 16px;
+      flex-direction: row;
+      align-items: center;
+
+      &__header {
+        flex-direction: column;
+        gap: 4px;
+        padding: 12px 14px;
+        flex-shrink: 0;
+        align-self: stretch;
+        justify-content: center;
+        border-radius: 0;
+      }
+
+      &__pin { width: 28px; height: 28px; border-radius: 8px; }
+
+      &__label { font-size: 0.78rem; }
+
+      &__body { padding: 12px 14px; }
+    }
   }
 
   // ── Form section ───────────────────────────────────────────────────────
