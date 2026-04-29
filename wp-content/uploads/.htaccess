@@ -1,0 +1,6 @@
+# Disable MultiViews content negotiation so LiteSpeed serves AVIF/WebP
+# files as static assets (HTTP 200) rather than triggering 406.
+Options -MultiViews
+
+AddType image/avif .avif
+AddType image/webp .webp
