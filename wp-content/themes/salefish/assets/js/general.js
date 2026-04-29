@@ -320,11 +320,10 @@ $(function () {
   // The data-sf-section attribute on the clicked link identifies which CTA
   // triggered the modal so it can be tracked in the admin notification email.
 
-  // Render (or re-render) any unrendered Turnstile widgets inside a
-  // freshly-opened modal. Turnstile's auto-render skips elements that
-  // are display:none at script-load time, so widgets inside our modals
-  // need an explicit render call once visible. Polls briefly if the API
-  // isn't ready yet, then gives up after 8 s with a graceful fallback.
+  // Render the Turnstile widget inside a freshly-opened modal.
+  // Turnstile runs in explicit mode — sfTurnstileReady() skips modal widgets,
+  // so we render them here once the modal is visible. Polls if the API
+  // isn't ready yet (script still loading), gives up after 8 s.
   function sfRenderTurnstileIn($modal) {
     var node = $modal.find('.cf-turnstile').get(0);
     if (!node) return;
