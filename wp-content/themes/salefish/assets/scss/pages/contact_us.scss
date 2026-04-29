@@ -169,8 +169,11 @@
 
   .cu-map {
     width: 100%;
-    height: 100%;
+    height: 460px;
     display: block;
+
+    @include rs768 { height: 360px; }
+    @include rs550 { height: 280px; }
   }
 
   // ── HQ location card (overlaid on map) ─────────────────────────────────
