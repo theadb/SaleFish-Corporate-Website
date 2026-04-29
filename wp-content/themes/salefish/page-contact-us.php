@@ -80,7 +80,35 @@ get_header();
 	<!-- END INFO -->
 
 	<!-- MAP -->
-	<div id="map" class="cu-map"></div>
+	<div class="cu-map-wrap">
+		<div id="map" class="cu-map"></div>
+
+		<a class="cu-hq-card"
+		   href="https://www.google.com/maps/place/SaleFish/@43.81222,-79.5303027,17z/data=!3m2!4b1!5s0x882b2f0f9f26ad5d:0x5d7ceb7d2cfbb7ab!4m6!3m5!1s0x882b2f0fa479e625:0xb7be17627d10ba9f!8m2!3d43.81222!4d-79.5277278!16s%2Fg%2F11bxfkmkzj?entry=ttu"
+		   target="_blank" rel="noopener noreferrer"
+		   aria-label="SaleFish HQ — 8395 Jane Street, Vaughan — Get Directions">
+
+			<div class="cu-hq-card__header">
+				<div class="cu-hq-card__pin">
+					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+				</div>
+				<span class="cu-hq-card__label">SaleFish HQ</span>
+			</div>
+
+			<div class="cu-hq-card__body">
+				<p class="cu-hq-card__addr">
+					8395 Jane Street, Suite 202<br>
+					Vaughan, ON&nbsp;&nbsp;L4K 5Y2<br>
+					Canada
+				</p>
+				<span class="cu-hq-card__cta">
+					Get Directions
+					<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+				</span>
+			</div>
+
+		</a>
+	</div>
 	<!-- END MAP -->
 
 	<!-- FORM -->
