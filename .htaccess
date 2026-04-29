@@ -78,6 +78,17 @@ RewriteRule ^intel/?$ /wp-content/mu-plugins/intel-serve.php [L]
 </IfModule>
 # END Intel Dashboard
 
+# BEGIN Uploads Passthrough
+# Serve wp-content/uploads files directly without PHP/WordPress interception.
+# Without this, LiteSpeed/cPanel passes uploads requests through WordPress which
+# redirects files that aren't registered in the media library (e.g. FTP-uploaded
+# images) to the homepage instead of serving them.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^wp-content/uploads/ - [L]
+</IfModule>
+# END Uploads Passthrough
+
 # BEGIN WordPress
 # The directives (lines) between "BEGIN WordPress" and "END WordPress" are
 # dynamically generated, and should only be modified via WordPress filters.
