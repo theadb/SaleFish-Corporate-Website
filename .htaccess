@@ -1,3 +1,5 @@
+Options -MultiViews
+
 RewriteEngine On
 RewriteCond %{HTTP_HOST} salefish\.app [NC]
 RewriteCond %{SERVER_PORT} 80

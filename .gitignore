@@ -22,10 +22,9 @@ Thumbs.db
 *.zip
 *.tar.gz
 *.sql
-*.gz
 
-# Database backups (kept locally only)
-db-backups/
+# Database backups — track latest snapshot, ignore dated history files
+db-backups/db-20*.sql.gz
 
 # Node
 node_modules/
