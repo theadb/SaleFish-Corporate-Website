@@ -335,8 +335,10 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					}
 				});
 			}, {
-				rootMargin: '0px 0px -8% 0px',  // trigger slightly before fully in view
-				threshold: 0.01,
+				// 300px look-ahead means elements queue for reveal well before
+				// the user reaches them — fast scrollers won't miss content.
+				rootMargin: '0px 0px 300px 0px',
+				threshold: 0,
 			});
 			document.querySelectorAll('[data-reveal]:not(.sf-revealed)').forEach(function (el) {
 				// If the element is ALREADY in the viewport at init time,
@@ -344,12 +346,30 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 				// fire ~16ms later, causing a visible flash). This covers
 				// page loads where data-reveal elements are above the fold.
 				var rect = el.getBoundingClientRect();
-				if (rect.top < window.innerHeight && rect.bottom > 0) {
+				if (rect.top < window.innerHeight + 300 && rect.bottom > 0) {
 					el.classList.add('sf-revealed');
 				} else {
 					io.observe(el);
 				}
 			});
+
+			// Scroll-stop sweep: 150ms after scrolling halts, reveal any
+			// [data-reveal] element whose top edge has already passed the
+			// viewport bottom (i.e. fast-scrolled past before IO could fire).
+			var _sfScrollTimer = null;
+			window.addEventListener('scroll', function () {
+				clearTimeout(_sfScrollTimer);
+				_sfScrollTimer = setTimeout(function () {
+					var vh = window.innerHeight;
+					document.querySelectorAll('[data-reveal]:not(.sf-revealed)').forEach(function (el) {
+						var rect = el.getBoundingClientRect();
+						if (rect.top < vh + 300 && rect.bottom > -300) {
+							el.classList.add('sf-revealed');
+							io.unobserve(el);
+						}
+					});
+				}, 150);
+			}, { passive: true });
 		}
 		document.addEventListener('DOMContentLoaded', sfRevealInit);
 		// bfcache restoration: re-reveal anything in viewport now.
