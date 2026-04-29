@@ -232,16 +232,30 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
        • Click is also a trigger (fallback for keyboard / programmatic).
        • Adds preconnect to the Cloudflare challenge origin so DNS+TLS
          is also pre-warmed.
-       • Auto-renders .cf-turnstile divs when the script arrives. -->
+       • Uses explicit render mode — sfTurnstileReady() renders inline widgets,
+         sfRenderTurnstileIn() renders modal widgets on open. -->
 <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin>
 <script>
+// Called by Turnstile once the API is ready. Renders all .cf-turnstile widgets
+// that are NOT inside a modal (modals are rendered by sfRenderTurnstileIn on open).
+window.sfTurnstileReady = function () {
+  document.querySelectorAll('.cf-turnstile').forEach(function (node) {
+    if (node.closest('#sf-reg-modal, #sf-partner-modal')) return;
+    try {
+      window.turnstile.render(node, {
+        sitekey: node.getAttribute('data-sitekey'),
+        theme:   node.getAttribute('data-theme') || 'auto',
+      });
+    } catch (e) {}
+  });
+};
 (function () {
   var _tsLoaded = false;
   function _loadTurnstile() {
     if (_tsLoaded) return;
     _tsLoaded = true;
     var s = document.createElement('script');
-    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=sfTurnstileReady';
     s.async = true;
     s.defer = true;
     document.head.appendChild(s);
