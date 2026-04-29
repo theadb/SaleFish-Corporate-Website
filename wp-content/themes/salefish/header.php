@@ -305,11 +305,18 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			// effect consistent and reduced-motion-friendly.
 			document.querySelectorAll('[data-aos]:not([data-reveal])').forEach(function (el) {
 				el.setAttribute('data-reveal', '');
+				// Preserve direction hint so CSS can apply the right initial transform.
+				var aosVal = el.getAttribute('data-aos') || '';
+				if      (aosVal === 'fade-left')                          el.setAttribute('data-reveal-dir', 'left');
+				else if (aosVal === 'fade-right')                         el.setAttribute('data-reveal-dir', 'right');
+				else if (aosVal === 'fade-zoom-in' || aosVal === 'zoom-in') el.setAttribute('data-reveal-dir', 'zoom');
+				else if (aosVal === 'fade-in')                            el.setAttribute('data-reveal-dir', 'fade');
+				// fade-up / fade-down / unrecognised → default (translate up, no dir attr)
 				var delay = el.getAttribute('data-aos-delay');
 				if (delay && parseInt(delay, 10) > 0 && !el.getAttribute('data-reveal-delay')) {
 					// Round to nearest 100ms bucket to match our CSS variants.
 					var d = parseInt(delay, 10);
-					var bucket = d <= 150 ? 100 : d <= 250 ? 200 : 300;
+					var bucket = d <= 150 ? 100 : d <= 250 ? 200 : d <= 350 ? 300 : 400;
 					el.setAttribute('data-reveal-delay', String(bucket));
 				}
 			});
