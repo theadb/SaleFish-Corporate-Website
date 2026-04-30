@@ -241,17 +241,32 @@
         padding: 8px 0;
         // Position driven by requestAnimationFrame in home.js — no CSS animation
         // (CSS animation + webkit compositing = unreliable layer lifecycle)
+
+        // Uniform slot for each logo — logos vary wildly in aspect ratio (1:1 to
+        // 10:1), so without a fixed width the gaps look uneven. Each slot is
+        // 120×40px; object-fit:contain scales the image to fit within it.
+        picture {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 120px;
+          height: 40px;
+          flex-shrink: 0;
+
+          @include rs550 { width: 96px; height: 32px; }
+        }
       }
 
       .builder_logo {
+        width: 120px;
         height: 40px;
-        width: auto;
         flex-shrink: 0;
         object-fit: contain;
+        object-position: center;
         transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         will-change: transform;
 
-        @include rs550 { height: 32px; }
+        @include rs550 { width: 96px; height: 32px; }
 
         &:hover { transform: scale(1.1); }
       }
