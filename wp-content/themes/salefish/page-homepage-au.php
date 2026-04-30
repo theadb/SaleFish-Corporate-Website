@@ -47,7 +47,7 @@ $the_numbers = get_field('the_numbers');
 		<div class="wrapper">
 			<div class="max_wrapper">
 				<div class="left" data-aos="fade-right" data-aos-delay="300">
-					<h3>AN EASIER WAY TO <span>SELL <span id="app_for_home">HOME SALES</span></span></h3>
+					<h3>An Easier Way to <span>Sell <span id="app_for_home">Home Sales</span></span></h3>
 					<h1>
 						<?php echo wp_kses_post( $hero_header ); ?>
 					</h1>
@@ -68,8 +68,8 @@ $the_numbers = get_field('the_numbers');
 	 	<section class="builders">
 			<div class="max_wrapper">
 				<div data-aos="fade-right">
-					<h3>THE REAL ESTATE LEADERS</h3>
-					<h3 class="bold">BEATING YOU BECAUSE OF SALEFISH:</h3>
+					<h3>The Real Estate Leaders</h3>
+					<h3 class="bold">Beating You Because of SaleFish:</h3>
 				</div>
 
 				<div data-aos="fade-zoom-in" class="builders_wrap">
@@ -175,7 +175,7 @@ $the_numbers = get_field('the_numbers');
 		<section class="pillars">
 			<div class="max_wrapper">
 				<div data-aos="fade-right">
-					<h1>THE SALEFISH PILLARS</h1>
+					<h1>The SaleFish Pillars</h1>
 					<p class="subheader">Modern sales tools by the best, for the best.</p>
 				</div>
 				<div class="swiper pillarsSwiper" data-aos="fade-zoom-in">

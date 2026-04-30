@@ -23,11 +23,11 @@ $pillars = get_field('pillars');
 		<div class="success_hero" data-aos="fade-in">
 			<div class="left">
 				<div class="top_content">
-					<h3>AN EASIER WAY TO SELL NEW HOMES</h3>
+					<h3>An Easier Way to Sell New Homes</h3>
 					<h1>
-						DISCOVER THE <br/>
-						PRE-CONSTRUCTION<br/>
-						SALES POWER APP.
+						Discover the <br/>
+						Pre-Construction<br/>
+						Sales Power App.
 					</h1>
 					<a class="button" href="/contact-us/" data-sf-modal="register" data-sf-section="Success Page — CTA">BOOK A FREE DEMO</a>
 				</div>
