@@ -120,10 +120,12 @@
         margin-top: 50px;
         margin-left: 20px;
         max-height: 700px;
+        padding-right: 60px; // aligns image right edge with header hamburger
 
         @include rs990 {
           width: 100%;
           height: auto;
+          padding-right: 0;
         }
 
         @include rs550 {
