@@ -46,7 +46,7 @@ get_header();
 				$f_date    = get_the_date( 'M j, Y', $fid );
 				$f_title   = get_the_title( $fid );
 				$f_excerpt = wp_trim_words( get_the_excerpt( $fid ), 22, '...' );
-				$f_video   = $f_cat_slug === 'videos';
+				$f_video   = sf_cats_include_video( $f_cats );
 				$f_embed   = $f_video ? sf_video_embed_url( $fa->post_content ) : '';
 				if ( empty( $f_thumb ) && $f_video ) {
 					$f_vthumb = sf_video_thumbnail_url( $fa->post_content );
@@ -84,7 +84,7 @@ get_header();
 						$s_link    = get_permalink( $sid );
 						$s_date    = get_the_date( 'M j, Y', $sid );
 						$s_title   = get_the_title( $sid );
-						$s_video   = $s_cat_slug === 'videos';
+						$s_video   = sf_cats_include_video( $s_cats );
 						$s_embed   = $s_video ? sf_video_embed_url( $sa->post_content ) : '';
 						if ( empty( $s_thumb ) && $s_video ) {
 							$s_vthumb = sf_video_thumbnail_url( $sa->post_content );
@@ -134,7 +134,7 @@ get_header();
 						$sp_link     = get_permalink( $sp_id );
 						$sp_date     = get_the_date( 'M j, Y', $sp_id );
 						$sp_author   = get_the_author_meta( 'display_name', $sp->post_author );
-						$sp_video    = $sp_cat_slug === 'videos';
+						$sp_video    = sf_cats_include_video( $sp_cats );
 						$sp_embed    = $sp_video ? sf_video_embed_url( $sp->post_content ) : '';
 						if ( empty( $sp_thumb ) && $sp_video ) {
 							$sp_vthumb = sf_video_thumbnail_url( $sp->post_content );
@@ -172,10 +172,10 @@ get_header();
 		<div class="sf-container">
 
 			<div class="blog-filter">
-				<button class="blog-filter__btn active" data-filter="all">All Articles</button>
-				<button class="blog-filter__btn" data-filter="success-stories">Success Stories</button>
-				<button class="blog-filter__btn" data-filter="press">Press</button>
-				<button class="blog-filter__btn" data-filter="videos">Videos</button>
+				<button type="button" class="blog-filter__btn active" data-filter="all">All Articles</button>
+				<button type="button" class="blog-filter__btn" data-filter="success-stories">Success Stories</button>
+				<button type="button" class="blog-filter__btn" data-filter="press">Press</button>
+				<button type="button" class="blog-filter__btn" data-filter="videos">Videos</button>
 			</div>
 
 			<div class="blog-grid">
@@ -191,7 +191,7 @@ get_header();
 					$content  = $article->post_content;
 					$author   = get_the_author_meta( 'display_name', $article->post_author );
 					$featured = has_tag( 'featured', $id );
-					$is_video = $cat_slug === 'videos';
+					$is_video = sf_cats_include_video( $cats );
 					$embed    = $is_video ? sf_video_embed_url( $content ) : '';
 					if ( empty( $thumb ) && $is_video ) {
 						$vthumb = sf_video_thumbnail_url( $content );
@@ -223,7 +223,7 @@ get_header();
 			</div><!-- .blog-grid -->
 
 			<div class="blog-loadmore">
-				<button class="sf-btn sf-btn--secondary load_more" id="blog-load-more" data-page="1" data-category="all">
+				<button type="button" class="sf-btn sf-btn--secondary load_more" id="blog-load-more" data-page="1" data-category="all">
 					Load More
 					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
 				</button>
@@ -249,7 +249,7 @@ get_header();
   function buildCard(post) {
     var cat_slug  = post.cat_slug || '';
     var cat_name  = post.cat_name || '';
-    var is_video  = cat_slug === 'videos';
+    var is_video  = post.is_video || false;
     var embed_url = post.embed_url || '';
     var card      = document.createElement('a');
     card.href      = is_video ? (embed_url || '#') : (post.link || '#');

@@ -236,7 +236,7 @@ get_header();
 						$sp_link     = get_permalink( $sp_id );
 						$sp_date     = get_the_date( 'M j, Y', $sp_id );
 						$sp_author   = get_the_author_meta( 'display_name', $sp->post_author );
-						$sp_video    = $sp_cat_slug === 'videos';
+						$sp_video    = sf_cats_include_video( $sp_cats );
 						$sp_embed    = $sp_video ? sf_video_embed_url( $sp->post_content ) : '';
 						if ( empty( $sp_thumb ) && $sp_video ) {
 							$sp_vthumb = sf_video_thumbnail_url( $sp->post_content );
