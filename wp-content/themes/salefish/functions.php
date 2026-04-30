@@ -482,7 +482,7 @@ function load_more_post()
             $cats     = get_the_category( $id );
             $cat_slug    = $cats ? $cats[0]->category_nicename : '';
             $cat_name    = $cats ? $cats[0]->cat_name          : '';
-            $is_video    = $cat_slug === 'videos';
+            $is_video    = sf_cats_include_video( $cats );
             $raw_content = get_the_content();
 
             // Thumbnail: use featured image; fall back to auto-extracted video thumb
@@ -506,6 +506,7 @@ function load_more_post()
                 'category'   => $cats,
                 'cat_slug'   => $cat_slug,
                 'cat_name'   => $cat_name,
+                'is_video'   => $is_video,
                 'thumb'      => $thumb,
                 'link'       => $link,
                 'content'    => $raw_content,
@@ -601,6 +602,22 @@ add_filter( 'embed_oembed_html', function ( $html, $url, $attr, $post_id ) {
  *                         false for in-page hero where the user hasn't yet
  *                         interacted — modern browsers block autoplay anyway)
  */
+/**
+ * Return true if ANY of a post's categories has the slug 'videos'.
+ * Checking only $cats[0] misses posts that have multiple categories where
+ * 'videos' isn't the primary one — use this everywhere instead of
+ * $cat_slug === 'videos'.
+ *
+ * @param array|false $cats get_the_category() result
+ */
+function sf_cats_include_video( $cats ) {
+    if ( ! $cats ) return false;
+    foreach ( $cats as $c ) {
+        if ( $c->category_nicename === 'videos' ) return true;
+    }
+    return false;
+}
+
 function sf_video_embed_url( $url, $autoplay = true ) {
     $url = trim( strip_tags( $url ) );
     $ap  = $autoplay ? '1' : '0';

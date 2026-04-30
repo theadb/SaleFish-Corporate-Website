@@ -68,7 +68,7 @@ get_header();
                     $content  = $article->post_content;
                     $author   = get_the_author_meta( 'display_name', $article->post_author );
                     $featured = has_tag( 'featured', $id );
-                    $is_video = $cat_slug === 'videos';
+                    $is_video = sf_cats_include_video( $cats );
                     $embed    = $is_video ? sf_video_embed_url( $content ) : '';
                     if ( empty( $thumb ) && $is_video ) {
                         $vthumb = sf_video_thumbnail_url( $content );
@@ -100,7 +100,7 @@ get_header();
             </div><!-- .blog-grid -->
 
             <div class="blog-loadmore">
-                <button class="sf-btn sf-btn--secondary load_more" id="blog-load-more" data-page="1" data-category="<?php echo esc_attr( $cat_filter ); ?>">
+                <button type="button" class="sf-btn sf-btn--secondary load_more" id="blog-load-more" data-page="1" data-category="<?php echo esc_attr( $cat_filter ); ?>">
                     Load More
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </button>
@@ -125,7 +125,7 @@ get_header();
   function buildCard(post) {
     var cat_slug  = post.cat_slug || '';
     var cat_name  = post.cat_name || '';
-    var is_video  = cat_slug === 'videos';
+    var is_video  = post.is_video || false;
     var embed_url = post.embed_url || '';
     var card      = document.createElement('a');
     card.href      = is_video ? (embed_url || '#') : (post.link || '#');
