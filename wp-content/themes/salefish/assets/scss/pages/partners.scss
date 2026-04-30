@@ -123,6 +123,7 @@
           margin-bottom: 5px;
           font-size: 1rem;
           line-height: 1.5;
+          text-wrap: pretty;
         }
 
         .button {
@@ -150,6 +151,7 @@
         color: rgba(#fff, 0.8);
         font-size: 0.9em;
         line-height: 1.6;
+        text-wrap: pretty;
       }
     }
   }
@@ -188,6 +190,7 @@
         margin: 0 auto 15px auto;
         font-size: 1rem;
         line-height: 1.5;
+        text-wrap: pretty;
 
         @include rs768 {
           width: 100%;
@@ -332,6 +335,7 @@
             font-size: 1rem;
             margin-bottom: 0;
             line-height: 1.6;
+            text-wrap: pretty;
           }
 
           .button {
