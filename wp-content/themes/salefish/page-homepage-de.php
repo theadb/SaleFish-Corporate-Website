@@ -47,7 +47,7 @@ $the_numbers = get_field('the_numbers');
 		<div class="wrapper">
 			<div class="max_wrapper">
 				<div class="left" data-aos="fade-right" data-aos-delay="300">
-					<h3>EIN EINFACHERER WEG, HAUSVERKÄUFE ZU VERKAUFEN</h3>
+					<h3>Ein einfacherer Weg, Hausverkäufe zu verkaufen</h3>
 					<h1>
 						<?php echo wp_kses_post( $hero_header ); ?>
 					</h1>
@@ -69,8 +69,8 @@ $the_numbers = get_field('the_numbers');
 	 	<section class="builders">
 			<div class="max_wrapper">
 				<div data-aos="fade-right">
-					<h3>DIE IMMOBILIENFÜHRER</h3>
-					<h3 class="bold">DICH WEGEN SALEFISH SCHLAGEN:</h3>
+					<h3>Die Immobilienführer</h3>
+					<h3 class="bold">Dich wegen SaleFish schlagen:</h3>
 				</div>
 
 				<div data-aos="fade-zoom-in" class="builders_wrap">

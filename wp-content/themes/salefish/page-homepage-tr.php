@@ -47,7 +47,7 @@ $the_numbers = get_field('the_numbers');
 		<div class="wrapper">
 			<div class="max_wrapper">
 				<div class="left" data-aos="fade-right" data-aos-delay="300">
-					<h3>AN EASIER WAY TO <span>SELL <span id="app_for_home">HOME SALES</span></span></h3>
+					<h3>An Easier Way to <span>Sell <span id="app_for_home">Home Sales</span></span></h3>
 					<h1>
 						<?php echo $hero_header; ?>
 					</h1>
@@ -68,8 +68,8 @@ $the_numbers = get_field('the_numbers');
 	 	<section class="builders">
 			<div class="max_wrapper">
 				<div data-aos="fade-right">
-					<h3>GAYRİMENKUL LİDERLERİ</h3>
-					<h3 class="bold">SALEFİŞ YÜZÜNDEN SENİ DÖVMEK:</h3>
+					<h3>Gayrimenkul Liderleri</h3>
+					<h3 class="bold">SaleFish Yüzünden Seni Dövmek:</h3>
 				</div>
 
 				<div data-aos="fade-zoom-in" class="builders_wrap">
