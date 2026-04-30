@@ -43,6 +43,7 @@
         color: $black;
         max-width: 420px;
         margin-bottom: 36px;
+        text-wrap: pretty;
 
         @include rs768 { max-width: 100%; }
       }
@@ -311,6 +312,7 @@
         color: $black;
         max-width: 520px;
         margin: 0 auto;
+        text-wrap: pretty;
       }
     }
 
@@ -422,6 +424,7 @@
         font-size: 0.95rem;
         color: rgba(#fff, 0.75);
         line-height: 1.6;
+        text-wrap: pretty;
       }
     }
 

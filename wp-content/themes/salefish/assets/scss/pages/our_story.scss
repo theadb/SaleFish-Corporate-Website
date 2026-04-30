@@ -152,6 +152,7 @@
       line-height: 1.75;
       color: $black;
       margin: 0;
+      text-wrap: pretty;
     }
   }
 
@@ -237,6 +238,7 @@
         font-size: 0.95rem;
         line-height: 1.65;
         margin: 0;
+        text-wrap: pretty;
       }
     }
 
@@ -316,6 +318,7 @@
         font-size: 1rem;
         line-height: 1.7;
         margin-bottom: 16px;
+        text-wrap: pretty;
       }
 
       ul {
