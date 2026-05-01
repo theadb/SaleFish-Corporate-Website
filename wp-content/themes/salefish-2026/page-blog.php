@@ -44,6 +44,7 @@ get_header();
 				$f_thumb   = get_the_post_thumbnail( $fid, 'large' );
 				$f_link    = get_permalink( $fid );
 				$f_date    = get_the_date( 'M j, Y', $fid );
+				$f_author  = get_the_author_meta( 'display_name', get_post_field( 'post_author', $fid ) );
 				$f_title   = get_the_title( $fid );
 				$f_excerpt = wp_trim_words( get_the_excerpt( $fid ), 22, '...' );
 				$f_video   = $f_cat_slug === 'videos';
@@ -58,8 +59,8 @@ get_header();
 						<?php if ( $f_cat_name ) : ?>
 						<span class="sf-badge sf-badge--<?php echo esc_attr( $f_cat_slug ); ?>"><?php echo esc_html( $f_cat_name ); ?></span>
 						<?php endif; ?>
-						<span class="blog-post-date">Published: <?php echo esc_html( $f_date ); ?></span>
 						<h2 class="blog-featured__title"><?php echo esc_html( $f_title ); ?></h2>
+						<span class="blog-post-date"><?php echo esc_html( $f_date ); ?><?php if ( $f_author ) : ?> · <?php echo esc_html( $f_author ); ?><?php endif; ?></span>
 						<?php if ( $f_excerpt ) : ?>
 						<p class="blog-featured__excerpt"><?php echo esc_html( $f_excerpt ); ?></p>
 						<?php endif; ?>
@@ -77,6 +78,7 @@ get_header();
 						$s_thumb   = get_the_post_thumbnail( $sid, 'medium' );
 						$s_link    = get_permalink( $sid );
 						$s_date    = get_the_date( 'M j, Y', $sid );
+						$s_author  = get_the_author_meta( 'display_name', get_post_field( 'post_author', $sid ) );
 						$s_title   = get_the_title( $sid );
 						$s_video   = $s_cat_slug === 'videos';
 					?>
@@ -90,8 +92,8 @@ get_header();
 							<?php if ( $s_cat_name ) : ?>
 							<span class="sf-badge sf-badge--<?php echo esc_attr( $s_cat_slug ); ?>"><?php echo esc_html( $s_cat_name ); ?></span>
 							<?php endif; ?>
-							<span class="blog-post-date">Published: <?php echo esc_html( $s_date ); ?></span>
 							<h3 class="blog-featured__side-title"><?php echo esc_html( $s_title ); ?></h3>
+							<span class="blog-post-date"><?php echo esc_html( $s_date ); ?><?php if ( $s_author ) : ?> · <?php echo esc_html( $s_author ); ?><?php endif; ?></span>
 							<span class="blog-read-more"><?php echo sf_post_cta( $s_cat_slug ); ?></span>
 						</div>
 					</a>
@@ -122,6 +124,7 @@ get_header();
 					$title    = get_the_title( $id );
 					$thumb    = get_the_post_thumbnail( $id, 'medium_large' );
 					$date     = get_the_date( 'M j, Y', $id );
+					$author   = get_the_author_meta( 'display_name', get_post_field( 'post_author', $id ) );
 					$link     = get_permalink( $id );
 					$cats     = get_the_category( $id );
 					$cat_name = $cats ? $cats[0]->cat_name : '';
@@ -140,8 +143,8 @@ get_header();
 						<?php if ( $cat_name ) : ?>
 						<span class="sf-badge sf-badge--<?php echo esc_attr( $cat_slug ); ?> blog-card__cat"><?php echo esc_html( $cat_name ); ?></span>
 						<?php endif; ?>
-						<span class="blog-card__date">Published: <?php echo esc_html( $date ); ?></span>
 						<h3 class="blog-card__title"><?php echo esc_html( $title ); ?></h3>
+						<span class="blog-card__date"><?php echo esc_html( $date ); ?><?php if ( $author ) : ?> · <?php echo esc_html( $author ); ?><?php endif; ?></span>
 						<span class="blog-card__link"><?php echo sf_post_cta( $cat_slug ); ?></span>
 					</div>
 				</a>
@@ -231,12 +234,13 @@ get_header();
             if (is_video) card.setAttribute('data-fancybox', '');
             if (activeFilter !== 'all' && cat_slug !== activeFilter) card.style.display = 'none';
 
+            var meta = pub_date + (post.author ? ' · ' + post.author : '');
             card.innerHTML =
               (post.thumb ? '<div class="blog-card__image">' + post.thumb + '</div>' : '') +
               '<div class="blog-card__body">' +
                 '<span class="sf-badge sf-badge--' + cat_slug + ' blog-card__cat">' + cat_name + '</span>' +
-                (pub_date ? '<span class="blog-card__date">Published: ' + pub_date + '</span>' : '') +
                 '<h3 class="blog-card__title">' + post.title + '</h3>' +
+                (meta ? '<span class="blog-card__date">' + meta + '</span>' : '') +
                 '<span class="blog-card__link">' + cta + '</span>' +
               '</div>';
 
