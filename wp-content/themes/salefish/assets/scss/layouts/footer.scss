@@ -3,9 +3,10 @@
 // Reuses .blog-sticky__grid and .blog-sticky__card from blog.scss (global bundle).
 .sf-footer-posts {
   background: $gray;
-  padding: 64px 0 72px;
+  padding: 64px 60px 72px;
 
-  @include rs768 { padding: 48px 0 56px; }
+  @include rs768 { padding: 48px 60px 56px; }
+  @include rs600 { padding: 40px 20px 48px; }
 
   &__header {
     display: flex;
