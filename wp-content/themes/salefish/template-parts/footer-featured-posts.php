@@ -18,7 +18,7 @@ if ( empty( $_sfp_posts ) ) return;
 ?>
 
 <section class="sf-footer-posts" aria-label="Featured blog posts">
-    <div class="sf-container">
+    <div class="max_wrapper">
         <div class="sf-footer-posts__header">
             <p class="blog-section-label">Featured Blog Posts</p>
             <a class="sf-footer-posts__all" href="/blog">View All Articles</a>
@@ -62,5 +62,5 @@ if ( empty( $_sfp_posts ) ) return;
             </a>
             <?php endforeach; ?>
         </div>
-    </div>
+    </div><!-- .max_wrapper -->
 </section>
