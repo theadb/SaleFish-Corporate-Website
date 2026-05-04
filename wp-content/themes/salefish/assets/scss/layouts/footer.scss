@@ -1,3 +1,35 @@
+// ─── Pre-footer featured posts strip ─────────────────────────────────────────
+// Sits between the last page section and the footer on every non-blog page.
+// Reuses .blog-sticky__grid and .blog-sticky__card from blog.scss (global bundle).
+.sf-footer-posts {
+  background: $gray;
+  padding: 64px 0 72px;
+
+  @include rs768 { padding: 48px 0 56px; }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+
+    .blog-section-label { margin-bottom: 0; }
+  }
+
+  &__all {
+    font-family: var(--sf-font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: $dark_purple;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &::after { content: ' →'; }
+
+    &:hover { text-decoration: underline; }
+  }
+}
+
 footer {
   padding: 48px 60px 2em;
   background: $gray;

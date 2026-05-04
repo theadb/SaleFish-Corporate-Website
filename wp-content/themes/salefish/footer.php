@@ -7,6 +7,16 @@
 
 
 <?php wp_footer(); ?>
+
+<?php
+// Featured posts strip — shown on every page except the blog listing and
+// category-filter pages (which already have their own blog content).
+$_sf_is_blog = is_page_template( 'page-blog.php' ) || is_page_template( 'page-blog-filter.php' );
+if ( ! $_sf_is_blog ) {
+    get_template_part( 'template-parts/footer-featured-posts' );
+}
+?>
+
 <footer>
 	<div class="max_wrapper">
 		<div class="salefish">
