@@ -26,26 +26,26 @@ FTP_PASS=$(security find-generic-password -s "ftp-salefish" -w 2>/dev/null) || {
 if [[ "$DB_ONLY" != "--db-only" ]]; then
     echo "→ Syncing files to live server..."
 
-    # Exclude things that should never go to the server
-    EXCLUDES=(
-        --exclude "/db-backups/"
-        --exclude "/bin/"
-        --exclude "/docs/"
-        --exclude "/node_modules/"
-        --exclude "/.git/"
-        --exclude "/.gitignore"
-        --exclude "/.DS_Store"
-        --exclude "/wp-config.php"
-        --exclude "/*.md"
-        --exclude "/wp-content/uploads/"
-    )
-
+    # lftp mirror --exclude uses POSIX ERE regex matched against the FULL
+    # relative path of each file/directory. Patterns that end with / are matched
+    # as directory prefixes so the entire subtree is skipped in one shot.
+    # --exclude-glob uses shell-style globs matched against the basename only.
     lftp -u "$FTP_USER","$FTP_PASS" "ftp://$FTP_HOST" <<LFTP
 set ssl:verify-certificate no
 set net:timeout 30
 set net:max-retries 3
-mirror --reverse --delete --verbose --parallel=4 \
-    ${EXCLUDES[@]} \
+mirror --reverse --verbose --parallel=4 \
+    --exclude "^db-backups/" \
+    --exclude "^bin/" \
+    --exclude "^docs/" \
+    --exclude "(^|/)node_modules/" \
+    --exclude "^\.git/" \
+    --exclude "^\.claude/" \
+    --exclude "^\.gitignore$" \
+    --exclude "^\.DS_Store$" \
+    --exclude "^wp-config\.php$" \
+    --exclude-glob "*.md" \
+    --exclude "^wp-content/uploads/" \
     "$REPO_ROOT/" "$REMOTE_ROOT/"
 bye
 LFTP

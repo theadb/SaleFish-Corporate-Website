@@ -176,55 +176,14 @@ body.sf-light-header .sf-notch-fill {
   animation: sf-skel-shimmer 1.4s ease-in-out infinite;
 }
 
-// ─── Scroll-reveal animations (one-shot, transition-based) ─────────────────
-//
-// Apple-style reveal: elements drift 14px upward from a nearly-final position,
-// appearing to materialise into place rather than "fly in from below."
-//
-// Easing: cubic-bezier(0.16, 1, 0.3, 1) — a strong spring/expo-out curve.
-// Motion starts immediately at full velocity and decelerates hard, mimicking
-// iOS spring physics. Elements feel like they "land" rather than slide.
-//
-// No scale on the default variant — scale distorts text and images perceptibly
-// and is the main reason the earlier version felt mechanical. Zoom variant
-// retains a very subtle scale(0.98) since that's its whole purpose.
-//
-// One-shot: IO unobserves after first reveal. Scrolling up never re-animates.
-// Transition-based (not @keyframes) so iOS Safari bfcache/recomposition
-// cannot reset the revealed state.
-[data-reveal] {
-  opacity: 0;
-  transform: translate3d(0, 14px, 0);
-  transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
-              transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
-
-  // Direction variants (hidden state only — revealed state always resolves to identity)
-  &[data-reveal-dir="right"] { transform: translate3d(-20px, 0, 0); }
-  &[data-reveal-dir="left"]  { transform: translate3d(20px, 0, 0); }
-  &[data-reveal-dir="zoom"]  { transform: translate3d(0, 8px, 0) scale(0.98); }
-  &[data-reveal-dir="fade"]  { transform: translate3d(0, 6px, 0); }
-
-  &.sf-revealed {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-    will-change: auto; // de-promote layer after animation; prevents iOS Safari recomposition flashes
-  }
-}
-
-// Stagger variants — 75ms buckets produce tighter, more cohesive group reveals.
-[data-reveal][data-reveal-delay="100"].sf-revealed { transition-delay: 75ms; }
-[data-reveal][data-reveal-delay="200"].sf-revealed { transition-delay: 150ms; }
-[data-reveal][data-reveal-delay="300"].sf-revealed { transition-delay: 225ms; }
-[data-reveal][data-reveal-delay="400"].sf-revealed { transition-delay: 300ms; }
-
-@media (prefers-reduced-motion: reduce) {
-  [data-reveal] {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
+// ─── Scroll-reveal: disabled — all [data-reveal] elements render visible ─────
+// The scroll-reveal system was removed because iOS Safari's compositing layer
+// re-creation caused content to vanish when scrolling back up the page.
+// All [data-reveal] elements (including legacy [data-aos] converted ones)
+// now render at full opacity immediately — no JS-gated hiding, no fade-in
+// animations. First paint matches final paint exactly.
+// The sfRevealInit JS in header.php still runs (adds sf-revealed) but has no
+// visible effect since neither state hides anything.
 
 input,
 select {
