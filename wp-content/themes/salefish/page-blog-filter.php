@@ -26,7 +26,10 @@ $args = array(
 if ( $cat_filter !== 'all' ) {
     $args['category_name'] = $cat_filter;
 }
-$articles = get_posts( $args );
+$initial_query  = new WP_Query( $args );
+$articles       = $initial_query->posts;
+$has_more_pages = $initial_query->max_num_pages > 1;
+wp_reset_postdata();
 
 get_header();
 ?>
@@ -100,7 +103,7 @@ get_header();
             </div><!-- .blog-grid -->
 
             <div class="blog-loadmore">
-                <button type="button" class="sf-btn sf-btn--secondary load_more" id="blog-load-more" data-page="1" data-category="<?php echo esc_attr( $cat_filter ); ?>">
+                <button type="button" class="sf-btn sf-btn--secondary load_more" id="blog-load-more"<?php echo $has_more_pages ? '' : ' style="display:none"'; ?>>
                     Load More
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </button>
@@ -155,19 +158,27 @@ get_header();
     fetch(salefishAjax.ajaxurl, { method: 'POST', body: formData })
       .then(function (r) { return r.json(); })
       .then(function (res) {
+        // Commit page advance only on success — failed fetches leave
+        // currentPage unchanged so the next click retries correctly.
+        currentPage = page;
         (res.posts || []).forEach(function (post) { grid.appendChild(buildCard(post)); });
         if (loadMoreBtn) {
           loadMoreBtn.style.display = (page >= res.max || !res.max) ? 'none' : '';
         }
+        isLoading = false;
       })
-      .catch(function () {})
-      .finally(function () { isLoading = false; });
+      .catch(function () {
+        // Network / JSON error — reset gate so the user can retry.
+        isLoading = false;
+      });
+    // Note: .finally() intentionally avoided — not supported in
+    // iOS Safari < 11.1 / Android Chrome < 63; would permanently lock isLoading.
   }
 
   if (loadMoreBtn) {
     loadMoreBtn.addEventListener('click', function () {
-      currentPage++;
-      fetchMore(currentPage, currentCat);
+      // Pass next page as argument; currentPage only advances on success.
+      fetchMore(currentPage + 1, currentCat);
     });
   }
 }());

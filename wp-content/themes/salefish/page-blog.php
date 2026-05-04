@@ -2,14 +2,17 @@
 /**
  * Template Name: Blog Page
  */
-$articles = get_posts(array(
+$initial_query = new WP_Query( array(
     'post_status'    => 'publish',
     'post_type'      => 'post',
     'posts_per_page' => 9,
     'paged'          => 1,
     'orderby'        => 'date',
     'order'          => 'DESC',
-));
+) );
+$articles       = $initial_query->posts;
+$has_more_pages = $initial_query->max_num_pages > 1;
+wp_reset_postdata();
 
 get_header();
 ?>
@@ -223,7 +226,7 @@ get_header();
 			</div><!-- .blog-grid -->
 
 			<div class="blog-loadmore">
-				<button type="button" class="sf-btn sf-btn--secondary load_more" id="blog-load-more" data-page="1" data-category="all">
+				<button type="button" class="sf-btn sf-btn--secondary load_more" id="blog-load-more"<?php echo $has_more_pages ? '' : ' style="display:none"'; ?>>
 					Load More
 					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
 				</button>
@@ -281,6 +284,9 @@ get_header();
     fetch(salefishAjax.ajaxurl, { method: 'POST', body: formData })
       .then(function (r) { return r.json(); })
       .then(function (res) {
+        // Commit the page advance only on success — failed fetches
+        // leave currentPage unchanged so the next click retries correctly.
+        currentPage = page;
         if (replace) grid.innerHTML = '';
         (res.posts || []).forEach(function (post) {
           grid.appendChild(buildCard(post));
@@ -288,9 +294,15 @@ get_header();
         if (loadMoreBtn) {
           loadMoreBtn.style.display = (page >= res.max || !res.max) ? 'none' : '';
         }
+        isLoading = false;
       })
-      .catch(function () {})
-      .finally(function () { isLoading = false; });
+      .catch(function () {
+        // Network / JSON error — reset gate so the user can retry.
+        isLoading = false;
+      });
+    // Note: .finally() is intentionally avoided — it is not supported in
+    // iOS Safari < 11.1 or Android Chrome < 63 and would permanently lock
+    // isLoading = true on those devices, silently disabling the button.
   }
 
   // Filter buttons
@@ -300,16 +312,16 @@ get_header();
       filterBtns.forEach(function (b) { b.classList.remove('active'); });
       this.classList.add('active');
       currentCat  = filter;
-      currentPage = 1;
+      currentPage = 0; // fetchPosts success will set it to 1
       fetchPosts(1, filter, true);
     });
   });
 
-  // Load More
+  // Load More — pass next page as argument; currentPage only advances
+  // inside fetchPosts on success, so a failed request is always retryable.
   if (loadMoreBtn) {
     loadMoreBtn.addEventListener('click', function () {
-      currentPage++;
-      fetchPosts(currentPage, currentCat, false);
+      fetchPosts(currentPage + 1, currentCat, false);
     });
   }
 
