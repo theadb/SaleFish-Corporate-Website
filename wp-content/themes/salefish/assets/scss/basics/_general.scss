@@ -178,6 +178,49 @@ body.sf-light-header .sf-notch-fill {
   animation: sf-skel-shimmer 1.4s ease-in-out infinite;
 }
 
+// ─── Auto skeleton for lazy-loaded images ─────────────────────────────────
+// Every <img loading="lazy"> on the site shows a subtle shimmer
+// background until the actual image finishes downloading. This replaces
+// the "blank rectangle" that would otherwise sit in the page while the
+// image was being fetched, and is what the user will see when scrolling
+// to a section whose images haven't downloaded yet.
+//
+// Implementation:
+//   • CSS sets the shimmer as the img's background. The browser shows
+//     this background through any transparent/unloaded portion of the
+//     img element (i.e. the entire box, until the network image arrives).
+//   • A tiny inline script (in footer.php) listens for each img's
+//     `load` event and adds `.sf-img-loaded`, which cancels the
+//     skeleton CSS. Until then, the shimmer plays.
+//   • MutationObserver in the same script catches dynamically-added
+//     lazy images (e.g. AJAX-loaded blog cards from "Load More") so
+//     they get the same treatment.
+//   • Once an image is loaded, the cover image fills the box and the
+//     CSS background is hidden anyway — but we still flip the class to
+//     stop the GPU animation cost.
+img[loading="lazy"]:not(.sf-img-loaded) {
+  background-color: rgba(0, 0, 0, 0.05);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0)    0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0)    100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: sf-skel-shimmer 1.4s ease-in-out infinite;
+}
+img[loading="lazy"].sf-img-loaded {
+  background: none;
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  img[loading="lazy"]:not(.sf-img-loaded) {
+    animation: none;
+  }
+}
+
 // ─── Reveal animation: REMOVED ────────────────────────────────────────────
 // The previous .sf-fade-pre / .sf-fade-in / IntersectionObserver-driven
 // system caused the "second half of the page takes 3-10 seconds to load"
