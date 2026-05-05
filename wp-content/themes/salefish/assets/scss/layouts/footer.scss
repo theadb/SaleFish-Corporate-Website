@@ -1,3 +1,68 @@
+// ─── Scroll-to-top button ─────────────────────────────────────────────────────
+// Centered horizontally so it doesn't compete with the bottom-right Tidio chat
+// widget. `transform` carries both the horizontal centering offset AND the
+// vertical show/hide slide — `translate(-50%, …)` keeps the button centered
+// in every state. Compositor-only animation = zero scroll repaint cost.
+.sf-scroll-top {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: $dark_purple;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  opacity: 0;
+  transform: translate3d(-50%, 12px, 0);
+  pointer-events: none;
+  transition: opacity 220ms ease, transform 220ms ease, background 200ms ease;
+  will-change: opacity, transform;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translate3d(-50%, 0, 0);
+    pointer-events: auto;
+  }
+
+  &:hover { background: $light_purple; }
+  &.is-visible:hover { transform: translate3d(-50%, -2px, 0); }
+  &:focus-visible { outline: 3px solid $light_purple; outline-offset: 3px; }
+
+  @include rs550 {
+    bottom: 18px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+// ─── Blog empty state ─────────────────────────────────────────────────────────
+.blog-empty {
+  grid-column: 1 / -1;
+  padding: 64px 0;
+  text-align: center;
+
+  p {
+    font-size: 1rem;
+    color: $dark_purple;
+    opacity: 0.55;
+  }
+}
+
+// ─── Form error message ───────────────────────────────────────────────────────
+.sf-form-error {
+  font-size: 0.82rem;
+  color: #e53e3e;
+  margin: -4px 0 12px;
+  padding: 0;
+}
+
 // ─── Pre-footer featured posts strip ─────────────────────────────────────────
 // Sits between the last page section and the footer on every non-blog page.
 // Reuses .blog-sticky__grid and .blog-sticky__card from blog.scss (global bundle).
@@ -35,6 +100,11 @@ footer {
   padding: 48px 60px 2em;
   background: $gray;
   margin-top: 0; // prevent orphaned gap from preceding section margins
+  // content-visibility:auto was removed — it skipped footer layout until
+  // intersect-near-viewport, which then caused a perceptible "pop" right as
+  // the reveal animation tried to play. Letting the footer lay out normally
+  // and using the [data-reveal] reveal animation for entrance gives a
+  // smoother premium feel that works the same in every browser engine.
   // Footer is now visible by default. Previously hidden via display:none and
   // shown via JS — that pattern caused the bottom of the page to be blank
   // for 100ms-3s on Safari/iOS while waiting for window.load + third-party
