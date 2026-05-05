@@ -1866,7 +1866,7 @@ main {
 .os-hero::before, .os-hero::after,
 .terms-hero::before, .terms-hero::after,
 .partners-hero::before, .partners-hero::after {
-  will-change: transform, opacity;
+  will-change: auto;
 }
 
 @media screen and (max-width: 768px) {
