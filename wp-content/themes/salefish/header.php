@@ -268,186 +268,19 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 		setTimeout(applyScrollState, 100);
 		setTimeout(applyScrollState, 300);
 
-		// ── Scroll-reveal one-shot ───────────────────────────────────────────
-		// IntersectionObserver-based reveal. Each [data-reveal] element
-		// reveals exactly once when first intersecting the viewport, then
-		// stays revealed forever (observer is unobserved). Scrolling back
-		// up does NOT replay the animation — the .sf-revealed class
-		// persists, and the CSS uses a transition (not a keyframe) so
-		// iOS Safari's compositing-layer recreation never hides them.
-		//
-		// Safety: pageshow with persisted=true (bfcache restore) re-runs
-		// the sweep so anything that was visible before staying-back is
-		// visible again on return.
-		function sfRevealInit() {
-			// Selector: every legacy [data-aos] element + every [data-reveal]
-			// element + every major auto-tagged section. We pick these all
-			// up in one pass.
-			// Scope kept tight on purpose. Earlier versions auto-tagged
-			// granular elements like every `.feature` row, which meant 30+
-			// elements sat at opacity:0 below the fold waiting for IO to
-			// fire. On fast scrolls iOS Safari batches IO callbacks; the
-			// "second half of the page" appeared blank for several seconds
-			// while the safety-net timeout caught up. Now we tag only
-			// top-level wrappers — IO has fewer elements to watch and
-			// each animation covers a meaningful section of content.
-			var SEL = [
-				'[data-aos]',
-				'[data-reveal]',
-				'main > section',
-				'main > .sf-section',
-				'main > div > section',
-				'.sf-footer-posts > .max_wrapper > *',
-				'footer > .max_wrapper > *',
-				'.salefish_features'
-				// NOTE: .blog-card, .blog-featured__*, .blog-sticky__card, .sf-card
-				// already have their own .blog-card-animate/.card-animate keyframes.
-				// .feature, .pillars .swiper-slide, .contact .col, .stats_bar .stat,
-				// .platform .platform__split > * are intentionally NOT tagged —
-				// the parent section's reveal covers them, and pre-hiding every
-				// inner row was the cause of the "second half loads slowly" bug.
-			].join(',');
-
-			var els = Array.prototype.slice.call(document.querySelectorAll(SEL));
-			if (!els.length) return;
-
-			// Skip animation entirely for old browsers and reduced-motion
-			// users. Content stays at its natural visible state.
-			if (!('IntersectionObserver' in window)) return;
-			if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-			// Filter to ONLY elements below the fold. Above-the-fold
-			// content stays at natural opacity (no animation, no
-			// pre-hide-then-reveal flash). Big perf win: previously we
-			// were applying .sf-fade-pre to 100+ elements at
-			// DOMContentLoaded, including all the visible hero/header
-			// content, which forced a style recalc + paint hitch on
-			// every page load.
-			var belowFold = [];
-			for (var i = 0; i < els.length; i++) {
-				var el = els[i];
-				var r = el.getBoundingClientRect();
-				if (r.top >= window.innerHeight) {
-					belowFold.push(el);
-				}
-			}
-			if (!belowFold.length) return;
-
-			// Phase 1: tag every below-the-fold candidate with .sf-fade-pre,
-			// which is the CSS hide rule. We also lift the legacy data-aos
-			// direction/delay onto explicit data-fade-* attributes so the
-			// keyframe variants match.
-			belowFold.forEach(function (el) {
-				var aosVal = el.getAttribute('data-aos') || el.getAttribute('data-reveal-dir') || '';
-				if      (aosVal === 'fade-left')  el.setAttribute('data-fade-dir', 'left');
-				else if (aosVal === 'fade-right') el.setAttribute('data-fade-dir', 'right');
-				else if (aosVal === 'fade-down')  el.setAttribute('data-fade-dir', 'down');
-				else if (aosVal === 'zoom-in' || aosVal === 'fade-zoom-in') el.setAttribute('data-fade-dir', 'zoom');
-				else if (aosVal === 'fade-in')    el.setAttribute('data-fade-dir', 'fade');
-				// Else: default fade-up (translate up).
-
-				var delayAttr = el.getAttribute('data-aos-delay') || el.getAttribute('data-reveal-delay');
-				if (delayAttr) {
-					var d = parseInt(delayAttr, 10);
-					if (d > 0) {
-						var bucket = d <= 150 ? 100 : d <= 250 ? 200 : d <= 350 ? 300 : 400;
-						el.setAttribute('data-fade-delay', String(bucket));
-					}
-				}
-
-				el.classList.add('sf-fade-pre');
+		// ── Scroll-reveal: REMOVED ────────────────────────────────────────────
+		// The full sfRevealInit / .sf-fade-pre / IntersectionObserver
+		// system has been removed. Page elements now render at their
+		// natural styles immediately on first paint — no JS-driven
+		// hiding, no animation, no IO callbacks. Stub left here as a
+		// safety belt: if any cached HTML still has stale .sf-fade-pre
+		// classes injected from the previous deploy, this strips them
+		// on DOMContentLoaded so the elements are guaranteed visible.
+		document.addEventListener('DOMContentLoaded', function () {
+			document.querySelectorAll('.sf-fade-pre').forEach(function (el) {
+				el.classList.remove('sf-fade-pre');
+				el.classList.remove('sf-fade-in');
 			});
-
-			// reveal(): adds .sf-fade-in to play the animation, then strips
-			// BOTH .sf-fade-pre and .sf-fade-in after animationend so the
-			// element ends up with NO reveal-related CSS classes. This is
-			// the permanent fix for the "content disappears on scroll-back"
-			// iOS Safari bug — once the classes are gone, there's no
-			// opacity:0 rule for Safari to revert to when it recreates the
-			// compositor layer during scroll. The element just renders at
-			// its natural styles forever.
-			function reveal(el) {
-				if (el.classList.contains('sf-fade-in')) return;
-				el.classList.add('sf-fade-in');
-				el.addEventListener('animationend', function () {
-					el.classList.remove('sf-fade-pre');
-					el.classList.remove('sf-fade-in');
-				}, { once: true });
-				// Belt-and-braces: even if animationend never fires (animation
-				// was suppressed for any reason), strip the classes after
-				// 1.5x the animation duration so we never end up with stuck
-				// hidden content.
-				setTimeout(function () {
-					el.classList.remove('sf-fade-pre');
-					el.classList.remove('sf-fade-in');
-				}, 1000);
-			}
-
-			// IntersectionObserver — fires when an element's top approaches
-			// the viewport. The 200px lookahead gives the animation a real
-			// head start before the user reaches the section.
-			var io = new IntersectionObserver(function (entries) {
-				entries.forEach(function (entry) {
-					if (entry.isIntersecting) {
-						reveal(entry.target);
-						io.unobserve(entry.target);
-					}
-				});
-			}, {
-				rootMargin: '0px 0px 200px 0px',
-				threshold: 0,
-			});
-
-			// Observe every below-fold candidate. They'll reveal as the
-			// user scrolls to them.
-			belowFold.forEach(function (el) { io.observe(el); });
-
-			// Scroll-stop sweep — IO callbacks can be batched/delayed by
-			// iOS Safari during fast scrolling, so within 120 ms of the
-			// user stopping scrolling we manually reveal anything that's
-			// in or near the viewport but still hidden. This is THE fix
-			// for the "second half of the page takes 3-10 seconds to
-			// appear" symptom: instead of waiting for the safety net,
-			// we catch IO misses immediately on scroll-end.
-			var scrollTimer = null;
-			window.addEventListener('scroll', function () {
-				clearTimeout(scrollTimer);
-				scrollTimer = setTimeout(function () {
-					var vh = window.innerHeight;
-					document.querySelectorAll('.sf-fade-pre').forEach(function (el) {
-						var r = el.getBoundingClientRect();
-						// Reveal anything currently visible OR within 1 viewport
-						// above the top (recently scrolled past) so users never
-						// scroll back to find blank elements.
-						if (r.top < vh && r.bottom > -vh) {
-							reveal(el);
-							io.unobserve(el);
-						}
-					});
-				}, 120);
-			}, { passive: true });
-
-			// Safety net: 2 seconds after init, force-reveal anything still
-			// hidden. Reduced from 5s — with the scroll-stop sweep above,
-			// a stuck-hidden element shouldn't survive past the user's
-			// first scroll pause anyway.
-			setTimeout(function () {
-				document.querySelectorAll('.sf-fade-pre').forEach(function (el) {
-					reveal(el);
-				});
-			}, 2000);
-		}
-		document.addEventListener('DOMContentLoaded', sfRevealInit);
-		// bfcache restoration: any element that was hidden when the user
-		// left the page should be revealed when they come back. We just
-		// strip both classes — no animation, instant visibility.
-		window.addEventListener('pageshow', function (e) {
-			if (e.persisted) {
-				document.querySelectorAll('.sf-fade-pre').forEach(function (el) {
-					el.classList.remove('sf-fade-pre');
-					el.classList.remove('sf-fade-in');
-				});
-			}
 		});
 	})();
 	</script>
