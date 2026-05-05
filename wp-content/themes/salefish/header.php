@@ -283,6 +283,14 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			// Selector: every legacy [data-aos] element + every [data-reveal]
 			// element + every major auto-tagged section. We pick these all
 			// up in one pass.
+			// Scope kept tight on purpose. Earlier versions auto-tagged
+			// granular elements like every `.feature` row, which meant 30+
+			// elements sat at opacity:0 below the fold waiting for IO to
+			// fire. On fast scrolls iOS Safari batches IO callbacks; the
+			// "second half of the page" appeared blank for several seconds
+			// while the safety-net timeout caught up. Now we tag only
+			// top-level wrappers — IO has fewer elements to watch and
+			// each animation covers a meaningful section of content.
 			var SEL = [
 				'[data-aos]',
 				'[data-reveal]',
@@ -291,21 +299,13 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 				'main > div > section',
 				'.sf-footer-posts > .max_wrapper > *',
 				'footer > .max_wrapper > *',
-				// Features section on the homepage uses <div class="salefish_features">
-				// (not <section>), and each feature row is an independent .feature
-				// div so they should cascade in individually as the user scrolls.
-				'.salefish_features',
-				'.salefish_features .feature',
-				// Other common content blocks the auto-tag would otherwise miss.
-				'.pillars .swiper-slide',
-				'.contact .col',
-				'.stats_bar .stat',
-				'.platform .platform__split > *'
-				// Note: .blog-card, .blog-featured__*, .blog-sticky__card, .sf-card
-				// are intentionally NOT in this list — they already have their own
-				// .blog-card-animate / .card-animate keyframe animations with
-				// inline `animation-delay` staggers. Adding sf-fade on top caused
-				// the cards to flash (two competing animations).
+				'.salefish_features'
+				// NOTE: .blog-card, .blog-featured__*, .blog-sticky__card, .sf-card
+				// already have their own .blog-card-animate/.card-animate keyframes.
+				// .feature, .pillars .swiper-slide, .contact .col, .stats_bar .stat,
+				// .platform .platform__split > * are intentionally NOT tagged —
+				// the parent section's reveal covers them, and pre-hiding every
+				// inner row was the cause of the "second half loads slowly" bug.
 			].join(',');
 
 			var els = Array.prototype.slice.call(document.querySelectorAll(SEL));
@@ -383,11 +383,9 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 				}, 1000);
 			}
 
-			// IntersectionObserver — fires as soon as the element's TOP
-			// edge enters the viewport. The 80px lookahead means the
-			// animation has ~80px of head-start before the user actually
-			// reaches the section, so by the time it's centered in their
-			// view, the fade is already finishing.
+			// IntersectionObserver — fires when an element's top approaches
+			// the viewport. The 200px lookahead gives the animation a real
+			// head start before the user reaches the section.
 			var io = new IntersectionObserver(function (entries) {
 				entries.forEach(function (entry) {
 					if (entry.isIntersecting) {
@@ -396,7 +394,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					}
 				});
 			}, {
-				rootMargin: '0px 0px 80px 0px',
+				rootMargin: '0px 0px 200px 0px',
 				threshold: 0,
 			});
 
@@ -404,13 +402,40 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			// user scrolls to them.
 			belowFold.forEach(function (el) { io.observe(el); });
 
-			// Safety net: 5 seconds after init, reveal anything still
-			// hidden. No content can be permanently lost.
+			// Scroll-stop sweep — IO callbacks can be batched/delayed by
+			// iOS Safari during fast scrolling, so within 120 ms of the
+			// user stopping scrolling we manually reveal anything that's
+			// in or near the viewport but still hidden. This is THE fix
+			// for the "second half of the page takes 3-10 seconds to
+			// appear" symptom: instead of waiting for the safety net,
+			// we catch IO misses immediately on scroll-end.
+			var scrollTimer = null;
+			window.addEventListener('scroll', function () {
+				clearTimeout(scrollTimer);
+				scrollTimer = setTimeout(function () {
+					var vh = window.innerHeight;
+					document.querySelectorAll('.sf-fade-pre').forEach(function (el) {
+						var r = el.getBoundingClientRect();
+						// Reveal anything currently visible OR within 1 viewport
+						// above the top (recently scrolled past) so users never
+						// scroll back to find blank elements.
+						if (r.top < vh && r.bottom > -vh) {
+							reveal(el);
+							io.unobserve(el);
+						}
+					});
+				}, 120);
+			}, { passive: true });
+
+			// Safety net: 2 seconds after init, force-reveal anything still
+			// hidden. Reduced from 5s — with the scroll-stop sweep above,
+			// a stuck-hidden element shouldn't survive past the user's
+			// first scroll pause anyway.
 			setTimeout(function () {
 				document.querySelectorAll('.sf-fade-pre').forEach(function (el) {
 					reveal(el);
 				});
-			}, 5000);
+			}, 2000);
 		}
 		document.addEventListener('DOMContentLoaded', sfRevealInit);
 		// bfcache restoration: any element that was hidden when the user
