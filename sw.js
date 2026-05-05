@@ -23,7 +23,7 @@
  * old caches and clients re-fetch the new shell.
  */
 
-const CACHE_NAME  = 'salefish-v61-2026-05-05-restore-fade';
+const CACHE_NAME  = 'salefish-v63-2026-05-05-rotator';
 const OFFLINE_URL = '/offline.html';
 
 // Pre-cache the shell so the very first navigation can use stale-while-
@@ -143,3 +143,4 @@ self.addEventListener('fetch', event => {
 // cache-bust 1777986823
 
 // cache-bust 1777987898
+// cache-bust 1778003791

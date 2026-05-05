@@ -71,6 +71,33 @@
   }
 }
 
+// ── Hero text rotator (#app_for_home) ─────────────────────────────────────
+// All textArray words are stacked into the same grid cell so they share
+// layout space (no width-shift on cycle). Only the .is-active word is
+// visible; others are opacity:0. The crossfade is a CSS opacity
+// transition — pure compositor-thread, zero main-thread cost. Any word's
+// natural width can win as the visible width since they're all in the
+// same grid cell. JS in home.js toggles the .is-active class every 3.5 s
+// when the hero is on-screen and the tab is visible.
+#app_for_home.sf-rotator {
+  display: inline-grid;
+  vertical-align: baseline;
+
+  > span {
+    grid-area: 1 / 1;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    pointer-events: none;
+  }
+  > span.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #app_for_home.sf-rotator > span { transition: none; }
+}
+
 // ── Builder logo marquee keyframe ─────────────────────────────────────────
 // Used by .builders_track on the homepage. The track contains two copies
 // of the logo set; -50% translateX shifts left by exactly one set's
