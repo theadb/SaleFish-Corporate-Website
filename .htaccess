@@ -130,16 +130,27 @@ RewriteRule ^wp-config\.php$ - [F,L]
 </IfModule>
 
 <IfModule mod_headers.c>
-    <FilesMatch "\.(css|js|png|jpg|jpeg|gif|webp|avif|svg|ico|woff|woff2|ttf)$">
-        Header set Cache-Control "public, max-age=31536000, immutable"
+    # ── Cache-Control: best-effort overrides ────────────────────────────────
+    # We emit our intended Cache-Control values via `Header always set`,
+    # which appears in the response BEFORE the server-injected
+    # `Cache-Control: max-age=0, private, no-cache, no-store, must-revalidate`
+    # duplicate. Apache `Header always edit*` and `Header always unset` both
+    # FAIL to remove the duplicate — confirming the no-store header is
+    # being injected at a layer BELOW mod_headers (cPanel/LiteSpeed
+    # security policy or hosting WAF). The duplicate cannot be fixed
+    # from .htaccess alone; the next move is Cloudflare Cache Rules at
+    # the edge, OR a cPanel ticket asking the host to disable the
+    # security header injection. Until then, browsers see two competing
+    # Cache-Control headers and pick the more restrictive — defeating
+    # browser cache for static assets.
+    <FilesMatch "\.(css|js|png|jpg|jpeg|gif|webp|avif|svg|ico|woff|woff2|ttf|otf|eot|mp4|webm)$">
+        Header always set Cache-Control "public, max-age=31536000, immutable"
     </FilesMatch>
-    # Service worker must never be cached long-term — browsers cap it at 24 h anyway
     <FilesMatch "^sw\.js$">
-        Header set Cache-Control "public, max-age=0, must-revalidate"
+        Header always set Cache-Control "public, max-age=0, must-revalidate"
     </FilesMatch>
-    # Web app manifest should revalidate on every load
     <FilesMatch "\.webmanifest$">
-        Header set Cache-Control "public, max-age=0, must-revalidate"
+        Header always set Cache-Control "public, max-age=0, must-revalidate"
     </FilesMatch>
 </IfModule>
 # END Performance
