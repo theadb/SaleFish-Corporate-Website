@@ -450,6 +450,42 @@ window.sfReplaceLucide = function (root) {
 };
 window.sfReplaceLucide();
 </script>
+
+<!-- Skeleton-loader cleanup: when each <img loading="lazy"> finishes
+     downloading, mark it `.sf-img-loaded` so the shimmer placeholder
+     CSS in _general.scss stops applying. Also covers AJAX-loaded
+     images (e.g. blog "Load More" cards) via MutationObserver. -->
+<script>
+(function () {
+  function markLoaded(img) { img.classList.add('sf-img-loaded'); }
+  function attach(img) {
+    if (img.complete && img.naturalWidth > 0) {
+      markLoaded(img);
+    } else {
+      img.addEventListener('load',  function () { markLoaded(img); }, { once: true });
+      img.addEventListener('error', function () { markLoaded(img); }, { once: true });
+    }
+  }
+  // Initial sweep for everything in the DOM at footer-render time.
+  document.querySelectorAll('img[loading="lazy"]:not(.sf-img-loaded)').forEach(attach);
+
+  // Catch any lazy <img> added later (load-more, lazy-injected modal, etc.).
+  if ('MutationObserver' in window) {
+    new MutationObserver(function (records) {
+      records.forEach(function (rec) {
+        rec.addedNodes && rec.addedNodes.forEach(function (n) {
+          if (n.nodeType !== 1) return;
+          if (n.tagName === 'IMG' && n.getAttribute('loading') === 'lazy') {
+            attach(n);
+          } else if (n.querySelectorAll) {
+            n.querySelectorAll('img[loading="lazy"]:not(.sf-img-loaded)').forEach(attach);
+          }
+        });
+      });
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+}());
+</script>
 </body>
 
 </html>
