@@ -19,11 +19,11 @@ if ( ! $_sf_is_blog ) {
 
 <footer>
 	<div class="max_wrapper">
-		<div class="salefish">
+		<div class="salefish" data-reveal>
 			<img class="salefish_logo" src="<?php echo get_template_directory_uri(); ?>/img/dark_salefish_logo.png"
 				alt="Salefish" width="383" height="84" loading="lazy" decoding="async">
 		</div>
-		<div class="links us_links">
+		<div class="links us_links" data-reveal data-reveal-delay="100">
 			<div class="col">
 				<div class="title">Platform</div>
 				<ul>
@@ -87,7 +87,7 @@ if ( ! $_sf_is_blog ) {
 				</a>
 			</div>
 		</div>
-		<div class="links de_links">
+		<div class="links de_links" data-reveal data-reveal-delay="100">
 			<div class="col">
 				<div class="title">SaleFish Platform Links</div>
 				<ul>
@@ -142,7 +142,7 @@ if ( ! $_sf_is_blog ) {
 				</a>
 			</div>
 		</div>
-		<div class="links tr_links">
+		<div class="links tr_links" data-reveal data-reveal-delay="100">
 			<div class="col">
 				<div class="title">Aplikasyon Linkleri</div>
 				<ul>
@@ -197,7 +197,7 @@ if ( ! $_sf_is_blog ) {
 				</a>
 			</div>
 		</div>
-		<div class="bottom">
+		<div class="bottom" data-reveal data-reveal-delay="200">
 			<div class="left">
 				<div class="socials">
 					<!-- Inline SVG instead of Lucide brand icons. Lucide v0.453+
@@ -232,6 +232,59 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
 	</div>
 
 </footer>
+<button id="sf-scroll-top" class="sf-scroll-top" aria-label="Scroll to top">
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg>
+</button>
+
+<!-- ── Lazy modal injection ─────────────────────────────────────────────────
+     The registration + partner modals live inside a <template> tag in
+     header.php so they're parsed but NOT instantiated as live DOM. On
+     first interaction with any [data-sf-modal] trigger we clone the
+     template content into <body> and lazily initialize Parsley
+     validation. This saves ~140 lines of layout/style work + several
+     hundred event listeners on every page where the modal is never
+     opened (i.e. most page views).
+     window.sfEnsureModals is exposed globally so general.js can call
+     it as a safety net at sfRegModalOpen / sfPartnerModalOpen. -->
+<script>
+(function () {
+  window._sfModalsInjected = false;
+  window.sfEnsureModals = function () {
+    if (window._sfModalsInjected) return;
+    var t = document.getElementById('sf-modals-template');
+    if (!t || !t.content) return;
+    window._sfModalsInjected = true;
+    document.body.appendChild(t.content.cloneNode(true));
+    // Replace <i data-lucide="x"> placeholders with the inline X SVG —
+    // the page-load shim ran before the modal was in the DOM (templates
+    // are NOT live), so the close-button icons need a second pass now
+    // that they're real DOM nodes. Without this, the modal opens but
+    // the close button looks empty / missing on every device.
+    if (window.sfReplaceLucide) {
+      try { window.sfReplaceLucide(document.getElementById('sf-reg-modal')); }     catch (e) {}
+      try { window.sfReplaceLucide(document.getElementById('sf-partner-modal')); } catch (e) {}
+    }
+    // Lazy-initialize Parsley validation on the freshly-injected forms.
+    if (window.jQuery) {
+      try { window.jQuery('#sf_reg_form').parsley(); }     catch (e) {}
+      try { window.jQuery('#sf_partner_form').parsley(); } catch (e) {}
+    }
+  };
+  // Inject on ANY signal of intent to open a modal — pointer enter,
+  // touch start, focus, or click. The eager events (pointerenter /
+  // touchstart) typically fire 50-300 ms before the click that
+  // actually triggers the open, so the modal is in DOM and ready
+  // before sfRegModalOpen / sfPartnerModalOpen runs.
+  ['pointerenter', 'touchstart', 'focusin', 'click'].forEach(function (evt) {
+    document.addEventListener(evt, function (e) {
+      if (e.target && e.target.closest && e.target.closest('[data-sf-modal]')) {
+        window.sfEnsureModals();
+      }
+    }, { passive: true, capture: true });
+  });
+}());
+</script>
+
 <?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
 <!-- Cloudflare Turnstile — load *before* the user reaches the captcha.
      Strategy:
@@ -288,12 +341,23 @@ window.sfTurnstileReady = function () {
       _loadTurnstile();
     }
   }, { passive: true, capture: true });
-  // Form-page short-circuit: pages where a .cf-turnstile is already in
-  // the DOM at load time (e.g. /contact-us/) need the widget rendered
-  // immediately, not on click. Load it 1 s after window.load (off the
-  // LCP path) so the form is interactive before the user reaches it.
+  // Form-page short-circuit: only auto-load Turnstile on pages where a
+  // .cf-turnstile widget is INLINE (not inside the registration / partner
+  // modal). Modal Turnstiles wait until the user hovers / clicks a trigger
+  // — the eager listeners above handle that.
+  //
+  // Previously this checked any .cf-turnstile, which matched the modal
+  // widgets present in header.php on every page — so we were downloading
+  // ~50-100 KB of Cloudflare Turnstile JS on every visit, even on pages
+  // that never need it. That cost is now scoped to actual form pages.
   window.addEventListener('load', function () {
-    if (document.querySelector('.cf-turnstile')) {
+    var inlineTurnstile = false;
+    document.querySelectorAll('.cf-turnstile').forEach(function (node) {
+      if (!node.closest('#sf-reg-modal, #sf-partner-modal')) {
+        inlineTurnstile = true;
+      }
+    });
+    if (inlineTurnstile) {
       setTimeout(_loadTurnstile, 1000);
     }
   });
@@ -367,19 +431,24 @@ window._linkedin_data_partner_ids.push(_linkedin_partner_id);
      embeds inline SVG paths directly. The hamburger / close / chevron
      icons in the header were already inline (see header.php top). -->
 <script>
-// Backwards-compat shim for any leftover <i data-lucide="..."> tags emitted
-// elsewhere — replace each with an inline SVG so it never renders blank.
-// Tiny mapping; expand as new icons are added.
-(function () {
+// Backwards-compat shim for any leftover <i data-lucide="..."> tags
+// emitted elsewhere — replace each with an inline SVG so it never
+// renders blank. Exposed on window.sfReplaceLucide so it can be called
+// AGAIN after lazy-injection (e.g. when sfEnsureModals() clones the
+// modal template into the DOM — the close-button X icons are inside
+// that template and need the shim re-run on the freshly-live nodes).
+window.sfReplaceLucide = function (root) {
   var icons = {
     'circle-check-big': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>',
-    'x': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>'
+    'x': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
+    'mail': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>'
   };
-  document.querySelectorAll('i[data-lucide]').forEach(function (el) {
+  (root || document).querySelectorAll('i[data-lucide]').forEach(function (el) {
     var name = el.getAttribute('data-lucide');
     if (icons[name]) el.outerHTML = icons[name];
   });
-}());
+};
+window.sfReplaceLucide();
 </script>
 </body>
 
