@@ -450,17 +450,20 @@ main {
 // immediately, treat scroll-reveal as a progressive enhancement that animates
 // only below-the-fold elements as they enter the viewport.
 
-// ── Hero orb compositor layers (desktop) ─────────────────────────────────────
-// Promote each orb pseudo-element to its own GPU compositing layer so the
-// continuous transform+opacity animation never triggers a main-thread repaint.
-// The mobile block below resets this to 'auto' when animations are disabled.
+// ── Hero orb compositor layers ────────────────────────────────────────────────
+// Previously set to `will-change: transform, opacity` to support the continuous
+// heroOrbFloat / heroOrbPulse animations. Those animations were removed for perf.
+// Keeping will-change: transform here with no animation causes the browser to
+// permanently reserve GPU compositor layers for every hero on every page — and
+// then evict+repaint them under scroll pressure (the "hero flashes on fast
+// upward scroll" bug). Reset to auto so no unnecessary layers are allocated.
 .hero::before, .hero::after,
 .sf-page-hero::before, .sf-page-hero::after,
 .sf-ty-page::before, .sf-ty-page::after,
 .os-hero::before, .os-hero::after,
 .terms-hero::before, .terms-hero::after,
 .partners-hero::before, .partners-hero::after {
-  will-change: transform, opacity;
+  will-change: auto;
 }
 
 // ── Disable hero orb animations on mobile — GPU-intensive, cause scroll jank ─
