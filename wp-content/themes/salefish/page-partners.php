@@ -167,13 +167,6 @@ if (is_array($fade_msg)) {
     </section>
     <!-- END CONTACT -->
 
-
-
-
-
-    </div>
-
-
 </main>
 
 <?php
