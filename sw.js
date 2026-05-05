@@ -23,7 +23,7 @@
  * old caches and clients re-fetch the new shell.
  */
 
-const CACHE_NAME  = 'salefish-v53-2026-05-05-lazy-modals';
+const CACHE_NAME  = 'salefish-v54-2026-05-05-no-disappear';
 const OFFLINE_URL = '/offline.html';
 
 // Pre-cache the shell so the very first navigation can use stale-while-
