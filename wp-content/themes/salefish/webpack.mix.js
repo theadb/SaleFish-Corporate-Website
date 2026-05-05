@@ -13,11 +13,6 @@ const mix = require("laravel-mix");
 mix
   .sass("assets/scss/app.scss", "dest")
   .js("assets/js/app.js", "dest")
-  .autoload({
-    // Expose jQuery globally so UMD libraries (Parsley, etc.) can find it
-    // as both `$` and `jQuery` without needing a separate wp_enqueue_script.
-    jquery: ["$", "jQuery", "window.jQuery"],
-  })
   .options({
     postCss: [
       require("autoprefixer")({

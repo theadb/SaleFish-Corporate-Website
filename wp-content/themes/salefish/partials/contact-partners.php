@@ -61,7 +61,7 @@
 			</div>
 			<?php endif; ?>
 			<div class="row submit_row">
-				<input class="submit" type="submit" value="Register">
+				<input class="button" type="submit" value="Register">
 			</div>
 		</form>
 	</div>

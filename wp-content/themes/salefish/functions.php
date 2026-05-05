@@ -9,15 +9,15 @@ if ( file_exists( $_sf_local_config ) ) {
 unset( $_sf_local_config );
 
 /**
- * Feature Capital functions and definitions.
+ * SaleFish theme functions and definitions.
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
- * @package _pc
+ * @package salefish
  */
 
 
-if (! function_exists('_pc_setup')) :
+if (! function_exists('salefish_setup')) :
     /**
      * Sets up theme defaults and registers support for various WordPress features.
      *
@@ -25,7 +25,7 @@ if (! function_exists('_pc_setup')) :
      * runs before the init hook. The init hook is too late for some features, such
      * as indicating support for post thumbnails.
      */
-    function _pc_setup()
+    function salefish_setup()
     {
         /*
          * Make theme available for translation.
@@ -33,7 +33,7 @@ if (! function_exists('_pc_setup')) :
          * If you're building a theme based on Feature Capital, use a find and replace
          * to change '_pc' to the name of your theme in all the template files.
          */
-        load_theme_textdomain('_pc', get_template_directory() . '/languages');
+        load_theme_textdomain('salefish', get_template_directory() . '/languages');
 
         // Add default posts and comments RSS feed links to head.
         add_theme_support('automatic-feed-links');
@@ -55,7 +55,7 @@ if (! function_exists('_pc_setup')) :
 
         // This theme uses wp_nav_menu() in one location.
         register_nav_menus(array(
-          'primary' => esc_html__('Primary', '_pc'),
+          'primary' => esc_html__('Primary', 'salefish'),
         ));
 
         /*
@@ -83,13 +83,13 @@ if (! function_exists('_pc_setup')) :
         ));
 
         // Set up the WordPress core custom background feature.
-        add_theme_support('custom-background', apply_filters('_pc_custom_background_args', array(
+        add_theme_support('custom-background', apply_filters('salefish_custom_background_args', array(
           'default-color' => 'ffffff',
           'default-image' => '',
         )));
     }
 endif;
-add_action('after_setup_theme', '_pc_setup');
+add_action('after_setup_theme', 'salefish_setup');
 
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
@@ -98,42 +98,41 @@ add_action('after_setup_theme', '_pc_setup');
  *
  * @global int $content_width
  */
-function _pc_content_width()
+function salefish_content_width()
 {
-    $GLOBALS['content_width'] = apply_filters('_pc_content_width', 640);
+    $GLOBALS['content_width'] = apply_filters('salefish_content_width', 1200);
 }
 
 
 add_filter('show_admin_bar', '__return_false');
 
 
-add_action('after_setup_theme', '_pc_content_width', 0);
+add_action('after_setup_theme', 'salefish_content_width', 0);
 add_image_size("hd", 1920, 1080, true);
 /**
  * Register widget area.
  *
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
-function _pc_widgets_init()
+function salefish_widgets_init()
 {
     register_sidebar(array(
-      'name'          => esc_html__('Sidebar', '_pc'),
+      'name'          => esc_html__('Sidebar', 'salefish'),
       'id'            => 'sidebar-1',
-      'description'   => esc_html__('Add widgets here.', '_pc'),
+      'description'   => esc_html__('Add widgets here.', 'salefish'),
       'before_widget' => '<section id="%1$s" class="widget %2$s">',
       'after_widget'  => '</section>',
       'before_title'  => '<h2 class="widget-title">',
       'after_title'   => '</h2>',
     ));
 }
-add_action('widgets_init', '_pc_widgets_init');
+add_action('widgets_init', 'salefish_widgets_init');
 
 
-function kickass_scripts()
+function salefish_enqueue_assets()
 {
-    // jQuery is bundled into app.js via webpack's ProvidePlugin (autoload in
-    // webpack.mix.js). No separate CDN script needed — one less network request.
-    wp_deregister_script( 'jquery' ); // prevent WP or plugins re-enqueueing the old CDN copy
+    // jQuery is not used — deregister WP's bundled copy so plugins can't re-add it.
+    wp_deregister_script( 'jquery' );
 
     wp_enqueue_style('style-name', get_template_directory_uri() . '/dest/app.css', [], filemtime(get_template_directory() . '/dest/app.css'));
     wp_enqueue_script('script-name', get_template_directory_uri() . '/dest/app.js', [], filemtime(get_template_directory() . '/dest/app.js'), true);
@@ -144,7 +143,7 @@ function kickass_scripts()
         'turnstileSitekey' => defined('SALEFISH_CF_TURNSTILE_SITEKEY') ? SALEFISH_CF_TURNSTILE_SITEKEY : '',
     ]);
 }
-add_action('wp_enqueue_scripts', 'kickass_scripts');
+add_action('wp_enqueue_scripts', 'salefish_enqueue_assets');
 
 /**
  * Add `defer` to our app.js script tag so the HTML parser never blocks on
@@ -401,18 +400,94 @@ function salefish_og_meta() {
 }
 add_action( 'wp_head', 'salefish_og_meta', 1 );
 
-/**
- * Enqueue scripts and styles.
- */
-// function _pc_scripts()
-// {
-//     // Enqueue styles
-//     wp_enqueue_style('_pc_styles', get_template_directory_uri() . '/dest/app.css');
+// ── Schema.org JSON-LD structured data ───────────────────────────────────────
+// Organization schema on every page; BlogPosting on individual posts.
+// Eligible for Google rich-result features (sitelinks, article snippets).
+function salefish_structured_data() {
+    $schemas = [];
 
-//     // Enqueue scripts
-//     wp_enqueue_script('all', get_template_directory_uri() . '/dest/main.js', array('jquery'), null, true);
-// }
-// add_action('wp_enqueue_scripts', '_pc_scripts');
+    // Organization — emitted on every page
+    $schemas[] = [
+        '@context'  => 'https://schema.org',
+        '@type'     => 'Organization',
+        'name'      => 'SaleFish',
+        'url'       => esc_url( home_url( '/' ) ),
+        'logo'      => esc_url( get_template_directory_uri() . '/img/salefish_logo.png' ),
+        'sameAs'    => [
+            'https://www.linkedin.com/company/salefishapp/',
+            'https://www.instagram.com/salefishapp/',
+            'https://www.facebook.com/salefishapp',
+            'https://www.youtube.com/@salefishapp',
+        ],
+        'contactPoint' => [
+            '@type'       => 'ContactPoint',
+            'contactType' => 'sales',
+            'email'       => 'hello@salefish.app',
+        ],
+    ];
+
+    // WebSite with SearchAction — enables Google Sitelinks Search Box
+    if ( is_front_page() ) {
+        $schemas[] = [
+            '@context'        => 'https://schema.org',
+            '@type'           => 'WebSite',
+            'url'             => esc_url( home_url( '/' ) ),
+            'name'            => 'SaleFish',
+            'potentialAction' => [
+                '@type'       => 'SearchAction',
+                'target'      => [
+                    '@type'       => 'EntryPoint',
+                    'urlTemplate' => esc_url( home_url( '/blog/?s={search_term_string}' ) ),
+                ],
+                'query-input' => 'required name=search_term_string',
+            ],
+        ];
+    }
+
+    // BlogPosting — on individual blog posts
+    if ( is_singular( 'post' ) ) {
+        $post_id     = get_the_ID();
+        $description = get_post_field( 'post_excerpt', $post_id );
+        if ( ! $description ) {
+            $description = wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ), 30, '...' );
+        }
+        $image = has_post_thumbnail( $post_id )
+            ? get_the_post_thumbnail_url( $post_id, 'large' )
+            : get_template_directory_uri() . '/img/salefish_demo_home.png';
+
+        $schemas[] = [
+            '@context'         => 'https://schema.org',
+            '@type'            => 'BlogPosting',
+            'headline'         => esc_html( get_the_title( $post_id ) ),
+            'description'      => esc_html( $description ),
+            'url'              => esc_url( get_permalink( $post_id ) ),
+            'datePublished'    => get_the_date( 'c', $post_id ),
+            'dateModified'     => get_the_modified_date( 'c', $post_id ),
+            'author'           => [
+                '@type' => 'Person',
+                'name'  => esc_html( get_the_author_meta( 'display_name', get_post_field( 'post_author', $post_id ) ) ),
+            ],
+            'publisher'        => [
+                '@type' => 'Organization',
+                'name'  => 'SaleFish',
+                'logo'  => [
+                    '@type' => 'ImageObject',
+                    'url'   => esc_url( get_template_directory_uri() . '/img/salefish_logo.png' ),
+                ],
+            ],
+            'image'            => esc_url( $image ),
+            'mainEntityOfPage' => [
+                '@type' => 'WebPage',
+                '@id'   => esc_url( get_permalink( $post_id ) ),
+            ],
+        ];
+    }
+
+    foreach ( $schemas as $schema ) {
+        echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
+    }
+}
+add_action( 'wp_head', 'salefish_structured_data', 5 );
 
 
 /**

@@ -1,18 +1,18 @@
-$(function () {
-  let page = $("main").attr("class");
-  if (page === "terms" || page === "policy") {
-    var logoEls   = document.querySelectorAll("header .salefish_logo");
-    var arrowEls  = document.querySelectorAll(".down_arrow");
-    var DARK_LOGO = BASEURL + "/img/dark_salefish_logo.png";
-    var LITE_LOGO = BASEURL + "/img/salefish_logo.png";
-    var DARK_ARR  = BASEURL + "/img/down_arrow.svg";
-    var LITE_ARR  = BASEURL + "/img/purple_down_arrow.svg";
+document.addEventListener('DOMContentLoaded', function () {
+  var page = (document.querySelector('main') || {}).className || '';
+  if (page === 'terms' || page === 'policy') {
+    var logoEls   = document.querySelectorAll('header .salefish_logo');
+    var arrowEls  = document.querySelectorAll('.down_arrow');
+    var DARK_LOGO = BASEURL + '/img/dark_salefish_logo.png';
+    var LITE_LOGO = BASEURL + '/img/salefish_logo.png';
+    var DARK_ARR  = BASEURL + '/img/down_arrow.svg';
+    var LITE_ARR  = BASEURL + '/img/purple_down_arrow.svg';
 
     function setLogos(scrolled) {
       var logoSrc  = scrolled ? LITE_LOGO : DARK_LOGO;
       var arrowSrc = scrolled ? DARK_ARR  : LITE_ARR;
-      logoEls.forEach(function (el)  { if (el.getAttribute("src") !== logoSrc)  el.setAttribute("src",  logoSrc);  });
-      arrowEls.forEach(function (el) { if (el.getAttribute("src") !== arrowSrc) el.setAttribute("src", arrowSrc); });
+      logoEls.forEach(function (el)  { if (el.getAttribute('src') !== logoSrc)  el.setAttribute('src',  logoSrc);  });
+      arrowEls.forEach(function (el) { if (el.getAttribute('src') !== arrowSrc) el.setAttribute('src', arrowSrc); });
     }
 
     var lastScrolled = null;
@@ -27,7 +27,7 @@ $(function () {
     }
     setLogos(false);
     check();
-    window.addEventListener("scroll", function () {
+    window.addEventListener('scroll', function () {
       if (!ticking) { ticking = true; requestAnimationFrame(check); }
     }, { passive: true });
   }

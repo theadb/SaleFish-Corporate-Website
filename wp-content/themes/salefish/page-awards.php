@@ -83,7 +83,7 @@ $awards = get_field('awards');
                     DIRECTOR OF PRODUCT
                 </p>
             </div>
-            <a class="button" href="/contact-us/" data-sf-modal="register" data-sf-section="Awards — CTA">Get a Demo</a>
+            <a class="button" href="<?php echo esc_url( home_url( '/contact-us/' ) ); ?>" data-sf-modal="register" data-sf-section="Awards — CTA">Get a Demo</a>
         </div>
         <?php get_template_part('/partials/contact-general'); ?>
 

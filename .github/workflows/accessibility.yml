@@ -1,0 +1,38 @@
+name: Accessibility
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  pa11y:
+    name: Pa11y WCAG AA scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Pa11y CI
+        run: npm install -g pa11y-ci
+
+      - name: Run accessibility scan
+        # SITE_URL must be set as a repository secret, e.g. https://salefish.io
+        # Pa11y uses WCAG2AA standard and Axe as the runner.
+        # Any errors (contrast failures, missing labels, etc.) fail the job.
+        run: |
+          pa11y-ci \
+            --standard WCAG2AA \
+            --runner axe \
+            --threshold 0 \
+            "${{ secrets.SITE_URL }}/" \
+            "${{ secrets.SITE_URL }}/blog/" \
+            "${{ secrets.SITE_URL }}/our-story/" \
+            "${{ secrets.SITE_URL }}/partners/" \
+            "${{ secrets.SITE_URL }}/contact-us/" \
+            "${{ secrets.SITE_URL }}/awards/"

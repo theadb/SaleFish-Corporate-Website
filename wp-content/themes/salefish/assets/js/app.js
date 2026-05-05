@@ -1,9 +1,9 @@
-import { general } from "./general";
-import { home } from "./pages/home";
-import { content } from "./pages/content";
-import { contact_us } from "./pages/contact_us";
-import { blog } from "./pages/blog";
-import { single_post } from "./pages/single_post";
+import "./general";
+import "./pages/home";
+import "./pages/content";
+import "./pages/contact_us";
+import "./pages/blog";
+import "./pages/single_post";
 
 // Image fade-in via opacity-and-class was removed because it caused content
 // to disappear when bfcache restored a page or when any image's `load` event

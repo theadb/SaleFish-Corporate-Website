@@ -23,7 +23,7 @@
     gap: 6px;
     font-family: $PL;
     font-size: 0.9em;
-    color: #888;
+    color: #767676;
     text-decoration: none;
     margin-bottom: 24px;
     transition: color 0.15s ease;
@@ -40,8 +40,8 @@
     font-family: $PL;
     font-size: 0.85em;
 
-    &__date { color: #888; }
-    &__sep  { color: #bbb; }
+    &__date { color: #767676; }
+    &__sep  { color: #767676; }
     &__read { color: $dark_purple; font-family: $PSB; }
 
     .sf-badge { font-size: 0.8em; padding: 3px 10px; }
@@ -79,6 +79,7 @@
     max-height: 520px;
     cursor: pointer;
 
+    &:hover img { transform: scale(1.04); }
 
     img {
       width: 100%;
@@ -163,7 +164,7 @@
     font-size: 0.68em;
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    color: #aaa;
+    color: #767676;
     margin: 0 0 10px;
   }
 
@@ -198,7 +199,7 @@
   .sp-author__role {
     font-family: $PL;
     font-size: 0.78em;
-    color: #888;
+    color: #767676;
     margin: 2px 0 0;
   }
 
@@ -215,7 +216,7 @@
     justify-content: center;
     gap: 6px;
     padding: 7px 11px;
-    border-radius: 8px;
+    border-radius: var(--sf-radius);
     font-family: $PR;
     font-size: 0.8em;
     color: $black;
@@ -261,7 +262,7 @@
     justify-content: center;
     width: 36px;
     height: 36px;
-    border-radius: 8px;
+    border-radius: var(--sf-radius);
     border: 1px solid #e0e0e0;
     background: $gray;
     color: $black;
@@ -300,6 +301,8 @@
       text-decoration: none;
     }
 
+    &:hover &__image img { transform: scale(1.05); }
+
     &__image {
       overflow: hidden;
 
@@ -323,7 +326,7 @@
     &__meta {
       font-family: $PL;
       font-size: 0.76em;
-      color: #aaa;
+      color: #767676;
       margin: 0;
 
       span { color: $dark_purple; font-family: $PSB; }
@@ -388,7 +391,7 @@
       border-left: 3px solid $dark_purple;
       padding-left: 1.2rem;
       margin: 1.5rem 0;
-      color: #777;
+      color: #767676;
       font-style: italic;
     }
 
@@ -402,7 +405,7 @@
     figcaption {
       font-family: $PL;
       font-size: 0.82em;
-      color: #aaa;
+      color: #767676;
       margin-top: 6px;
     }
   }

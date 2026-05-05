@@ -9,9 +9,9 @@
 <?php wp_footer(); ?>
 
 <?php
-// Featured posts strip — shown on every page except the blog listing and
-// category-filter pages (which already have their own blog content).
-$_sf_is_blog = is_page_template( 'page-blog.php' ) || is_page_template( 'page-blog-filter.php' );
+// Featured posts strip — shown on every page except the blog listing,
+// category-filter pages, and individual posts (redundant on post pages).
+$_sf_is_blog = is_page_template( 'page-blog.php' ) || is_page_template( 'page-blog-filter.php' ) || is_single();
 if ( ! $_sf_is_blog ) {
     get_template_part( 'template-parts/footer-featured-posts' );
 }
@@ -45,16 +45,16 @@ if ( ! $_sf_is_blog ) {
 				<div class="title">Blog</div>
 				<ul>
 					<li>
-						<a href="/blog">All Articles</a>
+						<a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">All Articles</a>
 					</li>
 					<li>
-						<a href="/blog/success-stories">Success Stories</a>
+						<a href="<?php echo esc_url( home_url( '/blog/success-stories/' ) ); ?>">Success Stories</a>
 					</li>
 					<li>
-						<a href="/blog/press">Press</a>
+						<a href="<?php echo esc_url( home_url( '/blog/press/' ) ); ?>">Press</a>
 					</li>
 					<li>
-						<a href="/blog/videos">Videos</a>
+						<a href="<?php echo esc_url( home_url( '/blog/videos/' ) ); ?>">Videos</a>
 					</li>
 				</ul>
 			</div>
@@ -62,22 +62,22 @@ if ( ! $_sf_is_blog ) {
 				<div class="title">Navigation</div>
 				<ul>
 					<li>
-						<a href="/#features">Features</a>
+						<a href="<?php echo esc_url( home_url( '/#features' ) ); ?>">Features</a>
 					</li>
 					<li>
-						<a href="/our-story">Our Story</a>
+						<a href="<?php echo esc_url( home_url( '/our-story/' ) ); ?>">Our Story</a>
 					</li>
 					<li>
-						<a href="/awards">Awards</a>
+						<a href="<?php echo esc_url( home_url( '/awards/' ) ); ?>">Awards</a>
 					</li>
 					<li>
-						<a href="/partners">Partners</a>
+						<a href="<?php echo esc_url( home_url( '/partners/' ) ); ?>">Partners</a>
 					</li>
 					<li>
-						<a href="/blog">Blog</a>
+						<a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">Blog</a>
 					</li>
 					<li>
-						<a href="/contact-us">Contact Us</a>
+						<a href="<?php echo esc_url( home_url( '/contact-us/' ) ); ?>">Contact Us</a>
 					</li>
 				</ul>
 			</div>
@@ -124,7 +124,7 @@ if ( ! $_sf_is_blog ) {
 				<div class="title">Gesellschaft</div>
 				<ul>
 					<li>
-						<a href="/our-story">Unsere Geschichte</a>
+						<a href="<?php echo esc_url( home_url( '/our-story/' ) ); ?>">Unsere Geschichte</a>
 					</li>
 					<li>
 						<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">Die Plus-Gruppe</a>
@@ -179,7 +179,7 @@ if ( ! $_sf_is_blog ) {
 				<div class="title">Kurumsal</div>
 				<ul>
 					<li>
-						<a href="/our-story">Hikayemiz</a>
+						<a href="<?php echo esc_url( home_url( '/our-story/' ) ); ?>">Hikayemiz</a>
 					</li>
 					<li>
 						<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">The Plus Group</a>
@@ -225,7 +225,7 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
 }
 ?>
 				<p>
-					Made with <svg class="heart" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="#e53e3e" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> in Toronto. &copy; <?php echo date( 'Y' ); ?> SaleFish Inc. All rights reserved.<span class="legal-sep">&nbsp;&middot;&nbsp;</span><span class="legal-links"><a href="/terms-of-use"><?php echo esc_html( $_sf_terms ); ?></a> &nbsp;&middot;&nbsp; <a href="/privacy-policy"><?php echo esc_html( $_sf_privacy ); ?></a></span>
+					Made with <svg class="heart" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="#e53e3e" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> in Toronto. &copy; <?php echo date( 'Y' ); ?> SaleFish Inc. All rights reserved.<span class="legal-sep">&nbsp;&middot;&nbsp;</span><span class="legal-links"><a href="<?php echo esc_url( home_url( '/terms-of-use/' ) ); ?>"><?php echo esc_html( $_sf_terms ); ?></a> &nbsp;&middot;&nbsp; <a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php echo esc_html( $_sf_privacy ); ?></a></span>
 				</p>
 			</div>
 		</div>
@@ -264,11 +264,7 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
       try { window.sfReplaceLucide(document.getElementById('sf-reg-modal')); }     catch (e) {}
       try { window.sfReplaceLucide(document.getElementById('sf-partner-modal')); } catch (e) {}
     }
-    // Lazy-initialize Parsley validation on the freshly-injected forms.
-    if (window.jQuery) {
-      try { window.jQuery('#sf_reg_form').parsley(); }     catch (e) {}
-      try { window.jQuery('#sf_partner_form').parsley(); } catch (e) {}
-    }
+    // Forms use native HTML5 validation (required, pattern, type attributes).
   };
   // Inject on ANY signal of intent to open a modal — pointer enter,
   // touch start, focus, or click. The eager events (pointerenter /
@@ -288,16 +284,19 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
 <?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
 <!-- Cloudflare Turnstile — load *before* the user reaches the captcha.
      Strategy:
+       • Widget is set to Invisible mode in Cloudflare — no visible checkbox,
+         token is generated silently in the background.
        • Pointer enter / touchstart on a modal trigger → start loading
          immediately. Hover-to-click gives 50-300 ms head start;
-         touchstart is the equivalent on mobile. By the time the
-         modal animation finishes, the widget is rendered.
+         touchstart is the equivalent on mobile.
        • Click is also a trigger (fallback for keyboard / programmatic).
-       • Adds preconnect to the Cloudflare challenge origin so DNS+TLS
-         is also pre-warmed.
-       • Uses explicit render mode — sfTurnstileReady() renders inline widgets,
-         sfRenderTurnstileIn() renders modal widgets on open. -->
+       • On contact/form pages with inline widgets, IntersectionObserver loads
+         the script when the form is 200 px from entering the viewport — no
+         arbitrary timeout, no pop-in, no wasted load on pages the user
+         never scrolls to.
+       • dns-prefetch as a fallback for browsers that ignore preconnect. -->
 <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin>
+<link rel="dns-prefetch" href="https://challenges.cloudflare.com">
 <script>
 // Called by Turnstile once the API is ready. Renders all .cf-turnstile widgets
 // that are NOT inside a modal (modals are rendered by sfRenderTurnstileIn on open).
@@ -324,9 +323,6 @@ window.sfTurnstileReady = function () {
     document.head.appendChild(s);
   }
   // Eager triggers: hover, focus, or touch on ANY modal-opening trigger.
-  // Each fires before the click that actually opens the modal, giving
-  // the network round-trip a head start so the widget is ready by the
-  // time the user sees the form.
   var triggerSel = '[data-sf-modal], .cf-turnstile';
   ['pointerenter', 'touchstart', 'focusin'].forEach(function (evt) {
     document.addEventListener(evt, function (e) {
@@ -341,30 +337,37 @@ window.sfTurnstileReady = function () {
       _loadTurnstile();
     }
   }, { passive: true, capture: true });
-  // Form-page short-circuit: only auto-load Turnstile on pages where a
-  // .cf-turnstile widget is INLINE (not inside the registration / partner
-  // modal). Modal Turnstiles wait until the user hovers / clicks a trigger
-  // — the eager listeners above handle that.
-  //
-  // Previously this checked any .cf-turnstile, which matched the modal
-  // widgets present in header.php on every page — so we were downloading
-  // ~50-100 KB of Cloudflare Turnstile JS on every visit, even on pages
-  // that never need it. That cost is now scoped to actual form pages.
+  // Form-page inline widgets: use IntersectionObserver to load the script
+  // when the form scrolls within 200 px of the viewport. Cleaner than a
+  // flat timeout — fires exactly when needed, never fires if the user
+  // never scrolls to the form.
   window.addEventListener('load', function () {
-    var inlineTurnstile = false;
+    var inlineNodes = [];
     document.querySelectorAll('.cf-turnstile').forEach(function (node) {
       if (!node.closest('#sf-reg-modal, #sf-partner-modal')) {
-        inlineTurnstile = true;
+        inlineNodes.push(node);
       }
     });
-    if (inlineTurnstile) {
-      setTimeout(_loadTurnstile, 1000);
+    if (!inlineNodes.length) return;
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            _loadTurnstile();
+            io.disconnect();
+          }
+        });
+      }, { rootMargin: '0px 0px 200px 0px' });
+      inlineNodes.forEach(function (node) { io.observe(node); });
+    } else {
+      // Fallback for very old browsers that lack IntersectionObserver.
+      _loadTurnstile();
     }
   });
 }());
 </script>
 <?php endif; ?>
-<!-- jQuery and smooth-scroll are bundled into app.js via webpack — no CDN requests needed -->
+<!-- app.js is bundled via webpack (Laravel Mix) — no CDN requests needed -->
 <!-- isotope-layout: removed — was imported but never called; CDN request was dead weight -->
 <script>
 const BASEURL = '<?php echo get_template_directory_uri(); ?>';

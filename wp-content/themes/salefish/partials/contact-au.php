@@ -2,7 +2,7 @@
 	<div class="form">
 		<div data-aos="fade-right">
 			<h3>
-				REGISTER FOR PRODUCT UPDATES & DEMOS
+				Register for Product Updates & Demos
 
 
 			</h3>
@@ -16,7 +16,7 @@
 			<div class="row">
 
 				<div class="col">
-					<label for="name">NAME</label>
+					<label for="name">Name</label>
 					<input type="text" placeholder="First Last" name="name" id="name" required>
 				</div>
 				<div class="col">
@@ -29,7 +29,7 @@
 			</div>
 			<div class="row">
 				<div class="col">
-					<label for="company">COMPANY</label>
+					<label for="company">Company</label>
 					<input type="text" placeholder="Acme Ltd." name="company" id="company" required>
 				</div>
 				<div class="col">
@@ -40,7 +40,7 @@
 			</div>
 			<div class="row">
 				<div class="col">
-					<label for="email">EMAIL</label>
+					<label for="email">Email</label>
 					<input type="email" placeholder="name@developeremail.com" name="email" id="email" required>
 				</div>
 				<div class="col">
@@ -55,7 +55,7 @@
 			</div>
 			<?php endif; ?>
 			<div class="row">
-				<input class="submit" type="submit" value="REGISTER">
+				<input class="button" type="submit" value="Register">
 			</div>
 		</form>
 	</div>

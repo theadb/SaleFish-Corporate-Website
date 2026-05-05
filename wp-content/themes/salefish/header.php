@@ -19,6 +19,28 @@ $_sf_icon_hamburger = '<svg class="icon-grid" xmlns="http://www.w3.org/2000/svg"
 $_sf_icon_close     = '<svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
 $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span>';
 
+// Server-side locale detection for the language picker.
+// Locale links are now rendered in PHP — no JS innerHTML swap needed.
+$_sf_req_path = isset( $_SERVER['REQUEST_URI'] ) ? strtok( $_SERVER['REQUEST_URI'], '?' ) : '/';
+if ( str_starts_with( $_sf_req_path, '/au' ) )     { $_sf_locale = 'au'; }
+elseif ( str_starts_with( $_sf_req_path, '/tr' ) ) { $_sf_locale = 'tr'; }
+elseif ( str_starts_with( $_sf_req_path, '/de' ) ) { $_sf_locale = 'de'; }
+else                                                { $_sf_locale = 'default'; }
+
+$_sf_all_locales = [
+	'default' => [ 'flag' => '🇨🇦🇺🇸', 'label' => 'Canada & USA (English)', 'href' => '/' ],
+	'au'      => [ 'flag' => '🇦🇺',    'label' => 'Australia (English)',     'href' => '/au' ],
+	'de'      => [ 'flag' => '🇩🇪',    'label' => 'Germany (Deutsch)',       'href' => '/de' ],
+	'tr'      => [ 'flag' => '🇹🇷',    'label' => 'Turkey (Türkçe)',         'href' => '/tr' ],
+];
+$_sf_flag_active_html = '<span class="flag">' . $_sf_all_locales[ $_sf_locale ]['flag'] . '</span>';
+$_sf_lang_options_html = '<ul>';
+foreach ( $_sf_all_locales as $_sf_lk => $_sf_lv ) {
+	if ( $_sf_lk === $_sf_locale ) { continue; }
+	$_sf_lang_options_html .= '<li><a href="' . esc_url( home_url( $_sf_lv['href'] ) ) . '" aria-label="' . esc_attr( $_sf_lv['label'] ) . '"><span class="flag">' . $_sf_lv['flag'] . '</span></a></li>';
+}
+$_sf_lang_options_html .= '</ul>';
+
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js">
@@ -35,6 +57,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 	<link rel="preconnect" href="https://www.youtube.com" crossorigin>
 	<link rel="preconnect" href="https://i.ytimg.com" crossorigin>
 	<link rel="preconnect" href="https://yt3.ggpht.com" crossorigin>
+	<link rel="preconnect" href="https://challenges.cloudflare.com">
 	<link rel="dns-prefetch" href="https://www.google.com">
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 	<link rel="apple-touch-icon" sizes="152x152" href="/icon-152x152.png">
@@ -63,7 +86,8 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 		is_page_template( 'page-terms-of-use.php' )   ||
 		is_page_template( 'page-blog.php' )            ||
 		is_page_template( 'page-blog-filter.php' )     ||
-		is_singular( 'post' )
+		is_singular( 'post' )                          ||
+		is_page( 'thank-you-for-registering' )
 	);
 	$_sf_theme_color = $_sf_light_header ? '#ffffff' : '#452D8C';
 	?>
@@ -375,24 +399,9 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 		</div>
 		<nav>
 			<div class="languages">
-				<div class="flag_active">
-				</div>
-				<div class="arrow">
-					<?php echo $_sf_icon_chevron; ?>
-				</div>
-				<div class="languages_option">
-					<ul>
-						<li>
-							<a href="/au" aria-label="Australia (English)"><span class="flag">🇦🇺</span></a>
-						</li>
-						<li>
-							<a href="/de" aria-label="Germany (Deutsch)"><span class="flag">🇩🇪</span></a>
-						</li>
-						<li>
-							<a href="/tr" aria-label="Turkey (Türkçe)"><span class="flag">🇹🇷</span></a>
-						</li>
-					</ul>
-				</div>
+				<div class="flag_active"><?php echo $_sf_flag_active_html; ?></div>
+				<div class="arrow"><?php echo $_sf_icon_chevron; ?></div>
+				<div class="languages_option"><?php echo $_sf_lang_options_html; ?></div>
 			</div>
 			<ul>
 				<li class="features_nav">
@@ -414,7 +423,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					<a href="/contact-us">Contact Us</a>
 				</li>
 				<li class="nav-demo">
-					<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
+					<a class="button" href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 				</li>
 			</ul>
 			<div class="menu">
@@ -438,24 +447,9 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 		</div>
 		<nav>
 			<div class="languages">
-				<div class="flag_active">
-				</div>
-				<div class="arrow">
-					<?php echo $_sf_icon_chevron; ?>
-				</div>
-				<div class="languages_option">
-					<ul>
-						<li>
-							<a href="/au" aria-label="Australia (English)"><span class="flag">🇦🇺</span></a>
-						</li>
-						<li>
-							<a href="/de" aria-label="Germany (Deutsch)"><span class="flag">🇩🇪</span></a>
-						</li>
-						<li>
-							<a href="/tr" aria-label="Turkey (Türkçe)"><span class="flag">🇹🇷</span></a>
-						</li>
-					</ul>
-				</div>
+				<div class="flag_active"><?php echo $_sf_flag_active_html; ?></div>
+				<div class="arrow"><?php echo $_sf_icon_chevron; ?></div>
+				<div class="languages_option"><?php echo $_sf_lang_options_html; ?></div>
 			</div>
 			<ul>
 				<li class="features_li">
@@ -477,7 +471,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					<a href="/contact-us">Contact Us</a>
 				</li>
 				<li class="nav-demo">
-					<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
+					<a class="button" href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 				</li>
 			</ul>
 			<div class="menu">
@@ -502,24 +496,9 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 		</div>
 		<nav>
 			<div class="languages">
-				<div class="flag_active">
-				</div>
-				<div class="arrow">
-					<?php echo $_sf_icon_chevron; ?>
-				</div>
-				<div class="languages_option">
-					<ul>
-						<li>
-							<a href="/au" aria-label="Australia (English)"><span class="flag">🇦🇺</span></a>
-						</li>
-						<li>
-							<a href="/de" aria-label="Germany (Deutsch)"><span class="flag">🇩🇪</span></a>
-						</li>
-						<li>
-							<a href="/tr" aria-label="Turkey (Türkçe)"><span class="flag">🇹🇷</span></a>
-						</li>
-					</ul>
-				</div>
+				<div class="flag_active"><?php echo $_sf_flag_active_html; ?></div>
+				<div class="arrow"><?php echo $_sf_icon_chevron; ?></div>
+				<div class="languages_option"><?php echo $_sf_lang_options_html; ?></div>
 			</div>
 			<ul>
 				<li class="features_li">
@@ -535,7 +514,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					<a href="/contact-us">Kontaktiere Uns</a>
 				</li>
 				<li class="nav-demo">
-					<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
+					<a class="button" href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 				</li>
 			</ul>
 			<div class="menu">
@@ -559,24 +538,9 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 		</div>
 		<nav>
 			<div class="languages">
-				<div class="flag_active">
-				</div>
-				<div class="arrow">
-					<?php echo $_sf_icon_chevron; ?>
-				</div>
-				<div class="languages_option">
-					<ul>
-						<li>
-							<a href="/au" aria-label="Australia (English)"><span class="flag">🇦🇺</span></a>
-						</li>
-						<li>
-							<a href="/de" aria-label="Germany (Deutsch)"><span class="flag">🇩🇪</span></a>
-						</li>
-						<li>
-							<a href="/tr" aria-label="Turkey (Türkçe)"><span class="flag">🇹🇷</span></a>
-						</li>
-					</ul>
-				</div>
+				<div class="flag_active"><?php echo $_sf_flag_active_html; ?></div>
+				<div class="arrow"><?php echo $_sf_icon_chevron; ?></div>
+				<div class="languages_option"><?php echo $_sf_lang_options_html; ?></div>
 			</div>
 			<ul>
 				<li class="features_li">
@@ -593,7 +557,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					<a href="/tr/contact">Bize Ulaşın </a>
 				</li>
 				<li class="nav-demo">
-					<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
+					<a class="button" href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 				</li>
 			</ul>
 			<div class="menu">
@@ -634,7 +598,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 						<a href="/contact-us">Contact Us</a>
 					</li>
 					<li class="mobile nav-demo-mobile">
-						<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
+						<a class="button" href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 					</li>
 					<li class="mobile menu-sep"></li>
 					<li>
@@ -675,7 +639,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 						<a href="/tr/contact">Bi̇ze Ulaşin</a>
 					</li>
 					<li class="mobile nav-demo-mobile">
-						<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
+						<a class="button" href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 					</li>
 	
 					<li class="our_story_nav">
@@ -728,7 +692,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 						<a href="/contact-us">Kontaktiere Uns</a>
 					</li>
 					<li class="mobile nav-demo-mobile">
-						<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
+						<a class="button" href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 					</li>
 					<li class="our_story_nav">
 						<a href="/our-story">Unsere Geschichte</a>
@@ -865,7 +829,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					</div>
 					<?php endif; ?>
 					<div class="row">
-						<input class="submit" type="submit" value="Register">
+						<input class="button" type="submit" value="Register">
 					</div>
 				</form>
 			</div>
@@ -933,7 +897,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					</div>
 					<?php endif; ?>
 					<div class="row">
-						<input class="submit" type="submit" value="Register">
+						<input class="button" type="submit" value="Register">
 					</div>
 				</form>
 			</div>

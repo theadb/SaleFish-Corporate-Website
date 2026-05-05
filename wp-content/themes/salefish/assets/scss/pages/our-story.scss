@@ -4,7 +4,7 @@
     clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 80%);
     position: relative;
     overflow: hidden;
-    background: #1B1042; // solid fallback; images layer above
+    background: var(--sf-color-hero-bg); // solid fallback; images layer above
 
     @include rs550 {
       clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 90%);
@@ -235,6 +235,7 @@
     &__showcase {
       text-align: center;
 
+      &:hover img { transform: scale(1.025); }
 
       img {
         max-width: 720px;
@@ -245,26 +246,6 @@
         will-change: transform;
       }
 
-      // Matches the transparent text-link CTA style used in the Features section
-      // and Partners cards — no gold background, just dark-purple text + arrow.
-      .button {
-        background: transparent;
-        color: $dark_purple;
-        padding: 0;
-        border-radius: 0;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-family: $PSB;
-        font-size: 0.85em;
-
-        &::after {
-          content: '→';
-          transition: transform 0.2s ease;
-        }
-
-        &:hover::after { transform: translateX(4px); }
-      }
     }
   }
 
@@ -338,6 +319,8 @@
         position: relative;
         width: 100%;
         aspect-ratio: 1 / 1;
+        transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        &:hover { transform: scale(1.03); }
       }
 
       .platform__img-slide {

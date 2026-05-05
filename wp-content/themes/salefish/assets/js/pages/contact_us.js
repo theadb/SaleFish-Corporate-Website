@@ -1,4 +1,4 @@
-let page = $('main').attr('class');
+var page = (document.querySelector('main') || {}).className || '';
 if (page === 'contact_us') {
 	let map;
 

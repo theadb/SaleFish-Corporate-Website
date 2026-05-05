@@ -18,7 +18,7 @@
   background: $dark_purple;
   color: #fff;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  box-shadow: var(--sf-shadow-sm);
   opacity: 0;
   transform: translate3d(-50%, 12px, 0);
   pointer-events: none;
@@ -83,16 +83,9 @@
   }
 
   &__all {
-    font-family: var(--sf-font-sans);
     font-size: 0.78rem;
     font-weight: 600;
-    color: $dark_purple;
-    text-decoration: none;
     white-space: nowrap;
-
-    &::after { content: ' →'; }
-
-    &:hover { text-decoration: underline; }
   }
 }
 
@@ -192,11 +185,14 @@ footer {
             color: $black;
             text-decoration: none;
             cursor: pointer;
+            transition: color 0.15s ease;
             @include rs550 {
               font-size: 0.85em;
               display: block;
               padding: 9px 0;
             }
+
+            &:hover { color: $dark_purple; font-family: $PSB; }
           }
         }
       }
@@ -277,7 +273,7 @@ footer {
           justify-content: center;
           width: 44px;
           height: 44px;
-          border-radius: 8px;
+          border-radius: var(--sf-radius);
           svg { display: block; }
           &:hover {
             color: $light_purple;

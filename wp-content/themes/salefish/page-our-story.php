@@ -18,13 +18,13 @@ get_header();
 	<section class="hero">
 		<div class="hero__slideshow" aria-hidden="true">
 			<div class="hero__slide is-active">
-				<?php sf_picture( get_template_directory_uri() . '/img/hero-slides/new-construction-sales-platform-condo-tower-2560w.png', [ 'loading' => 'eager', 'fetchpriority' => 'high' ] ); ?>
+				<?php sf_picture( get_template_directory_uri() . '/img/hero-slides/new-construction-sales-platform-condo-tower-2560w.png', [ 'loading' => 'eager', 'fetchpriority' => 'high', 'sizes' => '100vw' ] ); ?>
 			</div>
 			<div class="hero__slide">
-				<?php sf_picture( get_template_directory_uri() . '/img/hero-slides/new-home-developer-platform-townhomes-2560w.png' ); ?>
+				<?php sf_picture( get_template_directory_uri() . '/img/hero-slides/new-home-developer-platform-townhomes-2560w.png', [ 'sizes' => '100vw' ] ); ?>
 			</div>
 			<div class="hero__slide">
-				<?php sf_picture( get_template_directory_uri() . '/img/hero-slides/new-home-sales-software-suburban-community-2560w.png' ); ?>
+				<?php sf_picture( get_template_directory_uri() . '/img/hero-slides/new-home-sales-software-suburban-community-2560w.png', [ 'sizes' => '100vw' ] ); ?>
 			</div>
 		</div>
 		<div class="hero__overlay" aria-hidden="true"></div>
@@ -94,7 +94,7 @@ get_header();
 
 			<div class="platform__showcase" data-aos="zoom-in">
 				<img src="https://salefish.app/wp-content/uploads/2024/09/Group-1441.png" alt="SaleFish Platform" loading="lazy" decoding="async">
-				<a class="button" href="/contact-us/" data-sf-modal="register" data-sf-section="Our Story — Platform Showcase">See It in Action</a>
+				<a class="sf-cta-link" href="/contact-us/" data-sf-modal="register" data-sf-section="Our Story — Platform Showcase">See It in Action</a>
 			</div>
 
 		</div>
