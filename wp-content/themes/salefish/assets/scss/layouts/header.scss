@@ -241,6 +241,12 @@ header {
         &.nav-demo {
           margin-left: 6px;
 
+          a {
+            // Suppress the underline effect — the button style is its own affordance
+            &::after { display: none; }
+            &:hover { color: inherit; }
+          }
+
           .button {
             padding: 7px 16px;
             border-radius: var(--sf-radius-sm);

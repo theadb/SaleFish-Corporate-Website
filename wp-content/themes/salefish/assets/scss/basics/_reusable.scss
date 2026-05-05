@@ -409,6 +409,8 @@
           span {
             color: $dark_purple;
           }
+          // Underline is white by default — invisible on white bg. Use dark purple here.
+          a::after { background: rgba($dark_purple, 0.6); }
         }
       }
     }
@@ -429,6 +431,7 @@
             span {
               color: $dark_purple;
             }
+            a::after { background: rgba($dark_purple, 0.6); }
           }
         }
       }
