@@ -59,117 +59,30 @@ $(function () {
       },
     });
 
-    // ── Logo marquee (requestAnimationFrame) ────────────────────────────────
-    // CSS animation is unreliable on webkit: the compositor drops the animated
-    // layer when combined with overflow:hidden on the parent, causing the logos
-    // to vanish. RAF-driven translateX is compositor-safe on all browsers.
+    // ── Logo marquee — JS RAF replaced with pure CSS ────────────────────────
+    // The previous RAF-driven implementation kept stalling on iOS Safari
+    // (Safari throttles long-running off-screen RAF, and even with
+    // IntersectionObserver pause/resume the resume timing was fragile).
+    // It also depended on every logo image being loaded before measure()
+    // could compute the correct halfWidth — a flaky chain of conditions.
     //
-    // Root-cause of previous "restarts halfway" bug: the cloned (second) set of
-    // logos was loading="lazy", so scrollWidth on first measure only counted the
-    // first set. halfWidth was therefore half of what it should be, triggering
-    // the seamless-reset after just one half-cycle. Both sets are now eager.
-    // Additionally: init() now waits until ALL img.naturalWidth > 0 before
-    // starting, so halfWidth is guaranteed correct from the first tick.
-    // The reset uses x += halfWidth (not x = 0) to handle any single-frame
-    // overshoot cleanly.
-    (function () {
-      const track = document.querySelector(".builders_track");
-      if (!track) return;
-
-      // ~0.7 px/frame @ 60 fps ≈ same visual speed as the old 28s CSS animation
-      const SPEED = 0.7;
-      let x = 0;
-      let halfWidth = 0;
-      let rafId = null;
-      let everStarted = false;
-
-      function measure() {
-        // halfWidth only grows — prevents a mid-reflow shrink from corrupting
-        // the loop boundary after the marquee is already running.
-        var w = track.scrollWidth / 2;
-        if (w > halfWidth) halfWidth = w;
-      }
-
-      function tick() {
-        x -= SPEED;
-        if (halfWidth > 0 && x <= -halfWidth) {
-          x += halfWidth; // add halfWidth instead of resetting to 0 — handles
-                          // any single-frame overshoot without a visible jump
-        }
-        track.style.transform = "translateX(" + x + "px)";
-        rafId = requestAnimationFrame(tick);
-      }
-
-      function start() {
-        if (!rafId) { everStarted = true; tick(); }
-      }
-
-      function stop() {
-        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-      }
-
-      // The marquee is paused when (a) the tab is hidden, or (b) the
-      // marquee is scrolled out of view. Safari aggressively throttles
-      // long-running RAF loops when their target is off-screen — that
-      // throttle manifests as the marquee "stalling" when you scroll
-      // back up to it. Pausing explicitly via IntersectionObserver and
-      // resuming on intersection sidesteps the throttle entirely; on
-      // resume the RAF clock is fresh and the animation runs smoothly.
-      var inView = true;
-      document.addEventListener("visibilitychange", function () {
-        if (document.hidden) { stop(); } else if (everStarted && inView) { start(); }
-      });
-      if ("IntersectionObserver" in window) {
-        new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            inView = e.isIntersecting;
-            if (inView && !document.hidden) {
-              if (everStarted) start();
-            } else {
-              stop();
-            }
-          });
-        }, { threshold: 0 }).observe(track);
-      }
-
-      // Re-measure if the track ever grows (e.g. a font loads late and affects
-      // logo container widths). halfWidth is only allowed to increase.
-      if (typeof ResizeObserver !== "undefined") {
-        new ResizeObserver(function () { measure(); }).observe(track);
-      }
-
-      // Wait until every image in the track has its natural dimensions,
-      // OR until 2 seconds have passed (whichever comes first). The hard
-      // timeout means the marquee always starts — even if a single logo
-      // is slow or fails to load, the rest still scroll. Without this
-      // fallback, lazy-loaded or 404'd logos would freeze the marquee
-      // indefinitely.
-      var initStarted = Date.now();
-      function init() {
-        var imgs = Array.from(track.querySelectorAll("img"));
-        var allReady = imgs.length > 0 && imgs.every(function (img) {
-          return img.complete && img.naturalWidth > 0;
-        });
-        var timedOut = Date.now() - initStarted > 2000;
-        if (allReady || timedOut) {
-          measure();
-          if (halfWidth > 0) {
-            start();
-          } else if (!timedOut) {
-            setTimeout(init, 100);
-          }
-        } else {
-          setTimeout(init, 100);
-        }
-      }
-
-      if (document.readyState === "complete") {
-        init();
-      } else {
-        window.addEventListener("load", init);
-      }
-    })();
-    // ── End logo marquee ────────────────────────────────────────────────────
+    // The new implementation is pure CSS. The .builders_track has a
+    // CSS keyframe animation that translates the track by -50% over 28s,
+    // looping forever. Because the markup duplicates the logo set, the
+    // -50% shift exactly reaches the start of the second set — a
+    // seamless infinite loop.
+    //
+    // Why CSS works here despite the old comment claiming it didn't:
+    //   • will-change: transform on .builders_track keeps the GPU
+    //     compositor layer alive permanently (was the original failure
+    //     mode — Safari dropped the layer when off-screen)
+    //   • backface-visibility: hidden reinforces the layer
+    //   • The animation is purely transform-based, so it runs entirely
+    //     on the compositor thread without ever touching layout
+    //
+    // Net result: zero JS, no RAF throttling concerns, no measurement
+    // race conditions, no IO pause/resume edge cases. The marquee just
+    // works.
 
     let numbersSwiper = new Swiper(".numbersSwiper", {
       modules: [Navigation],
@@ -184,25 +97,8 @@ $(function () {
 
   }
 
-  if (pathname === "/" || pathname === "/au/") {
-    let i = 0;
-    let rotatorId = null;
-    function startRotator() {
-      if (rotatorId) return;
-      rotatorId = setInterval(() => {
-        if (document.hidden) return; // skip work while tab is backgrounded
-        $("#app_for_home").fadeOut(400, function () {
-          $(this).html(textArray[i]).fadeIn(400);
-          i == 3 ? (i = 0) : i++;
-        });
-      }, 2000);
-    }
-    function stopRotator() {
-      if (rotatorId) { clearInterval(rotatorId); rotatorId = null; }
-    }
-    document.addEventListener("visibilitychange", function () {
-      if (document.hidden) stopRotator(); else startRotator();
-    });
-    startRotator();
-  }
+  // Hero text rotator REMOVED — was running setInterval(2s) forever with
+  // jQuery fadeIn/fadeOut, contributing to the page-feels-slow problem.
+  // The hero now displays the static `textArray[0]` content rendered by
+  // PHP — no JS work, no continuous fade animations.
 });

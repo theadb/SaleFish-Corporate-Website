@@ -38,6 +38,16 @@
 @keyframes cardIn { from, to { opacity: 1; transform: none; } }
 .card-animate { animation: none; }
 
+// ── Builder logo marquee keyframe ─────────────────────────────────────────
+// Used by .builders_track on the homepage. The track contains two copies
+// of the logo set; -50% translateX shifts left by exactly one set's
+// width, producing a seamless infinite loop. Pure CSS, runs on the
+// compositor thread — no JS, no RAF throttling concerns.
+@keyframes sf-builders-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
 // ── Hero gradient orbs — autonomous ambient drift ────────────────────────
 // Keep translate values small so the gradient centre never drifts fully
 // off-screen (large values caused a "wipe" artefact on clip-path sections).
