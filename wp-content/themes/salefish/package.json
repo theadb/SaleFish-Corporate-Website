@@ -10,9 +10,11 @@
 		"watch-poll": "mix watch -- --watch-options-poll=1000",
 		"hot": "mix watch --hot",
 		"prod": "npm run production",
-		"production": "mix --production"
+		"production": "mix --production",
+		"lint": "eslint assets/js/general.js assets/js/app.js"
 	},
 	"devDependencies": {
+		"eslint": "^8.57.0",
 		"@popperjs/core": "^2.10.2",
 		"browser-sync": "^2.27.10",
 		"browser-sync-webpack-plugin": "^2.3.0",

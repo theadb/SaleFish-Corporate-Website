@@ -13,11 +13,11 @@ $register_header = get_field('register_header');
 		<form id="agent_form" data-aos="fade-up">
 			<div class="row">
 				<div class="col">
-					<label for="name">NAME *</label>
+					<label for="name">Name *</label>
 					<input type="text" placeholder="First Last" name="name" id="name" required>
 				</div>
 				<div class="col">
-					<label for="email">EMAIL *</label>
+					<label for="email">Email *</label>
 					<input type="email" placeholder="name@developeremail.com" name="email" id="email" required>
 				</div>
 
@@ -57,7 +57,7 @@ $register_header = get_field('register_header');
 				<div class="col"></div>
 			</div>
 			<div class="row">
-				<input class="submit" type="submit" value="REGISTER">
+				<input class="button" type="submit" value="Register">
 			</div>
 		</form>
 	</div>

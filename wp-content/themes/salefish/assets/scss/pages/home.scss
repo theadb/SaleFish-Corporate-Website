@@ -11,6 +11,11 @@
     // running 60fps transform updates forever, contributing to the
     // page-feels-slow problem. Now a pure radial gradient — no animation,
     // no GPU layer reservation, no continuous repaint cost.
+    // `will-change: auto` overrides the broad rule in _general.scss that
+    // sets `will-change: transform, opacity` on all .hero pseudo-elements.
+    // Without this override the browser still reserves compositor layers for
+    // these static gradients, which causes them to be evicted and repainted
+    // on fast upward scrolls (the "disappearing elements" bug).
     &::before {
       content: '';
       position: absolute;
@@ -18,6 +23,7 @@
       background: radial-gradient(ellipse 56% 64% at 38% 62%, rgba($light_purple, 0.45) 0%, transparent 64%);
       pointer-events: none;
       z-index: 2;
+      will-change: auto;
     }
 
     &:after {
@@ -27,6 +33,7 @@
       height: 100%;
       bottom: 0;
       z-index: 1;
+      will-change: auto; // static — no animation, no GPU layer needed
       background:
         radial-gradient(ellipse 65% 90% at 88% 5%, rgba(94, 63, 168, 0.65) 0%, transparent 58%),
         radial-gradient(ellipse 80% 65% at 0% 100%, rgba(30, 18, 68, 0.82) 0%, transparent 55%),
@@ -141,7 +148,7 @@
           width: auto; // explicit auto so flex layout doesn't stretch the image
           object-fit: contain; // belt-and-braces against any aspect-ratio drift
           margin-top: 25px;
-          transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           will-change: transform;
 
           @include rs990 {
@@ -149,6 +156,8 @@
             width: 100%;
           }
         }
+
+        &:hover img { transform: scale(1.03); }
       }
     }
   }
@@ -551,23 +560,8 @@
             line-height: 1.4;
           }
 
-          .button {
-            background: transparent;
-            color: $dark_purple;
-            padding: 0;
-            border-radius: 0;
+          .sf-cta-link {
             margin-top: 24px;
-            width: auto;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-
-            &::after {
-              content: '→';
-              transition: transform 0.2s ease;
-            }
-
-            &:hover::after { transform: translateX(4px); }
           }
 
           .inline {
@@ -765,6 +759,8 @@
           justify-content: center;
           overflow: hidden;
           border-radius: 12px;
+          transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          will-change: transform;
 
           @include rs768 {
             order: 2;
@@ -772,6 +768,7 @@
             margin: 0 auto;
           }
 
+          &:hover { transform: scale(1.025); }
 
           img {
             max-width: 100%;
@@ -781,8 +778,6 @@
             object-fit: contain;
             object-position: center;
             display: block;
-            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            will-change: transform;
           }
         }
 
@@ -821,22 +816,6 @@
             line-height: 1.5;
           }
 
-          .button {
-            background: transparent;
-            color: $dark_purple;
-            padding: 0;
-            border-radius: 0;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-
-            &::after {
-              content: '→';
-              transition: transform 0.2s ease;
-            }
-
-            &:hover::after { transform: translateX(4px); }
-          }
         }
       }
     }
@@ -884,22 +863,6 @@
         }
       }
 
-      .button {
-        background: transparent;
-        color: $dark_purple;
-        padding: 0;
-        border-radius: 0;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-
-        &::after {
-          content: '→';
-          transition: transform 0.2s ease;
-        }
-
-        &:hover::after { transform: translateX(4px); }
-      }
     }
   }
 

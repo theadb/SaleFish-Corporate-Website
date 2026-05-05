@@ -1,13 +1,57 @@
+// ── Primary CTA button ───────────────────────────────────────────────────────
+// Works on <a>, <button>, and <input type="submit"> elements.
 .button {
   background: $gold;
   display: inline-block;
   padding: 10px 25px;
-  border-radius: 5px;
+  border-radius: var(--sf-radius-sm);
   text-decoration: none;
   color: $black;
   font-family: $PSB;
   font-size: 0.85em;
   text-align: center;
+  border: none;          // reset browser default for <button>/<input>
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sf-shadow-sm);
+    filter: brightness(1.06);
+  }
+}
+
+// ── Secondary text-link CTA ───────────────────────────────────────────────────
+// Use for text-link CTAs with an animated → arrow. Works on <a> and <button>.
+.sf-cta-link {
+  background: transparent;
+  color: $dark_purple;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: $PSB;
+  font-size: 0.85em;
+  text-decoration: none;
+  cursor: pointer;
+
+  &::after {
+    content: '→';
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    transform: none;
+    box-shadow: none;
+    filter: none;
+  }
+
+  &:hover::after { transform: translateX(4px); }
 }
 
 .button.hollow {
@@ -19,6 +63,9 @@
   &:hover {
     background: rgba($gold, 0.15);
     color: $gold;
+    transform: translateY(-2px);
+    box-shadow: var(--sf-shadow-sm);
+    filter: none;
   }
 }
 
@@ -255,11 +302,11 @@
               box-sizing: border-box;
               border: none;
               padding: 10px 15px;
-              border-radius: 5px;
+              border-radius: var(--sf-radius-sm);
               margin-top: 8px;
               outline: none;
               font-family: $PL;
-              color: #484848;
+              color: $black;
               font-size: 1em;
               &:focus-visible {
                 outline: 3px solid rgba(255, 255, 255, 0.85);
@@ -281,21 +328,14 @@
               cursor: pointer;
               option {
                 font-family: $PL !important;
-                color: #484848 !important;
+                color: $black !important;
                 font-size: 1em !important;
               }
             }
           }
-          .submit {
-            background: $gold;
+          .button {
             margin-top: 20px;
-            padding: 10px 25px;
-            border-radius: 5px;
-            color: $black;
-            font-family: $PSB;
-            font-size: 0.85em;
-            border: none;
-            cursor: pointer;
+
             @include rs550 {
               width: fit-content;
             }
@@ -378,7 +418,7 @@
     // When scrolled, stay white with dark content — never flip to purple
     &.active {
       background: #fff !important;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--sf-shadow);
 
       .salefish_logo { content: url('/wp-content/themes/salefish/img/dark_salefish_logo.png'); }
       .down_arrow    { color: $dark_purple; }
@@ -458,17 +498,4 @@
     }
   }
 
-  &__btn {
-    background: $gold;
-    color: $black;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 5px;
-    font-family: $PSB;
-    font-size: 0.85em;
-    cursor: pointer;
-    transition: opacity 0.15s ease;
-
-    &:hover { opacity: 0.88; }
-  }
 }

@@ -19,21 +19,21 @@ $sub_header = get_field('sub_header');
 			<div class="row">
 
 				<div class="col">
-					<label for="name">NAME</label>
+					<label for="name">Name</label>
 					<input type="text" placeholder="First Last" name="name" id="name" required>
 				</div>
 				<div class="col">
-					<label for="company">COMPANY</label>
+					<label for="company">Company</label>
 					<input type="text" placeholder="Acme Ltd." name="company" id="company">
 				</div>
 			</div>
 			<div class="row">
 				<div class="col">
-					<label for="phone">PHONE NUMBER</label>
+					<label for="phone">Phone Number</label>
 					<input type="tel" placeholder="555-912-0088" name="phone" id="phone" required>
 				</div>
 				<div class="col">
-					<label for="email">EMAIL</label>
+					<label for="email">Email</label>
 					<input type="email" placeholder="name@developeremail.com" name="email" id="email" required>
 				</div>
 			</div>
@@ -43,7 +43,7 @@ $sub_header = get_field('sub_header');
 			</div>
 			<?php endif; ?>
 			<div class="row submit_row">
-				<input class="submit" type="submit" value="REGISTER">
+				<input class="button" type="submit" value="Register">
 			</div>
 		</form>
 	</div>

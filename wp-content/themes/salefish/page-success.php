@@ -14,8 +14,8 @@ $pillars = get_field('pillars');
 
 <main class="success">
 	<!-- <div class="msg_fixed" data-aos="fade-in">
-		<h3>UNCERTAINTY DOESN'T SELL.</h3>
-		<p>CALL US AT <a href="tel:+18778927741">1.877.892.7741</a></p>
+		<h3>Uncertainty Doesn't Sell.</h3>
+		<p>Call us at <a href="tel:+18778927741">1.877.892.7741</a></p>
 	</div> -->
 	<!-- CONTACT -->
 	<section class="contact">
@@ -29,12 +29,12 @@ $pillars = get_field('pillars');
 						Pre-Construction<br/>
 						Sales Power App.
 					</h1>
-					<a class="button" href="/contact-us/" data-sf-modal="register" data-sf-section="Success Page — CTA">BOOK A FREE DEMO</a>
+					<a class="button" href="/contact-us/" data-sf-modal="register" data-sf-section="Success Page — CTA">Book a Free Demo</a>
 				</div>
 				<div class="quote">
 					<p>“The deal process had been 
 					consummated under 5 minutes.”</p>
-					<span>NICOLE LOMBARDI</span>
+					<span>Nicole Lombardi</span>
 				</div>
 			</div>
 			<div class="right">
@@ -65,7 +65,7 @@ $pillars = get_field('pillars');
 	<section style="display: none;" class="pillars">
 		<div class="max_wrapper">
 			<!-- <div data-aos="fade-right">
-				<h1>THE SALEFISH PILLARS</h1>
+				<h1>The SaleFish Pillars</h1>
 				<p class="subheader">Modern sales tools by the best, for the best.</p>
 			</div> -->
 			<div class="swiper pillarsSwiper" data-aos="fade-zoom-in">
@@ -123,11 +123,11 @@ $pillars = get_field('pillars');
 					for itself. Their job has never been easier.“
 				</h2>
 				<p>
-					RICK HAWS <br />
-					PRESIDENT & CO-FOUNDER
+					Rick Haws <br />
+					President & Co-Founder
 				</p>
 			</div>
-			<!-- <a class="button" href="#contact_us">GET A DEMO</a> -->
+			<!-- <a class="button" href="#contact_us">Get a Demo</a> -->
 		</div>
 
 	</section>

@@ -1,0 +1,90 @@
+// ── Thank-You Registration Page ───────────────────────────────────────────────
+
+.sf-ty-page {
+  background: #fff;
+
+  // ─── Hero band ─────────────────────────────────────────────────────────────
+  &__hero {
+    background:
+      radial-gradient(ellipse 65% 90% at 88% 5%, rgba(94, 63, 168, 0.65) 0%, transparent 58%),
+      radial-gradient(ellipse 80% 65% at 0% 100%, rgba(30, 18, 68, 0.82) 0%, transparent 55%),
+      linear-gradient(140deg, $dark_purple 0%, #3A2680 45%, $dark_purple 75%, #2D1B6E 100%);
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 88%);
+    padding: 160px 0 120px;
+    text-align: center;
+
+    @include rs768 { padding: 130px 0 100px; clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 94%); }
+    @include rs550 { padding: 110px 0 80px; }
+  }
+
+  &__hero-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__badge {
+    width: 68px;
+    height: 68px;
+    border-radius: var(--sf-radius);
+    background: rgba(#fff, 0.12);
+    border: 1px solid rgba(#fff, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 32px;
+      height: 32px;
+      color: $gold;
+      stroke-width: 1.75;
+    }
+  }
+
+  &__eyebrow {
+    font-family: $PSB;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: $gold;
+    margin: 0;
+  }
+
+  &__heading {
+    font-family: $PB;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: #fff;
+    line-height: 1.15;
+    margin: 0;
+    max-width: 640px;
+
+    @include rs550 { font-size: 1.8rem; }
+  }
+
+  // ─── Body section ──────────────────────────────────────────────────────────
+  &__body-section {
+    padding: 80px 0 100px;
+
+    @include rs768 { padding: 60px 0 80px; }
+  }
+
+  &__body-inner {
+    max-width: 640px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
+  }
+
+  &__body-text {
+    font-family: $PL;
+    font-size: 1.1rem;
+    color: $black;
+    line-height: 1.75;
+    margin: 0;
+
+    @include rs550 { font-size: 1rem; }
+  }
+}

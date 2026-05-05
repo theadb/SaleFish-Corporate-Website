@@ -1,5 +1,5 @@
-$(function () {
-	let page = $('main').attr('class');
+document.addEventListener('DOMContentLoaded', function () {
+	var page = (document.querySelector('main') || {}).className || '';
 	if (page === 'single_post') {
 		var logoEls   = document.querySelectorAll('header .salefish_logo');
 		var arrowEls  = document.querySelectorAll('.down_arrow');
@@ -31,4 +31,4 @@ $(function () {
 			if (!ticking) { ticking = true; requestAnimationFrame(check); }
 		}, { passive: true });
 	}
-})
+});

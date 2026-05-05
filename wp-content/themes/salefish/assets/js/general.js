@@ -1,224 +1,155 @@
-import $ from "jquery";
 // SmoothScroll removed — replaced by native `scroll-behavior: smooth` on html
-// plus `scroll-margin-top: 80px` on [id] elements (see _general.scss).
-// This eliminates SmoothScroll's document-level click listener which ran
-// synchronously on every single click event on the page.
-import parsley from "./tools/parsley";
-import flowtype from "./tools/flowtype";
-import mask from "./tools/jquery.mask";
+// Parsley / jquery.mask / flowtype removed — replaced by vanilla JS equivalents
 
-$(function () {
-  // Menu open/close + scroll header state are managed by the SaleFish Menu
-  // Controller (vanilla JS, inline in header.php). No jQuery helpers needed
-  // here. Privacy/Terms popups and modal-related close calls below use
-  // the controller indirectly by toggling the same `is-active` / `is-open`
-  // classes that the controller reads.
+// ── Phone mask: format as xxx-xxx-xxxx ───────────────────────────────────────
+function applyPhoneMask(input) {
+  if (!input) return;
+  input.addEventListener('input', function () {
+    const digits = this.value.replace(/\D/g, '').slice(0, 10);
+    if (digits.length >= 7) {
+      this.value = digits.slice(0, 3) + '-' + digits.slice(3, 6) + '-' + digits.slice(6);
+    } else if (digits.length >= 4) {
+      this.value = digits.slice(0, 3) + '-' + digits.slice(3);
+    } else {
+      this.value = digits;
+    }
+  });
+}
 
-  if ( new URLSearchParams( window.location.search ).get( 'salefish_verified' ) === '1' ) {
-    $(".thank_you_msg").fadeIn();
-    $("body").css("overflow", "hidden");
-    history.replaceState( null, '', window.location.pathname );
+// ── Fade helpers (replace jQuery fadeIn / fadeOut) ────────────────────────────
+function sfFadeIn(el, duration, callback) {
+  if (!el) return;
+  el.style.opacity = '0';
+  el.style.display = 'block';
+  el.style.transition = 'opacity ' + (duration || 400) + 'ms ease';
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+      el.style.opacity = '1';
+      if (callback) setTimeout(callback, duration || 400);
+    });
+  });
+}
+
+function sfFadeOut(el, duration, callback) {
+  if (!el) return;
+  el.style.transition = 'opacity ' + (duration || 400) + 'ms ease';
+  el.style.opacity = '0';
+  setTimeout(function () {
+    el.style.display = 'none';
+    el.style.opacity = '';
+    el.style.transition = '';
+    if (callback) callback();
+  }, duration || 400);
+}
+
+// ── Serialize form to URL-encoded string ─────────────────────────────────────
+function serializeForm(form) {
+  return new URLSearchParams(new FormData(form)).toString();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+
+  // ── Verified email redirect banner ──────────────────────────────────────────
+  if (new URLSearchParams(window.location.search).get('salefish_verified') === '1') {
+    const thankYouMsg = document.querySelector('.thank_you_msg');
+    if (thankYouMsg) sfFadeIn(thankYouMsg);
+    document.body.style.overflow = 'hidden';
+    history.replaceState(null, '', window.location.pathname);
   }
 
-  let page = $("main").attr("class");
+  // ── Phone masks ──────────────────────────────────────────────────────────────
+  applyPhoneMask(document.getElementById('phone'));
+  applyPhoneMask(document.getElementById('sf_reg_phone'));
 
-  $.fn.isInViewport = function () {
-    var elementTop = $(this).offset().top;
-    var elementBottom = elementTop + $(this).outerHeight();
-
-    var viewportTop = $(window).scrollTop();
-    var viewportBottom = viewportTop + $(window).height();
-
-    return elementBottom > viewportTop && elementTop < viewportBottom;
-  };
-
-  let pathname = $(location).attr("pathname");
-
-  $("#phone").mask("000-000-0000");
-  $("#sf_reg_phone").mask("000-000-0000");
-
-  let activeMenu = pathname.startsWith("/de") ? ".floating_menu_de"
-    : pathname.startsWith("/tr") ? ".floating_menu_tr"
-    : ".floating_menu_en";
-
-  // Menu/dropdown click handling lives in an inline <head> script in
-  // header.php so it runs before app.js parses (~200-500 ms earlier on
-  // mobile) and clicks register instantly. The jQuery handlers that used
-  // to live here would have double-toggled the same classes.
-
-  $(".privacy_policy_menu").on("click", function () {
-    $(".privacy_policy").addClass("active");
-    // Close any open menu via the controller's class hooks
-    document.querySelectorAll('.sf-menu-btn.is-active').forEach(function (b) {
-      b.classList.remove('is-active');
-      b.setAttribute('aria-expanded', 'false');
-    });
-    document.querySelectorAll('.floating_menu.is-open').forEach(function (m) {
-      m.classList.remove('is-open');
-      m.setAttribute('inert', '');
-    });
-    $("body").css("overflow", "hidden");
-  });
-
-  $(".close_privacy").on("click", function () {
-    $(".privacy_policy").removeClass("active");
-    $("body").css("overflow", "auto");
-  });
-
-  $(".terms_menu").on("click", function () {
-    $(".terms_popup").addClass("active");
-    document.querySelectorAll('.sf-menu-btn.is-active').forEach(function (b) {
-      b.classList.remove('is-active');
-      b.setAttribute('aria-expanded', 'false');
-    });
-    document.querySelectorAll('.floating_menu.is-open').forEach(function (m) {
-      m.classList.remove('is-open');
-      m.setAttribute('inert', '');
-    });
-    $("body").css("overflow", "hidden");
-  });
-
-  $(".close_terms").on("click", function () {
-    $(".terms_popup").removeClass("active");
-    $("body").css("overflow", "auto");
-  });
-
-  $(".privacy_policy_menu_footer").on("click", function () {
-    $(".privacy_policy").addClass("active");
-    $("body").css("overflow", "hidden");
-  });
-  $(".terms_menu_footer").on("click", function () {
-    $(".terms_popup").addClass("active");
-    $("body").css("overflow", "hidden");
-  });
-
-  // Header scroll state lives in the inline controller in header.php, which
-  // toggles `html.is-scrolled` once per animation frame via rAF. CSS reads
-  // that single class and adjusts header height + floating-menu / sales-
-  // login top offsets — no per-frame JS layout writes.
-  // The inline controller also closes any open menu when a link inside
-  // .floating_menu is clicked (so navigation works as expected on mobile).
-  $(document).on('click', '.floating_menu a, .floating_menu .mobile', function () {
-    document.querySelectorAll('.sf-menu-btn.is-active').forEach(function (b) {
-      b.classList.remove('is-active');
-      b.setAttribute('aria-expanded', 'false');
-    });
-    document.querySelectorAll('.floating_menu.is-open').forEach(function (m) {
-      m.classList.remove('is-open');
-      m.setAttribute('inert', '');
+  // ── Privacy policy popup ─────────────────────────────────────────────────────
+  document.querySelectorAll('.privacy_policy_menu, .privacy_policy_menu_footer').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const pp = document.querySelector('.privacy_policy');
+      if (pp) pp.classList.add('active');
+      document.querySelectorAll('.sf-menu-btn.is-active').forEach(function (b) {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-expanded', 'false');
+      });
+      document.querySelectorAll('.floating_menu.is-open').forEach(function (m) {
+        m.classList.remove('is-open');
+        m.setAttribute('inert', '');
+      });
+      document.body.style.overflow = 'hidden';
     });
   });
 
-  switch (pathname) {
-    case "/au/":
-      $(".flag_active").html(`<span class="flag">🇦🇺</span>`);
-      $(".languages_option").html(`
-        <ul>
-          <li><a href="/" aria-label="Canada &amp; USA (English)"><span class="flag">🇨🇦🇺🇸</span></a></li>
-          <li><a href="/de" aria-label="Germany (Deutsch)"><span class="flag">🇩🇪</span></a></li>
-          <li><a href="/tr" aria-label="Turkey (Türkçe)"><span class="flag">🇹🇷</span></a></li>
-        </ul>
-      `);
-      break;
-    case "/tr/":
-      $(".flag_active").html(`<span class="flag">🇹🇷</span>`);
-      $(".languages_option").html(`
-        <ul>
-          <li><a href="/" aria-label="Canada &amp; USA (English)"><span class="flag">🇨🇦🇺🇸</span></a></li>
-          <li><a href="/au" aria-label="Australia (English)"><span class="flag">🇦🇺</span></a></li>
-          <li><a href="/de" aria-label="Germany (Deutsch)"><span class="flag">🇩🇪</span></a></li>
-        </ul>
-      `);
-      break;
-    case "/de/":
-      $(".flag_active").html(`<span class="flag">🇩🇪</span>`);
-      $(".languages_option").html(`
-        <ul>
-          <li><a href="/" aria-label="Canada &amp; USA (English)"><span class="flag">🇨🇦🇺🇸</span></a></li>
-          <li><a href="/au" aria-label="Australia (English)"><span class="flag">🇦🇺</span></a></li>
-          <li><a href="/tr" aria-label="Turkey (Türkçe)"><span class="flag">🇹🇷</span></a></li>
-        </ul>
-      `);
-      break;
-    default:
-      $(".flag_active").html(`<span class="flag">🇨🇦🇺🇸</span>`);
-      $(".languages_option").html(`
-        <ul>
-          <li><a href="/au" aria-label="Australia (English)"><span class="flag">🇦🇺</span></a></li>
-          <li><a href="/de" aria-label="Germany (Deutsch)"><span class="flag">🇩🇪</span></a></li>
-          <li><a href="/tr" aria-label="Turkey (Türkçe)"><span class="flag">🇹🇷</span></a></li>
-        </ul>
-      `);
-      break;
+  document.querySelectorAll('.close_privacy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const pp = document.querySelector('.privacy_policy');
+      if (pp) pp.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // ── Terms popup ───────────────────────────────────────────────────────────────
+  document.querySelectorAll('.terms_menu, .terms_menu_footer').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const tp = document.querySelector('.terms_popup');
+      if (tp) tp.classList.add('active');
+      document.querySelectorAll('.sf-menu-btn.is-active').forEach(function (b) {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-expanded', 'false');
+      });
+      document.querySelectorAll('.floating_menu.is-open').forEach(function (m) {
+        m.classList.remove('is-open');
+        m.setAttribute('inert', '');
+      });
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  document.querySelectorAll('.close_terms').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const tp = document.querySelector('.terms_popup');
+      if (tp) tp.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // ── Close floating menu when a link inside it is clicked ─────────────────────
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('.floating_menu a, .floating_menu .mobile')) {
+      document.querySelectorAll('.sf-menu-btn.is-active').forEach(function (b) {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-expanded', 'false');
+      });
+      document.querySelectorAll('.floating_menu.is-open').forEach(function (m) {
+        m.classList.remove('is-open');
+        m.setAttribute('inert', '');
+      });
+    }
+  });
+
+  const pathname = window.location.pathname;
+
+  // ── Features nav click highlight ──────────────────────────────────────────────
+  document.querySelectorAll('.features_nav a, .features_li a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      document.querySelectorAll('header nav > ul > li > a, header nav > ul > li > span').forEach(function (el) {
+        el.classList.remove('active');
+      });
+      this.classList.add('active');
+    });
+  });
+  if (pathname === '/' && window.location.hash === '#features') {
+    document.querySelectorAll('.features_nav a, .features_li a').forEach(function (a) {
+      a.classList.add('active');
+    });
   }
 
-  switch (pathname) {
-    case "/our-story/":
-      $(".our_story_nav a").addClass("active");
-      break;
-    case "/blog/":
-    case "/blog":
-      $(".blog_nav a").addClass("active");
-      break;
-    default:
-      if (
-        pathname.startsWith("/blog") ||
-        document.body.classList.contains("single-post") ||
-        document.body.classList.contains("category") ||
-        document.body.classList.contains("archive")
-      ) {
-        $(".blog_nav a").addClass("active");
-      }
-      break;
-    case "/contact-us/":
-      $(".contact_us_nav a").addClass("active");
-      break;
-    case "/terms-of-use/":
-      $(".terms_of_use_nav a").addClass("active");
-      break;
-    case "/privacy-policy/":
-      $(".privacy_policy_nav a").addClass("active");
-      break;
-    case "/features/":
-      $(".features_nav a").addClass("active");
-      break;
-    case "/partners/":
-      $(".partners_nav a").addClass("active");
-      break;
-    case "/awards/":
-      $(".awards_nav a").addClass("active");
-      break;
-  }
-
-  // Features is a hash anchor on the homepage — highlight it on load if hash matches
-  if (pathname === "/" && window.location.hash === "#features") {
-    $(".features_nav a, .features_li a").addClass("active");
-  }
-
-  // Force header to solid state on short pages where there is nothing to scroll
-  if (pathname === "/thank-you-for-registering/") {
-    $("header").addClass("active");
-  }
-
-  // On click: immediately mark Features as active and clear other nav highlights
-  $(".features_nav a, .features_li a").on("click", function () {
-    $("header nav > ul > li > a, header nav > ul > li > span").removeClass("active");
-    $(this).addClass("active");
-  });
-
-  // ── Hero + platform slideshow cross-fade ──────────────────────────────────
-  // Lightweight shared crossfade. Single setInterval per group, only runs
-  // when (a) the tab is visible AND (b) the slideshow root is on-screen.
-  // The class toggle is the only work — CSS handles the opacity transition
-  // on the compositor thread. Reduced-motion users get the static first
-  // slide (no JS, no transitions).
+  // ── Hero + platform slideshow cross-fade ──────────────────────────────────────
   (function () {
     if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     function bind(rootSel, slideSel, ms) {
       document.querySelectorAll(rootSel).forEach(function (root) {
-        var slides = root.querySelectorAll(slideSel);
+        const slides = root.querySelectorAll(slideSel);
         if (slides.length < 2) return;
-        var idx = 0, timer = null, inView = true;
+        let idx = 0, timer = null, inView = true;
         function tick() {
           if (document.hidden || !inView) return;
           slides[idx].classList.remove('is-active');
@@ -230,6 +161,7 @@ $(function () {
         document.addEventListener('visibilitychange', function () {
           if (document.hidden) off(); else if (inView) on();
         });
+        on();
         if ('IntersectionObserver' in window) {
           new IntersectionObserver(function (entries) {
             entries.forEach(function (e) {
@@ -237,36 +169,39 @@ $(function () {
               if (inView && !document.hidden) on(); else off();
             });
           }, { threshold: 0 }).observe(root);
-        } else { on(); }
+        }
       });
     }
-    bind('.hero__slideshow',     '.hero__slide',           5500);
-    bind('.platform__img-stack', '.platform__img-slide',   7000);
+    bind('.hero__slideshow',     '.hero__slide',         5500);
+    bind('.platform__img-stack', '.platform__img-slide', 7000);
   }());
 
-  // Inline-form Parsley init (these forms ARE in the DOM at load time on
-  // contact / agent / partner pages).
-  $("#reg_form").parsley();
-  $("#agent_form").parsley();
-  $("#partner_form").parsley();
-  // sf_reg_form and sf_partner_form live inside the lazy-injected modal
-  // template (see footer.php #sf-modals-template). Their Parsley init
-  // happens INSIDE window.sfEnsureModals() — which runs the first time
-  // a [data-sf-modal] button is hovered / touched / clicked.
-
-  // ── Helper: show the "check your email" dialog after form submit ─────────────
-  function sfShowCheckEmail(email) {
-    if (email) {
-      $(".sf-check-email-msg__address").text(email);
+  // ── Inline form Parsley init replaced by native HTML5 validation ──────────────
+  // All form fields already carry `required` and `type` attributes.
+  // Phone fields carry `pattern` for format validation.
+  ['phone', 'sf_reg_phone'].forEach(function (id) {
+    const input = document.getElementById(id);
+    if (input) {
+      input.setAttribute('pattern', '\\d{3}-\\d{3}-\\d{4}');
+      input.setAttribute('title', 'Please enter a valid 10-digit phone number (e.g. 555-912-0088)');
     }
-    $(".sf-check-email-msg").fadeIn();
-    $("body").css("overflow", "hidden");
+  });
+
+  // ── Helper: show "check your email" dialog after form submit ─────────────────
+  function sfShowCheckEmail(email) {
+    const msg = document.querySelector('.sf-check-email-msg');
+    if (!msg) return;
+    if (email) {
+      const addrEl = msg.querySelector('.sf-check-email-msg__address');
+      if (addrEl) addrEl.textContent = email;
+    }
+    sfFadeIn(msg);
+    document.body.style.overflow = 'hidden';
   }
 
-  // ── Focus trap ──────────────────────────────────────────────────────────────
-  // Keeps Tab / Shift-Tab cycling inside an open modal. Returns a cleanup fn.
+  // ── Focus trap ────────────────────────────────────────────────────────────────
   function sfFocusTrap(modalEl) {
-    var SEL = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+    const SEL = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
     function getFocusable() {
       return Array.from(modalEl.querySelectorAll(SEL)).filter(function (el) {
         return el.offsetParent !== null;
@@ -274,10 +209,10 @@ $(function () {
     }
     function handler(e) {
       if (e.key !== 'Tab') return;
-      var els = getFocusable();
+      const els = getFocusable();
       if (!els.length) return;
-      var first = els[0];
-      var last  = els[els.length - 1];
+      const first = els[0];
+      const last  = els[els.length - 1];
       if (e.shiftKey) {
         if (document.activeElement === first) { e.preventDefault(); last.focus(); }
       } else {
@@ -285,320 +220,302 @@ $(function () {
       }
     }
     modalEl.addEventListener('keydown', handler);
-    var first = getFocusable()[0];
-    if (first) setTimeout(function () { first.focus(); }, 60);
+    const firstFocusable = getFocusable()[0];
+    if (firstFocusable) setTimeout(function () { firstFocusable.focus(); }, 60);
     return function () { modalEl.removeEventListener('keydown', handler); };
   }
-  var _sfRegTrap     = null;
-  var _sfPartnerTrap = null;
+  let _sfRegTrap     = null;
+  let _sfPartnerTrap = null;
+  let _sfRegTrigger     = null;
+  let _sfPartnerTrigger = null;
 
-  // REG FORM
-  $("#reg_form").on("submit", function (e) {
-    e.preventDefault();
-    $.ajax({
-      url: salefishAjax.ajaxurl,
-      type: "POST",
-      dataType: "json",
-      data: $(this).serialize() + "&action=salefish_register&nonce=" + salefishAjax.nonce,
-      success: function (res) {
-        if (res.success) {
-          sfShowCheckEmail(res.data && res.data.email ? res.data.email : "");
-        }
-      },
+  // ── AJAX helper using fetch ───────────────────────────────────────────────────
+  function sfAjax(data, onSuccess, onError) {
+    fetch(salefishAjax.ajaxurl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: data,
+    })
+      .then(function (res) { return res.json(); })
+      .then(onSuccess)
+      .catch(onError);
+  }
+
+  // ── REG FORM (inline on contact pages) ───────────────────────────────────────
+  const regForm = document.getElementById('reg_form');
+  if (regForm) {
+    regForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const params = serializeForm(this) + '&action=salefish_register&nonce=' + salefishAjax.nonce;
+      sfAjax(params, function (res) {
+        if (res.success) sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
+      }, null);
+    });
+  }
+
+  // ── AGENT FORM ────────────────────────────────────────────────────────────────
+  const agentForm = document.getElementById('agent_form');
+  if (agentForm) {
+    agentForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const params = serializeForm(this) + '&action=agents_register&nonce=' + salefishAjax.nonce;
+      sfAjax(params, function (res) {
+        if (res.success) sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
+      }, null);
+    });
+  }
+
+  // ── PARTNER FORM (inline on partners page) ────────────────────────────────────
+  const partnerForm = document.getElementById('partner_form');
+  if (partnerForm) {
+    partnerForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const params = serializeForm(this) + '&action=partner_register&nonce=' + salefishAjax.nonce;
+      sfAjax(params, function (res) {
+        if (res.success) sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
+      }, null);
+    });
+  }
+
+  // ── CLOSE CHECK-EMAIL DIALOG ──────────────────────────────────────────────────
+  document.querySelectorAll('.sf-check-email-close').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      sfFadeOut(document.querySelector('.sf-check-email-msg'));
+      document.body.style.overflow = '';
     });
   });
 
-  // AGENT FORM
-  $("#agent_form").on("submit", function (e) {
-    e.preventDefault();
-    $.ajax({
-      url: salefishAjax.ajaxurl,
-      type: "POST",
-      dataType: "json",
-      data: $(this).serialize() + "&action=agents_register&nonce=" + salefishAjax.nonce,
-      success: function (res) {
-        if (res.success) {
-          sfShowCheckEmail(res.data && res.data.email ? res.data.email : "");
-        }
-      },
+  // ── CLOSE THANK YOU MESSAGE ───────────────────────────────────────────────────
+  document.querySelectorAll('.close_thank_you_msg').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      sfFadeOut(document.querySelector('.thank_you_msg'));
+      document.body.style.overflow = '';
     });
   });
 
-  // PARTNER FORM
-  $("#partner_form").on("submit", function (e) {
-    e.preventDefault();
-    $.ajax({
-      url: salefishAjax.ajaxurl,
-      type: "POST",
-      dataType: "json",
-      data: $(this).serialize() + "&action=partner_register&nonce=" + salefishAjax.nonce,
-      success: function (res) {
-        if (res.success) {
-          sfShowCheckEmail(res.data && res.data.email ? res.data.email : "");
-        }
-      },
-    });
-  });
-
-  // CLOSE CHECK-EMAIL DIALOG
-  $(".sf-check-email-close").on("click", function () {
-    $(".sf-check-email-msg").fadeOut();
-    $("body").css("overflow", "");
-  });
-
-  // CLOSE THANK YOU MESSAGE
-  $(".close_thank_you_msg").on("click", function () {
-    $(".thank_you_msg").fadeOut();
-    $("body").css("overflow", "");
-  });
-
-  // ── REGISTRATION MODAL ─────────────────────────────────────────────────────
-  // All [data-sf-modal="register"] links open the inline registration form.
-  // The data-sf-section attribute on the clicked link identifies which CTA
-  // triggered the modal so it can be tracked in the admin notification email.
-
-  // Render the Turnstile widget inside a freshly-opened modal.
-  // Turnstile runs in explicit mode — sfTurnstileReady() skips modal widgets,
-  // so we render them here once the modal is visible. Polls if the API
-  // isn't ready yet (script still loading), gives up after 8 s.
-  function sfRenderTurnstileIn($modal) {
-    var node = $modal.find('.cf-turnstile').get(0);
+  // ── Render Turnstile widget inside a freshly-opened modal ────────────────────
+  function sfRenderTurnstileIn(modalEl) {
+    if (!modalEl) return;
+    const node = modalEl.querySelector('.cf-turnstile');
     if (!node) return;
-    var attempts = 0;
+    let attempts = 0;
     function tryRender() {
       attempts++;
       if (window.turnstile && typeof window.turnstile.render === 'function') {
-        // Already rendered? skip (the widget div has child iframes).
         if (node.querySelector('iframe')) return;
         try {
           window.turnstile.render(node, {
             sitekey: node.getAttribute('data-sitekey'),
             theme:   node.getAttribute('data-theme') || 'auto',
           });
-        } catch (e) { /* turnstile may double-render — safe to ignore */ }
+        } catch (e) { /* turnstile not ready yet */ }
         return;
       }
-      // API not loaded yet — retry up to ~8 s, then bail.
       if (attempts < 80) setTimeout(tryRender, 100);
     }
     tryRender();
   }
 
+  // ── REGISTRATION MODAL ────────────────────────────────────────────────────────
   function sfRegModalOpen(section) {
-    // Ensure the modal HTML is injected into the DOM. The footer's eager
-    // listeners normally do this on first hover — but if this is called
-    // programmatically (e.g. via direct JS API) the modal might not yet
-    // exist. Calling sfEnsureModals() is idempotent and synchronous.
     if (window.sfEnsureModals) window.sfEnsureModals();
-    // Measure scrollbar width BEFORE hiding overflow so we can compensate.
-    // When overflow:hidden removes the scrollbar the viewport widens by exactly
-    // this amount — adding the same width as padding keeps the layout still.
-    var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
-    $("#sf_reg_section").val(section || "");
+    const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+    const regSection = document.getElementById('sf_reg_section');
+    if (regSection) regSection.value = section || '';
     if (scrollbarW > 0) {
-      $("body").css("padding-right", scrollbarW + "px");
-      $("header").css("padding-right", scrollbarW + "px");
+      document.body.style.paddingRight = scrollbarW + 'px';
+      document.querySelectorAll('header').forEach(function (h) { h.style.paddingRight = scrollbarW + 'px'; });
     }
-    $("html, body").css("overflow", "hidden");
-    $("#sf-reg-modal").fadeIn(200, function () {
-      sfRenderTurnstileIn($("#sf-reg-modal"));
-      _sfRegTrap = sfFocusTrap(document.getElementById("sf-reg-modal"));
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    const modal = document.getElementById('sf-reg-modal');
+    sfFadeIn(modal, 200, function () {
+      sfRenderTurnstileIn(modal);
+      _sfRegTrap = sfFocusTrap(modal);
     });
   }
 
   function sfRegModalClose() {
     if (_sfRegTrap) { _sfRegTrap(); _sfRegTrap = null; }
-    $("html, body").css("overflow", "");
-    $("body, header").css("padding-right", "");
-    $("#sf-reg-modal").fadeOut(200, function () {
-      var form = document.getElementById("sf_reg_form");
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+    document.querySelectorAll('header').forEach(function (h) { h.style.paddingRight = ''; });
+    const returnFocus = _sfRegTrigger;
+    _sfRegTrigger = null;
+    sfFadeOut(document.getElementById('sf-reg-modal'), 200, function () {
+      const form = document.getElementById('sf_reg_form');
       if (form) form.reset();
-      $("#sf-reg-form-error").remove();
-      if (window.turnstile && typeof window.turnstile.reset === "function") {
-        window.turnstile.reset();
-      }
+      const err = document.getElementById('sf-reg-form-error');
+      if (err) err.remove();
+      if (window.turnstile && typeof window.turnstile.reset === 'function') window.turnstile.reset();
+      if (returnFocus) returnFocus.focus();
     });
   }
 
-  $(document).on("click", '[data-sf-modal="register"]', function (e) {
-    e.preventDefault();
-    sfRegModalOpen($(this).data("sf-section") || "");
+  document.addEventListener('click', function (e) {
+    const trigger = e.target.closest('[data-sf-modal="register"]');
+    if (trigger) {
+      e.preventDefault();
+      _sfRegTrigger = trigger;
+      sfRegModalOpen(trigger.dataset.sfSection || '');
+    }
   });
 
-  $(document).on(
-    "click",
-    "#sf-reg-modal .sf-reg-modal__backdrop, #sf-reg-modal .sf-reg-modal__close",
-    sfRegModalClose
-  );
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('#sf-reg-modal .sf-reg-modal__backdrop, #sf-reg-modal .sf-reg-modal__close')) {
+      sfRegModalClose();
+    }
+  });
 
-  // REG MODAL FORM SUBMIT — delegated through document so it still works
-  // when the form is lazy-injected into the DOM by sfEnsureModals().
-  $(document).on("submit", "#sf_reg_form", function (e) {
+  // REG MODAL FORM SUBMIT — delegated so it works after lazy injection
+  document.addEventListener('submit', function (e) {
+    if (!e.target.matches('#sf_reg_form')) return;
     e.preventDefault();
-    var $form = $(this);
-    var $btn  = $form.find(".submit");
-    var origVal = $btn.val();
-    $btn.val("Submitting…").prop("disabled", true);
-    $("#sf-reg-form-error").remove();
-    $.ajax({
-      url: salefishAjax.ajaxurl,
-      type: "POST",
-      dataType: "json",
-      data: $form.serialize() + "&action=salefish_register&nonce=" + salefishAjax.nonce,
-      success: function (res) {
-        if (res.success) {
-          sfRegModalClose();
-          sfShowCheckEmail(res.data && res.data.email ? res.data.email : "");
-        } else {
-          var msg = (res.data && res.data.message) ? res.data.message : "Something went wrong — please try again.";
-          $form.find(".row:last-child").before('<p id="sf-reg-form-error" class="sf-form-error" role="alert">' + msg + "</p>");
-          $btn.val(origVal).prop("disabled", false);
-        }
-      },
-      error: function () {
-        $form.find(".row:last-child").before('<p id="sf-reg-form-error" class="sf-form-error" role="alert">Connection error — please try again.</p>');
-        $btn.val(origVal).prop("disabled", false);
-      },
+    const form   = e.target;
+    const btn    = form.querySelector('[type="submit"]');
+    const origVal = btn ? btn.value : '';
+    if (btn) { btn.value = 'Submitting…'; btn.disabled = true; }
+    const errEl = document.getElementById('sf-reg-form-error');
+    if (errEl) errEl.remove();
+    const params = serializeForm(form) + '&action=salefish_register&nonce=' + salefishAjax.nonce;
+    sfAjax(params, function (res) {
+      if (res.success) {
+        sfRegModalClose();
+        sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
+      } else {
+        const msg = (res.data && res.data.message) ? res.data.message : 'Something went wrong — please try again.';
+        const lastRow = form.querySelector('.row:last-child');
+        if (lastRow) lastRow.insertAdjacentHTML('beforebegin', '<p id="sf-reg-form-error" class="sf-form-error" role="alert">' + msg + '</p>');
+        if (btn) { btn.value = origVal; btn.disabled = false; }
+      }
+    }, function () {
+      const lastRow = form.querySelector('.row:last-child');
+      if (lastRow) lastRow.insertAdjacentHTML('beforebegin', '<p id="sf-reg-form-error" class="sf-form-error" role="alert">Connection error — please try again.</p>');
+      if (btn) { btn.value = origVal; btn.disabled = false; }
     });
   });
 
-  // ── PARTNER REGISTRATION MODAL ─────────────────────────────────────────────
-  // Opened by [data-sf-modal="partner"] links. An optional data-sf-partner-type
-  // attribute pre-selects the "What do you want to do?" dropdown so the user
-  // lands on the relevant option for the card they clicked.
-
-  function sfPartnerModalOpen(partnerType, section) {
+  // ── PARTNER REGISTRATION MODAL ────────────────────────────────────────────────
+  function sfPartnerModalOpen(partnerType, _section) {
     if (window.sfEnsureModals) window.sfEnsureModals();
-    var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+    const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
     if (scrollbarW > 0) {
-      $("body").css("padding-right", scrollbarW + "px");
-      $("header").css("padding-right", scrollbarW + "px");
+      document.body.style.paddingRight = scrollbarW + 'px';
+      document.querySelectorAll('header').forEach(function (h) { h.style.paddingRight = scrollbarW + 'px'; });
     }
-    // Pre-select the dropdown if a type was passed via data attribute
     if (partnerType) {
-      $("#sf_partner_want_to_do").val(partnerType);
+      const sel = document.getElementById('sf_partner_want_to_do');
+      if (sel) sel.value = partnerType;
     }
-    $("html, body").css("overflow", "hidden");
-    $("#sf-partner-modal").fadeIn(200, function () {
-      sfRenderTurnstileIn($("#sf-partner-modal"));
-      _sfPartnerTrap = sfFocusTrap(document.getElementById("sf-partner-modal"));
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    const modal = document.getElementById('sf-partner-modal');
+    sfFadeIn(modal, 200, function () {
+      sfRenderTurnstileIn(modal);
+      _sfPartnerTrap = sfFocusTrap(modal);
     });
   }
 
   function sfPartnerModalClose() {
     if (_sfPartnerTrap) { _sfPartnerTrap(); _sfPartnerTrap = null; }
-    $("html, body").css("overflow", "");
-    $("body, header").css("padding-right", "");
-    $("#sf-partner-modal").fadeOut(200, function () {
-      var form = document.getElementById("sf_partner_form");
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+    document.querySelectorAll('header').forEach(function (h) { h.style.paddingRight = ''; });
+    const returnFocus = _sfPartnerTrigger;
+    _sfPartnerTrigger = null;
+    sfFadeOut(document.getElementById('sf-partner-modal'), 200, function () {
+      const form = document.getElementById('sf_partner_form');
       if (form) form.reset();
-      $("#sf-partner-form-error").remove();
-      if (window.turnstile && typeof window.turnstile.reset === "function") {
-        window.turnstile.reset();
-      }
+      const err = document.getElementById('sf-partner-form-error');
+      if (err) err.remove();
+      if (window.turnstile && typeof window.turnstile.reset === 'function') window.turnstile.reset();
+      if (returnFocus) returnFocus.focus();
     });
   }
 
-  $(document).on("click", '[data-sf-modal="partner"]', function (e) {
-    e.preventDefault();
-    sfPartnerModalOpen(
-      $(this).data("sf-partner-type") || "",
-      $(this).data("sf-section") || ""
-    );
+  document.addEventListener('click', function (e) {
+    const trigger = e.target.closest('[data-sf-modal="partner"]');
+    if (trigger) {
+      e.preventDefault();
+      _sfPartnerTrigger = trigger;
+      sfPartnerModalOpen(trigger.dataset.sfPartnerType || '', trigger.dataset.sfSection || '');
+    }
   });
 
-  $(document).on(
-    "click",
-    "#sf-partner-modal .sf-partner-modal__backdrop, #sf-partner-modal .sf-partner-modal__close",
-    sfPartnerModalClose
-  );
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('#sf-partner-modal .sf-partner-modal__backdrop, #sf-partner-modal .sf-partner-modal__close')) {
+      sfPartnerModalClose();
+    }
+  });
 
-  // PARTNER MODAL FORM SUBMIT — delegated through document so it still
-  // works when the form is lazy-injected into the DOM by sfEnsureModals().
-  $(document).on("submit", "#sf_partner_form", function (e) {
+  // PARTNER MODAL FORM SUBMIT — delegated so it works after lazy injection
+  document.addEventListener('submit', function (e) {
+    if (!e.target.matches('#sf_partner_form')) return;
     e.preventDefault();
-    var $form = $(this);
-    var $btn  = $form.find(".submit");
-    var origVal = $btn.val();
-    $btn.val("Submitting…").prop("disabled", true);
-    $("#sf-partner-form-error").remove();
-    $.ajax({
-      url: salefishAjax.ajaxurl,
-      type: "POST",
-      dataType: "json",
-      data: $form.serialize() + "&action=partner_register&nonce=" + salefishAjax.nonce,
-      success: function (res) {
-        if (res.success) {
-          sfPartnerModalClose();
-          sfShowCheckEmail(res.data && res.data.email ? res.data.email : "");
-        } else {
-          var msg = (res.data && res.data.message) ? res.data.message : "Something went wrong — please try again.";
-          $form.find(".row:last-child").before('<p id="sf-partner-form-error" class="sf-form-error" role="alert">' + msg + "</p>");
-          $btn.val(origVal).prop("disabled", false);
-        }
-      },
-      error: function () {
-        $form.find(".row:last-child").before('<p id="sf-partner-form-error" class="sf-form-error" role="alert">Connection error — please try again.</p>');
-        $btn.val(origVal).prop("disabled", false);
-      },
+    const form    = e.target;
+    const btn     = form.querySelector('[type="submit"]');
+    const origVal = btn ? btn.value : '';
+    if (btn) { btn.value = 'Submitting…'; btn.disabled = true; }
+    const errEl = document.getElementById('sf-partner-form-error');
+    if (errEl) errEl.remove();
+    const params = serializeForm(form) + '&action=partner_register&nonce=' + salefishAjax.nonce;
+    sfAjax(params, function (res) {
+      if (res.success) {
+        sfPartnerModalClose();
+        sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
+      } else {
+        const msg = (res.data && res.data.message) ? res.data.message : 'Something went wrong — please try again.';
+        const lastRow = form.querySelector('.row:last-child');
+        if (lastRow) lastRow.insertAdjacentHTML('beforebegin', '<p id="sf-partner-form-error" class="sf-form-error" role="alert">' + msg + '</p>');
+        if (btn) { btn.value = origVal; btn.disabled = false; }
+      }
+    }, function () {
+      const lastRow = form.querySelector('.row:last-child');
+      if (lastRow) lastRow.insertAdjacentHTML('beforebegin', '<p id="sf-partner-form-error" class="sf-form-error" role="alert">Connection error — please try again.</p>');
+      if (btn) { btn.value = origVal; btn.disabled = false; }
     });
   });
 
-  // Escape key handling for modals only — the menu controller in
-  // header.php already handles Esc for hamburger / languages / sales-login.
-  $(document).on("keydown", function (e) {
-    if (e.key !== "Escape") return;
-    if ($("#sf-reg-modal").is(":visible"))     sfRegModalClose();
-    if ($("#sf-partner-modal").is(":visible")) sfPartnerModalClose();
+  // ── Escape key closes open modals ─────────────────────────────────────────────
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    const regModal     = document.getElementById('sf-reg-modal');
+    const partnerModal = document.getElementById('sf-partner-modal');
+    if (regModal && regModal.style.display !== 'none' && regModal.style.opacity !== '0') sfRegModalClose();
+    if (partnerModal && partnerModal.style.display !== 'none' && partnerModal.style.opacity !== '0') sfPartnerModalClose();
   });
 
 });
 
 // ── Tidio chat button: white outline ring ─────────────────────────────────────
-// The Tidio button renders inside a cross-origin iframe so we can't reach the
-// circular button element directly with CSS. Instead we apply border-radius +
-// box-shadow to the iframe element itself — which gives the same visual result
-// when the iframe is small (button mode). When the chat panel opens, Tidio
-// resizes the iframe to a large panel; we detect that and strip the ring so the
-// open panel isn't clipped to an oval.
 (function () {
   function applyTidioRing(iframe) {
     function update() {
-      var isButton = iframe.offsetWidth <= 160 && iframe.offsetHeight <= 160;
+      const isButton = iframe.offsetWidth <= 160 && iframe.offsetHeight <= 160;
       iframe.style.borderRadius = isButton ? '50%' : '';
       iframe.style.boxShadow   = isButton ? '0 0 0 3px rgba(255,255,255,0.85), 0 2px 12px rgba(0,0,0,0.25)' : '';
     }
-
     update();
-
-    if (window.ResizeObserver) {
-      new ResizeObserver(update).observe(iframe);
-    }
+    if (window.ResizeObserver) new ResizeObserver(update).observe(iframe);
   }
-
-  // Tidio loads asynchronously — poll until its iframe appears in the DOM
-  var poll = setInterval(function () {
-    var iframe = document.getElementById('tidio-chat-iframe');
-    if (iframe) {
-      clearInterval(poll);
-      applyTidioRing(iframe);
-    }
+  const poll = setInterval(function () {
+    const iframe = document.getElementById('tidio-chat-iframe');
+    if (iframe) { clearInterval(poll); applyTidioRing(iframe); }
   }, 500);
-})();
+}());
 
 // ── Scroll-to-top button ──────────────────────────────────────────────────────
-// rAF-throttled visibility toggle. Class-based show/hide (instead of `hidden`
-// attribute) allows a CSS opacity+transform transition — Safari renders this
-// on the compositor without a paint, so it never causes scroll jank.
 (function () {
-  var btn = document.getElementById('sf-scroll-top');
+  const btn = document.getElementById('sf-scroll-top');
   if (!btn) return;
   btn.removeAttribute('hidden');
-  var isShown = false;
-  var ticking = false;
+  let isShown = false;
+  let ticking = false;
   function update() {
     ticking = false;
-    var shouldShow = window.scrollY > 400;
+    const shouldShow = window.scrollY > 400;
     if (shouldShow !== isShown) {
       isShown = shouldShow;
       btn.classList.toggle('is-visible', shouldShow);

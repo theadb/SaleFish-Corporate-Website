@@ -304,7 +304,7 @@ $cta_label     = $is_success ? 'Get My Demo' : 'Get a Demo';
 		<div class="sp-cta__inner">
 			<h2><?php echo esc_html( $cta_heading ); ?></h2>
 			<p><?php echo esc_html( $cta_subtext ); ?></p>
-			<button class="sp-cta__btn" data-sf-modal="register">
+			<button class="button" data-sf-modal="register">
 				<?php echo esc_html( $cta_label ); ?>
 			</button>
 		</div>

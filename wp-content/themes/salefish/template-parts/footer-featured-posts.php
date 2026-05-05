@@ -19,9 +19,9 @@ if ( empty( $_sfp_posts ) ) return;
 
 <section class="sf-footer-posts" aria-label="Featured blog posts">
     <div class="max_wrapper">
-        <div class="sf-footer-posts__header">
+        <div class="sf-footer-posts__header" data-reveal>
             <p class="blog-section-label">Featured Blog Posts</p>
-            <a class="sf-footer-posts__all" href="/blog">View All Articles</a>
+            <a class="sf-footer-posts__all sf-cta-link" href="/blog">View All Articles</a>
         </div>
         <div class="blog-sticky__grid">
             <?php foreach ( $_sfp_posts as $i => $_sfp ) :
@@ -44,6 +44,8 @@ if ( empty( $_sfp_posts ) ) return;
             ?>
             <a href="<?php echo $link; ?>"
                class="blog-sticky__card"
+               data-reveal
+               data-reveal-delay="<?php echo ( ( $i + 1 ) * 100 ); ?>"
                <?php echo $is_video && $embed ? 'data-video-url="' . esc_attr( $embed ) . '"' : ''; ?>>
                 <?php if ( $thumb ) : ?>
                 <div class="blog-sticky__card-image"><?php echo $thumb; ?></div>
@@ -55,8 +57,8 @@ if ( empty( $_sfp_posts ) ) return;
                         <?php endif; ?>
                         <span class="sf-badge sf-badge--featured">Featured</span>
                     </div>
+                    <p class="blog-sticky__card-meta"><?php echo esc_html( $date ); ?> &middot; <?php echo esc_html( $author ); ?> &middot; <?php echo esc_html( sf_read_time( $_sfp->post_content ) ); ?></p>
                     <h3 class="blog-sticky__card-title"><?php echo esc_html( get_the_title( $id ) ); ?></h3>
-                    <p class="blog-sticky__card-meta"><?php echo esc_html( $date ); ?> &middot; <?php echo esc_html( $author ); ?></p>
                     <span class="blog-sticky__card-link">Dig In</span>
                 </div>
             </a>

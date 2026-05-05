@@ -9,28 +9,31 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 get_header();
 ?>
 
-<main class="sf-ty-page">
-	<div class="sf-ty-page__inner">
-		<div class="sf-ty-page__card">
+<main class="sf-ty-page" id="main-content">
 
-			<div class="sf-ty-page__icon-wrap">
-				<i data-lucide="circle-check-big"></i>
+	<!-- Hero band — same purple treatment as other content pages -->
+	<section class="sf-ty-page__hero">
+		<div class="sf-ty-page__hero-inner max_wrapper">
+			<div class="sf-ty-page__badge">
+				<i data-lucide="circle-check-big" aria-hidden="true"></i>
 			</div>
-
-			<span class="sf-ty-page__eyebrow">Registration Confirmed</span>
-
+			<p class="sf-ty-page__eyebrow">Registration Confirmed</p>
 			<h1 class="sf-ty-page__heading">Thank you for registering!</h1>
+		</div>
+	</section>
 
-			<p class="sf-ty-page__body">
+	<!-- Body content — white background, centered column -->
+	<section class="sf-ty-page__body-section">
+		<div class="max_wrapper sf-ty-page__body-inner">
+			<p class="sf-ty-page__body-text">
 				A SaleFish specialist will reach out within 1 business day to walk you through the platform and talk through your specific project needs — whether that's inventory management, online signing, or end-to-end pre-construction sales workflow.
 			</p>
-
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="sf-ty-page__btn">
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="button">
 				Return to Homepage
 			</a>
-
 		</div>
-	</div>
+	</section>
+
 </main>
 
 <?php get_footer(); ?>

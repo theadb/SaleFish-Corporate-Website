@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Template Name: TR Home Page
  * The template for displaying the App page
@@ -7,38 +6,31 @@
 get_header();
 
 // HERO
-$fade_msg = get_field('fade_messages');
-$fade = array();
-foreach ((is_array($fade_msg) ? $fade_msg : []) as $msg) {
-    $text = $msg['text'];
-    array_push($fade, $text);
+$fade_msg = get_field( 'fade_messages' );
+$fade     = [];
+foreach ( ( is_array( $fade_msg ) ? $fade_msg : [] ) as $msg ) {
+	$fade[] = $msg['text'];
 }
-$hero_header = get_field('hero_header');
-$hero_image = get_field('hero_image');
+$hero_header = get_field( 'hero_header' );
+$hero_image  = get_field( 'hero_image' );
 
 // BUILDERS
-$builders = get_field('builders_developers');
+$builders = get_field( 'builders_developers' );
 
 // PILLARS
-$pillars = get_field('pillars');
-
-// FEATURES
-$features = get_field('features');
+$pillars = get_field( 'pillars' );
 
 // THE NUMBERS
-$numbers_header = get_field('numbers_header');
-$the_numbers = get_field('the_numbers');
-
-
+$numbers_header = get_field( 'numbers_header' );
+$the_numbers    = get_field( 'the_numbers' );
 ?>
-
 
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5CX687F" height="0" width="0"
 		style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <script>
-	let textArray = <?php echo json_encode($fade) ?> ;
+	let textArray = <?php echo wp_json_encode( $fade, JSON_HEX_TAG | JSON_HEX_AMP ); ?>;
 </script>
 
 <main class="home">
@@ -48,15 +40,11 @@ $the_numbers = get_field('the_numbers');
 			<div class="max_wrapper">
 				<div class="left" data-aos="fade-right" data-aos-delay="300">
 					<h3>An Easier Way to <span>Sell <span id="app_for_home">Home Sales</span></span></h3>
-					<h1>
-						<?php echo $hero_header; ?>
-					</h1>
+					<h1><?php echo wp_kses_post( $hero_header ); ?></h1>
 					<a class="button" href="#contact_us">ÜCRETSİZ DEMO REZERVASYONU YAPIN</a>
 				</div>
 				<div class="right" data-aos="zoom-in" data-aos-delay="300">
-					<img class="salefish_demo"
-						src="<?php echo $hero_image ?>"
-						alt="Salefish App Demo">
+					<?php sf_picture( $hero_image, [ 'loading' => 'eager', 'fetchpriority' => 'high', 'alt' => 'Salefish App Demo', 'class' => 'salefish_demo' ] ); ?>
 				</div>
 			</div>
 		</div>
@@ -64,30 +52,29 @@ $the_numbers = get_field('the_numbers');
 	<!-- END HERO -->
 
 	<!-- BUILDER -->
-	 <div class="builders_overlay">
-	 	<section class="builders">
+	<div class="builders_overlay">
+		<section class="builders">
 			<div class="max_wrapper">
 				<div data-aos="fade-right">
 					<h3>Gayrimenkul Liderleri</h3>
 					<h3 class="bold">SaleFish Yüzünden Seni Dövmek:</h3>
 				</div>
-
 				<div data-aos="fade-zoom-in" class="builders_wrap">
 					<div class="builders_marquee">
 						<div class="builders_track">
-							<?php foreach((is_array($builders) ? $builders : []) as $builder): ?>
-							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" alt="">
+							<?php foreach ( ( is_array( $builders ) ? $builders : [] ) as $builder ) : ?>
+							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" loading="lazy" decoding="async" alt="">
 							<?php endforeach; ?>
-							<?php foreach($builders as $builder): ?>
-							<img class="builder_logo" src="<?php echo $builder; ?>" alt="" aria-hidden="true">
+							<?php foreach ( ( is_array( $builders ) ? $builders : [] ) as $builder ) : ?>
+							<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" loading="lazy" decoding="async" alt="" aria-hidden="true">
 							<?php endforeach; ?>
 						</div>
 					</div>
 					<div class="mobile_builders">
 						<div class="row">
-							<?php foreach($builders as $builder): ?>
+							<?php foreach ( ( is_array( $builders ) ? $builders : [] ) as $builder ) : ?>
 							<div class="col">
-								<img class="builder_logo" src="<?php echo $builder; ?>" alt="">
+								<img class="builder_logo" src="<?php echo esc_url( $builder ); ?>" loading="lazy" decoding="async" alt="">
 							</div>
 							<?php endforeach; ?>
 						</div>
@@ -95,14 +82,12 @@ $the_numbers = get_field('the_numbers');
 				</div>
 			</div>
 		</section>
-	 </div>
-
+	</div>
 	<!-- END BUILDERS -->
 
 	<!-- FEATURES -->
-	<?php get_template_part('/partials/salefish-features-tr'); ?>
+	<?php get_template_part( '/partials/salefish-features-tr' ); ?>
 	<!-- END FEATURES -->
-
 
 	<!-- CONTACT -->
 	<section class="contact">
@@ -112,33 +97,27 @@ $the_numbers = get_field('the_numbers');
 		<div class="bottom_overlay"></div>
 		<div class="top">
 			<div class="title" data-aos="fade-up">
-				<h1>
-					<?php echo $numbers_header['title']; ?>
-				</h1>
-				<p>
-					<?php echo $numbers_header['description']; ?>
-				</p>
+				<h1><?php echo esc_html( $numbers_header['title'] ?? '' ); ?></h1>
+				<p><?php echo wp_kses_post( $numbers_header['description'] ?? '' ); ?></p>
 			</div>
 			<div class="content">
 				<?php
-                            $counter = 0;
-foreach((is_array($the_numbers) ? $the_numbers : []) as $row):
-    $prefix = $row['prefix'];
-    $number = $row['number'];
-    $suffix = $row['suffix'];
-    $description = $row['description'];
-    $counter++;
-    ?>
+				$counter = 0;
+				foreach ( ( is_array( $the_numbers ) ? $the_numbers : [] ) as $row ) :
+					$prefix      = $row['prefix'];
+					$number      = $row['number'];
+					$suffix      = $row['suffix'];
+					$description = $row['description'];
+					$counter++;
+					?>
 				<div class="col">
 					<h1>
-						<?php echo $prefix ?> <span
-							data-number="<?php echo $number ?>"
-							id="count_<?php echo $counter ?>"></span>
-						<?php echo $suffix ?>
+						<?php echo esc_html( $prefix ); ?> <span
+							data-number="<?php echo esc_attr( $number ); ?>"
+							id="count_<?php echo esc_attr( $counter ); ?>"></span>
+						<?php echo esc_html( $suffix ); ?>
 					</h1>
-					<p>
-						<?php echo $description ?>
-					</p>
+					<p><?php echo wp_kses_post( $description ); ?></p>
 				</div>
 				<?php endforeach; ?>
 			</div>
@@ -151,7 +130,7 @@ foreach((is_array($the_numbers) ? $the_numbers : []) as $row):
 						</div>
 						<div class="swiper-slide">
 							<h1><span id="count_2_mobile"></span>+</h1>
-							<p>builders, developers & sales partners</p>
+							<p>builders, developers &amp; sales partners</p>
 						</div>
 						<div class="swiper-slide">
 							<h1><span id="count_3_mobile"></span>M</h1>
@@ -168,57 +147,45 @@ foreach((is_array($the_numbers) ? $the_numbers : []) as $row):
 						alt="Right Arrow">
 				</div>
 			</div>
-
 			<a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish">BIZLE SOHBET ET</a>
 		</div>
 		<!-- PILLARS -->
 		<section class="pillars">
 			<div class="max_wrapper">
 				<div data-aos="fade-right">
-					<h1>SaleFish’in yapı taşları</h1>
+					<h1>SaleFish'in yapı taşları</h1>
 					<p class="subheader">bugünün pazar koşullarında satmanızı sağlayacak tüm araçları içeriyor.</p>
 				</div>
 				<div class="swiper pillarsSwiper" data-aos="fade-zoom-in">
 					<div class="swiper-wrapper">
-						<?php foreach((is_array($pillars) ? $pillars : []) as $row):
-						    $icon = $row['icon'];
-						    $title = ucwords( strtolower( $row['title'] ) );
-						    $description = $row['description'];
-						    ?>
+						<?php foreach ( ( is_array( $pillars ) ? $pillars : [] ) as $row ) :
+							$icon        = $row['icon'];
+							$title       = ucwords( strtolower( $row['title'] ) );
+							$description = $row['description'];
+							?>
 						<div class="swiper-slide">
-							<img class="pillar"
-								src="<?php echo $icon ?>" alt="" aria-hidden="true">
-							<h3>
-								<?php echo $title ?>
-							</h3>
-							<p>
-								<?php echo $description ?>
-							</p>
+							<img class="pillar" src="<?php echo esc_url( $icon ); ?>" alt="" aria-hidden="true">
+							<h3><?php echo esc_html( $title ); ?></h3>
+							<p><?php echo wp_kses_post( $description ); ?></p>
 						</div>
 						<?php endforeach; ?>
 					</div>
 					<div class="controls">
 						<div class="arrow">
-							<img class="left_arrow"
-								src="<?php echo get_template_directory_uri(); ?>/img/left_arrow.png" alt="" aria-hidden="true">
+							<img class="left_arrow" src="<?php echo get_template_directory_uri(); ?>/img/left_arrow.png" alt="" aria-hidden="true">
 						</div>
 						<div class="arrow">
-							<img class="right_arrow"
-								src="<?php echo get_template_directory_uri(); ?>/img/right_arrow.png" alt="" aria-hidden="true">
+							<img class="right_arrow" src="<?php echo get_template_directory_uri(); ?>/img/right_arrow.png" alt="" aria-hidden="true">
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</section>
 		<!-- END PILLARS -->
 
-		<?php get_template_part('/partials/contact-tr'); ?>
+		<?php get_template_part( '/partials/contact-tr' ); ?>
 	</section>
 	<!-- END CONTACT -->
 </main>
 
-<?php
-get_footer();
-
-?>
+<?php get_footer(); ?>

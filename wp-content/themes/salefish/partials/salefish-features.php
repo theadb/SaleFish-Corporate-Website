@@ -40,14 +40,14 @@ $counter = 0;
                     <h3><?php echo esc_html( $sub_title ); ?></h3>
                     <h2><?php echo esc_html( $title ); ?></h2>
                     <p><?php echo wp_kses_post( $content ); ?></p>
-                    <a class="button" href="/contact-us/" data-sf-modal="register" data-sf-section="Features — Button">See It in Action</a>
+                    <a class="sf-cta-link" href="/contact-us/" data-sf-modal="register" data-sf-section="Features — Button">See It in Action</a>
                 </div>
                 <?php else: ?>
                 <div class="content context_info">
                     <h3><?php echo esc_html( $sub_title ); ?></h3>
                     <h2><?php echo esc_html( $title ); ?></h2>
                     <p><?php echo wp_kses_post( $content ); ?></p>
-                    <a class="button" href="/contact-us/" data-sf-modal="register" data-sf-section="Features — Button">See It in Action</a>
+                    <a class="sf-cta-link" href="/contact-us/" data-sf-modal="register" data-sf-section="Features — Button">See It in Action</a>
                 </div>
                 <div class="content content_image">
                     <?php sf_picture( $image, $img_args ); ?>
