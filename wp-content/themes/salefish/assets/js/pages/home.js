@@ -97,8 +97,58 @@ $(function () {
 
   }
 
-  // Hero text rotator REMOVED — was running setInterval(2s) forever with
-  // jQuery fadeIn/fadeOut, contributing to the page-feels-slow problem.
-  // The hero now displays the static `textArray[0]` content rendered by
-  // PHP — no JS work, no continuous fade animations.
+  // ── Hero text rotator (lightweight rebuild) ─────────────────────────────
+  // Old version: setInterval(2000) + jQuery fadeOut(400) + .html() swap +
+  // fadeIn(400). jQuery animations are setInterval-based (~16ms ticks for
+  // 400ms each), and the .html() rewrite forced a re-parse on every cycle.
+  //
+  // New version (this code): all textArray words are pre-rendered into the
+  // #app_for_home span as stacked grid items. The cycle is just a
+  // classList swap — CSS opacity transitions (compositor-only) handle the
+  // crossfade. Cycle slowed from 2 s to 3.5 s to halve the work. Paused
+  // when the hero scrolls off-screen (IntersectionObserver) or the tab
+  // is hidden (visibilitychange).
+  (function () {
+    var el = document.getElementById('app_for_home');
+    if (!el) return;
+    var words = (typeof textArray !== 'undefined' && Array.isArray(textArray)) ? textArray.slice() : [];
+    if (!words.length) {
+      var t = (el.textContent || '').trim();
+      if (t) words = [t];
+    }
+    if (words.length < 2) return; // nothing to rotate
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+      });
+    }
+    el.classList.add('sf-rotator');
+    el.innerHTML = words.map(function (w, i) {
+      return '<span' + (i === 0 ? ' class="is-active"' : '') + '>' + esc(w) + '</span>';
+    }).join('');
+
+    var spans = el.querySelectorAll('span');
+    var idx = 0, timer = null, inView = true;
+    function tick() {
+      if (document.hidden || !inView) return;
+      spans[idx].classList.remove('is-active');
+      idx = (idx + 1) % spans.length;
+      spans[idx].classList.add('is-active');
+    }
+    function on()  { if (!timer) timer = setInterval(tick, 3500); }
+    function off() { if (timer)  { clearInterval(timer); timer = null; } }
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) off(); else if (inView) on();
+    });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          inView = e.isIntersecting;
+          if (inView && !document.hidden) on(); else off();
+        });
+      }, { threshold: 0 }).observe(el);
+    } else { on(); }
+  }());
 });
