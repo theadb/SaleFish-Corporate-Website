@@ -206,45 +206,24 @@ $(function () {
     $(this).addClass("active");
   });
 
-  // ── Hero background slideshow ──────────────────────────────────────────────
-  // Cross-fades between slides every 5.5 s with a subtle Ken Burns zoom.
-  // Runs only when the user has not requested reduced motion.
-  (function () {
-    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    document.querySelectorAll('.hero__slideshow').forEach(function (slideshow) {
-      var slides = slideshow.querySelectorAll('.hero__slide');
-      if (slides.length < 2) return;
-      // First slide already carries is-active in HTML for instant display.
-      if (reducedMotion) return; // leave first slide permanently visible
-      var idx = 0;
-      setInterval(function () {
-        slides[idx].classList.remove('is-active');
-        idx = (idx + 1) % slides.length;
-        slides[idx].classList.add('is-active');
-      }, 5500);
-    });
-  }());
+  // Hero slideshow + platform showcase cross-fade intervals REMOVED.
+  // setInterval was running every 5.5 s / 8 s on our-story + partners
+  // pages indefinitely, swapping `.is-active` between slides. Each swap
+  // triggered a CSS opacity transition on a large hero image, which on
+  // mobile Safari was a meaningful repaint cost. The first slide stays
+  // permanently active now (its `is-active` class is set in PHP), the
+  // others stay invisible — visually static, zero ongoing JS or
+  // compositor work.
 
-  // ── Platform showcase image crossfade ─────────────────────────────────────
-  (function () {
-    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    document.querySelectorAll('.platform__img-stack').forEach(function (stack) {
-      var slides = stack.querySelectorAll('.platform__img-slide');
-      if (slides.length < 2 || reducedMotion) return;
-      var idx = 0;
-      setInterval(function () {
-        slides[idx].classList.remove('is-active');
-        idx = (idx + 1) % slides.length;
-        slides[idx].classList.add('is-active');
-      }, 8000);
-    });
-  }());
-
+  // Inline-form Parsley init (these forms ARE in the DOM at load time on
+  // contact / agent / partner pages).
   $("#reg_form").parsley();
   $("#agent_form").parsley();
   $("#partner_form").parsley();
-  $("#sf_reg_form").parsley();
-  $("#sf_partner_form").parsley();
+  // sf_reg_form and sf_partner_form live inside the lazy-injected modal
+  // template (see footer.php #sf-modals-template). Their Parsley init
+  // happens INSIDE window.sfEnsureModals() — which runs the first time
+  // a [data-sf-modal] button is hovered / touched / clicked.
 
   // ── Helper: show the "check your email" dialog after form submit ─────────────
   function sfShowCheckEmail(email) {
@@ -254,6 +233,35 @@ $(function () {
     $(".sf-check-email-msg").fadeIn();
     $("body").css("overflow", "hidden");
   }
+
+  // ── Focus trap ──────────────────────────────────────────────────────────────
+  // Keeps Tab / Shift-Tab cycling inside an open modal. Returns a cleanup fn.
+  function sfFocusTrap(modalEl) {
+    var SEL = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+    function getFocusable() {
+      return Array.from(modalEl.querySelectorAll(SEL)).filter(function (el) {
+        return el.offsetParent !== null;
+      });
+    }
+    function handler(e) {
+      if (e.key !== 'Tab') return;
+      var els = getFocusable();
+      if (!els.length) return;
+      var first = els[0];
+      var last  = els[els.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+      }
+    }
+    modalEl.addEventListener('keydown', handler);
+    var first = getFocusable()[0];
+    if (first) setTimeout(function () { first.focus(); }, 60);
+    return function () { modalEl.removeEventListener('keydown', handler); };
+  }
+  var _sfRegTrap     = null;
+  var _sfPartnerTrap = null;
 
   // REG FORM
   $("#reg_form").on("submit", function (e) {
@@ -348,6 +356,11 @@ $(function () {
   }
 
   function sfRegModalOpen(section) {
+    // Ensure the modal HTML is injected into the DOM. The footer's eager
+    // listeners normally do this on first hover — but if this is called
+    // programmatically (e.g. via direct JS API) the modal might not yet
+    // exist. Calling sfEnsureModals() is idempotent and synchronous.
+    if (window.sfEnsureModals) window.sfEnsureModals();
     // Measure scrollbar width BEFORE hiding overflow so we can compensate.
     // When overflow:hidden removes the scrollbar the viewport widens by exactly
     // this amount — adding the same width as padding keeps the layout still.
@@ -360,15 +373,18 @@ $(function () {
     $("html, body").css("overflow", "hidden");
     $("#sf-reg-modal").fadeIn(200, function () {
       sfRenderTurnstileIn($("#sf-reg-modal"));
+      _sfRegTrap = sfFocusTrap(document.getElementById("sf-reg-modal"));
     });
   }
 
   function sfRegModalClose() {
+    if (_sfRegTrap) { _sfRegTrap(); _sfRegTrap = null; }
     $("html, body").css("overflow", "");
     $("body, header").css("padding-right", "");
     $("#sf-reg-modal").fadeOut(200, function () {
       var form = document.getElementById("sf_reg_form");
       if (form) form.reset();
+      $("#sf-reg-form-error").remove();
       if (window.turnstile && typeof window.turnstile.reset === "function") {
         window.turnstile.reset();
       }
@@ -386,19 +402,33 @@ $(function () {
     sfRegModalClose
   );
 
-  // REG MODAL FORM SUBMIT
-  $("#sf_reg_form").on("submit", function (e) {
+  // REG MODAL FORM SUBMIT — delegated through document so it still works
+  // when the form is lazy-injected into the DOM by sfEnsureModals().
+  $(document).on("submit", "#sf_reg_form", function (e) {
     e.preventDefault();
+    var $form = $(this);
+    var $btn  = $form.find(".submit");
+    var origVal = $btn.val();
+    $btn.val("Submitting…").prop("disabled", true);
+    $("#sf-reg-form-error").remove();
     $.ajax({
       url: salefishAjax.ajaxurl,
       type: "POST",
       dataType: "json",
-      data: $(this).serialize() + "&action=salefish_register&nonce=" + salefishAjax.nonce,
+      data: $form.serialize() + "&action=salefish_register&nonce=" + salefishAjax.nonce,
       success: function (res) {
         if (res.success) {
           sfRegModalClose();
           sfShowCheckEmail(res.data && res.data.email ? res.data.email : "");
+        } else {
+          var msg = (res.data && res.data.message) ? res.data.message : "Something went wrong — please try again.";
+          $form.find(".row:last-child").before('<p id="sf-reg-form-error" class="sf-form-error" role="alert">' + msg + "</p>");
+          $btn.val(origVal).prop("disabled", false);
         }
+      },
+      error: function () {
+        $form.find(".row:last-child").before('<p id="sf-reg-form-error" class="sf-form-error" role="alert">Connection error — please try again.</p>');
+        $btn.val(origVal).prop("disabled", false);
       },
     });
   });
@@ -409,6 +439,7 @@ $(function () {
   // lands on the relevant option for the card they clicked.
 
   function sfPartnerModalOpen(partnerType, section) {
+    if (window.sfEnsureModals) window.sfEnsureModals();
     var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
     if (scrollbarW > 0) {
       $("body").css("padding-right", scrollbarW + "px");
@@ -421,15 +452,18 @@ $(function () {
     $("html, body").css("overflow", "hidden");
     $("#sf-partner-modal").fadeIn(200, function () {
       sfRenderTurnstileIn($("#sf-partner-modal"));
+      _sfPartnerTrap = sfFocusTrap(document.getElementById("sf-partner-modal"));
     });
   }
 
   function sfPartnerModalClose() {
+    if (_sfPartnerTrap) { _sfPartnerTrap(); _sfPartnerTrap = null; }
     $("html, body").css("overflow", "");
     $("body, header").css("padding-right", "");
     $("#sf-partner-modal").fadeOut(200, function () {
       var form = document.getElementById("sf_partner_form");
       if (form) form.reset();
+      $("#sf-partner-form-error").remove();
       if (window.turnstile && typeof window.turnstile.reset === "function") {
         window.turnstile.reset();
       }
@@ -450,19 +484,33 @@ $(function () {
     sfPartnerModalClose
   );
 
-  // PARTNER MODAL FORM SUBMIT
-  $("#sf_partner_form").on("submit", function (e) {
+  // PARTNER MODAL FORM SUBMIT — delegated through document so it still
+  // works when the form is lazy-injected into the DOM by sfEnsureModals().
+  $(document).on("submit", "#sf_partner_form", function (e) {
     e.preventDefault();
+    var $form = $(this);
+    var $btn  = $form.find(".submit");
+    var origVal = $btn.val();
+    $btn.val("Submitting…").prop("disabled", true);
+    $("#sf-partner-form-error").remove();
     $.ajax({
       url: salefishAjax.ajaxurl,
       type: "POST",
       dataType: "json",
-      data: $(this).serialize() + "&action=partner_register&nonce=" + salefishAjax.nonce,
+      data: $form.serialize() + "&action=partner_register&nonce=" + salefishAjax.nonce,
       success: function (res) {
         if (res.success) {
           sfPartnerModalClose();
           sfShowCheckEmail(res.data && res.data.email ? res.data.email : "");
+        } else {
+          var msg = (res.data && res.data.message) ? res.data.message : "Something went wrong — please try again.";
+          $form.find(".row:last-child").before('<p id="sf-partner-form-error" class="sf-form-error" role="alert">' + msg + "</p>");
+          $btn.val(origVal).prop("disabled", false);
         }
+      },
+      error: function () {
+        $form.find(".row:last-child").before('<p id="sf-partner-form-error" class="sf-form-error" role="alert">Connection error — please try again.</p>');
+        $btn.val(origVal).prop("disabled", false);
       },
     });
   });
@@ -508,3 +556,30 @@ $(function () {
     }
   }, 500);
 })();
+
+// ── Scroll-to-top button ──────────────────────────────────────────────────────
+// rAF-throttled visibility toggle. Class-based show/hide (instead of `hidden`
+// attribute) allows a CSS opacity+transform transition — Safari renders this
+// on the compositor without a paint, so it never causes scroll jank.
+(function () {
+  var btn = document.getElementById('sf-scroll-top');
+  if (!btn) return;
+  btn.removeAttribute('hidden');
+  var isShown = false;
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var shouldShow = window.scrollY > 400;
+    if (shouldShow !== isShown) {
+      isShown = shouldShow;
+      btn.classList.toggle('is-visible', shouldShow);
+    }
+  }
+  update();
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  btn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}());

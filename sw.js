@@ -23,7 +23,7 @@
  * old caches and clients re-fetch the new shell.
  */
 
-const CACHE_NAME  = 'salefish-v59-2026-05-05-no-img-zoom';
+const CACHE_NAME  = 'salefish-v60-2026-05-05-no-anims';
 const OFFLINE_URL = '/offline.html';
 
 // Pre-cache the shell so the very first navigation can use stale-while-

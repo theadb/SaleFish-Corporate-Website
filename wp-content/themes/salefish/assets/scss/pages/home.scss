@@ -5,16 +5,18 @@
     position: relative;
     padding-top: 80px;
 
-    // Ambient orb — primary (light purple drift)
+    // Ambient orb — STATIC (animation removed for perf).
+    // The infinite heroOrbFloat / heroOrbPulse animations were holding a
+    // permanent GPU compositor layer (`will-change: transform`) and
+    // running 60fps transform updates forever, contributing to the
+    // page-feels-slow problem. Now a pure radial gradient — no animation,
+    // no GPU layer reservation, no continuous repaint cost.
     &::before {
       content: '';
       position: absolute;
       inset: -40% -30%;
-      background: radial-gradient(ellipse 56% 64% at 38% 62%, rgba($light_purple, 0.68) 0%, transparent 64%);
-      animation: heroOrbFloat 18s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite,
-                 heroOrbPulse 7s ease-in-out infinite;
+      background: radial-gradient(ellipse 56% 64% at 38% 62%, rgba($light_purple, 0.45) 0%, transparent 64%);
       pointer-events: none;
-      will-change: transform;
       z-index: 2;
     }
 
@@ -241,16 +243,24 @@
         gap: 48px;
         width: max-content;
         padding: 8px 0;
-        // Force a permanent GPU compositor layer for the RAF-driven
-        // transform. Without these hints, iOS Safari drops the layer when
-        // the marquee scrolls off-screen and recreates it mid-animation
-        // when scrolled back — causing the visible stalls/jumps. The trio
-        // (will-change + backface-visibility + a baseline translate3d)
-        // keeps the track on its own GPU layer for the page's lifetime.
+        // Permanent GPU compositor layer — required for both the
+        // smoothness of the marquee animation AND to prevent iOS
+        // Safari from dropping the layer when the marquee scrolls
+        // off-screen.
         will-change: transform;
         backface-visibility: hidden;
-        // Position driven by requestAnimationFrame in home.js — no CSS animation
-        // (CSS animation + webkit compositing = unreliable layer lifecycle)
+        // Marquee runs as a pure CSS animation. The track contains
+        // TWO copies of the logo set (rendered server-side); a -50%
+        // translateX shifts the track left by exactly one set's
+        // width, then loops. The result is a seamless infinite scroll
+        // with zero JS overhead. CSS animations run on the compositor
+        // thread, so they're not affected by main-thread jank or
+        // Safari's RAF throttling.
+        animation: sf-builders-marquee 38s linear infinite;
+
+        @media (prefers-reduced-motion: reduce) {
+          animation: none;
+        }
 
         // Uniform slot for each logo — logos vary wildly in aspect ratio (1:1 to
         // 10:1), so without a fixed width the gaps look uneven. Each slot is
