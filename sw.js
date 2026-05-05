@@ -23,7 +23,7 @@
  * old caches and clients re-fetch the new shell.
  */
 
-const CACHE_NAME  = 'salefish-v44-2026-04-29';
+const CACHE_NAME  = 'salefish-v53-2026-05-05-lazy-modals';
 const OFFLINE_URL = '/offline.html';
 
 // Pre-cache the shell so the very first navigation can use stale-while-
@@ -127,3 +127,19 @@ self.addEventListener('fetch', event => {
     })
   );
 });
+
+// cache-bust 1777921901
+
+// cache-bust 1777922702
+
+// cache-bust 1777925396
+
+// cache-bust 1777984738
+
+// cache-bust 1777984910
+
+// cache-bust 1777986189
+
+// cache-bust 1777986823
+
+// cache-bust 1777987898
