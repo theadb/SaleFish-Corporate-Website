@@ -38,6 +38,39 @@
 @keyframes cardIn { from, to { opacity: 1; transform: none; } }
 .card-animate { animation: none; }
 
+// ── Subtle hover expand for image-bearing cards ───────────────────────────
+// Replaces the old `:hover img { transform: scale(1.04) }` pattern that
+// caused images to be clipped by their `overflow: hidden` parent. Now the
+// WHOLE card (image + frame + text) scales together as a single unit,
+// so nothing can be clipped — the image and its container grow in
+// proportion. The scale is intentionally subtler (1.012 vs the old 1.04)
+// to feel premium rather than bouncy.
+//
+// Applied to any element marked `.sf-hover-expand` AND to the existing
+// .sf-card / .blog-card / blog-featured__main / blog-featured__side /
+// .blog-sticky__card families so it works on every card we already have.
+.sf-card,
+.blog-card,
+.blog-featured__main,
+.blog-featured__side,
+.blog-sticky__card,
+.sf-hover-expand {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  &:hover { transform: translateY(-3px) scale(1.012); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sf-card,
+  .blog-card,
+  .blog-featured__main,
+  .blog-featured__side,
+  .blog-sticky__card,
+  .sf-hover-expand {
+    transition: none;
+    &:hover { transform: none; }
+  }
+}
+
 // ── Builder logo marquee keyframe ─────────────────────────────────────────
 // Used by .builders_track on the homepage. The track contains two copies
 // of the logo set; -50% translateX shifts left by exactly one set's
