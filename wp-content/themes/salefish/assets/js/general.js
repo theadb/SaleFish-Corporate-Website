@@ -206,14 +206,43 @@ $(function () {
     $(this).addClass("active");
   });
 
-  // Hero slideshow + platform showcase cross-fade intervals REMOVED.
-  // setInterval was running every 5.5 s / 8 s on our-story + partners
-  // pages indefinitely, swapping `.is-active` between slides. Each swap
-  // triggered a CSS opacity transition on a large hero image, which on
-  // mobile Safari was a meaningful repaint cost. The first slide stays
-  // permanently active now (its `is-active` class is set in PHP), the
-  // others stay invisible — visually static, zero ongoing JS or
-  // compositor work.
+  // ── Hero + platform slideshow cross-fade ──────────────────────────────────
+  // Lightweight shared crossfade. Single setInterval per group, only runs
+  // when (a) the tab is visible AND (b) the slideshow root is on-screen.
+  // The class toggle is the only work — CSS handles the opacity transition
+  // on the compositor thread. Reduced-motion users get the static first
+  // slide (no JS, no transitions).
+  (function () {
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    function bind(rootSel, slideSel, ms) {
+      document.querySelectorAll(rootSel).forEach(function (root) {
+        var slides = root.querySelectorAll(slideSel);
+        if (slides.length < 2) return;
+        var idx = 0, timer = null, inView = true;
+        function tick() {
+          if (document.hidden || !inView) return;
+          slides[idx].classList.remove('is-active');
+          idx = (idx + 1) % slides.length;
+          slides[idx].classList.add('is-active');
+        }
+        function on()  { if (!timer) timer = setInterval(tick, ms); }
+        function off() { if (timer) { clearInterval(timer); timer = null; } }
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) off(); else if (inView) on();
+        });
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              inView = e.isIntersecting;
+              if (inView && !document.hidden) on(); else off();
+            });
+          }, { threshold: 0 }).observe(root);
+        } else { on(); }
+      });
+    }
+    bind('.hero__slideshow',     '.hero__slide',           5500);
+    bind('.platform__img-stack', '.platform__img-slide',   7000);
+  }());
 
   // Inline-form Parsley init (these forms ARE in the DOM at load time on
   // contact / agent / partner pages).
