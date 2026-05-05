@@ -179,6 +179,19 @@ add_filter( 'script_loader_tag', function ( $tag, $handle ) {
  * specify in WP-Super-Cache (currently max-age=3, must-revalidate).
  */
 
+// ── Security: HTTP response headers ──────────────────────────────────────────
+// Prevent clickjacking, MIME-type sniffing, and tighten referrer disclosure.
+// CSP is managed via Cloudflare Transform Rules so it can be tuned without a
+// deploy. These headers have no caching interaction that Apache overrides.
+add_action( 'send_headers', function () {
+    if ( ! is_admin() ) {
+        header( 'X-Frame-Options: SAMEORIGIN' );
+        header( 'X-Content-Type-Options: nosniff' );
+        header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+        header( 'Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()' );
+    }
+} );
+
 // ── Performance: resource hints ───────────────────────────────────────────────
 // Tidio + LinkedIn + GTM are all click-deferred now, so eager preconnect /
 // dns-prefetch hints would just be wasted DNS chatter on first paint
@@ -448,15 +461,93 @@ function limit_text($text, $limit)
     return $text;
 }
 
+function sf_read_time( $content ) {
+    $word_count = str_word_count( wp_strip_all_tags( $content ) );
+    $minutes    = max( 1, (int) round( $word_count / 200 ) );
+    return $minutes . ' min read';
+}
+
+/**
+ * Emit a `<link rel="preload" as="image">` for the page's LCP hero image.
+ *
+ * Looks for an AVIF sibling next to the given PNG/JPG URL, plus any size
+ * variant siblings (e.g. `-1280w.avif`) so the browser can pick the right
+ * resolution via imagesrcset. Only emits when the AVIF actually exists
+ * on disk — never preloads a 404.
+ *
+ * Centralizing this logic into a reusable function lets us preload the
+ * hero on every major page (our-story, partners, awards, etc.) instead
+ * of just the homepage. The browser starts downloading the LCP image
+ * during the parse-CSS phase, eliminating the parser → body → <img>
+ * discovery delay.
+ *
+ * @param string $url Public URL of the source PNG / JPG image.
+ * @param string $sizes_attr Optional `imagesizes` attribute (default 100vw).
+ */
+function sf_preload_hero_image( $url, $sizes_attr = '100vw' ) {
+    if ( empty( $url ) ) return;
+
+    // Resolve URL → disk path so we can probe for AVIF + variants.
+    $upload    = wp_get_upload_dir();
+    $theme_uri = get_template_directory_uri();
+    $theme_dir = get_template_directory();
+    $abs_path  = '';
+
+    if ( strpos( $url, $upload['baseurl'] ) === 0 ) {
+        $abs_path = $upload['basedir'] . substr( $url, strlen( $upload['baseurl'] ) );
+    } elseif ( strpos( $url, $theme_uri ) === 0 ) {
+        $abs_path = $theme_dir . substr( $url, strlen( $theme_uri ) );
+    }
+
+    if ( ! $abs_path || ! preg_match( '/\.(png|jpe?g)$/i', $abs_path ) ) return;
+
+    $avif_path = preg_replace( '/\.(png|jpe?g)$/i', '.avif', $abs_path );
+    if ( ! file_exists( $avif_path ) ) return;
+
+    $avif_url  = preg_replace( '/\.(png|jpe?g)$/i', '.avif', $url );
+    $base_path = preg_replace( '/\.(png|jpe?g)$/i', '', $abs_path );
+    $base_url  = preg_replace( '/\.(png|jpe?g)$/i', '', $url );
+
+    $variants = [];
+    foreach ( [ 320, 480, 640, 800, 1024, 1280, 1920 ] as $w ) {
+        if ( file_exists( $base_path . '-' . $w . 'w.avif' ) ) {
+            $variants[] = esc_url( $base_url . '-' . $w . 'w.avif' ) . ' ' . $w . 'w';
+        }
+    }
+
+    if ( $variants ) {
+        $size   = @getimagesize( $avif_path );
+        $full_w = ! empty( $size[0] ) ? $size[0] : 1920;
+        $variants[] = esc_url( $avif_url ) . ' ' . $full_w . 'w';
+        echo '<link rel="preload" as="image" type="image/avif" imagesrcset="' . implode( ', ', $variants ) . '" imagesizes="' . esc_attr( $sizes_attr ) . '" fetchpriority="high">' . "\n";
+    } else {
+        echo '<link rel="preload" as="image" type="image/avif" href="' . esc_url( $avif_url ) . '" fetchpriority="high">' . "\n";
+    }
+}
+
 
 add_filter('use_block_editor_for_post', '__return_false');
 
 
 function load_more_post()
 {
-    check_ajax_referer( 'salefish_load_more', 'nonce' );
-    $paged    = isset($_POST['paged'])    ? intval($_POST['paged'])                        : 1;
-    $category = isset($_POST['category']) ? sanitize_text_field($_POST['category'])        : 'all';
+    // No nonce check on this endpoint — and that's intentional.
+    //
+    // load_more_post returns the EXACT same blog posts anyone can see by
+    // scrolling /blog/. It's a read-only public endpoint with no state
+    // mutation, no privilege escalation, and no sensitive data exposure.
+    // CSRF protection is meaningless here.
+    //
+    // Worse, requiring a nonce was actively breaking the Load More button:
+    // WordPress nonces expire in 12–24 h. LSCache (and Cloudflare/browser
+    // caches) serve cached HTML pages for up to a week. Visitors hitting a
+    // cached page > 12 h after it was generated would have a stale nonce
+    // embedded in the page → AJAX fires with expired nonce → check_ajax_referer
+    // returns false → wp_die(-1) → JS .json() throws → button silently fails.
+    //
+    // Bypassing the nonce makes the endpoint cache-compatible forever.
+    $paged    = isset($_POST['paged'])    ? max( 1, intval($_POST['paged']) )       : 1;
+    $category = isset($_POST['category']) ? sanitize_text_field($_POST['category']) : 'all';
 
     $args = [
         'post_status'    => 'publish',
@@ -515,6 +606,7 @@ function load_more_post()
                 'date'       => $date,
                 'author'     => $author,
                 'is_featured'=> $is_featured,
+                'read_time'  => sf_read_time( $raw_content ),
             ];
         }
         wp_reset_postdata();
@@ -528,49 +620,6 @@ function load_more_post()
 }
 add_action('wp_ajax_load_more_post', 'load_more_post');
 add_action('wp_ajax_nopriv_load_more_post', 'load_more_post');
-
-// function load_more_post()
-// {
-//     $articles = get_posts(
-//         array(
-//               'post_status' => 'publish',
-//               'post_type' => 'post',
-//               'posts_per_page' => 9,
-//               'paged' => $_POST['paged'],
-//               'orderby' => 'date',
-//               'order' => 'DESC',
-//           )
-//     );
-
-//     $ajaxposts = new WP_Query([
-//     'posts_per_page' => 9,
-//     'paged' => $_POST['paged'],
-//   ]);
-//     $max_pages = $ajaxposts->max_num_pages;
-
-
-//     $response = array();
-
-//     foreach ($articles as $article) {
-//         $id = $article->ID;
-//         $category = get_the_category($id);
-//         $thumb = get_the_post_thumbnail($id);
-//         $link = get_permalink($id);
-//         $title = limit_text($article->post_title, 14);
-
-//         array_push($response, array('id' => $id, 'category' => $category, 'thumb' => $thumb, 'link' => $link, 'title' => $title,));
-//     }
-
-//     $result = [
-//     'max' => $max_pages,
-//     'posts' => $response,
-//   ];
-
-//     echo json_encode($result);
-//     exit;
-// }
-// add_action('wp_ajax_load_more_post', 'load_more_post');
-// add_action('wp_ajax_nopriv_load_more_post', 'load_more_post');
 // ── WP Admin: replace oEmbed preview for video posts ──────────────────────────
 // WordPress auto-embeds YouTube URLs in the classic editor. If YouTube has
 // blocked embedding (Content ID claim, Error 153, etc.) the editor shows a
@@ -898,7 +947,7 @@ function sf_picture( $url, $args = [] ) {
             $base   = preg_replace( '/\.(png|jpe?g)$/i', '', $abs_path );
             $base_u = preg_replace( '/\.(png|jpe?g)$/i', '', $url );
             $variants = [];
-            foreach ( [ 320, 480, 640, 800, 1024, 1280 ] as $w ) {
+            foreach ( [ 320, 480, 640, 800, 1024, 1280, 1920, 2560 ] as $w ) {
                 $variant_path = $base . '-' . $w . 'w.avif';
                 if ( file_exists( $variant_path ) ) {
                     $variants[] = esc_url( $base_u . '-' . $w . 'w.avif' ) . ' ' . $w . 'w';

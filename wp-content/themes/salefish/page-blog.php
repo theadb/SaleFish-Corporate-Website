@@ -49,6 +49,9 @@ get_header();
 				$f_date    = get_the_date( 'M j, Y', $fid );
 				$f_title   = get_the_title( $fid );
 				$f_excerpt = wp_trim_words( get_the_excerpt( $fid ), 22, '...' );
+				$f_author  = get_the_author_meta( 'display_name', $fa->post_author );
+				$f_read    = sf_read_time( $fa->post_content );
+				$f_featured = has_tag( 'featured', $fid );
 				$f_video   = sf_cats_include_video( $f_cats );
 				$f_embed   = $f_video ? sf_video_embed_url( $fa->post_content ) : '';
 				if ( empty( $f_thumb ) && $f_video ) {
@@ -64,15 +67,20 @@ get_header();
 					<div class="blog-featured__main-image"><?php echo $f_thumb; ?></div>
 					<?php endif; ?>
 					<div class="blog-featured__main-body">
-						<?php if ( $f_cat_name ) : ?>
-						<span class="sf-badge sf-badge--<?php echo esc_attr( $f_cat_slug ); ?>"><?php echo esc_html( $f_cat_name ); ?></span>
-						<?php endif; ?>
-						<span class="blog-post-date">Published: <?php echo esc_html( $f_date ); ?></span>
+						<div class="blog-card__badges">
+							<?php if ( $f_cat_name ) : ?>
+							<span class="sf-badge sf-badge--<?php echo esc_attr( $f_cat_slug ); ?>"><?php echo esc_html( $f_cat_name ); ?></span>
+							<?php endif; ?>
+							<?php if ( $f_featured ) : ?>
+							<span class="sf-badge sf-badge--featured">Featured</span>
+							<?php endif; ?>
+						</div>
+						<p class="blog-card__meta"><?php echo esc_html( $f_date ); ?> &middot; <?php echo esc_html( $f_author ); ?> &middot; <?php echo esc_html( $f_read ); ?></p>
 						<h2 class="blog-featured__title"><?php echo esc_html( $f_title ); ?></h2>
 						<?php if ( $f_excerpt ) : ?>
 						<p class="blog-featured__excerpt"><?php echo esc_html( $f_excerpt ); ?></p>
 						<?php endif; ?>
-						<span class="blog-read-more"><?php echo $f_video ? 'Watch Video' : sf_post_cta( $f_cat_slug ); ?></span>
+						<span class="blog-card__link"><?php echo $f_video ? 'Watch Video' : sf_post_cta( $f_cat_slug ); ?></span>
 					</div>
 				</a>
 
@@ -87,6 +95,9 @@ get_header();
 						$s_link    = get_permalink( $sid );
 						$s_date    = get_the_date( 'M j, Y', $sid );
 						$s_title   = get_the_title( $sid );
+						$s_author  = get_the_author_meta( 'display_name', $sa->post_author );
+						$s_read    = sf_read_time( $sa->post_content );
+						$s_featured = has_tag( 'featured', $sid );
 						$s_video   = sf_cats_include_video( $s_cats );
 						$s_embed   = $s_video ? sf_video_embed_url( $sa->post_content ) : '';
 						if ( empty( $s_thumb ) && $s_video ) {
@@ -102,12 +113,17 @@ get_header();
 						<div class="blog-featured__side-image"><?php echo $s_thumb; ?></div>
 						<?php endif; ?>
 						<div class="blog-featured__side-body">
-							<?php if ( $s_cat_name ) : ?>
-							<span class="sf-badge sf-badge--<?php echo esc_attr( $s_cat_slug ); ?>"><?php echo esc_html( $s_cat_name ); ?></span>
-							<?php endif; ?>
-							<span class="blog-post-date">Published: <?php echo esc_html( $s_date ); ?></span>
+							<div class="blog-card__badges">
+								<?php if ( $s_cat_name ) : ?>
+								<span class="sf-badge sf-badge--<?php echo esc_attr( $s_cat_slug ); ?>"><?php echo esc_html( $s_cat_name ); ?></span>
+								<?php endif; ?>
+								<?php if ( $s_featured ) : ?>
+								<span class="sf-badge sf-badge--featured">Featured</span>
+								<?php endif; ?>
+							</div>
+							<p class="blog-card__meta"><?php echo esc_html( $s_date ); ?> &middot; <?php echo esc_html( $s_author ); ?> &middot; <?php echo esc_html( $s_read ); ?></p>
 							<h3 class="blog-featured__side-title"><?php echo esc_html( $s_title ); ?></h3>
-							<span class="blog-read-more"><?php echo $s_video ? 'Watch Video' : sf_post_cta( $s_cat_slug ); ?></span>
+							<span class="blog-card__link"><?php echo $s_video ? 'Watch Video' : sf_post_cta( $s_cat_slug ); ?></span>
 						</div>
 					</a>
 					<?php endfor; ?>
@@ -137,6 +153,7 @@ get_header();
 						$sp_link     = get_permalink( $sp_id );
 						$sp_date     = get_the_date( 'M j, Y', $sp_id );
 						$sp_author   = get_the_author_meta( 'display_name', $sp->post_author );
+						$sp_read     = sf_read_time( $sp->post_content );
 						$sp_video    = sf_cats_include_video( $sp_cats );
 						$sp_embed    = $sp_video ? sf_video_embed_url( $sp->post_content ) : '';
 						if ( empty( $sp_thumb ) && $sp_video ) {
@@ -156,8 +173,8 @@ get_header();
 								<?php if ( $sp_cat_name ) : ?><span class="sf-badge sf-badge--<?php echo esc_attr( $sp_cat_slug ); ?>"><?php echo esc_html( $sp_cat_name ); ?></span><?php endif; ?>
 								<span class="sf-badge sf-badge--featured">Featured</span>
 							</div>
+							<p class="blog-sticky__card-meta"><?php echo esc_html( $sp_date ); ?> &middot; <?php echo esc_html( $sp_author ); ?> &middot; <?php echo esc_html( $sp_read ); ?></p>
 							<h3 class="blog-sticky__card-title"><?php echo esc_html( get_the_title( $sp_id ) ); ?></h3>
-							<p class="blog-sticky__card-meta"><?php echo esc_html( $sp_date ); ?> &middot; <?php echo esc_html( $sp_author ); ?></p>
 							<span class="blog-sticky__card-link"><?php echo $sp_video ? 'Watch Video' : sf_post_cta( $sp_cat_slug ); ?></span>
 						</div>
 					</a>
@@ -216,8 +233,7 @@ get_header();
 							<?php if ( $featured ) : ?><span class="sf-badge sf-badge--featured">Featured</span><?php endif; ?>
 						</div>
 						<?php endif; ?>
-						<span class="blog-card__date">Published: <?php echo esc_html( $date ); ?></span>
-						<span class="blog-card__author">By <?php echo esc_html( $author ); ?></span>
+						<p class="blog-card__meta"><?php echo esc_html( $date ); ?> &middot; <?php echo esc_html( $author ); ?> &middot; <?php echo esc_html( sf_read_time( $content ) ); ?></p>
 						<h3 class="blog-card__title"><?php echo esc_html( $title ); ?></h3>
 						<span class="blog-card__link"><?php echo $is_video ? 'Watch Video' : sf_post_cta( $cat_slug ); ?></span>
 					</div>
@@ -242,12 +258,13 @@ get_header();
 (function () {
   'use strict';
 
-  var filterBtns  = document.querySelectorAll('.blog-filter__btn');
-  var grid        = document.querySelector('.blog-grid');
-  var loadMoreBtn = document.getElementById('blog-load-more');
-  var currentPage = 1;
-  var currentCat  = 'all';
-  var isLoading   = false;
+  var filterBtns    = document.querySelectorAll('.blog-filter__btn');
+  var grid          = document.querySelector('.blog-grid');
+  var loadMoreBtn   = document.getElementById('blog-load-more');
+  var loadMoreLabel = loadMoreBtn ? loadMoreBtn.innerHTML : '';
+  var currentPage   = 1;
+  var currentCat    = 'all';
+  var isLoading     = false;
 
   function buildCard(post) {
     var cat_slug  = post.cat_slug || '';
@@ -259,12 +276,16 @@ get_header();
     card.className = 'sf-card blog-card blog-card-animate';
     card.setAttribute('data-category', cat_slug);
     if (is_video && embed_url) { card.setAttribute('data-video-url', embed_url); }
+    var metaParts = [];
+    if (post.date)      metaParts.push(post.date);
+    if (post.author)    metaParts.push(post.author);
+    if (post.read_time) metaParts.push(post.read_time);
+    var metaLine = metaParts.length ? '<p class="blog-card__meta">' + metaParts.join(' · ') + '</p>' : '';
     card.innerHTML =
       (post.thumb ? '<div class="blog-card__image">' + post.thumb + '</div>' : '') +
       '<div class="blog-card__body">' +
         ((post.is_featured || cat_name) ? '<div class="blog-card__badges">' + (cat_name ? '<span class="sf-badge sf-badge--' + cat_slug + '">' + cat_name + '</span>' : '') + (post.is_featured ? '<span class="sf-badge sf-badge--featured">Featured</span>' : '') + '</div>' : '') +
-        (post.date ? '<span class="blog-card__date">Published: ' + post.date + '</span>' : '') +
-        (post.author ? '<span class="blog-card__author">By ' + post.author + '</span>' : '') +
+        metaLine +
         '<h3 class="blog-card__title">' + post.title + '</h3>' +
         '<span class="blog-card__link">' + (is_video ? 'Watch Video' : ({ 'success-stories': 'See the Results', 'press': 'Read It', 'blog': 'Dig In' }[cat_slug] || 'Keep Reading')) + '</span>' +
       '</div>';
@@ -274,12 +295,19 @@ get_header();
   function fetchPosts(page, category, replace) {
     if (isLoading || typeof salefishAjax === 'undefined') return;
     isLoading = true;
+    if (loadMoreBtn) {
+      loadMoreBtn.innerHTML = 'Loading…';
+      loadMoreBtn.disabled = true;
+    }
 
     var formData = new FormData();
     formData.append('action',   'load_more_post');
     formData.append('paged',    page);
     formData.append('category', category);
-    formData.append('nonce',    salefishAjax.loadMoreNonce);
+    // No nonce — the endpoint is read-only public data and the page HTML
+    // is cache-able for a week (LSCache). A frozen-in-cache nonce would
+    // expire after 12-24 h and break the button. See functions.php
+    // load_more_post() for the full reasoning.
 
     fetch(salefishAjax.ajaxurl, { method: 'POST', body: formData })
       .then(function (r) { return r.json(); })
@@ -291,13 +319,23 @@ get_header();
         (res.posts || []).forEach(function (post) {
           grid.appendChild(buildCard(post));
         });
+        if (replace && (res.posts || []).length === 0) {
+          grid.innerHTML = '<div class="blog-empty"><p>No articles yet in this category — check back soon.</p></div>';
+        }
         if (loadMoreBtn) {
-          loadMoreBtn.style.display = (page >= res.max || !res.max) ? 'none' : '';
+          var hasMore = page < res.max && !!res.max;
+          loadMoreBtn.style.display = hasMore ? '' : 'none';
+          loadMoreBtn.innerHTML = loadMoreLabel;
+          loadMoreBtn.disabled = false;
         }
         isLoading = false;
       })
       .catch(function () {
         // Network / JSON error — reset gate so the user can retry.
+        if (loadMoreBtn) {
+          loadMoreBtn.innerHTML = loadMoreLabel;
+          loadMoreBtn.disabled = false;
+        }
         isLoading = false;
       });
     // Note: .finally() is intentionally avoided — it is not supported in

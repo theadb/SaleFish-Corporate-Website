@@ -93,8 +93,7 @@ get_header();
                             <?php if ( $featured ) : ?><span class="sf-badge sf-badge--featured">Featured</span><?php endif; ?>
                         </div>
                         <?php endif; ?>
-                        <span class="blog-card__date">Published: <?php echo esc_html( $date ); ?></span>
-                        <span class="blog-card__author">By <?php echo esc_html( $author ); ?></span>
+                        <p class="blog-card__meta"><?php echo esc_html( $date ); ?> &middot; <?php echo esc_html( $author ); ?> &middot; <?php echo esc_html( sf_read_time( $content ) ); ?></p>
                         <h3 class="blog-card__title"><?php echo esc_html( $title ); ?></h3>
                         <span class="blog-card__link"><?php echo $is_video ? 'Watch Video' : sf_post_cta( $cat_slug ); ?></span>
                     </div>
@@ -119,11 +118,12 @@ get_header();
 (function () {
   'use strict';
 
-  var grid        = document.querySelector('.blog-grid');
-  var loadMoreBtn = document.getElementById('blog-load-more');
-  var currentPage = 1;
-  var currentCat  = '<?php echo esc_js( $cat_filter ); ?>';
-  var isLoading   = false;
+  var grid          = document.querySelector('.blog-grid');
+  var loadMoreBtn   = document.getElementById('blog-load-more');
+  var loadMoreLabel = loadMoreBtn ? loadMoreBtn.innerHTML : '';
+  var currentPage   = 1;
+  var currentCat    = '<?php echo esc_js( $cat_filter ); ?>';
+  var isLoading     = false;
 
   function buildCard(post) {
     var cat_slug  = post.cat_slug || '';
@@ -135,12 +135,16 @@ get_header();
     card.className = 'sf-card blog-card blog-card-animate';
     card.setAttribute('data-category', cat_slug);
     if (is_video && embed_url) { card.setAttribute('data-video-url', embed_url); }
+    var metaParts = [];
+    if (post.date)      metaParts.push(post.date);
+    if (post.author)    metaParts.push(post.author);
+    if (post.read_time) metaParts.push(post.read_time);
+    var metaLine = metaParts.length ? '<p class="blog-card__meta">' + metaParts.join(' · ') + '</p>' : '';
     card.innerHTML =
       (post.thumb ? '<div class="blog-card__image">' + post.thumb + '</div>' : '') +
       '<div class="blog-card__body">' +
         ((post.is_featured || cat_name) ? '<div class="blog-card__badges">' + (cat_name ? '<span class="sf-badge sf-badge--' + cat_slug + '">' + cat_name + '</span>' : '') + (post.is_featured ? '<span class="sf-badge sf-badge--featured">Featured</span>' : '') + '</div>' : '') +
-        (post.date ? '<span class="blog-card__date">Published: ' + post.date + '</span>' : '') +
-        (post.author ? '<span class="blog-card__author">By ' + post.author + '</span>' : '') +
+        metaLine +
         '<h3 class="blog-card__title">' + post.title + '</h3>' +
         '<span class="blog-card__link">' + (is_video ? 'Watch Video' : ({ 'success-stories': 'See the Results', 'press': 'Read It', 'blog': 'Dig In' }[cat_slug] || 'Keep Reading')) + '</span>' +
       '</div>';
@@ -150,11 +154,16 @@ get_header();
   function fetchMore(page, category) {
     if (isLoading || typeof salefishAjax === 'undefined') return;
     isLoading = true;
+    if (loadMoreBtn) {
+      loadMoreBtn.innerHTML = 'Loading…';
+      loadMoreBtn.disabled = true;
+    }
     var formData = new FormData();
     formData.append('action',   'load_more_post');
     formData.append('paged',    page);
     formData.append('category', category);
-    formData.append('nonce',    salefishAjax.loadMoreNonce);
+    // No nonce — read-only public endpoint, cache-incompatible otherwise.
+    // See functions.php load_more_post() for the full reasoning.
     fetch(salefishAjax.ajaxurl, { method: 'POST', body: formData })
       .then(function (r) { return r.json(); })
       .then(function (res) {
@@ -164,11 +173,17 @@ get_header();
         (res.posts || []).forEach(function (post) { grid.appendChild(buildCard(post)); });
         if (loadMoreBtn) {
           loadMoreBtn.style.display = (page >= res.max || !res.max) ? 'none' : '';
+          loadMoreBtn.innerHTML = loadMoreLabel;
+          loadMoreBtn.disabled = false;
         }
         isLoading = false;
       })
       .catch(function () {
         // Network / JSON error — reset gate so the user can retry.
+        if (loadMoreBtn) {
+          loadMoreBtn.innerHTML = loadMoreLabel;
+          loadMoreBtn.disabled = false;
+        }
         isLoading = false;
       });
     // Note: .finally() intentionally avoided — not supported in
