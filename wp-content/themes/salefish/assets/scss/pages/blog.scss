@@ -1,8 +1,10 @@
-// ─── CARD ANIMATION ────────────────────────────────────────────────────────
-// Uses global cardIn keyframe defined in _general.scss
-.blog-card-animate {
-  animation: cardIn 0.45s ease both;
-}
+// ─── CARD ANIMATION: DISABLED ───────────────────────────────────────────────
+// All page-load reveal animations were removed (per user request — they
+// caused "second half of page takes 3-10 seconds to appear" on mobile).
+// Class kept inert so existing markup + AJAX load-more buildCard() still
+// emit it without any visual effect. Cards render instantly on first
+// paint, including freshly-loaded ones.
+.blog-card-animate { animation: none; }
 
 // ─── STICKY / FEATURED SUBSECTION ──────────────────────────────────────────
 .blog-sticky {
@@ -78,8 +80,10 @@
     &-meta {
       font-family: var(--sf-font-sans);
       font-size: 0.7rem;
+      font-weight: 400;
       color: hsl(var(--sf-muted-fg));
       margin: 0;
+      line-height: 1.4;
     }
 
     &-link {
@@ -178,6 +182,23 @@
   font-family: var(--sf-font-sans);
   font-size: 0.76rem;
   color: hsl(var(--sf-muted-fg));
+}
+
+// ─── Unified card meta line ────────────────────────────────────────────────
+// Single shared rule used by every card variant so "Date · Author · Read Time"
+// looks identical regardless of which card type renders it. Sticky cards
+// (smaller body) get a tightened size override below.
+.blog-card__meta {
+  font-family: var(--sf-font-sans);
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: hsl(var(--sf-muted-fg));
+  margin: 0;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+.blog-sticky__card-body .blog-card__meta {
+  font-size: 0.7rem;
 }
 
 .blog-read-more {

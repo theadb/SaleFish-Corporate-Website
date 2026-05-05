@@ -30,14 +30,13 @@
   border-radius: 2px;
 }
 
-// ── Global card entrance animation ───────────────────────────────────────
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0);    }
-}
-.card-animate {
-  animation: cardIn 0.45s ease both;
-}
+// ── Global card entrance animation: DISABLED ──────────────────────────────
+// Class names + keyframe are preserved (templates still emit
+// `class="... card-animate"` and the AJAX load-more buildCard() still
+// applies `.blog-card-animate`). The keyframe is now a no-op so the
+// class doesn't trigger any animation — cards render instantly.
+@keyframes cardIn { from, to { opacity: 1; transform: none; } }
+.card-animate { animation: none; }
 
 // ── Hero gradient orbs — autonomous ambient drift ────────────────────────
 // Keep translate values small so the gradient centre never drifts fully
@@ -122,6 +121,9 @@ picture {
   background: $dark_purple;
   z-index: 1000;
   pointer-events: none;
+  // Force its own compositor layer so scrolling beneath it never re-paints
+  // the notch fill — eliminates a Safari source of scroll jank.
+  transform: translateZ(0);
   // Hide entirely on devices/viewports that don't have a safe-area inset.
   // env() returns 0 when not set, but height:0 is still rendered — this
   // belt-and-braces media query keeps the element out of the layout.
@@ -176,14 +178,19 @@ body.sf-light-header .sf-notch-fill {
   animation: sf-skel-shimmer 1.4s ease-in-out infinite;
 }
 
-// ─── Scroll-reveal: disabled — all [data-reveal] elements render visible ─────
-// The scroll-reveal system was removed because iOS Safari's compositing layer
-// re-creation caused content to vanish when scrolling back up the page.
-// All [data-reveal] elements (including legacy [data-aos] converted ones)
-// now render at full opacity immediately — no JS-gated hiding, no fade-in
-// animations. First paint matches final paint exactly.
-// The sfRevealInit JS in header.php still runs (adds sf-revealed) but has no
-// visible effect since neither state hides anything.
+// ─── Reveal animation: REMOVED ────────────────────────────────────────────
+// The previous .sf-fade-pre / .sf-fade-in / IntersectionObserver-driven
+// system caused the "second half of the page takes 3-10 seconds to load"
+// symptom on mobile and on cached pages — and the user explicitly
+// asked to remove animations entirely in favour of instant rendering.
+// All [data-aos] / data-fade-* attributes in the templates are now
+// inert (no CSS rules match them). Page elements render at their
+// natural styles immediately on first paint.
+//
+// The CSS is preserved as documentation only — kept intentionally short:
+// don't add keyframes / hide rules back here. If you want page entrance
+// animations again, build a new system that doesn't depend on
+// JS-injected hiding, since that pattern is what kept breaking.
 
 input,
 select {
@@ -253,6 +260,11 @@ p {
 html {
   overflow-x: hidden;
   scroll-behavior: smooth;
+  // Lock the text-zoom that iOS Safari applies on landscape rotation —
+  // prevents the body re-laying out (and the user's scroll position
+  // jumping) when the device rotates.
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 // Give every anchor target breathing room below the fixed header (~70–80px tall).
@@ -291,6 +303,10 @@ body {
   // Crisp subpixel-free text rendering — noticeable on Retina/P3 displays in Safari
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  // Disable scroll-anchoring on the body so AOS-style reveals firing mid-scroll
+  // never cause Safari to "jump" the scroll position to keep an element in view.
+  // Sections that should anchor (e.g. articles) can opt in locally.
+  overflow-anchor: none;
 }
 
 // ── iOS / Safari interaction polish ──────────────────────────────────────────
