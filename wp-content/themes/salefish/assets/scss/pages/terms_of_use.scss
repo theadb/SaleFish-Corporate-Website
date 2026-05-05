@@ -28,25 +28,18 @@
       clip-path: polygon(0 0, 100% 0%, 100% 94%, 0 100%);
     }
 
-    // Ambient orb — matches Our Story pattern
+    // Ambient glow — consolidated from an animated orb + static shimmer into
+    // a single static multi-layer gradient. Removes the heroOrbFloat /
+    // heroOrbPulse animations and their permanent compositor layer; legal
+    // pages are read-once content where the subtle motion was not worth
+    // the ~8 MB of GPU memory it held continuously.
     &::before {
       content: '';
       position: absolute;
-      inset: -40% -30%;
-      background: radial-gradient(ellipse 52% 60% at 36% 60%, rgba($light_purple, 0.62) 0%, transparent 64%);
-      animation: heroOrbFloat 22s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite,
-                 heroOrbPulse 8s ease-in-out infinite;
-      pointer-events: none;
-      will-change: transform;
-      z-index: 0;
-    }
-
-    // Second shimmer orb
-    &::after {
-      content: '';
-      position: absolute;
-      inset: -20% -10%;
-      background: radial-gradient(ellipse 50% 35% at 80% 30%, rgba(255,255,255, 0.04) 0%, transparent 60%);
+      inset: 0;
+      background:
+        radial-gradient(ellipse 52% 60% at 36% 60%, rgba($light_purple, 0.30) 0%, transparent 64%),
+        radial-gradient(ellipse 50% 35% at 80% 30%, rgba(255,255,255, 0.04) 0%, transparent 60%);
       pointer-events: none;
       z-index: 0;
     }
