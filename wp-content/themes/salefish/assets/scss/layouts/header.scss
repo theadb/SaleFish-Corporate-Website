@@ -328,13 +328,20 @@ header {
   width: 100%;
   max-width: 1800px;
   opacity: 0;
-  visibility: hidden;
+  // No `visibility: hidden` + transition. Visibility is a discrete
+  // property — it doesn't animate continuously, it flips at the END of
+  // the transition. Combined with opacity transition this meant the
+  // menu was invisible for the full 180 ms of the transition and then
+  // popped in suddenly — which felt like a slow, laggy menu open on
+  // every click. Using opacity + pointer-events means the fade starts
+  // instantly the moment the user clicks. `inert` (toggled by the menu
+  // controller in header.php) handles keyboard / a11y so we don't need
+  // visibility for that either.
   pointer-events: none;
-  transition: opacity 0.18s ease, visibility 0.18s ease;
+  transition: opacity 0.18s ease;
 
   &.is-open {
     opacity: 1;
-    visibility: visible;
     pointer-events: auto;
   }
 
