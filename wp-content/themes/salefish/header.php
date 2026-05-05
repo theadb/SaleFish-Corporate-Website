@@ -21,9 +21,10 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 
 ?>
 <!DOCTYPE html>
-<html <?php language_attributes(); ?>>
+<html <?php language_attributes(); ?> class="no-js">
 
 <head>
+	<script>document.documentElement.className = document.documentElement.className.replace('no-js','js');</script>
 	<meta
 		charset="<?php bloginfo('charset'); ?>">
 	<meta content='width=device-width, initial-scale=1.0, viewport-fit=cover' name='viewport' />
@@ -68,54 +69,36 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 	?>
 	<meta name="theme-color" content="<?php echo esc_attr( $_sf_theme_color ); ?>">
 	<link rel="preload" as="image" href="<?php echo esc_url( get_template_directory_uri() ); ?>/img/dark_salefish_logo.png">
-	<!-- Preload the three Poppins weights used above the fold so they're
-	     fetched in parallel with CSS instead of after it. Poppins-Bold is the
-	     LCP-critical hero headline weight — without this preload Lighthouse's
-	     critical-request chain is HTML → CSS → Bold (8 s LCP on mobile). -->
+	<!-- Preload only the LCP-critical Poppins weights: Regular (body) and
+	     Bold (hero headline). SemiBold is used for navigation and minor
+	     headings and can FOUT-swap via font-display: swap without
+	     impacting LCP. Three parallel font preloads were contending for
+	     bandwidth on first paint; dropping SemiBold saves ~30 KB on the
+	     critical path and noticeably speeds up first content paint. -->
 	<link rel="preload" as="font" type="font/woff2" crossorigin href="<?php echo esc_url( get_template_directory_uri() ); ?>/fonts/Poppins-Regular.woff2">
-	<link rel="preload" as="font" type="font/woff2" crossorigin href="<?php echo esc_url( get_template_directory_uri() ); ?>/fonts/Poppins-SemiBold.woff2">
 	<link rel="preload" as="font" type="font/woff2" crossorigin href="<?php echo esc_url( get_template_directory_uri() ); ?>/fonts/Poppins-Bold.woff2">
 	<?php
-	// ── LCP image preload ──────────────────────────────────────────────────────
-	// Preload the page's hero AVIF as image with type=image/avif so it starts
-	// downloading at the same time as CSS, instead of waiting for the body
-	// parser to discover the <img>. Major PageSpeed mobile LCP win.
-	// Only emit when the AVIF actually exists on disk — never preload a 404.
+	// ── LCP image preload (all major hero pages) ────────────────────────────
+	// Tells the browser to start downloading the page's LCP hero AVIF in
+	// parallel with CSS, instead of waiting for the body parser to
+	// discover the <img> tag. Big PageSpeed mobile LCP win. Generalized
+	// from front-page-only to every hero-driven page via the
+	// sf_preload_hero_image() helper in functions.php.
 	if ( is_front_page() ) {
 		$_sf_hero_url = get_field( 'hero_image' );
 		if ( $_sf_hero_url ) {
-			$_sf_upload = wp_get_upload_dir();
-			$_sf_hero_path = '';
-			if ( strpos( $_sf_hero_url, $_sf_upload['baseurl'] ) === 0 ) {
-				$_sf_hero_path = $_sf_upload['basedir'] . substr( $_sf_hero_url, strlen( $_sf_upload['baseurl'] ) );
-			} elseif ( strpos( $_sf_hero_url, get_template_directory_uri() ) === 0 ) {
-				$_sf_hero_path = get_template_directory() . substr( $_sf_hero_url, strlen( get_template_directory_uri() ) );
-			}
-			if ( $_sf_hero_path && preg_match( '/\.(png|jpe?g)$/i', $_sf_hero_path ) ) {
-				$_sf_avif_path = preg_replace( '/\.(png|jpe?g)$/i', '.avif', $_sf_hero_path );
-				if ( file_exists( $_sf_avif_path ) ) {
-					$_sf_avif_url  = preg_replace( '/\.(png|jpe?g)$/i', '.avif', $_sf_hero_url );
-					// Look for a `-480w` mobile variant; if present, preload
-					// via imagesrcset so the device picks the right size.
-					$_sf_base_path = preg_replace( '/\.(png|jpe?g)$/i', '', $_sf_hero_path );
-					$_sf_base_url  = preg_replace( '/\.(png|jpe?g)$/i', '', $_sf_hero_url );
-					$_sf_variants  = [];
-					foreach ( [ 320, 480, 640, 800 ] as $w ) {
-						if ( file_exists( $_sf_base_path . '-' . $w . 'w.avif' ) ) {
-							$_sf_variants[] = esc_url( $_sf_base_url . '-' . $w . 'w.avif' ) . ' ' . $w . 'w';
-						}
-					}
-					if ( $_sf_variants ) {
-						$_sf_size = @getimagesize( $_sf_avif_path );
-						$_sf_full_w = ! empty( $_sf_size[0] ) ? $_sf_size[0] : 1024;
-						$_sf_variants[] = esc_url( $_sf_avif_url ) . ' ' . $_sf_full_w . 'w';
-						echo '<link rel="preload" as="image" type="image/avif" imagesrcset="' . implode( ', ', $_sf_variants ) . '" imagesizes="(max-width: 768px) 100vw, 50vw" fetchpriority="high">' . "\n";
-					} else {
-						echo '<link rel="preload" as="image" type="image/avif" href="' . esc_url( $_sf_avif_url ) . '" fetchpriority="high">' . "\n";
-					}
-				}
-			}
+			sf_preload_hero_image( $_sf_hero_url, '(max-width: 768px) 100vw, 50vw' );
 		}
+	} elseif ( is_page_template( 'page-our-story.php' ) || is_page_template( 'page-partners.php' ) ) {
+		// Both pages use the same first hero slide.
+		sf_preload_hero_image(
+			get_template_directory_uri() . '/img/hero-slides/new-construction-sales-platform-condo-tower-2560w.png',
+			'100vw'
+		);
+	} elseif ( is_page_template( 'page-awards.php' ) ) {
+		sf_preload_hero_image( get_template_directory_uri() . '/img/trophy-v3.png' );
+	} elseif ( is_page_template( 'page-success.php' ) ) {
+		sf_preload_hero_image( get_template_directory_uri() . '/img/success/success_hero.png' );
 	}
 	?>
 	<?php wp_head(); ?>
@@ -297,96 +280,147 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 		// the sweep so anything that was visible before staying-back is
 		// visible again on return.
 		function sfRevealInit() {
-			// Auto-promote legacy [data-aos="…"] markup to [data-reveal] so
-			// the existing template attributes (left over from the old AOS
-			// system) become scroll-reveal triggers without per-template
-			// edits. The visual direction variants (fade-up / fade-left /
-			// etc.) are flattened to a single subtle rise — keeping the
-			// effect consistent and reduced-motion-friendly.
-			document.querySelectorAll('[data-aos]:not([data-reveal])').forEach(function (el) {
-				el.setAttribute('data-reveal', '');
-				// Preserve direction hint so CSS can apply the right initial transform.
-				var aosVal = el.getAttribute('data-aos') || '';
-				if      (aosVal === 'fade-left')                          el.setAttribute('data-reveal-dir', 'left');
-				else if (aosVal === 'fade-right')                         el.setAttribute('data-reveal-dir', 'right');
-				else if (aosVal === 'fade-zoom-in' || aosVal === 'zoom-in') el.setAttribute('data-reveal-dir', 'zoom');
-				else if (aosVal === 'fade-in')                            el.setAttribute('data-reveal-dir', 'fade');
-				// fade-up / fade-down / unrecognised → default (translate up, no dir attr)
-				var delay = el.getAttribute('data-aos-delay');
-				if (delay && parseInt(delay, 10) > 0 && !el.getAttribute('data-reveal-delay')) {
-					// Round to nearest 100ms bucket to match our CSS variants.
-					var d = parseInt(delay, 10);
-					var bucket = d <= 150 ? 100 : d <= 250 ? 200 : d <= 350 ? 300 : 400;
-					el.setAttribute('data-reveal-delay', String(bucket));
+			// Selector: every legacy [data-aos] element + every [data-reveal]
+			// element + every major auto-tagged section. We pick these all
+			// up in one pass.
+			var SEL = [
+				'[data-aos]',
+				'[data-reveal]',
+				'main > section',
+				'main > .sf-section',
+				'main > div > section',
+				'.sf-footer-posts > .max_wrapper > *',
+				'footer > .max_wrapper > *',
+				// Features section on the homepage uses <div class="salefish_features">
+				// (not <section>), and each feature row is an independent .feature
+				// div so they should cascade in individually as the user scrolls.
+				'.salefish_features',
+				'.salefish_features .feature',
+				// Other common content blocks the auto-tag would otherwise miss.
+				'.pillars .swiper-slide',
+				'.contact .col',
+				'.stats_bar .stat',
+				'.platform .platform__split > *'
+				// Note: .blog-card, .blog-featured__*, .blog-sticky__card, .sf-card
+				// are intentionally NOT in this list — they already have their own
+				// .blog-card-animate / .card-animate keyframe animations with
+				// inline `animation-delay` staggers. Adding sf-fade on top caused
+				// the cards to flash (two competing animations).
+			].join(',');
+
+			var els = Array.prototype.slice.call(document.querySelectorAll(SEL));
+			if (!els.length) return;
+
+			// Skip animation entirely for old browsers and reduced-motion
+			// users. Content stays at its natural visible state.
+			if (!('IntersectionObserver' in window)) return;
+			if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+			// Filter to ONLY elements below the fold. Above-the-fold
+			// content stays at natural opacity (no animation, no
+			// pre-hide-then-reveal flash). Big perf win: previously we
+			// were applying .sf-fade-pre to 100+ elements at
+			// DOMContentLoaded, including all the visible hero/header
+			// content, which forced a style recalc + paint hitch on
+			// every page load.
+			var belowFold = [];
+			for (var i = 0; i < els.length; i++) {
+				var el = els[i];
+				var r = el.getBoundingClientRect();
+				if (r.top >= window.innerHeight) {
+					belowFold.push(el);
 				}
+			}
+			if (!belowFold.length) return;
+
+			// Phase 1: tag every below-the-fold candidate with .sf-fade-pre,
+			// which is the CSS hide rule. We also lift the legacy data-aos
+			// direction/delay onto explicit data-fade-* attributes so the
+			// keyframe variants match.
+			belowFold.forEach(function (el) {
+				var aosVal = el.getAttribute('data-aos') || el.getAttribute('data-reveal-dir') || '';
+				if      (aosVal === 'fade-left')  el.setAttribute('data-fade-dir', 'left');
+				else if (aosVal === 'fade-right') el.setAttribute('data-fade-dir', 'right');
+				else if (aosVal === 'fade-down')  el.setAttribute('data-fade-dir', 'down');
+				else if (aosVal === 'zoom-in' || aosVal === 'fade-zoom-in') el.setAttribute('data-fade-dir', 'zoom');
+				else if (aosVal === 'fade-in')    el.setAttribute('data-fade-dir', 'fade');
+				// Else: default fade-up (translate up).
+
+				var delayAttr = el.getAttribute('data-aos-delay') || el.getAttribute('data-reveal-delay');
+				if (delayAttr) {
+					var d = parseInt(delayAttr, 10);
+					if (d > 0) {
+						var bucket = d <= 150 ? 100 : d <= 250 ? 200 : d <= 350 ? 300 : 400;
+						el.setAttribute('data-fade-delay', String(bucket));
+					}
+				}
+
+				el.classList.add('sf-fade-pre');
 			});
 
-			if (!('IntersectionObserver' in window)) {
-				// Old browsers: skip the animation entirely, content visible.
-				document.querySelectorAll('[data-reveal]').forEach(function (el) {
-					el.classList.add('sf-revealed');
-				});
-				return;
+			// reveal(): adds .sf-fade-in to play the animation, then strips
+			// BOTH .sf-fade-pre and .sf-fade-in after animationend so the
+			// element ends up with NO reveal-related CSS classes. This is
+			// the permanent fix for the "content disappears on scroll-back"
+			// iOS Safari bug — once the classes are gone, there's no
+			// opacity:0 rule for Safari to revert to when it recreates the
+			// compositor layer during scroll. The element just renders at
+			// its natural styles forever.
+			function reveal(el) {
+				if (el.classList.contains('sf-fade-in')) return;
+				el.classList.add('sf-fade-in');
+				el.addEventListener('animationend', function () {
+					el.classList.remove('sf-fade-pre');
+					el.classList.remove('sf-fade-in');
+				}, { once: true });
+				// Belt-and-braces: even if animationend never fires (animation
+				// was suppressed for any reason), strip the classes after
+				// 1.5x the animation duration so we never end up with stuck
+				// hidden content.
+				setTimeout(function () {
+					el.classList.remove('sf-fade-pre');
+					el.classList.remove('sf-fade-in');
+				}, 1000);
 			}
-			if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
-				document.querySelectorAll('[data-reveal]').forEach(function (el) {
-					el.classList.add('sf-revealed');
-				});
-				return;
-			}
+
+			// IntersectionObserver — fires as soon as the element's TOP
+			// edge enters the viewport. The 80px lookahead means the
+			// animation has ~80px of head-start before the user actually
+			// reaches the section, so by the time it's centered in their
+			// view, the fade is already finishing.
 			var io = new IntersectionObserver(function (entries) {
 				entries.forEach(function (entry) {
 					if (entry.isIntersecting) {
-						entry.target.classList.add('sf-revealed');
+						reveal(entry.target);
 						io.unobserve(entry.target);
 					}
 				});
 			}, {
-				// 300px look-ahead means elements queue for reveal well before
-				// the user reaches them — fast scrollers won't miss content.
-				rootMargin: '0px 0px 300px 0px',
+				rootMargin: '0px 0px 80px 0px',
 				threshold: 0,
 			});
-			document.querySelectorAll('[data-reveal]:not(.sf-revealed)').forEach(function (el) {
-				// If the element is ALREADY in the viewport at init time,
-				// reveal immediately without waiting for IO (which would
-				// fire ~16ms later, causing a visible flash). This covers
-				// page loads where data-reveal elements are above the fold.
-				var rect = el.getBoundingClientRect();
-				if (rect.top < window.innerHeight + 300 && rect.bottom > 0) {
-					el.classList.add('sf-revealed');
-				} else {
-					io.observe(el);
-				}
-			});
 
-			// Scroll-stop sweep: 150ms after scrolling halts, reveal any
-			// [data-reveal] element whose top edge has already passed the
-			// viewport bottom (i.e. fast-scrolled past before IO could fire).
-			var _sfScrollTimer = null;
-			window.addEventListener('scroll', function () {
-				clearTimeout(_sfScrollTimer);
-				_sfScrollTimer = setTimeout(function () {
-					var vh = window.innerHeight;
-					document.querySelectorAll('[data-reveal]:not(.sf-revealed)').forEach(function (el) {
-						var rect = el.getBoundingClientRect();
-						if (rect.top < vh + 300 && rect.bottom > -300) {
-							el.classList.add('sf-revealed');
-							io.unobserve(el);
-						}
-					});
-				}, 150);
-			}, { passive: true });
+			// Observe every below-fold candidate. They'll reveal as the
+			// user scrolls to them.
+			belowFold.forEach(function (el) { io.observe(el); });
+
+			// Safety net: 5 seconds after init, reveal anything still
+			// hidden. No content can be permanently lost.
+			setTimeout(function () {
+				document.querySelectorAll('.sf-fade-pre').forEach(function (el) {
+					reveal(el);
+				});
+			}, 5000);
 		}
 		document.addEventListener('DOMContentLoaded', sfRevealInit);
-		// bfcache restoration: re-reveal anything in viewport now.
+		// bfcache restoration: any element that was hidden when the user
+		// left the page should be revealed when they come back. We just
+		// strip both classes — no animation, instant visibility.
 		window.addEventListener('pageshow', function (e) {
 			if (e.persisted) {
-				document.querySelectorAll('[data-reveal]:not(.sf-revealed)').forEach(function (el) {
-					var rect = el.getBoundingClientRect();
-					if (rect.top < window.innerHeight && rect.bottom > 0) {
-						el.classList.add('sf-revealed');
-					}
+				document.querySelectorAll('.sf-fade-pre').forEach(function (el) {
+					el.classList.remove('sf-fade-pre');
+					el.classList.remove('sf-fade-in');
 				});
 			}
 		});
@@ -631,16 +665,16 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			</div>
 			<ul>
 				<li class="features_li">
-					<a href="/#features">MERKMALE</a>
+					<a href="/#features">Merkmale</a>
 				</li>
 				<li class="partners_nav">
-					<a href="/partners">PARTNER</a>
+					<a href="/partners">Partner</a>
 				</li>
 				<li class="blog_nav">
-					<a href="/blog">BLOG</a>
+					<a href="/blog">Blog</a>
 				</li>
 				<li class="contact_us_nav">
-					<a href="/contact-us">KONTAKTIERE UNS</a>
+					<a href="/contact-us">Kontaktiere Uns</a>
 				</li>
 				<li class="nav-demo">
 					<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
@@ -688,17 +722,17 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 			</div>
 			<ul>
 				<li class="features_li">
-					<a href="/#features">ÖZELLİKLERİ</a>
+					<a href="/#features">Özellikleri</a>
 				</li>
 
 				<li class="blog_nav">
-					<a href="/blog">BLOG</a>
+					<a href="/blog">Blog</a>
 				</li>
 				<li class="partners_nav">
-					<a href="/partners">ORTAKLAR</a>
+					<a href="/partners">Ortaklar</a>
 				</li>
 				<li class="contact_us_nav">
-					<a href="/tr/contact">BİZE ULAŞIN </a>
+					<a href="/tr/contact">Bize Ulaşın </a>
 				</li>
 				<li class="nav-demo">
 					<a href="/contact-us/" data-sf-modal="register">Get a Demo</a>
@@ -895,7 +929,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 
 <div class="sf-check-email-msg">
 	<div class="sf-check-email-msg__backdrop sf-check-email-close"></div>
-	<div class="sf-check-email-msg__panel">
+	<div class="sf-check-email-msg__panel" role="status" aria-live="polite">
 		<button class="sf-check-email-msg__close sf-check-email-close" aria-label="Close">
 			<i data-lucide="x"></i>
 		</button>
@@ -910,6 +944,12 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 	</div>
 </div>
 
+<!-- Registration + Partner modals — lazy-injected on first user
+     interaction with a [data-sf-modal] trigger (see footer.php).
+     Wrapped in <template> so the HTML is parsed but NOT instantiated as
+     live DOM, saving ~140 lines of layout/style cost on pages where the
+     modal is never opened. -->
+<template id="sf-modals-template">
 <!-- Registration Modal -->
 <div class="sf-reg-modal" id="sf-reg-modal" role="dialog" aria-modal="true" aria-label="Register for Access">
 	<div class="sf-reg-modal__backdrop"></div>
@@ -926,7 +966,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					<input type="hidden" name="sf_section" id="sf_reg_section" value="">
 					<div class="row">
 						<div class="col">
-							<label for="sf_reg_name">NAME</label>
+							<label for="sf_reg_name">Name</label>
 							<input type="text" placeholder="First Last" name="name" id="sf_reg_name" required>
 						</div>
 						<div class="col">
@@ -939,21 +979,21 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					</div>
 					<div class="row">
 						<div class="col">
-							<label for="sf_reg_company">COMPANY</label>
+							<label for="sf_reg_company">Company</label>
 							<input type="text" placeholder="Acme Ltd." name="company" id="sf_reg_company" required>
 						</div>
 						<div class="col">
-							<label for="sf_reg_title">TITLE</label>
+							<label for="sf_reg_title">Title</label>
 							<input type="text" placeholder="Sales Manager" name="title" id="sf_reg_title" required>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col">
-							<label for="sf_reg_email">EMAIL</label>
+							<label for="sf_reg_email">Email</label>
 							<input type="email" placeholder="name@developeremail.com" name="email" id="sf_reg_email" required>
 						</div>
 						<div class="col">
-							<label for="sf_reg_phone">PHONE NUMBER</label>
+							<label for="sf_reg_phone">Phone Number</label>
 							<input type="tel" placeholder="555-912-0088" name="phone" id="sf_reg_phone" required
 								data-parsley-minlength="12"
 								data-parsley-minlength-message="This value should be a valid phone number.">
@@ -967,7 +1007,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					</div>
 					<?php endif; ?>
 					<div class="row">
-						<input class="submit" type="submit" value="REGISTER">
+						<input class="submit" type="submit" value="Register">
 					</div>
 				</form>
 			</div>
@@ -990,27 +1030,27 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off">
 					<div class="row">
 						<div class="col">
-							<label for="sf_partner_name">NAME</label>
+							<label for="sf_partner_name">Name</label>
 							<input type="text" placeholder="First Last" name="name" id="sf_partner_name" required>
 						</div>
 						<div class="col">
-							<label for="sf_partner_company">COMPANY</label>
+							<label for="sf_partner_company">Company</label>
 							<input type="text" placeholder="Acme Ltd." name="company" id="sf_partner_company">
 						</div>
 					</div>
 					<div class="row">
 						<div class="col">
-							<label for="sf_partner_phone">PHONE NUMBER</label>
+							<label for="sf_partner_phone">Phone Number</label>
 							<input type="tel" placeholder="555-912-0088" name="phone" id="sf_partner_phone">
 						</div>
 						<div class="col">
-							<label for="sf_partner_email">EMAIL</label>
+							<label for="sf_partner_email">Email</label>
 							<input type="email" placeholder="name@company.com" name="email" id="sf_partner_email" required>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col">
-							<label for="sf_partner_want_to_do">WHAT DO YOU WANT TO DO?</label>
+							<label for="sf_partner_want_to_do">What Do You Want to Do?</label>
 							<select name="want_to_do" id="sf_partner_want_to_do" required>
 								<option value="Refer builders, brokers, or developers">Refer builders, brokers, or developers</option>
 								<option value="Resell the SaleFish platform">Resell the SaleFish platform</option>
@@ -1019,7 +1059,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 							</select>
 						</div>
 						<div class="col">
-							<label for="sf_partner_clients">HOW MANY CLIENTS COULD THIS HELP?</label>
+							<label for="sf_partner_clients">How Many Clients Could This Help?</label>
 							<select name="clients" id="sf_partner_clients" required>
 								<option value="1–3">1–3</option>
 								<option value="4–10">4–10</option>
@@ -1035,17 +1075,18 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 					</div>
 					<?php endif; ?>
 					<div class="row">
-						<input class="submit" type="submit" value="REGISTER">
+						<input class="submit" type="submit" value="Register">
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
+</template><!-- end #sf-modals-template — modals lazy-injected via window.sfEnsureModals() -->
 
 <div class="thank_you_msg">
 	<div class="thank_you_msg__backdrop close_thank_you_msg"></div>
-	<div class="thank_you_msg__panel">
+	<div class="thank_you_msg__panel" role="status" aria-live="polite">
 		<button class="thank_you_msg__close close_thank_you_msg" aria-label="Close">
 			<i data-lucide="x"></i>
 		</button>
@@ -1107,8 +1148,8 @@ if ($banner != ''):
 					<path
 						d="M411-480q-28 0-46-21t-13-49l12-72q8-43 40.5-70.5T480-720q44 0 76.5 27.5T597-622l12 72q5 28-13 49t-46 21H411Zm24-80h91l-8-49q-2-14-13-22.5t-25-8.5q-14 0-24.5 8.5T443-609l-8 49ZM124-441q-23 1-39.5-9T63-481q-2-9-1-18t5-17q0 1-1-4-2-2-10-24-2-12 3-23t13-19l2-2q2-19 15.5-32t33.5-13q3 0 19 4l3-1q5-5 13-7.5t17-2.5q11 0 19.5 3.5T208-626q1 0 1.5.5t1.5.5q14 1 24.5 8.5T251-596q2 7 1.5 13.5T250-570q0 1 1 4 7 7 11 15.5t4 17.5q0 4-6 21-1 2 0 4l2 16q0 21-17.5 36T202-441h-78Zm676 1q-33 0-56.5-23.5T720-520q0-12 3.5-22.5T733-563l-28-25q-10-8-3.5-20t18.5-12h80q33 0 56.5 23.5T880-540v20q0 33-23.5 56.5T800-440ZM0-240v-63q0-44 44.5-70.5T160-400q13 0 25 .5t23 2.5q-14 20-21 43t-7 49v65H0Zm240 0v-65q0-65 66.5-105T480-450q108 0 174 40t66 105v65H240Zm560-160q72 0 116 26.5t44 70.5v63H780v-65q0-26-6.5-49T754-397q11-2 22.5-2.5t23.5-.5Zm-320 30q-57 0-102 15t-53 35h311q-9-20-53.5-35T480-370Zm0 50Zm1-280Z" />
 				</svg>
-				<h2>BUILDER, DEVELOPER <span>OR SALES TEAM</span></h2>
-				<a class="profile_popup_close" href="#features">SALES APPS</a>
+				<h2>Builder, Developer <span>or Sales Team</span></h2>
+				<a class="profile_popup_close" href="#features">Sales Apps</a>
 			</div>
 		</div>
 		<p class="profile_popup_close">

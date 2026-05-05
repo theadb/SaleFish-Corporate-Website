@@ -242,6 +242,14 @@
         gap: 48px;
         width: max-content;
         padding: 8px 0;
+        // Force a permanent GPU compositor layer for the RAF-driven
+        // transform. Without these hints, iOS Safari drops the layer when
+        // the marquee scrolls off-screen and recreates it mid-animation
+        // when scrolled back — causing the visible stalls/jumps. The trio
+        // (will-change + backface-visibility + a baseline translate3d)
+        // keeps the track on its own GPU layer for the page's lifetime.
+        will-change: transform;
+        backface-visibility: hidden;
         // Position driven by requestAnimationFrame in home.js — no CSS animation
         // (CSS animation + webkit compositing = unreliable layer lifecycle)
 

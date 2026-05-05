@@ -5,16 +5,6 @@ $(function () {
   let page = $("main").attr("class");
   let pathname = $(location).attr("pathname");
   if (page === "home") {
-    $.fn.isInViewport = function () {
-      var elementTop = $(this).offset().top;
-      var elementBottom = elementTop + $(this).outerHeight();
-
-      var viewportTop = $(window).scrollTop();
-      var viewportBottom = viewportTop + $(window).height();
-
-      return elementBottom > viewportTop && elementTop < viewportBottom;
-    };
-
     const options = {
       startVal: 0,
     };
@@ -29,17 +19,29 @@ $(function () {
       $("#count_3").data("number"),
       options_2
     );
-    $(window).on("resize scroll", function () {
-      if ($(".contact .content .col").isInViewport()) {
-        setTimeout(() => {
-          count_1.start();
-          count_2.start();
-          count_3.start();
-        }, 500);
-      } else {
-        // do something else
-      }
-    });
+    // One-shot IntersectionObserver replaces the previous resize+scroll
+    // listener that called .offset() on every scroll event. The old handler
+    // forced a layout read on every scroll tick and was a major Safari jank
+    // source on the homepage. The observer fires once when the contact
+    // section enters the viewport, then disconnects.
+    var contactTrigger = document.querySelector(".contact .content .col");
+    if (contactTrigger && "IntersectionObserver" in window) {
+      var countStarted = false;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !countStarted) {
+            countStarted = true;
+            count_1.start();
+            count_2.start();
+            count_3.start();
+            io.disconnect();
+          }
+        });
+      }, { rootMargin: "0px 0px -10% 0px" });
+      io.observe(contactTrigger);
+    } else if (contactTrigger) {
+      count_1.start(); count_2.start(); count_3.start();
+    }
     let pillarsSwiper = new Swiper(".pillarsSwiper", {
       modules: [Navigation],
       slidesPerView: 1,
@@ -106,11 +108,29 @@ $(function () {
         if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
       }
 
-      // Pause when tab is hidden; resume when visible — prevents drift while
-      // the browser has paused RAF
+      // The marquee is paused when (a) the tab is hidden, or (b) the
+      // marquee is scrolled out of view. Safari aggressively throttles
+      // long-running RAF loops when their target is off-screen — that
+      // throttle manifests as the marquee "stalling" when you scroll
+      // back up to it. Pausing explicitly via IntersectionObserver and
+      // resuming on intersection sidesteps the throttle entirely; on
+      // resume the RAF clock is fresh and the animation runs smoothly.
+      var inView = true;
       document.addEventListener("visibilitychange", function () {
-        if (document.hidden) { stop(); } else if (everStarted) { start(); }
+        if (document.hidden) { stop(); } else if (everStarted && inView) { start(); }
       });
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            inView = e.isIntersecting;
+            if (inView && !document.hidden) {
+              if (everStarted) start();
+            } else {
+              stop();
+            }
+          });
+        }, { threshold: 0 }).observe(track);
+      }
 
       // Re-measure if the track ever grows (e.g. a font loads late and affects
       // logo container widths). halfWidth is only allowed to increase.
@@ -166,11 +186,23 @@ $(function () {
 
   if (pathname === "/" || pathname === "/au/") {
     let i = 0;
-    setInterval(() => {
-      $("#app_for_home").fadeOut(400, function () {
-        $(this).html(textArray[i]).fadeIn(400);
-        i == 3 ? (i = 0) : i++;
-      });
-    }, 2000);
+    let rotatorId = null;
+    function startRotator() {
+      if (rotatorId) return;
+      rotatorId = setInterval(() => {
+        if (document.hidden) return; // skip work while tab is backgrounded
+        $("#app_for_home").fadeOut(400, function () {
+          $(this).html(textArray[i]).fadeIn(400);
+          i == 3 ? (i = 0) : i++;
+        });
+      }, 2000);
+    }
+    function stopRotator() {
+      if (rotatorId) { clearInterval(rotatorId); rotatorId = null; }
+    }
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) stopRotator(); else startRotator();
+    });
+    startRotator();
   }
 });
