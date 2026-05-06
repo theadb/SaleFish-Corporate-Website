@@ -1,13 +1,13 @@
 <div class="bottom" id="contact_us">
 	<div class="form">
 		<div data-aos="fade-right">
-			<h3>
-            Streamline Sales, Eliminate Mistakes & Increase Your Bottom Line.
-			</h3>
-			<h1>
+			<p class="eyebrow">
+            Streamline Sales, Eliminate Mistakes &amp; Increase Your Bottom Line.
+			</p>
+			<h2>
             Don't Wait - You're Already
             Losing Ground.
-			</h1>
+			</h2>
 		</div>
 
 		<form id="reg_form" data-aos="fade-up">

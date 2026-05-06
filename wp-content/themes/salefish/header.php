@@ -666,16 +666,16 @@ $_sf_lang_options_html .= '</ul>';
 					</li>
 					<li class="mobile menu-sep"></li>
 					<li>
-						<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer">Live Chat Support</a>
+						<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer">Live Chat Support<span class="sr-only"> (opens in new tab)</span></a>
 					</li>
 					<li>
-						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App</a>
+						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App<span class="sr-only"> (opens in new tab)</span></a>
 					</li>
 					<li>
-						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer">Highrise Admin</a>
+						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer">Highrise Admin<span class="sr-only"> (opens in new tab)</span></a>
 					</li>
 					<li>
-						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise Admin</a>
+						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise Admin<span class="sr-only"> (opens in new tab)</span></a>
 					</li>
 				</ul>
 			</div>
@@ -684,7 +684,7 @@ $_sf_lang_options_html .= '</ul>';
 </div>
 
 
-<div class="floating_menu floating_menu_tr" inert>
+<div class="floating_menu floating_menu_tr" lang="tr" inert>
 	<div class="wrapper">
 		<div class="wrap">
 			<div class="top">
@@ -715,15 +715,15 @@ $_sf_lang_options_html .= '</ul>';
 					</li>
 			
 					<li class="mobile">
-						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App</a>
+						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App<span class="sr-only"> (opens in new tab)</span></a>
 					</li>
 					<li class="mobile">
 						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer">Highrise
-							Admin</a>
+							Admin<span class="sr-only"> (opens in new tab)</span></a>
 					</li>
 					<li class="mobile">
 						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise
-							Admin</a>
+							Admin<span class="sr-only"> (opens in new tab)</span></a>
 					</li>
 				</ul>
 			</div>
@@ -738,7 +738,7 @@ $_sf_lang_options_html .= '</ul>';
 	</div>
 </div>
 
-<div class="floating_menu floating_menu_de" inert>
+<div class="floating_menu floating_menu_de" lang="de" inert>
 	<div class="wrapper">
 		<div class="wrap">
 			<div class="top">
@@ -768,15 +768,15 @@ $_sf_lang_options_html .= '</ul>';
 					</li>
 			
 					<li class="mobile">
-						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App</a>
+						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App<span class="sr-only"> (opens in new tab)</span></a>
 					</li>
 					<li class="mobile">
 						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer">Highrise
-							Admin</a>
+							Admin<span class="sr-only"> (opens in new tab)</span></a>
 					</li>
 					<li class="mobile">
 						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise
-							Admin</a>
+							Admin<span class="sr-only"> (opens in new tab)</span></a>
 					</li>
 				</ul>
 			</div>
@@ -796,16 +796,16 @@ $_sf_lang_options_html .= '</ul>';
 		<div class="wrap">
 			<ul>
 				<li>
-					<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer">Live Chat Support</a>
+					<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer">Live Chat Support<span class="sr-only"> (opens in new tab)</span></a>
 				</li>
 				<li>
-					<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App</a>
+					<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App<span class="sr-only"> (opens in new tab)</span></a>
 				</li>
 				<li>
-					<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer">Highrise Admin</a>
+					<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer">Highrise Admin<span class="sr-only"> (opens in new tab)</span></a>
 				</li>
 				<li>
-					<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise Admin</a>
+					<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise Admin<span class="sr-only"> (opens in new tab)</span></a>
 				</li>
 			</ul>
 		</div>
@@ -815,7 +815,7 @@ $_sf_lang_options_html .= '</ul>';
 
 <div class="sf-check-email-msg">
 	<div class="sf-check-email-msg__backdrop sf-check-email-close"></div>
-	<div class="sf-check-email-msg__panel" role="status" aria-live="polite">
+	<div class="sf-check-email-msg__panel" role="dialog" aria-modal="true" aria-labelledby="sf-check-email-heading">
 		<button class="sf-check-email-msg__close sf-check-email-close" aria-label="Close">
 			<i data-lucide="x"></i>
 		</button>
@@ -823,7 +823,7 @@ $_sf_lang_options_html .= '</ul>';
 			<i data-lucide="mail"></i>
 		</div>
 		<span class="sf-check-email-msg__eyebrow">Almost there</span>
-		<h2 class="sf-check-email-msg__heading">Check your email.</h2>
+		<h2 class="sf-check-email-msg__heading" id="sf-check-email-heading">Check your email.</h2>
 		<p class="sf-check-email-msg__body">
 			We sent a confirmation link to <strong class="sf-check-email-msg__address"></strong>. Click it to complete your registration — the link expires in 48 hours.
 		</p>
@@ -837,7 +837,7 @@ $_sf_lang_options_html .= '</ul>';
      modal is never opened. -->
 <template id="sf-modals-template">
 <!-- Registration Modal -->
-<div class="sf-reg-modal" id="sf-reg-modal" role="dialog" aria-modal="true" aria-label="Register for Access">
+<div class="sf-reg-modal" id="sf-reg-modal" role="dialog" aria-modal="true" aria-labelledby="sf-reg-modal-title">
 	<div class="sf-reg-modal__backdrop"></div>
 	<div class="sf-reg-modal__panel">
 		<button class="sf-reg-modal__close" aria-label="Close dialog">
@@ -845,8 +845,8 @@ $_sf_lang_options_html .= '</ul>';
 		</button>
 		<div class="sf-reg-modal__scroll">
 			<div class="sf-reg-modal__inner">
-				<h3>Streamline Sales, Eliminate Mistakes &amp; Increase Your Bottom Line.</h3>
-				<h1>Don't Wait — You're Already Losing Ground.</h1>
+				<p class="sf-reg-modal__eyebrow">Streamline Sales, Eliminate Mistakes &amp; Increase Your Bottom Line.</p>
+				<h2 id="sf-reg-modal-title">Don't Wait — You're Already Losing Ground.</h2>
 				<form id="sf_reg_form">
 					<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off">
 					<input type="hidden" name="sf_section" id="sf_reg_section" value="">
@@ -902,7 +902,7 @@ $_sf_lang_options_html .= '</ul>';
 </div>
 
 <!-- Partner Registration Modal -->
-<div class="sf-partner-modal" id="sf-partner-modal" role="dialog" aria-modal="true" aria-label="Partner with SaleFish">
+<div class="sf-partner-modal" id="sf-partner-modal" role="dialog" aria-modal="true" aria-labelledby="sf-partner-modal-title">
 	<div class="sf-partner-modal__backdrop"></div>
 	<div class="sf-partner-modal__panel">
 		<button class="sf-partner-modal__close" aria-label="Close dialog">
@@ -910,8 +910,8 @@ $_sf_lang_options_html .= '</ul>';
 		</button>
 		<div class="sf-partner-modal__scroll">
 			<div class="sf-partner-modal__inner">
-				<h3>Got Clients, Code, or Just Great Contacts? SaleFish Makes It Easy to Earn and Integrate.</h3>
-				<h1>Want In? Pick Your Lane. <span>We'll Handle the Rest.</span></h1>
+				<p class="sf-partner-modal__eyebrow">Got Clients, Code, or Just Great Contacts? SaleFish Makes It Easy to Earn and Integrate.</p>
+				<h2 id="sf-partner-modal-title">Want In? Pick Your Lane. <span>We'll Handle the Rest.</span></h2>
 				<form id="sf_partner_form">
 					<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off">
 					<div class="row">
@@ -972,25 +972,25 @@ $_sf_lang_options_html .= '</ul>';
 
 <div class="thank_you_msg">
 	<div class="thank_you_msg__backdrop close_thank_you_msg"></div>
-	<div class="thank_you_msg__panel" role="status" aria-live="polite">
+	<div class="thank_you_msg__panel" role="dialog" aria-modal="true" aria-labelledby="sf-thank-you-heading">
 		<button class="thank_you_msg__close close_thank_you_msg" aria-label="Close">
 			<i data-lucide="x"></i>
 		</button>
 		<span class="thank_you_msg__eyebrow">Message received</span>
-		<h2 class="thank_you_msg__heading">Here’s what happens next.</h2>
+		<h2 class="thank_you_msg__heading" id="sf-thank-you-heading">Here’s what happens next.</h2>
 		<p class="thank_you_msg__body">
 			A SaleFish specialist will reach out within 1 business day to walk you through the platform and talk through your specific project needs — whether that’s inventory management, online signing, or end-to-end pre-construction sales workflow.
 		</p>
 	</div>
 </div>
 
-<div class="privacy_policy">
+<div class="privacy_policy" role="dialog" aria-modal="true" aria-labelledby="sf-privacy-heading">
 	<?php
         $content = get_post(48)
 ?>
 	<div class="wrapper">
-		<h1>Privacy Policy</h1>
-		<button class="close_privacy" aria-label="Close"><i data-lucide="x"></i></button>
+		<h2 id="sf-privacy-heading">Privacy Policy</h2>
+		<button class="close_privacy" aria-label="Close privacy policy dialog"><i data-lucide="x"></i></button>
 		<div class="wrap">
 			<?php echo wp_kses_post( $content->post_content ); ?>
 
@@ -998,13 +998,13 @@ $_sf_lang_options_html .= '</ul>';
 
 	</div>
 </div>
-<div class="terms_popup">
+<div class="terms_popup" role="dialog" aria-modal="true" aria-labelledby="sf-terms-heading">
 	<?php
     $content = get_post(39)
 ?>
 	<div class="wrapper">
-		<h1>Terms of Use</h1>
-		<button class="close_terms" aria-label="Close"><i data-lucide="x"></i></button>
+		<h2 id="sf-terms-heading">Terms of Use</h2>
+		<button class="close_terms" aria-label="Close terms of use dialog"><i data-lucide="x"></i></button>
 		<div class="wrap">
 			<?php echo wp_kses_post( $content->post_content ); ?>
 

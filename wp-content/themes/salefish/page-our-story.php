@@ -44,7 +44,7 @@ get_header();
 	<section class="intro">
 		<div class="intro__wrap">
 			<span class="eyebrow" data-aos="fade-up">About SaleFish</span>
-			<h1 data-aos="fade-up">Turn Great Real Estate Into Effortless Sales</h1>
+			<h2 data-aos="fade-up">Turn Great Real Estate Into Effortless Sales</h2>
 			<p data-aos="fade-up">You might not care about SaleFish's 15 years of experience making new real estate sales easier. We get it: in this industry, the only project that really matters is your next one. But with 1.5+ million users and 200,000+ transactions worth over $100 billion USD — you should pay attention. If the simple, streamlined SaleFish platform makes selling this easy for everyone else, imagine what we can do for you.</p>
 		</div>
 	</section>

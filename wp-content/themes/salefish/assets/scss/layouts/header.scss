@@ -1136,7 +1136,7 @@ header {
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: 500ms ease-in;
+  transition: opacity 500ms ease-in, visibility 500ms ease-in;
   z-index: 999;
 
   &.active {

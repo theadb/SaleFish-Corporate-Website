@@ -192,10 +192,10 @@ get_header();
 		<div class="sf-container">
 
 			<div class="blog-filter">
-				<button type="button" class="blog-filter__btn active" data-filter="all">All Articles</button>
-				<button type="button" class="blog-filter__btn" data-filter="success-stories">Success Stories</button>
-				<button type="button" class="blog-filter__btn" data-filter="press">Press</button>
-				<button type="button" class="blog-filter__btn" data-filter="videos">Videos</button>
+				<button type="button" class="blog-filter__btn active" data-filter="all" aria-pressed="true">All Articles</button>
+				<button type="button" class="blog-filter__btn" data-filter="success-stories" aria-pressed="false">Success Stories</button>
+				<button type="button" class="blog-filter__btn" data-filter="press" aria-pressed="false">Press</button>
+				<button type="button" class="blog-filter__btn" data-filter="videos" aria-pressed="false">Videos</button>
 			</div>
 
 			<div class="blog-grid">
@@ -222,6 +222,7 @@ get_header();
 				   class="sf-card blog-card blog-card-animate"
 				   style="animation-delay: <?php echo ($card_i * 0.07); ?>s"
 				   data-category="<?php echo esc_attr( $cat_slug ); ?>"
+				   aria-label="<?php echo esc_attr( $title ); ?>"
 				   <?php echo $is_video ? 'data-video-url="' . esc_attr( $embed ) . '"' : ''; ?>>
 					<?php if ( $thumb ) : ?>
 					<div class="blog-card__image"><?php echo $thumb; ?></div>
@@ -281,6 +282,7 @@ get_header();
     if (post.author)    metaParts.push(post.author);
     if (post.read_time) metaParts.push(post.read_time);
     var metaLine = metaParts.length ? '<p class="blog-card__meta">' + metaParts.join(' · ') + '</p>' : '';
+    card.setAttribute('aria-label', post.title || '');
     card.innerHTML =
       (post.thumb ? '<div class="blog-card__image">' + post.thumb + '</div>' : '') +
       '<div class="blog-card__body">' +
@@ -347,8 +349,9 @@ get_header();
   filterBtns.forEach(function (btn) {
     btn.addEventListener('click', function () {
       var filter = this.getAttribute('data-filter');
-      filterBtns.forEach(function (b) { b.classList.remove('active'); });
+      filterBtns.forEach(function (b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
       this.classList.add('active');
+      this.setAttribute('aria-pressed', 'true');
       currentCat  = filter;
       currentPage = 0; // fetchPosts success will set it to 1
       fetchPosts(1, filter, true);

@@ -40,7 +40,7 @@ if (is_array($fade_msg)) {
         <div class="hero__overlay" aria-hidden="true"></div>
         <div class="wrapper">
             <div class="wrap">
-                <h3 data-aos="fade-up" data-aos-delay="100">Make Money. Look Good Doing It.</h3>
+                <p class="eyebrow" data-aos="fade-up" data-aos-delay="100">Make Money. Look Good Doing It.</p>
                 <h1 data-aos="fade-up" data-aos-delay="250">
                     Partner With <br />
                     SaleFish. <br />
@@ -71,8 +71,8 @@ if (is_array($fade_msg)) {
     <section class="agents">
         <div class="container">
             <div class="header" data-aos="fade-up" data-aos-delay="300">
-                <h1>Got Code, Connections or Clients?
-                    Let’s Turn That Into Revenue.</h1>
+                <h2>Got Code, Connections or Clients?
+                    Let’s Turn That Into Revenue.</h2>
                 <p>Whether you build apps, resell software, advise developers, or just know people who need better
                     tools—SaleFish gives you a way to profit.</p>
                 <p>Integrate it. Recommend it. White-label it. Sell it.</p>

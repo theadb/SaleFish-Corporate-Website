@@ -330,6 +330,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ── AJAX helper using fetch ───────────────────────────────────────────────────
   function sfAjax(data, onSuccess, onError) {
+    if (typeof salefishAjax === 'undefined') { if (onError) onError(new Error('salefishAjax not defined')); return; }
     fetch(salefishAjax.ajaxurl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -600,9 +601,11 @@ document.addEventListener('DOMContentLoaded', function () {
     update();
     if (window.ResizeObserver) new ResizeObserver(update).observe(iframe);
   }
+  var _tidioAttempts = 0;
   const poll = setInterval(function () {
     const iframe = document.getElementById('tidio-chat-iframe');
-    if (iframe) { clearInterval(poll); applyTidioRing(iframe); }
+    if (iframe) { clearInterval(poll); applyTidioRing(iframe); return; }
+    if (++_tidioAttempts >= 120) clearInterval(poll); // give up after 60 s
   }, 500);
 }());
 

@@ -14,9 +14,9 @@
 
 get_header(); ?>
 
-<main id="main" class="site-main" role="main">
-	<?php include_once("partials/analyticstracking.php") ?>
-	<?php include( locate_template( 'partials/text-content.php' ) ); ?>
+<main id="main-content" class="site-main" role="main">
+	<?php get_template_part( 'partials/analyticstracking' ); ?>
+	<?php get_template_part( 'partials/text-content' ); ?>
 </main>
 
 <?php

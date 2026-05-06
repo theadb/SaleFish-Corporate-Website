@@ -31,7 +31,7 @@ get_header();
 
 				<div class="cu-tile">
 					<div class="cu-tile__icon">
-						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
 					</div>
 					<div class="cu-tile__body">
 						<strong>Live Chat Support</strong>
@@ -41,7 +41,7 @@ get_header();
 
 				<div class="cu-tile">
 					<div class="cu-tile__icon">
-						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
 					</div>
 					<div class="cu-tile__body">
 						<strong>Email Us</strong>
@@ -51,7 +51,7 @@ get_header();
 
 				<div class="cu-tile">
 					<div class="cu-tile__icon">
-						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6 19.79 19.79 0 0 1 1.6 5.02 2 2 0 0 1 3.59 2.84h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 10.09a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 17.5z"/></svg>
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6 19.79 19.79 0 0 1 1.6 5.02 2 2 0 0 1 3.59 2.84h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 10.09a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 17.5z"/></svg>
 					</div>
 					<div class="cu-tile__body">
 						<strong>Call Us</strong>
@@ -62,7 +62,7 @@ get_header();
 
 				<div class="cu-tile">
 					<div class="cu-tile__icon">
-						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
 					</div>
 					<div class="cu-tile__body">
 						<strong>Our Office</strong>
@@ -81,7 +81,7 @@ get_header();
 
 	<!-- MAP -->
 	<div class="cu-map-wrap">
-		<div id="map" class="cu-map"></div>
+		<div id="map" class="cu-map" role="region" aria-label="Office location map"></div>
 
 		<a class="cu-hq-card"
 		   href="https://www.google.com/maps/place/SaleFish/@43.81222,-79.5303027,17z/data=!3m2!4b1!5s0x882b2f0f9f26ad5d:0x5d7ceb7d2cfbb7ab!4m6!3m5!1s0x882b2f0fa479e625:0xb7be17627d10ba9f!8m2!3d43.81222!4d-79.5277278!16s%2Fg%2F11bxfkmkzj?entry=ttu"
