@@ -2746,10 +2746,6 @@ header nav ul li a:hover::after {
 header nav ul li a.active {
   font-family: "Poppins-SemiBold";
 }
-header nav ul li a.active::after {
-  transform: translateX(-50%) scaleX(1);
-  background: #EDBB85;
-}
 header nav ul li.nav-demo {
   margin-left: 6px;
 }
