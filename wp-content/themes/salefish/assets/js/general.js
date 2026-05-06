@@ -73,6 +73,16 @@ function sfTrackConversion(leadType, formLocation) {
     form_location: formLocation,
   });
 
+  // Direct GA4 via gtag — belt-and-braces in case GTM is not configured
+  // with a generate_lead tag. gtag() is defined in header.php and the
+  // gtag.js library loads on window.load, well before any form submission.
+  if (typeof gtag === 'function') {
+    gtag('event', 'generate_lead', {
+      lead_type:     leadType,
+      form_location: formLocation,
+    });
+  }
+
   // LinkedIn conversion — fires if the pixel script has been loaded
   // (it loads when any [data-sf-modal] is clicked, which is always before
   // the form is submitted). Silently skipped until SF_LI_CONVERSION_ID is set.

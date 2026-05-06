@@ -379,7 +379,7 @@ window.sfTurnstileReady = function () {
      converting, and watch real visitor sessions. Free, unlimited, no sampling.
      The script loads 5 s after window.load so it never competes with LCP. -->
 <script>
-var SF_CLARITY_ID = ''; // ← paste your 10-character Clarity Project ID here
+var SF_CLARITY_ID = 'wmwzqm0oha'; // SaleFish Marketing Site — andrewdb@salefish.app
 if (SF_CLARITY_ID) {
   window.addEventListener('load', function () {
     setTimeout(function () {

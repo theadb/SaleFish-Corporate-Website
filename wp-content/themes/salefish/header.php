@@ -59,6 +59,8 @@ $_sf_lang_options_html .= '</ul>';
 	<link rel="preconnect" href="https://yt3.ggpht.com" crossorigin>
 	<link rel="preconnect" href="https://challenges.cloudflare.com">
 	<link rel="dns-prefetch" href="https://www.google.com">
+	<link rel="preconnect" href="https://www.googletagmanager.com">
+	<link rel="preconnect" href="https://www.google-analytics.com">
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 	<link rel="apple-touch-icon" sizes="152x152" href="/icon-152x152.png">
 	<link rel="apple-touch-icon" sizes="167x167" href="/icon-167x167.png">
@@ -428,6 +430,24 @@ $_sf_lang_options_html .= '</ul>';
 	}());
 </script>
 <!-- End Google Tag Manager -->
+
+<!-- GA4 direct — loads async after window.load so it never blocks LCP/TTI.
+     send_page_view is disabled to avoid a duplicate hit if GTM is later
+     configured with its own GA4 Configuration tag.
+     sfTrackConversion() uses window.gtag() to fire generate_lead events. -->
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-RPV5YBTN35', { send_page_view: true });
+	window.addEventListener('load', function () {
+		var s = document.createElement('script');
+		s.async = true;
+		s.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPV5YBTN35';
+		document.head.appendChild(s);
+	});
+</script>
+<!-- End GA4 direct -->
 
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
