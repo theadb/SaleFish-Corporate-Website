@@ -201,7 +201,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ── Focus trap ────────────────────────────────────────────────────────────────
   function sfFocusTrap(modalEl) {
-    const SEL = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+    // Intentionally excludes <iframe> — the Turnstile widget injects an iframe
+    // with tabindex="0", and focusing it hands keyboard control to a third-party
+    // frame which then makes close-button clicks unreliable.
+    const SEL = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled])';
     function getFocusable() {
       return Array.from(modalEl.querySelectorAll(SEL)).filter(function (el) {
         return el.offsetParent !== null;
@@ -329,8 +332,11 @@ document.addEventListener('DOMContentLoaded', function () {
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     const modal = document.getElementById('sf-reg-modal');
+    // Start Turnstile loading immediately — before the fade begins — so the
+    // widget has the full 200 ms of fade time to initialise before the user
+    // can interact with the modal.
+    sfRenderTurnstileIn(modal);
     sfFadeIn(modal, 200, function () {
-      sfRenderTurnstileIn(modal);
       _sfRegTrap = sfFocusTrap(modal);
     });
   }
@@ -362,11 +368,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // Capture phase (top-down) fires before Turnstile's own event listeners,
+  // which run during widget initialisation and can otherwise swallow clicks.
   document.addEventListener('click', function (e) {
     if (e.target.closest('#sf-reg-modal .sf-reg-modal__backdrop, #sf-reg-modal .sf-reg-modal__close')) {
       sfRegModalClose();
     }
-  });
+  }, { capture: true });
 
   // REG MODAL FORM SUBMIT — delegated so it works after lazy injection
   document.addEventListener('submit', function (e) {
@@ -411,8 +419,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     const modal = document.getElementById('sf-partner-modal');
+    // Start Turnstile loading before the fade — same rationale as reg modal.
+    sfRenderTurnstileIn(modal);
     sfFadeIn(modal, 200, function () {
-      sfRenderTurnstileIn(modal);
       _sfPartnerTrap = sfFocusTrap(modal);
     });
   }
@@ -448,7 +457,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (e.target.closest('#sf-partner-modal .sf-partner-modal__backdrop, #sf-partner-modal .sf-partner-modal__close')) {
       sfPartnerModalClose();
     }
-  });
+  }, { capture: true });
 
   // PARTNER MODAL FORM SUBMIT — delegated so it works after lazy injection
   document.addEventListener('submit', function (e) {
