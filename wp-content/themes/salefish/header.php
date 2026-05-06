@@ -351,6 +351,8 @@ $_sf_lang_options_html .= '</ul>';
 
 </head>
 <body <?php body_class( $_sf_light_header ? 'sf-light-header' : 'sf-dark-header' ); ?>>
+<!-- Google Tag Manager (noscript) — required by GTM spec for cookieless environments -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5CX687F" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Status-bar / notch fill — first child of <body> so iOS paints it
      immediately at first paint. Position-fixed div instead of a header
      pseudo-element because WebKit doesn't reliably render `::before`
@@ -414,12 +416,14 @@ $_sf_lang_options_html .= '</ul>';
 			s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-5CX687F';
 			document.head.appendChild(s);
 		}
-		// GTM loads on idle after window.load only — no click/scroll triggers.
-		// 123 KB + its tag cascade was hijacking the main thread on the user's
-		// first click. Now it loads quietly during natural reading-pause time.
+		// GTM deferred to 4 s after window.load — keeps GTM off the critical
+		// path (LCP, TTI, first click) while still loading well before most
+		// users interact. 8 s was too aggressive: visitors bouncing within
+		// 5–9 s were invisible to GA4. 4 s is the sweet spot for a B2B site
+		// where meaningful engagement starts at 5+ s.
 		window.addEventListener('load', function () {
 			var ric = window.requestIdleCallback || function (cb) { return setTimeout(cb, 1); };
-			setTimeout(function () { ric(_loadGTM, { timeout: 5000 }); }, 8000);
+			setTimeout(function () { ric(_loadGTM, { timeout: 5000 }); }, 4000);
 		});
 	}());
 </script>

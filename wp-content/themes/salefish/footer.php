@@ -367,6 +367,32 @@ window.sfTurnstileReady = function () {
 }());
 </script>
 <?php endif; ?>
+<!-- ── Microsoft Clarity — free heatmaps + session recordings ─────────────────
+     Setup (one-time, 2 minutes):
+       1. Go to https://clarity.microsoft.com and sign in with your Microsoft /
+          LinkedIn account (free, no credit card needed).
+       2. Click "Add new project" → enter "salefish.app" as the URL.
+       3. Copy the 10-character Project ID shown in the setup snippet.
+       4. Paste it as the value of SF_CLARITY_ID below, then deploy.
+     Once live, Clarity shows heatmaps, scroll maps, and session recordings —
+     so you can see exactly which CTAs users click, how far they scroll before
+     converting, and watch real visitor sessions. Free, unlimited, no sampling.
+     The script loads 5 s after window.load so it never competes with LCP. -->
+<script>
+var SF_CLARITY_ID = ''; // ← paste your 10-character Clarity Project ID here
+if (SF_CLARITY_ID) {
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window,document,'clarity','script',SF_CLARITY_ID);
+    }, 5000);
+  });
+}
+</script>
+
 <!-- app.js is bundled via webpack (Laravel Mix) — no CDN requests needed -->
 <!-- isotope-layout: removed — was imported but never called; CDN request was dead weight -->
 <script>

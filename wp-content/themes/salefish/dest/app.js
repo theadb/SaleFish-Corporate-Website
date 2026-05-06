@@ -92,6 +92,49 @@ function sfScrollUnlock() {
     behavior: 'instant'
   });
   _sfScrollLockY = 0;
+} // ── Conversion tracking ───────────────────────────────────────────────────────
+// Central helper called on every successful form submission.
+// Pushes a GA4-standard `generate_lead` event to the GTM dataLayer and fires
+// the LinkedIn conversion pixel (when a conversion_id is configured).
+//
+// GA4 setup: in GTM, create a Custom Event trigger matching `generate_lead`
+// and attach it to a GA4 Event tag. The `lead_type` and `form_location`
+// parameters flow through as GA4 event parameters automatically.
+//
+// LinkedIn setup: obtain a numeric Conversion ID from LinkedIn Campaign Manager
+// → Conversions → Create Conversion, then paste it into LI_CONVERSION_ID below.
+
+
+var SF_LI_CONVERSION_ID = 0; // ← paste LinkedIn Conversion ID (numeric), e.g. 12345678
+
+function sfTrackConversion(leadType, formLocation) {
+  // GA4 via GTM dataLayer — works even if pushed before GTM loads;
+  // GTM replays queued events on init. At form-submit time GTM is
+  // always loaded (fires 4s after window.load), so this is belt-and-braces.
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: null
+  }); // flush previous event field
+
+  window.dataLayer.push({
+    event: 'generate_lead',
+    lead_type: leadType,
+    form_location: formLocation
+  }); // LinkedIn conversion — fires if the pixel script has been loaded
+  // (it loads when any [data-sf-modal] is clicked, which is always before
+  // the form is submitted). Silently skipped until SF_LI_CONVERSION_ID is set.
+
+  if (SF_LI_CONVERSION_ID && window.lintrk) {
+    window.lintrk('track', {
+      conversion_id: SF_LI_CONVERSION_ID
+    });
+  } // Microsoft Clarity — tag the session as a lead so recordings are filterable
+
+
+  if (window.clarity) {
+    window.clarity('set', 'lead_type', leadType);
+    window.clarity('event', 'generate_lead');
+  }
 } // ── Phone mask: format as xxx-xxx-xxxx ───────────────────────────────────────
 
 
@@ -374,7 +417,10 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
       var params = serializeForm(this) + '&action=salefish_register&nonce=' + salefishAjax.nonce;
       sfAjax(params, function (res) {
-        if (res.success) sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
+        if (res.success) {
+          sfTrackConversion('demo_request', 'inline_form');
+          sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
+        }
       }, null);
     });
   } // ── AGENT FORM ────────────────────────────────────────────────────────────────
@@ -387,7 +433,10 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
       var params = serializeForm(this) + '&action=agents_register&nonce=' + salefishAjax.nonce;
       sfAjax(params, function (res) {
-        if (res.success) sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
+        if (res.success) {
+          sfTrackConversion('agent_inquiry', 'inline_form');
+          sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
+        }
       }, null);
     });
   } // ── PARTNER FORM (inline on partners page) ────────────────────────────────────
@@ -400,7 +449,10 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
       var params = serializeForm(this) + '&action=partner_register&nonce=' + salefishAjax.nonce;
       sfAjax(params, function (res) {
-        if (res.success) sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
+        if (res.success) {
+          sfTrackConversion('partner_inquiry', 'inline_form');
+          sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
+        }
       }, null);
     });
   } // ── CLOSE CHECK-EMAIL DIALOG ──────────────────────────────────────────────────
@@ -523,6 +575,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var params = serializeForm(form) + '&action=salefish_register&nonce=' + salefishAjax.nonce;
     sfAjax(params, function (res) {
       if (res.success) {
+        sfTrackConversion('demo_request', 'modal');
         sfRegModalClose();
         sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
       } else {
@@ -618,6 +671,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var params = serializeForm(form) + '&action=partner_register&nonce=' + salefishAjax.nonce;
     sfAjax(params, function (res) {
       if (res.success) {
+        sfTrackConversion('partner_inquiry', 'modal');
         sfPartnerModalClose();
         sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
       } else {
