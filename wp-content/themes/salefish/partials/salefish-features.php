@@ -65,7 +65,7 @@ $counter = 0;
                     <?php echo wp_kses_post( $service_support['content'] ); ?>
                 </p>
                 <a class="button" href="<?php echo esc_url( $service_support_button_link ); ?>" target="_blank" rel="noopener noreferrer">
-                    <?php echo esc_html( $service_support_button_text ); ?>
+                    <?php echo esc_html( $service_support_button_text ); ?><span class="sr-only"> (opens in new tab)</span>
                 </a>
             </div>
         </div>

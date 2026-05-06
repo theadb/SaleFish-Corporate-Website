@@ -89,7 +89,7 @@ $pillars = get_field('pillars');
 						<a class="button"
 							href="<?php echo esc_url($button['link']); ?>"
 							target="_blank" rel="noopener noreferrer">
-							<?php echo esc_html($button['text']); ?>
+							<?php echo esc_html($button['text']); ?><span class="sr-only"> (opens in new tab)</span>
 						</a>
 						<?php endif; ?>
 					</div>

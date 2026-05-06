@@ -32,22 +32,22 @@ get_header();
 					Şerifali Mah. <br />
 					Kutup Sok. No:40 <br />
 					WorkHub Plaza İç Kapı No:3 34775 <br />
-					Ümraniye/İstanbul
+					Ümraniye/İstanbul<span class="sr-only"> (opens in new tab)</span>
 				</a>
 				<a href="tel:+905333311236">+90 0533 331 12 36</a>
 				<a class="email" href="mailto:hello@salefish.app">hello@salefish.app</a>
 				<div class="socials">
-					<a href="https://www.instagram.com/salefishapp/" target="_blank" rel="noopener noreferrer">
-						<img class="social_logo ig" src="<?php echo get_template_directory_uri(); ?>/img/ig_logo.png" loading="lazy" decoding="async" alt="SaleFish on Instagram">
+					<a href="https://www.instagram.com/salefishapp/" target="_blank" rel="noopener noreferrer" aria-label="SaleFish on Instagram (opens in new tab)">
+						<img class="social_logo ig" src="<?php echo get_template_directory_uri(); ?>/img/ig_logo.png" loading="lazy" decoding="async" alt="">
 					</a>
-					<a href="https://www.facebook.com/salefishapp" target="_blank" rel="noopener noreferrer">
-						<img class="social_logo facebook" src="<?php echo get_template_directory_uri(); ?>/img/facebook_logo.png" loading="lazy" decoding="async" alt="SaleFish on Facebook">
+					<a href="https://www.facebook.com/salefishapp" target="_blank" rel="noopener noreferrer" aria-label="SaleFish on Facebook (opens in new tab)">
+						<img class="social_logo facebook" src="<?php echo get_template_directory_uri(); ?>/img/facebook_logo.png" loading="lazy" decoding="async" alt="">
 					</a>
-					<a href="https://www.youtube.com/@salefishapp" target="_blank" rel="noopener noreferrer">
-						<img class="social_logo youtube" src="<?php echo get_template_directory_uri(); ?>/img/youtube_logo.png" loading="lazy" decoding="async" alt="SaleFish on YouTube">
+					<a href="https://www.youtube.com/@salefishapp" target="_blank" rel="noopener noreferrer" aria-label="SaleFish on YouTube (opens in new tab)">
+						<img class="social_logo youtube" src="<?php echo get_template_directory_uri(); ?>/img/youtube_logo.png" loading="lazy" decoding="async" alt="">
 					</a>
-					<a href="https://www.linkedin.com/company/salefishapp/" target="_blank" rel="noopener noreferrer">
-						<img class="social_logo linkedin" src="<?php echo get_template_directory_uri(); ?>/img/linkedin_logo.png" loading="lazy" decoding="async" alt="SaleFish on LinkedIn">
+					<a href="https://www.linkedin.com/company/salefishapp/" target="_blank" rel="noopener noreferrer" aria-label="SaleFish on LinkedIn (opens in new tab)">
+						<img class="social_logo linkedin" src="<?php echo get_template_directory_uri(); ?>/img/linkedin_logo.png" loading="lazy" decoding="async" alt="">
 					</a>
 				</div>
 			</div>

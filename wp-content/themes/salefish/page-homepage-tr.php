@@ -147,7 +147,7 @@ $the_numbers    = get_field( 'the_numbers' );
 						alt="Right Arrow">
 				</div>
 			</div>
-			<a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish">BIZLE SOHBET ET</a>
+			<a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish">BIZLE SOHBET ET<span class="sr-only"> (opens in new tab)</span></a>
 		</div>
 		<!-- PILLARS -->
 		<section class="pillars">

@@ -451,7 +451,7 @@ window._linkedin_data_partner_ids.push(_linkedin_partner_id);
          tracking protection, hosting-injected Referrer-Policy), the user
          can always open the video natively. JS shows the original watch URL. -->
     <a class="sf-video-dialog__fallback" href="" target="_blank" rel="noopener noreferrer">
-      Trouble loading? Watch on YouTube &rarr;
+      Trouble loading? Watch on YouTube &rarr;<span class="sr-only"> (opens in new tab)</span>
     </a>
   </div>
 </div>

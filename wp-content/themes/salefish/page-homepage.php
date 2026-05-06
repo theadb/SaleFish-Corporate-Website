@@ -203,7 +203,7 @@ $s = $strings[ $locale ] ?? $strings['au'];
 				</div>
 			</div>
 
-			<a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish"><?php echo esc_html( $s['chat'] ); ?></a>
+			<a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish"><?php echo esc_html( $s['chat'] ); ?><span class="sr-only"> (opens in new tab)</span></a>
 		</div>
 		<!-- PILLARS -->
 		<section class="pillars">
