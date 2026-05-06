@@ -428,7 +428,11 @@ document.addEventListener('DOMContentLoaded', function () {
   // ── REGISTRATION MODAL ────────────────────────────────────────────────────────
   function sfRegModalOpen(section) {
     if (window.sfEnsureModals) window.sfEnsureModals();
-    const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+    // scrollbar-gutter:stable permanently reserves gutter space, so the
+    // innerWidth–clientWidth delta is always non-zero even without a scrollbar.
+    // In that case padding-right compensation is not needed (the gutter handles it).
+    const _sbGutter = window.getComputedStyle(document.documentElement).scrollbarGutter || '';
+    const scrollbarW = _sbGutter.includes('stable') ? 0 : window.innerWidth - document.documentElement.clientWidth;
     const regSection = document.getElementById('sf_reg_section');
     if (regSection) regSection.value = section || '';
     sfScrollLock(scrollbarW);
@@ -506,7 +510,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // ── PARTNER REGISTRATION MODAL ────────────────────────────────────────────────
   function sfPartnerModalOpen(partnerType, _section) {
     if (window.sfEnsureModals) window.sfEnsureModals();
-    const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+    const _sbGutter2 = window.getComputedStyle(document.documentElement).scrollbarGutter || '';
+    const scrollbarW = _sbGutter2.includes('stable') ? 0 : window.innerWidth - document.documentElement.clientWidth;
     sfScrollLock(scrollbarW);
     if (partnerType) {
       const sel = document.getElementById('sf_partner_want_to_do');
