@@ -1,3 +1,15 @@
+// Shared variables/mixins required for standalone compilation of this file.
+// These are @import-only (no output) so they don't duplicate CSS in app.css.
+@import "../basics/mixin";
+@import "../basics/fonts";
+@import "../basics/variables";
+
+// Swiper CSS — loaded only on the homepage (see functions.php & webpack.mix.js).
+// Moving here from app.scss saves ~5 KB gzipped on every non-homepage page view.
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+
 .home {
   // HERO
   overflow-x: clip; // 'clip' does not create a scroll container — preserves iOS momentum scrolling
@@ -94,7 +106,7 @@
           }
         }
 
-        h3 {
+        h3, p.eyebrow {
           display: block;
           font-family: $PSB;
           font-size: 0.72rem;

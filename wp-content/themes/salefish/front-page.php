@@ -32,10 +32,6 @@ $the_numbers = get_field('the_numbers');
 ?>
 
 
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5CX687F" height="0" width="0"
-		style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 <script>
 	let textArray = <?php echo wp_json_encode( $fade, JSON_HEX_TAG | JSON_HEX_AMP ); ?>;
 </script>
@@ -46,7 +42,7 @@ $the_numbers = get_field('the_numbers');
 		<div class="wrapper">
 			<div class="max_wrapper">
 				<div class="left">
-					<h3 data-aos="fade-up" data-aos-delay="100">An Easier Way to <span>Sell <span id="app_for_home">Home Sales</span></span></h3>
+					<p class="eyebrow" data-aos="fade-up" data-aos-delay="100">An Easier Way to <span>Sell <span id="app_for_home">Home Sales</span></span></p>
 					<h1 data-aos="fade-up" data-aos-delay="280">
 						<?php echo wp_kses_post( $hero_header ); ?>
 					</h1>

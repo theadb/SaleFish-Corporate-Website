@@ -50,15 +50,6 @@ $_sf_lang_options_html .= '</ul>';
 	<meta
 		charset="<?php bloginfo('charset'); ?>">
 	<meta content='width=device-width, initial-scale=1.0, viewport-fit=cover' name='viewport' />
-	<!-- Preconnect to YouTube domains so DNS + TLS happen during page idle,
-	     not after the user clicks "Watch Video". Cuts ~200-500ms off the
-	     iframe load time when the video modal opens. -->
-	<link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
-	<link rel="preconnect" href="https://www.youtube.com" crossorigin>
-	<link rel="preconnect" href="https://i.ytimg.com" crossorigin>
-	<link rel="preconnect" href="https://yt3.ggpht.com" crossorigin>
-	<link rel="preconnect" href="https://challenges.cloudflare.com">
-	<link rel="dns-prefetch" href="https://www.google.com">
 	<link rel="preconnect" href="https://www.googletagmanager.com">
 	<link rel="preconnect" href="https://www.google-analytics.com">
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -94,7 +85,6 @@ $_sf_lang_options_html .= '</ul>';
 	$_sf_theme_color = $_sf_light_header ? '#ffffff' : '#452D8C';
 	?>
 	<meta name="theme-color" content="<?php echo esc_attr( $_sf_theme_color ); ?>">
-	<link rel="preload" as="image" href="<?php echo esc_url( get_template_directory_uri() ); ?>/img/dark_salefish_logo.png">
 	<!-- Preload only the LCP-critical Poppins weights: Regular (body) and
 	     Bold (hero headline). SemiBold is used for navigation and minor
 	     headings and can FOUT-swap via font-display: swap without
@@ -349,6 +339,25 @@ $_sf_lang_options_html .= '</ul>';
 			applyScrollState();
 		});
 	})();
+	</script>
+	<!-- Lazy YouTube preconnect — added only when the user hovers/touches a
+	     video trigger, not on page load. Avoids flagging unused preconnects in
+	     Lighthouse while still cutting ~200-500 ms off the iframe load time. -->
+	<script>
+	(function(){
+	  var _ytPc = false;
+	  function _addYTPc(){
+	    if(_ytPc) return; _ytPc = true;
+	    ['https://www.youtube-nocookie.com','https://www.youtube.com','https://i.ytimg.com','https://yt3.ggpht.com'].forEach(function(h){
+	      var l = document.createElement('link'); l.rel='preconnect'; l.href=h; l.crossOrigin=''; document.head.appendChild(l);
+	    });
+	  }
+	  ['pointerenter','touchstart','focusin'].forEach(function(e){
+	    document.addEventListener(e,function(ev){
+	      if(ev.target && ev.target.closest && ev.target.closest('[data-video-url],[data-sf-video]')) _addYTPc();
+	    },{passive:true,capture:true,once:false});
+	  });
+	}());
 	</script>
 
 </head>

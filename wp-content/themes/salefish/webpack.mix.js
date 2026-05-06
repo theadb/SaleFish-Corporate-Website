@@ -12,7 +12,14 @@ const mix = require("laravel-mix");
  */
 mix
   .sass("assets/scss/app.scss", "dest")
+  .sass("assets/scss/pages/home.scss", "dest/pages")
   .js("assets/js/app.js", "dest")
+  // Page-specific JS — only loaded on pages that need them (see functions.php)
+  .js("assets/js/pages/home.js", "dest/pages")
+  .js("assets/js/pages/blog.js", "dest/pages")
+  .js("assets/js/pages/contact_us.js", "dest/pages")
+  .js("assets/js/pages/content.js", "dest/pages")
+  .js("assets/js/pages/single_post.js", "dest/pages")
   .options({
     postCss: [
       require("autoprefixer")({
@@ -22,7 +29,7 @@ mix
   })
   .browserSync({
     proxy: "salefish.local",
-    files: [`./*.php`, `./**/*.php`, `./dest/*.js`, `./dest/*.css`],
+    files: [`./*.php`, `./**/*.php`, `./dest/*.js`, `./dest/*.css`, `./dest/pages/*.js`, `./dest/pages/*.css`],
     injectCss: true,
     watch: true,
   });

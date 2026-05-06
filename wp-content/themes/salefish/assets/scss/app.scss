@@ -5,11 +5,6 @@
 // they were 86 KB of unused CSS shipped on every page-view (~100 ms
 // wasted on mobile). Custom dropdowns (language picker, mobile menu) use
 // their own scoped styles in layouts/header.scss.
-@import "swiper/css";
-@import "swiper/css/navigation";
-@import "swiper/css/pagination";
-@import "basics/hamburgers-settings";
-@import "hamburgers/_sass/hamburgers/hamburgers.scss";
 // Basics
 @import "basics/mixin";
 @import "basics/fonts";

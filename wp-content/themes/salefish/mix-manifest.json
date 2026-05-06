@@ -1,4 +1,10 @@
 {
     "/dest/app.js": "/dest/app.js",
+    "/dest/pages/home.js": "/dest/pages/home.js",
+    "/dest/pages/blog.js": "/dest/pages/blog.js",
+    "/dest/pages/contact_us.js": "/dest/pages/contact_us.js",
+    "/dest/pages/content.js": "/dest/pages/content.js",
+    "/dest/pages/single_post.js": "/dest/pages/single_post.js",
+    "/dest/pages/home.css": "/dest/pages/home.css",
     "/dest/app.css": "/dest/app.css"
 }

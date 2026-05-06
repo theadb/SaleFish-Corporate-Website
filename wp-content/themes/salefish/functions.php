@@ -142,6 +142,44 @@ function salefish_enqueue_assets()
         'loadMoreNonce'  => wp_create_nonce('salefish_load_more'),
         'turnstileSitekey' => defined('SALEFISH_CF_TURNSTILE_SITEKEY') ? SALEFISH_CF_TURNSTILE_SITEKEY : '',
     ]);
+
+    // ── Page-specific JS & CSS — only loaded on pages that need them ──────────
+    $page_js_base = get_template_directory_uri() . '/dest/pages/';
+    $page_js_dir  = get_template_directory() . '/dest/pages/';
+
+    // Homepage — Swiper + CountUp + homepage CSS
+    if ( is_front_page() ) {
+        if ( file_exists( $page_js_dir . 'home.js' ) ) {
+            wp_enqueue_script( 'script-home', $page_js_base . 'home.js', ['script-name'], filemtime( $page_js_dir . 'home.js' ), true );
+        }
+        if ( file_exists( $page_js_dir . 'home.css' ) ) {
+            wp_enqueue_style( 'style-home', $page_js_base . 'home.css', ['style-name'], filemtime( $page_js_dir . 'home.css' ) );
+        }
+    }
+    // Blog listing
+    if ( is_page_template( 'page-blog.php' ) || is_page_template( 'page-blog-filter.php' ) ) {
+        if ( file_exists( $page_js_dir . 'blog.js' ) ) {
+            wp_enqueue_script( 'script-blog', $page_js_base . 'blog.js', ['script-name'], filemtime( $page_js_dir . 'blog.js' ), true );
+        }
+    }
+    // Contact pages
+    if ( is_page_template( 'page-contact-us.php' ) || is_page_template( 'page-tr-contact.php' ) ) {
+        if ( file_exists( $page_js_dir . 'contact_us.js' ) ) {
+            wp_enqueue_script( 'script-contact', $page_js_base . 'contact_us.js', ['script-name'], filemtime( $page_js_dir . 'contact_us.js' ), true );
+        }
+    }
+    // Single post
+    if ( is_singular( 'post' ) ) {
+        if ( file_exists( $page_js_dir . 'single_post.js' ) ) {
+            wp_enqueue_script( 'script-single', $page_js_base . 'single_post.js', ['script-name'], filemtime( $page_js_dir . 'single_post.js' ), true );
+        }
+    }
+    // Content pages (terms, policy)
+    if ( is_page_template( 'page-terms-of-use.php' ) || is_page_template( 'page-privacy-policy.php' ) ) {
+        if ( file_exists( $page_js_dir . 'content.js' ) ) {
+            wp_enqueue_script( 'script-content', $page_js_base . 'content.js', ['script-name'], filemtime( $page_js_dir . 'content.js' ), true );
+        }
+    }
 }
 add_action('wp_enqueue_scripts', 'salefish_enqueue_assets');
 
@@ -154,8 +192,8 @@ add_action('wp_enqueue_scripts', 'salefish_enqueue_assets');
  * blocking parsing or first paint.
  */
 add_filter( 'script_loader_tag', function ( $tag, $handle ) {
-    if ( $handle === 'script-name' ) {
-        // Inject defer if not already present
+    $deferred = ['script-name', 'script-home', 'script-blog', 'script-contact', 'script-single', 'script-content'];
+    if ( in_array( $handle, $deferred, true ) ) {
         if ( strpos( $tag, ' defer' ) === false && strpos( $tag, ' async' ) === false ) {
             $tag = str_replace( '<script ', '<script defer ', $tag );
         }
