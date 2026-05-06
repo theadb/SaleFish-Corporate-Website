@@ -48,7 +48,7 @@ if (is_array($fade_msg)) {
                 </h1>
                 <p data-aos="fade-up" data-aos-delay="400">You’ve got the network. We’ve got the tech.</p>
                 <p data-aos="fade-up" data-aos-delay="500"> Let’s stop selling the old way—and start building what’s next.</p>
-                <a class="button" data-aos="fade-up" data-aos-delay="620" href="<?php echo esc_url( home_url( ‘/partners/’ ) ); ?>" data-sf-modal="partner" data-sf-section="Partners — Hero">Let’s Partner Up</a>
+                <a class="button" data-aos="fade-up" data-aos-delay="620" href="/partners/" data-sf-modal="partner" data-sf-section="Partners — Hero">Let’s Partner Up</a>
             </div>
         </div>
         <div class="wrapper wrapper_bottom" data-aos="fade-up">
