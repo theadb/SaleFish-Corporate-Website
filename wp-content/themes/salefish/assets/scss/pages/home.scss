@@ -112,7 +112,7 @@
           font-size: 0.72rem;
           text-transform: uppercase;
           letter-spacing: 0.16em;
-          color: $gold;
+          color: #fff; // was $gold — gold (#EDBB85) on $light_purple fails WCAG AA contrast
           margin-bottom: 12px;
         }
 

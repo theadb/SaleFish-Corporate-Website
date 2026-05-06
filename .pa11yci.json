@@ -5,6 +5,7 @@
     "wait": 1000,
     "chromeLaunchConfig": {
       "args": ["--no-sandbox", "--disable-setuid-sandbox"]
-    }
+    },
+    "hideElements": "span.flag, #map"
   }
 }
