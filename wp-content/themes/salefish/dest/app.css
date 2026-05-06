@@ -2559,7 +2559,8 @@ header {
   z-index: 999;
   background: rgba(69, 45, 140, 0);
   padding-top: env(safe-area-inset-top);
-  transition: height 320ms cubic-bezier(0.4, 0, 0.2, 1), background 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 150ms ease;
+  will-change: background;
   height: 100px;
   display: flex;
   align-items: center;
