@@ -575,16 +575,7 @@ $_sf_lang_options_html .= '</ul>';
 			</div>
 			<ul>
 				<li class="features_li">
-					<a href="/#features">Merkmale</a>
-				</li>
-				<li class="partners_nav">
-					<a href="/partners">Partner</a>
-				</li>
-				<li class="blog_nav">
-					<a href="/blog">Blog</a>
-				</li>
-				<li class="contact_us_nav">
-					<a href="/contact-us">Kontaktiere Uns</a>
+					<a href="/de#features">Merkmale</a>
 				</li>
 				<li class="nav-demo">
 					<a class="button" href="/contact-us/" data-sf-modal="register">Get a Demo</a>
@@ -617,17 +608,10 @@ $_sf_lang_options_html .= '</ul>';
 			</div>
 			<ul>
 				<li class="features_li">
-					<a href="/#features">Özellikleri</a>
-				</li>
-
-				<li class="blog_nav">
-					<a href="/blog">Blog</a>
-				</li>
-				<li class="partners_nav">
-					<a href="/partners">Ortaklar</a>
+					<a href="/tr#features">Özellikleri</a>
 				</li>
 				<li class="contact_us_nav">
-					<a href="/tr/contact">Bize Ulaşın </a>
+					<a href="/tr/contact">Bize Ulaşın</a>
 				</li>
 				<li class="nav-demo">
 					<a class="button" href="/contact-us/" data-sf-modal="register">Get a Demo</a>
@@ -699,40 +683,22 @@ $_sf_lang_options_html .= '</ul>';
 			<div class="top">
 				<ul>
 					<li class="mobile features_li">
-						<a href="/#features">Özelli̇kleri̇</a>
+						<a href="/tr#features">Özellikleri</a>
 					</li>
-					<li class="mobile blog_nav">
-						<a href="/blog">Blog</a>
-					</li>
-					<li class="mobile partners_nav">
-						<a href="/partners">Ortaklar</a>
-					</li>
-					
 					<li class="mobile contact_us_nav">
-						<a href="/tr/contact">Bi̇ze Ulaşin</a>
+						<a href="/tr/contact">Bize Ulaşın</a>
 					</li>
 					<li class="mobile nav-demo-mobile">
 						<a class="button" href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 					</li>
-	
-					<li class="our_story_nav">
-						<a href="/our-story">Bizim Hikayemiz</a>
-					</li>
-		
-					<li class="awards_nav">
-						<a href="/awards">Ödüller</a>
-					</li>
-			
 					<li class="mobile">
-						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer" aria-label="Satış Aplikasyonu (opens in new tab)">Satış Aplikasyonu</a>
 					</li>
 					<li class="mobile">
-						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer">Highrise
-							Admin<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer" aria-label="Çok Katlı Bina Yönetimi (opens in new tab)">Çok Katlı Bina Yönetimi</a>
 					</li>
 					<li class="mobile">
-						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise
-							Admin<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer" aria-label="Az Katlı Bina Yönetimi (opens in new tab)">Az Katlı Bina Yönetimi</a>
 					</li>
 				</ul>
 			</div>
@@ -753,39 +719,19 @@ $_sf_lang_options_html .= '</ul>';
 			<div class="top">
 				<ul>
 					<li class="mobile features_li">
-						<a href="/#features">Merkmale</a>
-					</li>
-					<li class="mobile blog_nav">
-						<a href="/blog">Blog</a>
-					</li>
-					<li class="mobile partners_nav">
-						<a href="/partners">Partner</a>
-					</li>
-					<li class="mobile contact_us_nav">
-						<a href="/contact-us">Kontaktiere Uns</a>
+						<a href="/de#features">Merkmale</a>
 					</li>
 					<li class="mobile nav-demo-mobile">
 						<a class="button" href="/contact-us/" data-sf-modal="register">Get a Demo</a>
 					</li>
-					<li class="our_story_nav">
-						<a href="/our-story">Unsere Geschichte</a>
-					</li>
-				
-					<li class="awards_nav">
-						<a href="/awards">Auszeichnungen
-						</a>
-					</li>
-			
 					<li class="mobile">
-						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer" aria-label="Verkaufs-App (opens in new tab)">Verkaufs-App</a>
 					</li>
 					<li class="mobile">
-						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer">Highrise
-							Admin<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer" aria-label="Hochhaus-Verwaltung (opens in new tab)">Hochhaus-Verwaltung</a>
 					</li>
 					<li class="mobile">
-						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise
-							Admin<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer" aria-label="Haus-Verwaltung (opens in new tab)">Haus-Verwaltung</a>
 					</li>
 				</ul>
 			</div>

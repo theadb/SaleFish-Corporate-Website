@@ -750,7 +750,8 @@ header {
       padding: 48px 24px 48px;
     }
 
-    p.eyebrow {
+    p.eyebrow,
+    p.sf-reg-modal__eyebrow {
       display: block;
       font-family: $PSB;
       font-size: 0.72rem;
@@ -942,7 +943,8 @@ header {
       padding: 48px 24px 48px;
     }
 
-    p.eyebrow {
+    p.eyebrow,
+    p.sf-partner-modal__eyebrow {
       display: block;
       font-family: $PSB;
       font-size: 0.72rem;

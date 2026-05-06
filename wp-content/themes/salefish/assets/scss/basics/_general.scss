@@ -368,6 +368,12 @@ p {
 html {
   overflow-x: hidden;
   scroll-behavior: smooth;
+  // Reserve the scrollbar gutter permanently so the layout never shifts
+  // when the scrollbar appears/disappears (e.g. on modal open/close).
+  // With this set, window.innerWidth − clientWidth ≈ 0, so the JS
+  // scroll-lock padding-right compensation is a no-op on all desktop
+  // browsers (Chrome 94+, Firefox 97+, Safari 15.4+).
+  scrollbar-gutter: stable;
   // Lock the text-zoom that iOS Safari applies on landscape rotation —
   // prevents the body re-laying out (and the user's scroll position
   // jumping) when the device rotates.
@@ -547,4 +553,22 @@ main {
   .platform__img-slide img {
     transition: none !important;
   }
+}
+
+// ── AOS / data-reveal: keep all elements permanently visible ──────────────────
+// Templates still emit [data-aos] and [data-reveal] attributes. A WordPress
+// plugin or bundled script may activate AOS. We want elements to stay fully
+// visible after the page loads — "once loaded, keep loaded" — so override
+// every AOS initial-state rule and the data-reveal attribute. Using !important
+// so these beat AOS's own stylesheet (loaded via plugin at unknown priority).
+[data-aos] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+[data-reveal] {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
 }

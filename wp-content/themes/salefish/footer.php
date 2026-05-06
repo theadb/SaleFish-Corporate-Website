@@ -20,24 +20,26 @@ if ( ! $_sf_is_blog ) {
 <footer>
 	<div class="max_wrapper">
 		<div class="salefish" data-reveal>
-			<img class="salefish_logo" src="<?php echo get_template_directory_uri(); ?>/img/dark_salefish_logo.png"
-				alt="Salefish" width="383" height="84" loading="lazy" decoding="async">
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="SaleFish — Home">
+				<img class="salefish_logo" src="<?php echo get_template_directory_uri(); ?>/img/dark_salefish_logo.png"
+					alt="SaleFish" width="383" height="84" loading="lazy" decoding="async">
+			</a>
 		</div>
 		<div class="links us_links" data-reveal data-reveal-delay="100">
 			<div class="col">
 				<div class="title">Platform</div>
 				<ul>
 					<li>
-						<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer">Live Chat Support<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer" aria-label="Live Chat Support (opens in new tab)">Live Chat Support</a>
 					</li>
 					<li>
-						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer" aria-label="Sales App (opens in new tab)">Sales App</a>
 					</li>
 					<li>
-						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer">Highrise Admin<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer" aria-label="Highrise Admin (opens in new tab)">Highrise Admin</a>
 					</li>
 					<li>
-						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise Admin<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer" aria-label="Lowrise Admin (opens in new tab)">Lowrise Admin</a>
 					</li>
 				</ul>
 			</div>
@@ -62,7 +64,7 @@ if ( ! $_sf_is_blog ) {
 				<div class="title">Navigation</div>
 				<ul>
 					<li>
-						<a href="<?php echo esc_url( home_url( '/#features' ) ); ?>">Features</a>
+						<a href="<?php echo esc_url( home_url( '/' ) ); ?>">Features</a>
 					</li>
 					<li>
 						<a href="<?php echo esc_url( home_url( '/our-story/' ) ); ?>">Our Story</a>
@@ -82,64 +84,29 @@ if ( ! $_sf_is_blog ) {
 				</ul>
 			</div>
 			<div class="col flex_img">
-				<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">
+				<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer" aria-label="The Plus Group (opens in new tab)">
 					<img class="plus_group" src="<?php echo get_template_directory_uri(); ?>/img/plus_group.png" alt="Plus Group" width="430" height="193" loading="lazy" decoding="async">
-					<span class="sr-only"> (opens in new tab)</span>
 				</a>
 			</div>
 		</div>
 		<div class="links de_links" data-reveal data-reveal-delay="100">
 			<div class="col">
-				<div class="title">SaleFish Platform Links</div>
+				<div class="title">SaleFish Platform</div>
 				<ul>
 					<li>
-						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Verkaufs-App<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer" aria-label="Verkaufs-App (opens in new tab)">Verkaufs-App</a>
 					</li>
 					<li>
-						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer">Verkauf Eigentumswohnungen
-							bearbeiten<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer" aria-label="Hochhaus-Verwaltung (opens in new tab)">Hochhaus-Verwaltung</a>
 					</li>
 					<li>
-						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Hausverkauf bearbeiten<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer" aria-label="Haus-Verwaltung (opens in new tab)">Haus-Verwaltung</a>
 					</li>
-				</ul>
-			</div>
-			<div class="col">
-				<div class="title">Blog</div>
-				<ul>
-					<li>
-						<a href="/blog?filter=success-stories">Erfolgsgeschichten</a>
-					</li>
-					<li>
-						<a href="/blog?filter=press">Presse</a>
-					</li>
-					<li>
-						<a href="/blog?filter=blog">Neuigkeiten</a>
-					</li>
-					<li>
-						<a href="/blog?filter=videos">Videos</a>
-					</li>
-				</ul>
-			</div>
-			<div class="col">
-				<div class="title">Gesellschaft</div>
-				<ul>
-					<li>
-						<a href="<?php echo esc_url( home_url( '/our-story/' ) ); ?>">Unsere Geschichte</a>
-					</li>
-					<li>
-						<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">Die Plus-Gruppe<span class="sr-only"> (opens in new tab)</span></a>
-					</li>
-
-					<!-- <li>
-					<a href="#">Careers</a>
-				</li> -->
 				</ul>
 			</div>
 			<div class="col flex_img">
-				<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">
+				<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer" aria-label="The Plus Group (opens in new tab)">
 					<img class="plus_group" src="<?php echo get_template_directory_uri(); ?>/img/plus_group.png" alt="Plus Group" width="430" height="193" loading="lazy" decoding="async">
-					<span class="sr-only"> (opens in new tab)</span>
 				</a>
 			</div>
 		</div>
@@ -148,53 +115,19 @@ if ( ! $_sf_is_blog ) {
 				<div class="title">Aplikasyon Linkleri</div>
 				<ul>
 					<li>
-						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Satış Aplikasyonu<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer" aria-label="Satış Aplikasyonu (opens in new tab)">Satış Aplikasyonu</a>
 					</li>
 					<li>
-						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer">Çok Katlı Bina Yönetimi<span class="sr-only"> (opens in new tab)</span>
-						</a>
+						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer" aria-label="Çok Katlı Bina Yönetimi (opens in new tab)">Çok Katlı Bina Yönetimi</a>
 					</li>
 					<li>
-						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Az Katlı Bina Yönetimi<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer" aria-label="Az Katlı Bina Yönetimi (opens in new tab)">Az Katlı Bina Yönetimi</a>
 					</li>
-				</ul>
-			</div>
-			<div class="col">
-				<div class="title">Haberler</div>
-				<ul>
-					<li>
-						<a href="/blog?filter=success-stories">Başarı Hikayeleri</a>
-					</li>
-					<li>
-						<a href="/blog?filter=press">Basın</a>
-					</li>
-					<li>
-						<a href="/blog?filter=blog">Blog</a>
-					</li>
-					<li>
-						<a href="/blog?filter=videos">Videolar</a>
-					</li>
-				</ul>
-			</div>
-			<div class="col">
-				<div class="title">Kurumsal</div>
-				<ul>
-					<li>
-						<a href="<?php echo esc_url( home_url( '/our-story/' ) ); ?>">Hikayemiz</a>
-					</li>
-					<li>
-						<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">The Plus Group<span class="sr-only"> (opens in new tab)</span></a>
-					</li>
-
-					<!-- <li>
-					<a href="#">Careers</a>
-				</li> -->
 				</ul>
 			</div>
 			<div class="col flex_img">
-				<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer">
+				<a href="https://www.theplusgroup.ca/" target="_blank" rel="noopener noreferrer" aria-label="The Plus Group (opens in new tab)">
 					<img class="plus_group" src="<?php echo get_template_directory_uri(); ?>/img/plus_group.png" alt="Plus Group" width="430" height="193" loading="lazy" decoding="async">
-					<span class="sr-only"> (opens in new tab)</span>
 				</a>
 			</div>
 		</div>

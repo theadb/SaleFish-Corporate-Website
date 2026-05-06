@@ -93,7 +93,8 @@
         top: 45%;
         transform: translateY(-50%);
 
-        h3 {
+        h3,
+        p.eyebrow {
           display: block;
           font-family: $PSB;
           font-size: 0.72rem;

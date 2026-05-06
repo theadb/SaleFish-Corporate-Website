@@ -447,7 +447,7 @@ document.addEventListener('DOMContentLoaded', function () {
     sfScrollUnlock();
     const returnFocus = _sfRegTrigger;
     _sfRegTrigger = null;
-    sfFadeOut(document.getElementById('sf-reg-modal'), 200, function () {
+    sfFadeOut(document.getElementById('sf-reg-modal'), 0, function () {
       const form = document.getElementById('sf_reg_form');
       if (form) form.reset();
       const err = document.getElementById('sf-reg-form-error');
@@ -525,7 +525,7 @@ document.addEventListener('DOMContentLoaded', function () {
     sfScrollUnlock();
     const returnFocus = _sfPartnerTrigger;
     _sfPartnerTrigger = null;
-    sfFadeOut(document.getElementById('sf-partner-modal'), 200, function () {
+    sfFadeOut(document.getElementById('sf-partner-modal'), 0, function () {
       const form = document.getElementById('sf_partner_form');
       if (form) form.reset();
       const err = document.getElementById('sf-partner-form-error');

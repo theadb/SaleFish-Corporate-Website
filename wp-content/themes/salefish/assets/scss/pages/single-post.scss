@@ -21,14 +21,21 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: $PL;
-    font-size: 0.9em;
-    color: #767676;
+    font-family: $PSB;
+    font-size: 0.85em;
+    color: $dark_purple;
     text-decoration: none;
     margin-bottom: 24px;
-    transition: color 0.15s ease;
+    transition: color 0.2s ease;
 
-    &:hover { color: $dark_purple; }
+    // Lucide arrow-left icon — slides left on hover to signal backwards nav
+    svg {
+      display: block;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover svg { transform: translateX(-4px); }
   }
 
   .sp-meta-bar {

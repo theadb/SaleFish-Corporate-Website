@@ -1,5 +1,26 @@
 <?php
 /**
+ * Validate that a .avif file is a genuine AVIF container (not HEIC).
+ *
+ * Some converters write HEIF/HEIC containers with an .avif extension.
+ * Chrome and Firefox reject these silently; Safari accepts them because
+ * macOS handles HEIC natively, masking the bug. We read the ISO BMFF
+ * 'ftyp' box major brand (bytes 8–11) and accept only real AVIF brands.
+ * Must be declared early — used by sf_hero_preload() and sf_picture().
+ */
+function sf_avif_valid( $path ) {
+    $fh = @fopen( $path, 'rb' );
+    if ( ! $fh ) return false;
+    fseek( $fh, 4 );
+    $header = fread( $fh, 8 );
+    fclose( $fh );
+    if ( strlen( $header ) < 8 ) return false;
+    if ( substr( $header, 0, 4 ) !== 'ftyp' ) return false;
+    $brand = substr( $header, 4, 4 );
+    return in_array( $brand, [ 'avif', 'avis', 'mif1', 'miaf' ], true );
+}
+
+/**
  * Load local secrets (API keys etc.) — file is gitignored, never committed.
  */
 $_sf_local_config = get_template_directory() . '/config.local.php';
@@ -615,7 +636,7 @@ function sf_preload_hero_image( $url, $sizes_attr = '100vw' ) {
     if ( ! $abs_path || ! preg_match( '/\.(png|jpe?g)$/i', $abs_path ) ) return;
 
     $avif_path = preg_replace( '/\.(png|jpe?g)$/i', '.avif', $abs_path );
-    if ( ! file_exists( $avif_path ) ) return;
+    if ( ! file_exists( $avif_path ) || ! sf_avif_valid( $avif_path ) ) return;
 
     $avif_url  = preg_replace( '/\.(png|jpe?g)$/i', '.avif', $url );
     $base_path = preg_replace( '/\.(png|jpe?g)$/i', '', $abs_path );
@@ -623,7 +644,7 @@ function sf_preload_hero_image( $url, $sizes_attr = '100vw' ) {
 
     $variants = [];
     foreach ( [ 320, 480, 640, 800, 1024, 1280, 1920 ] as $w ) {
-        if ( file_exists( $base_path . '-' . $w . 'w.avif' ) ) {
+        if ( file_exists( $base_path . '-' . $w . 'w.avif' ) && sf_avif_valid( $base_path . '-' . $w . 'w.avif' ) ) {
             $variants[] = esc_url( $base_url . '-' . $w . 'w.avif' ) . ' ' . $w . 'w';
         }
     }
@@ -1053,7 +1074,7 @@ function sf_picture( $url, $args = [] ) {
     $avif_srcset = '';
     if ( $abs_path && preg_match( '/\.(png|jpe?g)$/i', $abs_path ) ) {
         $avif_path = preg_replace( '/\.(png|jpe?g)$/i', '.avif', $abs_path );
-        if ( $abs_path !== $avif_path && file_exists( $avif_path ) ) {
+        if ( $abs_path !== $avif_path && file_exists( $avif_path ) && sf_avif_valid( $avif_path ) ) {
             $avif_url = preg_replace( '/\.(png|jpe?g)$/i', '.avif', $url );
             // Look for size-variant siblings like `name-480w.avif`. When
             // present, emit a srcset so mobile gets the smaller file.
@@ -1062,7 +1083,7 @@ function sf_picture( $url, $args = [] ) {
             $variants = [];
             foreach ( [ 320, 480, 640, 800, 1024, 1280, 1920, 2560 ] as $w ) {
                 $variant_path = $base . '-' . $w . 'w.avif';
-                if ( file_exists( $variant_path ) ) {
+                if ( file_exists( $variant_path ) && sf_avif_valid( $variant_path ) ) {
                     $variants[] = esc_url( $base_u . '-' . $w . 'w.avif' ) . ' ' . $w . 'w';
                 }
             }

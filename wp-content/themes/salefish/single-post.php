@@ -68,7 +68,10 @@ get_header();
 	<!-- TOP: meta + title -->
 	<div class="sp-top">
 		<div class="max_wrapper">
-			<a class="sp-back" href="/blog"><i data-lucide="arrow-left" width="16" height="16"></i> Back to the Blog</a>
+			<a class="sp-back" href="/blog" aria-label="Back to the Blog">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+				Back to the Blog
+			</a>
 			<h1 class="sp-title"><?php echo esc_html( $title ); ?></h1>
 			<div class="sp-meta-bar">
 				<span class="sp-meta-bar__date"><?php echo esc_html( $date ); ?></span>
