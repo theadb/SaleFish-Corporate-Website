@@ -18,12 +18,12 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install Pa11y CI and Axe runner
-        run: npm install -g pa11y-ci pa11y-ci-runner-axe
+      - name: Install Pa11y CI
+        run: npm install -g pa11y-ci
 
       - name: Run accessibility scan
         # SITE_URL must be set as a repository secret, e.g. https://salefish.app
-        # Standard (WCAG2AA) and runner (axe) are configured in .pa11yci.json
+        # Standard (WCAG2AA) is configured in .pa11yci.json
         run: |
           pa11y-ci \
             --config .pa11yci.json \
