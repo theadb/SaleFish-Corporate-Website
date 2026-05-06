@@ -59,7 +59,7 @@ function sfScrollUnlock() {
 //
 // LinkedIn setup: obtain a numeric Conversion ID from LinkedIn Campaign Manager
 // → Conversions → Create Conversion, then paste it into LI_CONVERSION_ID below.
-var SF_LI_CONVERSION_ID = 0; // ← paste LinkedIn Conversion ID (numeric), e.g. 12345678
+var SF_LI_CONVERSION_ID = 512664862; // LinkedIn Conversion ID — Demo Request
 
 function sfTrackConversion(leadType, formLocation) {
   // GA4 via GTM dataLayer — works even if pushed before GTM loads;
