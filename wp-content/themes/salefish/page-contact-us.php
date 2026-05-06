@@ -7,7 +7,7 @@
 get_header();
 ?>
 
-<main class="contact_us">
+<main class="contact_us" id="main-content">
 
 	<!-- INFO -->
 	<section class="cu-info">

@@ -1268,7 +1268,12 @@ header {
   }
 }
 
-// Mobile floating menu — Get a Demo styled as a gold button
+// Mobile floating menu — Get a Demo styled identically to the site's standard
+// .button (gold background, semibold, $black text, lift-on-hover).
+//
+// The `.floating_menu .top ul li a` rule has higher specificity than `.button`
+// and overrides font-family → $PL and colour on hover → $dark_purple.
+// The overrides below restore every .button property that gets clobbered.
 .floating_menu .nav-demo-mobile {
   padding: 6px 16px;
 
@@ -1281,8 +1286,24 @@ header {
     text-align: center !important;
     width: 100%;
     box-sizing: border-box;
+    // Restore .button sizing / shape
     padding: 10px 20px !important;
     border-radius: var(--sf-radius-sm);
+    // Restore .button colour + typography overridden by `li a` rule
+    background: $gold !important;
+    color: $black !important;
+    font-family: $PSB !important;
+    font-size: 0.85em;
+    text-decoration: none;
+
+    &:hover {
+      // Prevent `li a:hover { color: $dark_purple }` from changing button text
+      color: $black !important;
+      // Standard .button lift-on-hover
+      transform: translateY(-2px);
+      box-shadow: var(--sf-shadow-sm);
+      filter: brightness(1.06);
+    }
   }
 }
 

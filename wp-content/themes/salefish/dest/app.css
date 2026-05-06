@@ -3763,6 +3763,17 @@ header nav .menu .menu_icon {
   box-sizing: border-box;
   padding: 10px 20px !important;
   border-radius: var(--sf-radius-sm);
+  background: #EDBB85 !important;
+  color: #484848 !important;
+  font-family: "Poppins-SemiBold" !important;
+  font-size: 0.85em;
+  text-decoration: none;
+}
+.floating_menu .nav-demo-mobile .button:hover {
+  color: #484848 !important;
+  transform: translateY(-2px);
+  box-shadow: var(--sf-shadow-sm);
+  filter: brightness(1.06);
 }
 
 .hover-main-menu-style:hover {

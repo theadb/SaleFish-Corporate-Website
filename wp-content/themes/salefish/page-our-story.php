@@ -13,7 +13,7 @@
 get_header();
 ?>
 
-<main class="our_story">
+<main class="our_story" id="main-content">
 	<!-- HERO -->
 	<section class="hero">
 		<div class="hero__slideshow" aria-hidden="true">

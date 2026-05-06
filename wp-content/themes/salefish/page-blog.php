@@ -17,7 +17,7 @@ wp_reset_postdata();
 get_header();
 ?>
 
-<main class="blog">
+<main class="blog" id="main-content">
 
 	<!-- HERO -->
 	<section class="blog-hero sf-section">

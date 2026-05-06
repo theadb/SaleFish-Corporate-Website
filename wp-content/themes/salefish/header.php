@@ -428,7 +428,7 @@ $_sf_lang_options_html .= '</ul>';
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
-<header class="default" >
+<header class="default" aria-label="Main">
 	<div class="max_wrapper" data-aos="fade-down">
 		<div class="salefish">
 			<a href="/">
@@ -437,7 +437,7 @@ $_sf_lang_options_html .= '</ul>';
 					alt="Salefish" width="255" height="56" decoding="async">
 			</a>
 		</div>
-		<nav>
+		<nav aria-label="Main navigation">
 			<div class="languages">
 				<div class="flag_active"><?php echo $_sf_flag_active_html; ?></div>
 				<div class="arrow"><?php echo $_sf_icon_chevron; ?></div>
@@ -476,7 +476,7 @@ $_sf_lang_options_html .= '</ul>';
 	</div>
 </header>
 
-<header class="blog_header">
+<header class="blog_header" aria-label="Main">
 	<div class="max_wrapper" data-aos="fade-down">
 		<div class="salefish">
 			<a href="/">
@@ -485,7 +485,7 @@ $_sf_lang_options_html .= '</ul>';
 					alt="Salefish" width="255" height="56" decoding="async">
 			</a>
 		</div>
-		<nav>
+		<nav aria-label="Main navigation">
 			<div class="languages">
 				<div class="flag_active"><?php echo $_sf_flag_active_html; ?></div>
 				<div class="arrow"><?php echo $_sf_icon_chevron; ?></div>
@@ -525,7 +525,7 @@ $_sf_lang_options_html .= '</ul>';
 
 </header>
 
-<header class="de_header">
+<header class="de_header" aria-label="Hauptmenü">
 	<div class="max_wrapper" data-aos="fade-down">
 		<div class="salefish">
 			<a href="/">
@@ -534,7 +534,7 @@ $_sf_lang_options_html .= '</ul>';
 					alt="Salefish" width="255" height="56" decoding="async">
 			</a>
 		</div>
-		<nav>
+		<nav aria-label="Hauptnavigation">
 			<div class="languages">
 				<div class="flag_active"><?php echo $_sf_flag_active_html; ?></div>
 				<div class="arrow"><?php echo $_sf_icon_chevron; ?></div>
@@ -567,7 +567,7 @@ $_sf_lang_options_html .= '</ul>';
 	</div>
 </header>
 
-<header class="tr_header">
+<header class="tr_header" aria-label="Ana menü">
 	<div class="max_wrapper" data-aos="fade-down">
 		<div class="salefish">
 			<a href="/">
@@ -576,7 +576,7 @@ $_sf_lang_options_html .= '</ul>';
 					alt="Salefish" width="255" height="56" decoding="async">
 			</a>
 		</div>
-		<nav>
+		<nav aria-label="Ana gezinme">
 			<div class="languages">
 				<div class="flag_active"><?php echo $_sf_flag_active_html; ?></div>
 				<div class="arrow"><?php echo $_sf_icon_chevron; ?></div>

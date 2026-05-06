@@ -11,7 +11,7 @@ $awards = get_field('awards');
 
 ?>
 
-<main class="awards">
+<main class="awards" id="main-content">
     <section class="hero">
         <div class="hero_bg"></div>
         <div class="top_msg">

@@ -23,7 +23,7 @@ if (is_array($fade_msg)) {
     let textArray = <?php echo wp_json_encode( $fade, JSON_HEX_TAG | JSON_HEX_AMP ); ?>;
 </script>
 
-<main class="partners">
+<main class="partners" id="main-content">
     <!-- HERO -->
     <section class="hero">
         <div class="hero__slideshow" aria-hidden="true">
