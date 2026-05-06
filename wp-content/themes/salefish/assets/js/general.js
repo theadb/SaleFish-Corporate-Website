@@ -2,51 +2,59 @@
 // Parsley / jquery.mask / flowtype removed — replaced by vanilla JS equivalents
 
 // ── Scroll-lock helpers ───────────────────────────────────────────────────────
-// iOS Safari resets window.scrollY to 0 when `overflow:hidden` is removed from
-// <body>. The standard fix is `position:fixed; top:-Ypx` which freezes the
-// body at the current scroll position without touching overflow. On close we
-// restore position and scroll back to the saved Y.
+// Strategy depends on the platform:
+//
+//   iOS Safari — uses overlay scrollbars (no gutter) but has a bug where
+//   `overflow:hidden` on <body> doesn't prevent background scrolling. Fix:
+//   `position:fixed; top:-Ypx` freezes the body at the saved scroll position.
+//   On close we restore scrollY. No scrollbar gutter to worry about on iOS.
+//
+//   All other browsers — `html { scrollbar-gutter:stable }` permanently
+//   reserves gutter space, so the visible layout never shifts when a scrollbar
+//   appears or disappears. We do NOT use `position:fixed` here because that
+//   stretches body to the full viewport width (past the gutter), causing a
+//   15 px shift in the opposite direction. Instead we use `overflow:hidden` on
+//   body only (html stays overflow:auto so the gutter stays active).
+//   No padding-right compensation is needed — the gutter handles it.
 //
 // All overlays (modals, privacy, terms, check-email, thank-you) call these
-// helpers so the page never jumps on close regardless of which overlay opened.
+// helpers so the page never jumps on open/close regardless of which overlay
+// opened.
 var _sfScrollLockDepth = 0;   // nested open count (privacy inside modal, etc.)
 var _sfScrollLockY     = 0;   // scroll position saved at first lock
+var _sfScrollIsIOS     = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-function sfScrollLock(scrollbarW) {
+function sfScrollLock() {
   if (_sfScrollLockDepth === 0) {
     _sfScrollLockY = window.scrollY || 0;
-    document.body.style.top      = '-' + _sfScrollLockY + 'px';
-    document.body.style.position = 'fixed';
-    document.body.style.width    = '100%';
-    document.body.style.overflow = 'hidden';
-    // Do NOT set overflow:hidden on <html> — that would disable
-    // scrollbar-gutter:stable and lose the reserved gutter space.
-    // body{position:fixed} alone prevents document scrolling on all
-    // modern browsers; the html overflow lock is not needed.
+    if (_sfScrollIsIOS) {
+      // iOS: position:fixed trick to freeze background scroll.
+      // Overlay scrollbars mean no gutter shift to compensate for.
+      document.body.style.top      = '-' + _sfScrollLockY + 'px';
+      document.body.style.position = 'fixed';
+      document.body.style.width    = '100%';
+    } else {
+      // Desktop / non-iOS: overflow:hidden on body only.
+      // Keeps html overflow:auto so scrollbar-gutter:stable stays active
+      // and the 15 px gutter space is permanently reserved — zero layout shift.
+      document.body.style.overflow = 'hidden';
+    }
   }
   _sfScrollLockDepth++;
-  if (scrollbarW && scrollbarW > 0) {
-    document.body.style.paddingRight = scrollbarW + 'px';
-    document.querySelectorAll('header').forEach(function (h) {
-      h.style.paddingRight = scrollbarW + 'px';
-    });
-  }
 }
 
 function sfScrollUnlock() {
   _sfScrollLockDepth = Math.max(0, _sfScrollLockDepth - 1);
   if (_sfScrollLockDepth > 0) return; // another overlay is still open
   var y = _sfScrollLockY;
-  document.body.style.overflow    = '';
-  document.body.style.position    = '';
-  document.body.style.top         = '';
-  document.body.style.width       = '';
-  document.body.style.paddingRight = '';
-  document.querySelectorAll('header').forEach(function (h) {
-    h.style.paddingRight = '';
-  });
-  // Restore scroll — 'instant' avoids a visible smooth-scroll jump.
-  window.scrollTo({ top: y, behavior: 'instant' });
+  if (_sfScrollIsIOS) {
+    document.body.style.position = '';
+    document.body.style.top      = '';
+    document.body.style.width    = '';
+    window.scrollTo({ top: y, behavior: 'instant' });
+  } else {
+    document.body.style.overflow = '';
+  }
   _sfScrollLockY = 0;
 }
 
@@ -151,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (new URLSearchParams(window.location.search).get('salefish_verified') === '1') {
     const thankYouMsg = document.querySelector('.thank_you_msg');
     if (thankYouMsg) sfFadeIn(thankYouMsg);
-    sfScrollLock(0);
+    sfScrollLock();
     history.replaceState(null, '', window.location.pathname);
   }
 
@@ -172,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
         m.classList.remove('is-open');
         m.setAttribute('inert', '');
       });
-      sfScrollLock(0);
+      sfScrollLock();
     });
   });
 
@@ -197,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
         m.classList.remove('is-open');
         m.setAttribute('inert', '');
       });
-      sfScrollLock(0);
+      sfScrollLock();
     });
   });
 
@@ -294,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (addrEl) addrEl.textContent = email;
     }
     sfFadeIn(msg);
-    sfScrollLock(0);
+    sfScrollLock();
   }
 
   // ── Focus trap ────────────────────────────────────────────────────────────────
@@ -430,14 +438,9 @@ document.addEventListener('DOMContentLoaded', function () {
   // ── REGISTRATION MODAL ────────────────────────────────────────────────────────
   function sfRegModalOpen(section) {
     if (window.sfEnsureModals) window.sfEnsureModals();
-    // scrollbar-gutter:stable permanently reserves gutter space, so the
-    // innerWidth–clientWidth delta is always non-zero even without a scrollbar.
-    // In that case padding-right compensation is not needed (the gutter handles it).
-    const _sbGutter = window.getComputedStyle(document.documentElement).scrollbarGutter || '';
-    const scrollbarW = _sbGutter.includes('stable') ? 0 : window.innerWidth - document.documentElement.clientWidth;
     const regSection = document.getElementById('sf_reg_section');
     if (regSection) regSection.value = section || '';
-    sfScrollLock(scrollbarW);
+    sfScrollLock();
     const modal = document.getElementById('sf-reg-modal');
     // Start Turnstile loading immediately — before the fade begins — so the
     // widget has the full 200 ms of fade time to initialise before the user
@@ -512,9 +515,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // ── PARTNER REGISTRATION MODAL ────────────────────────────────────────────────
   function sfPartnerModalOpen(partnerType, _section) {
     if (window.sfEnsureModals) window.sfEnsureModals();
-    const _sbGutter2 = window.getComputedStyle(document.documentElement).scrollbarGutter || '';
-    const scrollbarW = _sbGutter2.includes('stable') ? 0 : window.innerWidth - document.documentElement.clientWidth;
-    sfScrollLock(scrollbarW);
+    sfScrollLock();
     if (partnerType) {
       const sel = document.getElementById('sf_partner_want_to_do');
       if (sel) sel.value = partnerType;
