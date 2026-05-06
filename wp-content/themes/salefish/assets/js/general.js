@@ -19,7 +19,10 @@ function sfScrollLock(scrollbarW) {
     document.body.style.position = 'fixed';
     document.body.style.width    = '100%';
     document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
+    // Do NOT set overflow:hidden on <html> — that would disable
+    // scrollbar-gutter:stable and lose the reserved gutter space.
+    // body{position:fixed} alone prevents document scrolling on all
+    // modern browsers; the html overflow lock is not needed.
   }
   _sfScrollLockDepth++;
   if (scrollbarW && scrollbarW > 0) {
@@ -34,7 +37,6 @@ function sfScrollUnlock() {
   _sfScrollLockDepth = Math.max(0, _sfScrollLockDepth - 1);
   if (_sfScrollLockDepth > 0) return; // another overlay is still open
   var y = _sfScrollLockY;
-  document.documentElement.style.overflow = '';
   document.body.style.overflow    = '';
   document.body.style.position    = '';
   document.body.style.top         = '';
