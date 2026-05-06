@@ -40,7 +40,61 @@ __webpack_require__.r(__webpack_exports__);
 
 // SmoothScroll removed — replaced by native `scroll-behavior: smooth` on html
 // Parsley / jquery.mask / flowtype removed — replaced by vanilla JS equivalents
-// ── Phone mask: format as xxx-xxx-xxxx ───────────────────────────────────────
+// ── Scroll-lock helpers ───────────────────────────────────────────────────────
+// iOS Safari resets window.scrollY to 0 when `overflow:hidden` is removed from
+// <body>. The standard fix is `position:fixed; top:-Ypx` which freezes the
+// body at the current scroll position without touching overflow. On close we
+// restore position and scroll back to the saved Y.
+//
+// All overlays (modals, privacy, terms, check-email, thank-you) call these
+// helpers so the page never jumps on close regardless of which overlay opened.
+var _sfScrollLockDepth = 0; // nested open count (privacy inside modal, etc.)
+
+var _sfScrollLockY = 0; // scroll position saved at first lock
+
+function sfScrollLock(scrollbarW) {
+  if (_sfScrollLockDepth === 0) {
+    _sfScrollLockY = window.scrollY || 0;
+    document.body.style.top = '-' + _sfScrollLockY + 'px';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+  }
+
+  _sfScrollLockDepth++;
+
+  if (scrollbarW && scrollbarW > 0) {
+    document.body.style.paddingRight = scrollbarW + 'px';
+    document.querySelectorAll('header').forEach(function (h) {
+      h.style.paddingRight = scrollbarW + 'px';
+    });
+  }
+}
+
+function sfScrollUnlock() {
+  _sfScrollLockDepth = Math.max(0, _sfScrollLockDepth - 1);
+  if (_sfScrollLockDepth > 0) return; // another overlay is still open
+
+  var y = _sfScrollLockY;
+  document.documentElement.style.overflow = '';
+  document.body.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  document.body.style.paddingRight = '';
+  document.querySelectorAll('header').forEach(function (h) {
+    h.style.paddingRight = '';
+  }); // Restore scroll — 'instant' avoids a visible smooth-scroll jump.
+
+  window.scrollTo({
+    top: y,
+    behavior: 'instant'
+  });
+  _sfScrollLockY = 0;
+} // ── Phone mask: format as xxx-xxx-xxxx ───────────────────────────────────────
+
+
 function applyPhoneMask(input) {
   if (!input) return;
   input.addEventListener('input', function () {
@@ -92,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (new URLSearchParams(window.location.search).get('salefish_verified') === '1') {
     var thankYouMsg = document.querySelector('.thank_you_msg');
     if (thankYouMsg) sfFadeIn(thankYouMsg);
-    document.body.style.overflow = 'hidden';
+    sfScrollLock(0);
     history.replaceState(null, '', window.location.pathname);
   } // ── Phone masks ──────────────────────────────────────────────────────────────
 
@@ -112,14 +166,14 @@ document.addEventListener('DOMContentLoaded', function () {
         m.classList.remove('is-open');
         m.setAttribute('inert', '');
       });
-      document.body.style.overflow = 'hidden';
+      sfScrollLock(0);
     });
   });
   document.querySelectorAll('.close_privacy').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var pp = document.querySelector('.privacy_policy');
       if (pp) pp.classList.remove('active');
-      document.body.style.overflow = '';
+      sfScrollUnlock();
     });
   }); // ── Terms popup ───────────────────────────────────────────────────────────────
 
@@ -135,14 +189,14 @@ document.addEventListener('DOMContentLoaded', function () {
         m.classList.remove('is-open');
         m.setAttribute('inert', '');
       });
-      document.body.style.overflow = 'hidden';
+      sfScrollLock(0);
     });
   });
   document.querySelectorAll('.close_terms').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var tp = document.querySelector('.terms_popup');
       if (tp) tp.classList.remove('active');
-      document.body.style.overflow = '';
+      sfScrollUnlock();
     });
   }); // ── Close floating menu when a link inside it is clicked ─────────────────────
 
@@ -249,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     sfFadeIn(msg);
-    document.body.style.overflow = 'hidden';
+    sfScrollLock(0);
   } // ── Focus trap ────────────────────────────────────────────────────────────────
 
 
@@ -355,14 +409,14 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.sf-check-email-close').forEach(function (btn) {
     btn.addEventListener('click', function () {
       sfFadeOut(document.querySelector('.sf-check-email-msg'));
-      document.body.style.overflow = '';
+      sfScrollUnlock();
     });
   }); // ── CLOSE THANK YOU MESSAGE ───────────────────────────────────────────────────
 
   document.querySelectorAll('.close_thank_you_msg').forEach(function (btn) {
     btn.addEventListener('click', function () {
       sfFadeOut(document.querySelector('.thank_you_msg'));
-      document.body.style.overflow = '';
+      sfScrollUnlock();
     });
   }); // ── Render Turnstile widget inside a freshly-opened modal ────────────────────
 
@@ -402,16 +456,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
     var regSection = document.getElementById('sf_reg_section');
     if (regSection) regSection.value = section || '';
-
-    if (scrollbarW > 0) {
-      document.body.style.paddingRight = scrollbarW + 'px';
-      document.querySelectorAll('header').forEach(function (h) {
-        h.style.paddingRight = scrollbarW + 'px';
-      });
-    }
-
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
+    sfScrollLock(scrollbarW);
     var modal = document.getElementById('sf-reg-modal'); // Start Turnstile loading immediately — before the fade begins — so the
     // widget has the full 200 ms of fade time to initialise before the user
     // can interact with the modal.
@@ -429,12 +474,7 @@ document.addEventListener('DOMContentLoaded', function () {
       _sfRegTrap = null;
     }
 
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
-    document.querySelectorAll('header').forEach(function (h) {
-      h.style.paddingRight = '';
-    });
+    sfScrollUnlock();
     var returnFocus = _sfRegTrigger;
     _sfRegTrigger = null;
     sfFadeOut(document.getElementById('sf-reg-modal'), 200, function () {
@@ -509,21 +549,13 @@ document.addEventListener('DOMContentLoaded', function () {
   function sfPartnerModalOpen(partnerType, _section) {
     if (window.sfEnsureModals) window.sfEnsureModals();
     var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
-
-    if (scrollbarW > 0) {
-      document.body.style.paddingRight = scrollbarW + 'px';
-      document.querySelectorAll('header').forEach(function (h) {
-        h.style.paddingRight = scrollbarW + 'px';
-      });
-    }
+    sfScrollLock(scrollbarW);
 
     if (partnerType) {
       var sel = document.getElementById('sf_partner_want_to_do');
       if (sel) sel.value = partnerType;
     }
 
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
     var modal = document.getElementById('sf-partner-modal'); // Start Turnstile loading before the fade — same rationale as reg modal.
 
     sfRenderTurnstileIn(modal);
@@ -539,12 +571,7 @@ document.addEventListener('DOMContentLoaded', function () {
       _sfPartnerTrap = null;
     }
 
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
-    document.querySelectorAll('header').forEach(function (h) {
-      h.style.paddingRight = '';
-    });
+    sfScrollUnlock();
     var returnFocus = _sfPartnerTrigger;
     _sfPartnerTrigger = null;
     sfFadeOut(document.getElementById('sf-partner-modal'), 200, function () {

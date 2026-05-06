@@ -25,10 +25,10 @@ header {
   // Height changes instantly on scroll — animating height forces a full
   // layout reflow on every frame and makes the header feel sluggish.
   // Background fades at 150ms (compositor-friendly paint op only).
-  // will-change promotes the element to its own compositing layer so the
-  // background repaint stays isolated and never triggers a page relayout.
+  // will-change: background is intentionally omitted — `background` is not
+  // a compositable CSS property, so the hint has no effect on layer
+  // promotion and only wastes compositor bookkeeping.
   transition: background 150ms ease;
-  will-change: background;
   height: 100px;
   display: flex;
   align-items: center;
@@ -83,20 +83,19 @@ header {
   }
 
   &.active {
-    // Solid-purple background by default. Frosted glass (backdrop-filter)
-    // is applied DESKTOP-ONLY because on iOS Safari it causes severe layout
-    // jank when combined with click handlers — every menu open re-runs the
-    // blur compositing and can stall the main thread for 200-400 ms.
+    // Solid-purple background on all screen sizes.
+    //
+    // backdrop-filter: blur() was previously applied on desktop only
+    // (iOS Safari already excluded due to layout jank). Chrome desktop has
+    // the same class of bug: a position:fixed element with backdrop-filter
+    // forces the compositor to sample the tiles BEHIND the fixed layer. On
+    // fast upward scrolls, those tiles haven't been rasterized yet — Chrome
+    // samples blank GPU memory and the entire page content goes white until
+    // rasterization catches up. Removing backdrop-filter eliminates the
+    // compositor sampling requirement entirely. The 95% opacity purple
+    // provides a clear and clean scrolled-state affordance.
     background: rgba($dark_purple, 0.95);
     height: 70px;
-
-    @media (min-width: 769px) {
-      @supports (backdrop-filter: blur(18px)) or (-webkit-backdrop-filter: blur(18px)) {
-        background: rgba($dark_purple, 0.62);
-        backdrop-filter: blur(18px) saturate(180%);
-        -webkit-backdrop-filter: blur(18px) saturate(180%);
-      }
-    }
 
     @include rs768 {
       height: 80px; // no shrink on mobile — always 80px
@@ -1321,5 +1320,25 @@ $_nav-body-map: (
 body.single-post .blog_nav a,
 body.category   .blog_nav a,
 body.archive    .blog_nav a {
+  font-family: $PSB;
+}
+
+// ── Active nav state in the floating mobile menu ─────────────────────────────
+// The map above applies font-family:$PSB only — on the white desktop nav
+// that's sufficient (bold stands out on purple). In the floating menu's
+// light-background panel the text is dark and semi-bold alone is barely
+// perceptible. Adding color:$dark_purple matches the panel's own `.active`
+// style and makes the current page clearly visible.
+@each $body-class, $nav-sel in $_nav-body-map {
+  body.#{$body-class} .floating_menu #{$nav-sel} {
+    color: $dark_purple;
+    font-family: $PSB;
+  }
+}
+
+body.single-post .floating_menu .blog_nav a,
+body.category   .floating_menu .blog_nav a,
+body.archive    .floating_menu .blog_nav a {
+  color: $dark_purple;
   font-family: $PSB;
 }

@@ -306,6 +306,46 @@ $_sf_lang_options_html .= '</ul>';
 				el.classList.remove('sf-fade-in');
 			});
 		});
+
+		// ── Instant mobile hamburger ─────────────────────────────────────────
+		// `click` fires ~300 ms after touchend (browser tap-delay) and can be
+		// delayed further if the main thread is busy parsing app.js. `pointerdown`
+		// fires the instant the finger contacts the screen — zero perceptible lag.
+		// We skip `pointerType === 'mouse'` so desktop users keep the click path
+		// (prevents a double-toggle: pointerdown THEN click). e.preventDefault()
+		// cancels the synthetic click so the delegated handler above doesn't
+		// also toggle the menu a second time.
+		document.addEventListener('DOMContentLoaded', function () {
+			document.querySelectorAll('.sf-menu-btn').forEach(function (btn) {
+				btn.addEventListener('pointerdown', function (e) {
+					if (e.pointerType === 'mouse') return;
+					e.preventDefault();
+					toggle('nav');
+				});
+			});
+		});
+
+		// ── bfcache + scroll-lock restoration guard ──────────────────────────
+		// pageshow fires on BOTH fresh loads AND bfcache restorations.
+		// Two failure modes covered here:
+		//  1. User opened a modal (scroll-locked via position:fixed on body),
+		//     navigated away without closing — bfcache restores the frozen state.
+		//  2. Any other code path that leaves overflow or position stuck.
+		// We clear every scroll-lock property unconditionally so the page is
+		// always scrollable after restore. applyScrollState() re-syncs the
+		// header's .active class with the real scroll position.
+		window.addEventListener('pageshow', function () {
+			document.documentElement.style.overflow = '';
+			document.body.style.overflow = '';
+			document.body.style.position = '';
+			document.body.style.top = '';
+			document.body.style.width = '';
+			document.body.style.paddingRight = '';
+			document.querySelectorAll('header').forEach(function (h) {
+				h.style.paddingRight = '';
+			});
+			applyScrollState();
+		});
 	})();
 	</script>
 

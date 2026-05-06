@@ -1657,7 +1657,6 @@ button.swiper-pagination-bullet {
 .img-zoom img {
   display: block;
   transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform;
 }
 
 img,
@@ -1828,6 +1827,7 @@ body {
   background: #F3F5F9;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: none;
+  overscroll-behavior-y: contain;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-anchor: none;
@@ -2560,7 +2560,6 @@ header {
   background: rgba(69, 45, 140, 0);
   padding-top: env(safe-area-inset-top);
   transition: background 150ms ease;
-  will-change: background;
   height: 100px;
   display: flex;
   align-items: center;
@@ -2611,15 +2610,6 @@ header .salefish:active .salefish_logo {
 header.active {
   background: rgba(69, 45, 140, 0.95);
   height: 70px;
-}
-@media (min-width: 769px) {
-  @supports ((-webkit-backdrop-filter: blur(18px)) or (backdrop-filter: blur(18px))) or (-webkit-backdrop-filter: blur(18px)) {
-    header.active {
-      background: rgba(69, 45, 140, 0.62);
-      backdrop-filter: blur(18px) saturate(180%);
-      -webkit-backdrop-filter: blur(18px) saturate(180%);
-    }
-  }
 }
 @media screen and (max-width: 768px) {
   header.active {
@@ -3822,6 +3812,53 @@ body.archive .blog_nav a {
   font-family: "Poppins-SemiBold";
 }
 
+body.page-template-page-our-story-php .floating_menu .our_story_nav a {
+  color: #452D8C;
+  font-family: "Poppins-SemiBold";
+}
+
+body.page-template-page-awards-php .floating_menu .awards_nav a {
+  color: #452D8C;
+  font-family: "Poppins-SemiBold";
+}
+
+body.page-template-page-partners-php .floating_menu .partners_nav a {
+  color: #452D8C;
+  font-family: "Poppins-SemiBold";
+}
+
+body.page-template-page-contact-us-php .floating_menu .contact_us_nav a {
+  color: #452D8C;
+  font-family: "Poppins-SemiBold";
+}
+
+body.page-template-page-blog-php .floating_menu .blog_nav a {
+  color: #452D8C;
+  font-family: "Poppins-SemiBold";
+}
+
+body.page-template-page-blog-filter-php .floating_menu .blog_nav a {
+  color: #452D8C;
+  font-family: "Poppins-SemiBold";
+}
+
+body.page-template-page-terms-of-use-php .floating_menu .terms_of_use_nav a {
+  color: #452D8C;
+  font-family: "Poppins-SemiBold";
+}
+
+body.page-template-page-privacy-policy-php .floating_menu .privacy_policy_nav a {
+  color: #452D8C;
+  font-family: "Poppins-SemiBold";
+}
+
+body.single-post .floating_menu .blog_nav a,
+body.category .floating_menu .blog_nav a,
+body.archive .floating_menu .blog_nav a {
+  color: #452D8C;
+  font-family: "Poppins-SemiBold";
+}
+
 .sf-scroll-top {
   position: fixed;
   bottom: 28px;
@@ -4306,7 +4343,6 @@ footer .bottom .right .certified {
      object-fit: contain;
   margin-top: 25px;
   transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform;
 }
 @media screen and (max-width: 990px) {
   .home .hero .wrapper .right img {
@@ -4324,6 +4360,7 @@ footer .bottom .right .certified {
   background: #9D90D3;
   -webkit-clip-path: polygon(0 0, 100% 0%, 100% 86%, 0 55%);
           clip-path: polygon(0 0, 100% 0%, 100% 86%, 0 55%);
+  contain: paint;
   margin-top: -15px;
   width: calc(100% - 120px);
   padding: 60px 60px 220px;
@@ -4441,7 +4478,6 @@ footer .bottom .right .certified {
   -o-object-position: center;
      object-position: center;
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform;
 }
 @media screen and (max-width: 550px) {
   .home .builders .builders_wrap .builder_logo {
@@ -4522,7 +4558,6 @@ footer .bottom .right .certified {
      object-fit: contain;
   margin-bottom: 16px;
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform;
 }
 @media screen and (max-width: 768px) {
   .home .pillars .pillarsSwiper .swiper-slide .pillar {
@@ -4682,7 +4717,6 @@ footer .bottom .right .certified {
   transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   -o-object-fit: contain;
      object-fit: contain;
-  will-change: transform;
 }
 .home .features .row .col .wrap p {
   width: 90%;
@@ -4861,7 +4895,6 @@ footer .bottom .right .certified {
   overflow: hidden;
   border-radius: 12px;
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform;
 }
 @media screen and (max-width: 768px) {
   .home .features .feature .content.content_image {

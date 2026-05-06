@@ -149,7 +149,10 @@
           object-fit: contain; // belt-and-braces against any aspect-ratio drift
           margin-top: 25px;
           transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          will-change: transform;
+          // will-change: transform intentionally omitted — hover-only transforms
+          // don't need permanent GPU layer pre-promotion. Pre-promoting every
+          // hover target on the page exhausts the GPU layer budget and causes
+          // Chrome to evict layers on fast scroll, blanking visible content.
 
           @include rs990 {
             height: auto;
@@ -172,6 +175,12 @@
   .builders {
     background: $light_purple;
     clip-path: polygon(0 0, 100% 0%, 100% 86%, 0 55%);
+    // contain: paint isolates the marquee animation's GPU compositor layer so
+    // Chrome treats the builders section as a self-contained paint region.
+    // Without this, the animated .builders_track layer participates in the
+    // same compositor tree as the rest of the page, and Chrome can evict
+    // surrounding page tiles when managing the animation under GPU pressure.
+    contain: paint;
     margin-top: -15px;
     width: calc(100% - 120px);
     padding: 60px 60px 220px;
@@ -293,7 +302,7 @@
         object-fit: contain;
         object-position: center;
         transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        will-change: transform;
+        // will-change: transform removed — hover-only, no permanent GPU layer needed
 
         @include rs550 { width: 96px; height: 32px; }
 
@@ -375,7 +384,7 @@
           object-fit: contain;
           margin-bottom: 16px;
           transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          will-change: transform;
+          // will-change: transform removed — hover-only, no permanent GPU layer needed
 
           @include rs768 {
             width: 160px;
@@ -552,7 +561,7 @@
             margin: 0 auto;
             transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             object-fit: contain;
-            will-change: transform;
+            // will-change: transform removed — hover-only, no permanent GPU layer needed
           }
 
           p {
@@ -760,7 +769,7 @@
           overflow: hidden;
           border-radius: 12px;
           transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          will-change: transform;
+          // will-change: transform removed — hover-only, no permanent GPU layer needed
 
           @include rs768 {
             order: 2;

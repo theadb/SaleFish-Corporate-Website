@@ -135,7 +135,10 @@
   img {
     display: block;
     transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    will-change: transform;
+    // will-change: transform removed — hover-only transforms don't need permanent
+    // GPU layer pre-promotion. Permanently promoting every .img-zoom image
+    // exhausts the GPU layer budget on content-heavy pages and causes Chrome
+    // to evict compositor tiles on fast scroll, blanking visible page content.
   }
 }
 
@@ -405,6 +408,10 @@ body {
   background: $gray; // prevents white gaps where clip-paths expose the page background
   -webkit-overflow-scrolling: touch; // enable momentum scrolling on older iOS
   overscroll-behavior-x: none;       // block horizontal overscroll without affecting vertical
+  overscroll-behavior-y: contain;    // prevent pull-to-refresh on mobile — accidental upward
+                                     // swipe while a page is still loading looks like a reload
+                                     // wiping all content. 'contain' keeps the rubber-band
+                                     // within the page but stops it from bubbling to the OS.
   // Crisp subpixel-free text rendering — noticeable on Retina/P3 displays in Safari
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
