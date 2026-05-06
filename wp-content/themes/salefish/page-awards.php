@@ -20,9 +20,9 @@ $awards = get_field('awards');
                 <h1 data-aos="fade-up" data-aos-delay="250">
                     If You're the Best in the Business, You Don't Need to Tell People
                 </h1>
-                <p class="hero-eyebrow" data-aos="fade-up" data-aos-delay="400">
+                <h3 data-aos="fade-up" data-aos-delay="400">
                     They'll Tell You.
-                </p>
+                </h3>
             </div>
             <div class="right" data-aos="fade-left" data-aos-delay="200">
                 <?php sf_picture( get_template_directory_uri() . '/img/trophy-v3.png', [ 'class' => 'trophy', 'alt' => 'SaleFish awards trophy', 'loading' => 'eager', 'fetchpriority' => 'high' ] ); ?>

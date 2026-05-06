@@ -19,8 +19,8 @@
 		</button>
 		<div class="sf-reg-modal__scroll">
 			<div class="sf-reg-modal__inner">
-				<h3>Streamline Sales, Eliminate Mistakes &amp; Increase Your Bottom Line.</h3>
-				<h1>Don't Wait — You're Already Losing Ground.</h1>
+				<p class="eyebrow">Streamline Sales, Eliminate Mistakes &amp; Increase Your Bottom Line.</p>
+				<h2>Don't Wait — You're Already Losing Ground.</h2>
 				<form id="sf_reg_form">
 					<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off">
 					<input type="hidden" name="sf_section" id="sf_reg_section" value="">
@@ -84,8 +84,8 @@
 		</button>
 		<div class="sf-partner-modal__scroll">
 			<div class="sf-partner-modal__inner">
-				<h3>Got Clients, Code, or Just Great Contacts? SaleFish Makes It Easy to Earn and Integrate.</h3>
-				<h1>Want In? Pick Your Lane. <span>We'll Handle the Rest.</span></h1>
+				<p class="eyebrow">Got Clients, Code, or Just Great Contacts? SaleFish Makes It Easy to Earn and Integrate.</p>
+				<h2>Want In? Pick Your Lane. <span>We'll Handle the Rest.</span></h2>
 				<form id="sf_partner_form">
 					<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off">
 					<div class="row">

@@ -85,7 +85,7 @@ $s = $strings[ $locale ] ?? $strings['au'];
 		<div class="wrapper">
 			<div class="max_wrapper">
 				<div class="left" data-aos="fade-right" data-aos-delay="300">
-					<h3><?php echo wp_kses_post( $s['hero_h3'] ); ?></h3>
+					<h3 class="hero-eyebrow-text"><?php echo wp_kses_post( $s['hero_h3'] ); ?></h3>
 					<h1>
 						<?php echo wp_kses_post( $hero_header ); ?>
 					</h1>
