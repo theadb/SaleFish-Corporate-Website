@@ -39,7 +39,7 @@ $the_numbers    = get_field( 'the_numbers' );
 		<div class="wrapper">
 			<div class="max_wrapper">
 				<div class="left" data-aos="fade-right" data-aos-delay="300">
-					<h3>An Easier Way to <span>Sell <span id="app_for_home">Home Sales</span></span></h3>
+					<h3>Ev Satışı İçin <span>Daha Kolay <span id="app_for_home">Bir Yol</span></span></h3>
 					<h1><?php echo wp_kses_post( $hero_header ); ?></h1>
 					<a class="button" href="#contact_us">ÜCRETSİZ DEMO REZERVASYONU YAPIN</a>
 				</div>
@@ -126,15 +126,15 @@ $the_numbers    = get_field( 'the_numbers' );
 					<div class="swiper-wrapper">
 						<div class="swiper-slide">
 							<h1>$<span id="count_1_mobile"></span>B</h1>
-							<p>in global new home sales</p>
+							<p>küresel yeni konut satışlarında</p>
 						</div>
 						<div class="swiper-slide">
 							<h1><span id="count_2_mobile"></span>+</h1>
-							<p>builders, developers &amp; sales partners</p>
+							<p>inşaatçı, geliştirici &amp; satış ortağı</p>
 						</div>
 						<div class="swiper-slide">
 							<h1><span id="count_3_mobile"></span>M</h1>
-							<p>users of the SaleFish platform</p>
+							<p>SaleFish platformu kullanıcısı</p>
 						</div>
 					</div>
 				</div>
@@ -147,7 +147,7 @@ $the_numbers    = get_field( 'the_numbers' );
 						alt="Right Arrow">
 				</div>
 			</div>
-			<a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish">BIZLE SOHBET ET<span class="sr-only"> (opens in new tab)</span></a>
+			<a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish" aria-label="Bizle sohbet edin (yeni sekmede açılır)">BİZLE SOHBET EDİN</a>
 		</div>
 		<!-- PILLARS -->
 		<section class="pillars">

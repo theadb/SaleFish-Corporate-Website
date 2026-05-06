@@ -10,9 +10,11 @@
 
 <?php
 // Featured posts strip — shown on every page except the blog listing,
-// category-filter pages, and individual posts (redundant on post pages).
-$_sf_is_blog = is_page_template( 'page-blog.php' ) || is_page_template( 'page-blog-filter.php' ) || is_single();
-if ( ! $_sf_is_blog ) {
+// category-filter pages, individual posts, and the DE/TR homepages
+// (those audiences don't have translated blog content).
+$_sf_is_blog   = is_page_template( 'page-blog.php' ) || is_page_template( 'page-blog-filter.php' ) || is_single();
+$_sf_is_locale = is_page_template( 'page-homepage-de.php' ) || is_page_template( 'page-homepage-tr.php' );
+if ( ! $_sf_is_blog && ! $_sf_is_locale ) {
     get_template_part( 'template-parts/footer-featured-posts' );
 }
 ?>

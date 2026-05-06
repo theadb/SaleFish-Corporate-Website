@@ -126,15 +126,15 @@ $the_numbers    = get_field( 'the_numbers' );
 					<div class="swiper-wrapper">
 						<div class="swiper-slide">
 							<h1>$<span id="count_1_mobile"></span>B</h1>
-							<p>in global new home sales</p>
+							<p>im globalen Neubauverkauf</p>
 						</div>
 						<div class="swiper-slide">
 							<h1><span id="count_2_mobile"></span>+</h1>
-							<p>builders, developers &amp; sales partners</p>
+							<p>Bauträger, Entwickler &amp; Vertriebspartner</p>
 						</div>
 						<div class="swiper-slide">
 							<h1><span id="count_3_mobile"></span>M</h1>
-							<p>users of the SaleFish platform</p>
+							<p>Nutzer der SaleFish-Plattform</p>
 						</div>
 					</div>
 				</div>
@@ -147,7 +147,7 @@ $the_numbers    = get_field( 'the_numbers' );
 						alt="Right Arrow">
 				</div>
 			</div>
-			<a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish">CHATTEN SIE MIT UNS<span class="sr-only"> (opens in new tab)</span></a>
+			<a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish" aria-label="Chatten Sie mit uns (öffnet in neuem Tab)">CHATTEN SIE MIT UNS</a>
 		</div>
 		<!-- PILLARS -->
 		<section class="pillars">

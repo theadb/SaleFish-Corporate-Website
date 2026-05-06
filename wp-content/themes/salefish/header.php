@@ -578,7 +578,7 @@ $_sf_lang_options_html .= '</ul>';
 					<a href="/de#features">Merkmale</a>
 				</li>
 				<li class="nav-demo">
-					<a class="button" href="/contact-us/" data-sf-modal="register">Get a Demo</a>
+					<a class="button" href="/contact-us/" data-sf-modal="register">Demo Anfragen</a>
 				</li>
 			</ul>
 			<div class="menu">
@@ -614,7 +614,7 @@ $_sf_lang_options_html .= '</ul>';
 					<a href="/tr/contact">Bize Ulaşın</a>
 				</li>
 				<li class="nav-demo">
-					<a class="button" href="/contact-us/" data-sf-modal="register">Get a Demo</a>
+					<a class="button" href="/contact-us/" data-sf-modal="register">Demo Al</a>
 				</li>
 			</ul>
 			<div class="menu">
@@ -689,7 +689,7 @@ $_sf_lang_options_html .= '</ul>';
 						<a href="/tr/contact">Bize Ulaşın</a>
 					</li>
 					<li class="mobile nav-demo-mobile">
-						<a class="button" href="/contact-us/" data-sf-modal="register">Get a Demo</a>
+						<a class="button" href="/contact-us/" data-sf-modal="register">Demo Al</a>
 					</li>
 					<li class="mobile">
 						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer" aria-label="Satış Aplikasyonu (opens in new tab)">Satış Aplikasyonu</a>
@@ -722,7 +722,7 @@ $_sf_lang_options_html .= '</ul>';
 						<a href="/de#features">Merkmale</a>
 					</li>
 					<li class="mobile nav-demo-mobile">
-						<a class="button" href="/contact-us/" data-sf-modal="register">Get a Demo</a>
+						<a class="button" href="/contact-us/" data-sf-modal="register">Demo Anfragen</a>
 					</li>
 					<li class="mobile">
 						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer" aria-label="Verkaufs-App (opens in new tab)">Verkaufs-App</a>
