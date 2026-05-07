@@ -62,7 +62,10 @@ header {
       transition: width 300ms ease-in-out,
                   transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
                   filter   300ms ease;
-      will-change: transform;
+      // will-change: transform moved to :hover — permanent will-change burns a
+      // dedicated GPU compositor layer on every page on every device, even when
+      // the logo is never hovered. On mobile with a constrained GPU tile budget
+      // this causes evictions elsewhere and contributes to scroll jank.
 
       @include rs550 {
         width: 135px;
@@ -71,8 +74,11 @@ header {
 
     // Subtle scale-up + soft glow on hover; matches .img-zoom polish used
     // elsewhere on the site. Keyboard-focus state matches for a11y.
+    // will-change promoted here (hover only) so the compositor layer only
+    // exists while the animation is actually about to run.
     &:hover .salefish_logo,
     &:focus-visible .salefish_logo {
+      will-change: transform;
       transform: scale(1.06);
       filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.18));
     }
@@ -117,6 +123,7 @@ header {
     display: flex;
     align-items: center;
     cursor: pointer;
+    touch-action: manipulation; // eliminates 300 ms iOS tap delay on this div trigger
 
     .flag_active {
       .flag {
@@ -124,6 +131,7 @@ header {
         line-height: 1;
         margin-right: 4px;
         letter-spacing: 2px;
+        white-space: nowrap; // prevent two-flag combos (e.g. 🇨🇦🇺🇸) from wrapping
       }
     }
 
@@ -166,6 +174,11 @@ header {
     justify-content: center;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+    // Eliminates the 300 ms iOS tap delay so the menu opens the instant
+    // the finger touches the screen (same as the pointerdown handler in
+    // header.php, but this also covers browser paths that don't fire
+    // pointer events before click).
+    touch-action: manipulation;
 
     svg {
       width: 22px;
@@ -494,6 +507,7 @@ header {
     inset: 0;
     background: rgba(0, 0, 0, 0.72);
     cursor: pointer;
+    touch-action: manipulation;
   }
 
   &__panel {
@@ -530,6 +544,7 @@ header {
     cursor: pointer;
     color: $black;
     padding: 0;
+    touch-action: manipulation;
     transition: background 0.15s ease, border-color 0.15s ease;
 
     &:hover { background: rgba($black, 0.11); }
@@ -596,6 +611,7 @@ header {
     inset: 0;
     background: rgba(0, 0, 0, 0.72);
     cursor: pointer;
+    touch-action: manipulation;
   }
 
   &__panel {
@@ -631,6 +647,7 @@ header {
     cursor: pointer;
     color: $black;
     padding: 0;
+    touch-action: manipulation;
     transition: background 0.15s ease, border-color 0.15s ease;
 
     &:hover { background: rgba($black, 0.11); }
@@ -682,6 +699,7 @@ header {
     inset: 0;
     background: rgba(0, 0, 0, 0.72);
     cursor: pointer;
+    touch-action: manipulation;
   }
 
   &__panel {
@@ -728,6 +746,7 @@ header {
     cursor: pointer;
     color: #fff;
     padding: 0;
+    touch-action: manipulation;
     transition: background 0.15s ease, border-color 0.15s ease;
 
     &:hover { background: rgba(#fff, 0.22); border-color: rgba(#fff, 0.35); }
@@ -875,6 +894,7 @@ header {
     inset: 0;
     background: rgba(0, 0, 0, 0.72);
     cursor: pointer;
+    touch-action: manipulation;
   }
 
   &__panel {
@@ -921,6 +941,7 @@ header {
     cursor: pointer;
     color: #fff;
     padding: 0;
+    touch-action: manipulation;
     transition: background 0.15s ease, border-color 0.15s ease;
 
     &:hover { background: rgba(#fff, 0.22); border-color: rgba(#fff, 0.35); }
@@ -1138,7 +1159,9 @@ header {
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 500ms ease-in, visibility 500ms ease-in;
+  // Was 500 ms — reduced to 150 ms to match the floating-menu fade speed
+  // and eliminate the sluggish feel on both open and close.
+  transition: opacity 150ms ease, visibility 150ms ease;
   z-index: 999;
 
   &.active {
@@ -1184,6 +1207,7 @@ header {
       cursor: pointer;
       color: $black;
       padding: 0;
+      touch-action: manipulation;
       transition: background 0.15s ease, border-color 0.15s ease;
 
       &:hover { background: rgba($black, 0.11); }

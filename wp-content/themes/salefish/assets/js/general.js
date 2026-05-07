@@ -185,11 +185,17 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   document.querySelectorAll('.close_privacy').forEach(function (btn) {
-    btn.addEventListener('click', function () {
+    function doClosePrivacy() {
       const pp = document.querySelector('.privacy_policy');
       if (pp) pp.classList.remove('active');
       sfScrollUnlock();
+    }
+    btn.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse') return;
+      e.preventDefault();
+      doClosePrivacy();
     });
+    btn.addEventListener('click', doClosePrivacy);
   });
 
   // ── Terms popup ───────────────────────────────────────────────────────────────
@@ -210,11 +216,17 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   document.querySelectorAll('.close_terms').forEach(function (btn) {
-    btn.addEventListener('click', function () {
+    function doCloseTerms() {
       const tp = document.querySelector('.terms_popup');
       if (tp) tp.classList.remove('active');
       sfScrollUnlock();
+    }
+    btn.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse') return;
+      e.preventDefault();
+      doCloseTerms();
     });
+    btn.addEventListener('click', doCloseTerms);
   });
 
   // ── Close floating menu when a link inside it is clicked ─────────────────────
@@ -397,19 +409,35 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ── CLOSE CHECK-EMAIL DIALOG ──────────────────────────────────────────────────
+  // pointerdown fires the instant the finger contacts the screen (zero
+  // perceptible lag on iOS). e.preventDefault() cancels the synthetic
+  // click so the click handler doesn't also fire 300 ms later.
+  // The click handler stays as a fallback for mouse and keyboard users.
   document.querySelectorAll('.sf-check-email-close').forEach(function (btn) {
-    btn.addEventListener('click', function () {
+    function doCloseCheckEmail() {
       sfFadeOut(document.querySelector('.sf-check-email-msg'));
       sfScrollUnlock();
+    }
+    btn.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse') return;
+      e.preventDefault();
+      doCloseCheckEmail();
     });
+    btn.addEventListener('click', doCloseCheckEmail);
   });
 
   // ── CLOSE THANK YOU MESSAGE ───────────────────────────────────────────────────
   document.querySelectorAll('.close_thank_you_msg').forEach(function (btn) {
-    btn.addEventListener('click', function () {
+    function doCloseThankYou() {
       sfFadeOut(document.querySelector('.thank_you_msg'));
       sfScrollUnlock();
+    }
+    btn.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse') return;
+      e.preventDefault();
+      doCloseThankYou();
     });
+    btn.addEventListener('click', doCloseThankYou);
   });
 
   // ── Render Turnstile widget inside a freshly-opened modal ────────────────────
@@ -479,6 +507,16 @@ document.addEventListener('DOMContentLoaded', function () {
   // which run during widget initialisation and can otherwise swallow clicks.
   document.addEventListener('click', function (e) {
     if (e.target.closest('#sf-reg-modal .sf-reg-modal__backdrop, #sf-reg-modal .sf-reg-modal__close')) {
+      sfRegModalClose();
+    }
+  }, { capture: true });
+
+  // pointerdown counterpart — fires instantly on touch, e.preventDefault()
+  // cancels the synthetic click so the handler above doesn't also fire.
+  document.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'mouse') return;
+    if (e.target.closest('#sf-reg-modal .sf-reg-modal__backdrop, #sf-reg-modal .sf-reg-modal__close')) {
+      e.preventDefault();
       sfRegModalClose();
     }
   }, { capture: true });
@@ -558,6 +596,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }, { capture: true });
 
+  document.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'mouse') return;
+    if (e.target.closest('#sf-partner-modal .sf-partner-modal__backdrop, #sf-partner-modal .sf-partner-modal__close')) {
+      e.preventDefault();
+      sfPartnerModalClose();
+    }
+  }, { capture: true });
+
   // PARTNER MODAL FORM SUBMIT — delegated so it works after lazy injection
   document.addEventListener('submit', function (e) {
     if (!e.target.matches('#sf_partner_form')) return;
@@ -599,6 +645,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // ── Tidio chat button: white outline ring ─────────────────────────────────────
+// MutationObserver replaces the previous setInterval that fired every 500 ms
+// for up to 60 seconds (120 main-thread wake-ups on every page load). The
+// observer fires exactly once when Tidio injects its iframe — zero polling,
+// zero recurring cost.
 (function () {
   function applyTidioRing(iframe) {
     function update() {
@@ -609,12 +659,20 @@ document.addEventListener('DOMContentLoaded', function () {
     update();
     if (window.ResizeObserver) new ResizeObserver(update).observe(iframe);
   }
-  var _tidioAttempts = 0;
-  const poll = setInterval(function () {
+
+  // If Tidio is already in the DOM (e.g. bfcache restore), apply immediately.
+  const existing = document.getElementById('tidio-chat-iframe');
+  if (existing) { applyTidioRing(existing); return; }
+
+  // Otherwise watch for it to be inserted.
+  const observer = new MutationObserver(function () {
     const iframe = document.getElementById('tidio-chat-iframe');
-    if (iframe) { clearInterval(poll); applyTidioRing(iframe); return; }
-    if (++_tidioAttempts >= 120) clearInterval(poll); // give up after 60 s
-  }, 500);
+    if (iframe) { observer.disconnect(); applyTidioRing(iframe); }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  // Safety: disconnect after 90 s in case Tidio never loads (e.g. ad-blocker).
+  setTimeout(function () { observer.disconnect(); }, 90000);
 }());
 
 // ── Scroll-to-top button ──────────────────────────────────────────────────────

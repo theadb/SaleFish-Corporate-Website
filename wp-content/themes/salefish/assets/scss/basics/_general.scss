@@ -323,7 +323,10 @@ h2 {
   font-family: $PB;
   font-size: 3.75em;
   line-height: 1.2;
-  text-wrap: balance; // prevents widow/orphan lines in wrapped headings
+  // text-wrap: balance removed — same O(log n) layout-iteration jank as h1
+  // (see h1 comment above). The homepage has 10+ h2 elements; each repaint
+  // triggers multiple layout passes, which is the primary cause of scroll
+  // and interaction freeze on mobile Safari.
 
   @include rs550 {
     font-size: 2.2em;
@@ -334,14 +337,14 @@ h3 {
   font-family: $PSB;
   font-size: 1.05em;
   line-height: 1.5;
-  text-wrap: balance;
+  // text-wrap: balance removed — same reason as h1/h2 above.
 
   @include rs550 {
     font-size: 1.1em;
   }
 }
 
-h4, h5, h6 { text-wrap: balance; }
+h4, h5, h6 { /* text-wrap: balance removed — layout-jank (see h1 comment) */ }
 
 p {
   font-family: $PL;
