@@ -162,12 +162,12 @@
     }
 
     .header {
-      text-align: center;
-      margin-bottom: 80px;
+      text-align: left;
+      margin-bottom: 64px;
 
-      @include rs768 { margin-bottom: 48px; }
+      @include rs768 { margin-bottom: 40px; }
 
-      h1 {
+      h1, h2 {
         color: $dark_purple;
         margin-bottom: 20px;
 
@@ -177,15 +177,13 @@
       }
 
       p {
-        width: 70%;
-        margin: 0 auto 15px auto;
+        max-width: 68ch;
+        margin: 0 0 12px;
         font-size: 1rem;
-        line-height: 1.5;
+        line-height: 1.6;
         text-wrap: pretty;
 
-        @include rs768 {
-          width: 100%;
-        }
+        &:last-child { margin-bottom: 0; }
       }
     }
 
