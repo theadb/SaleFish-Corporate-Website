@@ -1,29 +1,35 @@
 <?php
 /**
- * The template for displaying 404 pages (not found).
- *
- * @link https://codex.wordpress.org/Creating_an_Error_404_Page
- *
- * @package _pc
+ * 404 — Page Not Found template.
  */
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-get_header(); ?>
+get_header();
+?>
 
-	<div id="primary" class="content-area">
-		<main id="main-content" class="site-main" role="main">
+<main class="sf-ty-page" id="main-content">
 
-			<section class="error-404 not-found">
-				<header class="page-header">
-					<h1 class="page-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', '_pc' ); ?></h1>
-				</header><!-- .page-header -->
+	<section class="sf-ty-page__hero">
+		<div class="sf-ty-page__hero-inner max_wrapper">
+			<div class="sf-ty-page__badge">
+				<i data-lucide="map-pin-off" aria-hidden="true"></i>
+			</div>
+			<p class="sf-ty-page__eyebrow">404 &mdash; Page Not Found</p>
+			<h1 class="sf-ty-page__heading">This page doesn&rsquo;t exist.</h1>
+		</div>
+	</section>
 
-				<div class="page-content">
-					<p><?php esc_html_e( 'It looks like nothing was found at this location.', '_pc' ); ?></p>
-				</div><!-- .page-content -->
-			</section><!-- .error-404 -->
+	<section class="sf-ty-page__body-section">
+		<div class="max_wrapper sf-ty-page__body-inner">
+			<p class="sf-ty-page__body-text">
+				The page you&rsquo;re looking for may have moved or been removed. Head back to the homepage to find what you need.
+			</p>
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="button">
+				Back to Homepage
+			</a>
+		</div>
+	</section>
 
-		</main><!-- #main -->
-	</div><!-- #primary -->
+</main>
 
-<?php
-get_footer();
+<?php get_footer(); ?>
