@@ -470,6 +470,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ── REGISTRATION MODAL ────────────────────────────────────────────────────────
   function sfRegModalOpen(section) {
+    const modal = document.getElementById('sf-reg-modal');
+    if (modal && modal.style.display === 'block') return;
     if (window.sfEnsureModals) window.sfEnsureModals();
     const regSection = document.getElementById('sf_reg_section');
     if (regSection) regSection.value = section || '';
@@ -478,7 +480,6 @@ document.addEventListener('DOMContentLoaded', function () {
       window.clarity('set', 'modal_type', 'registration');
       window.clarity('event', 'modal_open');
     }
-    const modal = document.getElementById('sf-reg-modal');
     // Start Turnstile loading immediately — before the fade begins — so the
     // widget has the full 200 ms of fade time to initialise before the user
     // can interact with the modal.
@@ -503,6 +504,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // pointerdown fast-path — fires instantly on touch; e.preventDefault()
+  // cancels the synthetic click so the handler below doesn't also fire.
   document.addEventListener('pointerdown', function (e) {
     if (e.pointerType === 'mouse') return;
     const trigger = e.target.closest('[data-sf-modal="register"]');
@@ -571,6 +574,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ── PARTNER REGISTRATION MODAL ────────────────────────────────────────────────
   function sfPartnerModalOpen(partnerType, _section) {
+    const modal = document.getElementById('sf-partner-modal');
+    if (modal && modal.style.display === 'block') return;
     if (window.sfEnsureModals) window.sfEnsureModals();
     sfScrollLock();
     if (window.clarity) {
@@ -581,7 +586,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const sel = document.getElementById('sf_partner_want_to_do');
       if (sel) sel.value = partnerType;
     }
-    const modal = document.getElementById('sf-partner-modal');
     // Start Turnstile loading before the fade — same rationale as reg modal.
     sfRenderTurnstileIn(modal);
     sfFadeIn(modal, 200, function () {
@@ -604,6 +608,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // pointerdown fast-path — fires instantly on touch; e.preventDefault()
+  // cancels the synthetic click so the handler below doesn't also fire.
   document.addEventListener('pointerdown', function (e) {
     if (e.pointerType === 'mouse') return;
     const trigger = e.target.closest('[data-sf-modal="partner"]');
