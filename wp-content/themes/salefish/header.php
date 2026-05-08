@@ -27,6 +27,114 @@ elseif ( str_starts_with( $_sf_req_path, '/tr' ) ) { $_sf_locale = 'tr'; }
 elseif ( str_starts_with( $_sf_req_path, '/de' ) ) { $_sf_locale = 'de'; }
 else                                                { $_sf_locale = 'default'; }
 
+// ── Locale-aware UI strings (modals, dialogs, legal) ─────────────────────────
+$_sf_ui = [
+	'default' => [
+		'close_modal'    => 'Close dialog',
+		'reg_eyebrow'    => 'Streamline Sales, Eliminate Mistakes &amp; Increase Your Bottom Line.',
+		'reg_title'      => 'Don\'t Wait — You\'re Already Losing Ground.',
+		'label_name'     => 'Name',
+		'ph_name'        => 'First Last',
+		'label_demo'     => 'Would you like a demo?',
+		'demo_yes'       => 'Yes',
+		'demo_no'        => 'No',
+		'label_company'  => 'Company',
+		'ph_company'     => 'Acme Ltd.',
+		'label_title'    => 'Title',
+		'ph_title'       => 'Sales Manager',
+		'label_email'    => 'Email',
+		'label_phone'    => 'Phone Number',
+		'ph_phone'       => '555-912-0088',
+		'submit'         => 'Register',
+		'email_eyebrow'  => 'Almost there',
+		'email_h2'       => 'Check your email.',
+		'email_body_pre' => 'We sent a confirmation link to',
+		'email_body_suf' => '. Click it to complete your registration — the link expires in 48 hours.',
+		'ty_eyebrow'     => 'Message received',
+		'ty_h2'          => 'Here\'s what happens next.',
+		'ty_body'        => 'A SaleFish specialist will reach out within 1 business day to walk you through the platform and talk through your specific project needs — whether that\'s inventory management, online signing, or end-to-end pre-construction sales workflow.',
+	],
+	'de' => [
+		'close_modal'    => 'Dialog schließen',
+		'reg_eyebrow'    => 'Optimieren Sie den Verkauf, beseitigen Sie Fehler und steigern Sie Ihr Ergebnis.',
+		'reg_title'      => 'Warten Sie nicht — Sie verlieren bereits Boden.',
+		'label_name'     => 'Name',
+		'ph_name'        => 'Vorname Nachname',
+		'label_demo'     => 'Möchten Sie eine Demo?',
+		'demo_yes'       => 'Ja',
+		'demo_no'        => 'Nein',
+		'label_company'  => 'Unternehmen',
+		'ph_company'     => 'Acme GmbH',
+		'label_title'    => 'Titel',
+		'ph_title'       => 'Verkaufsleiter',
+		'label_email'    => 'E-Mail',
+		'label_phone'    => 'Telefonnummer',
+		'ph_phone'       => '555-912-0088',
+		'submit'         => 'Registrieren',
+		'email_eyebrow'  => 'Fast geschafft',
+		'email_h2'       => 'Bitte prüfen Sie Ihre E-Mail.',
+		'email_body_pre' => 'Wir haben einen Bestätigungslink an',
+		'email_body_suf' => ' gesendet. Klicken Sie darauf, um Ihre Registrierung abzuschließen — der Link läuft in 48 Stunden ab.',
+		'ty_eyebrow'     => 'Nachricht erhalten',
+		'ty_h2'          => 'Was als Nächstes passiert.',
+		'ty_body'        => 'Ein SaleFish-Spezialist wird sich innerhalb eines Werktages bei Ihnen melden, um Sie durch die Plattform zu führen und Ihre spezifischen Projektanforderungen zu besprechen.',
+	],
+	'tr' => [
+		'close_modal'    => 'İletişim kutusunu kapat',
+		'reg_eyebrow'    => 'Satışlarınızı kolaylaştırın, hataları ortadan kaldırın ve kârınızı artırın.',
+		'reg_title'      => 'Beklemeyin — Zaten Geri Kalıyorsunuz.',
+		'label_name'     => 'Ad Soyad',
+		'ph_name'        => 'Ad Soyad',
+		'label_demo'     => 'Demo ister misiniz?',
+		'demo_yes'       => 'Evet',
+		'demo_no'        => 'Hayır',
+		'label_company'  => 'Şirket',
+		'ph_company'     => 'Acme Ltd.',
+		'label_title'    => 'Unvan',
+		'ph_title'       => 'Satış Müdürü',
+		'label_email'    => 'E-posta',
+		'label_phone'    => 'Telefon Numarası',
+		'ph_phone'       => '555-912-0088',
+		'submit'         => 'Kayıt Ol',
+		'email_eyebrow'  => 'Neredeyse bitti',
+		'email_h2'       => 'E-postanızı kontrol edin.',
+		'email_body_pre' => '',
+		'email_body_suf' => ' adresine bir onay bağlantısı gönderdik. Kaydınızı tamamlamak için tıklayın — bağlantı 48 saat geçerlidir.',
+		'ty_eyebrow'     => 'Mesajınız alındı',
+		'ty_h2'          => 'Bundan sonra ne olacak.',
+		'ty_body'        => 'Bir SaleFish uzmanı, platformu size göstermek ve özel proje ihtiyaçlarınızı görüşmek üzere 1 iş günü içinde sizinle iletişime geçecek.',
+	],
+];
+$_sf_ui_s = $_sf_ui[ $_sf_locale ] ?? $_sf_ui['default'];
+
+// Pre-extract all translated strings into simple scalar variables.
+// Using direct array-key access inside mixed PHP/HTML template blocks can
+// trigger unexpected behaviour with certain output-buffer plugins; simple
+// variables are always safe.
+$_sf_str_close_modal    = (string) ( $_sf_ui_s['close_modal']    ?? 'Close dialog' );
+$_sf_str_reg_eyebrow    = (string) ( $_sf_ui_s['reg_eyebrow']    ?? 'Streamline Sales, Eliminate Mistakes &amp; Increase Your Bottom Line.' );
+$_sf_str_reg_title      = (string) ( $_sf_ui_s['reg_title']      ?? 'Don\'t Wait — You\'re Already Losing Ground.' );
+$_sf_str_label_name     = (string) ( $_sf_ui_s['label_name']     ?? 'Name' );
+$_sf_str_ph_name        = (string) ( $_sf_ui_s['ph_name']        ?? 'First Last' );
+$_sf_str_label_demo     = (string) ( $_sf_ui_s['label_demo']     ?? 'Would you like a demo?' );
+$_sf_str_demo_yes       = (string) ( $_sf_ui_s['demo_yes']       ?? 'Yes' );
+$_sf_str_demo_no        = (string) ( $_sf_ui_s['demo_no']        ?? 'No' );
+$_sf_str_label_company  = (string) ( $_sf_ui_s['label_company']  ?? 'Company' );
+$_sf_str_ph_company     = (string) ( $_sf_ui_s['ph_company']     ?? 'Acme Ltd.' );
+$_sf_str_label_title    = (string) ( $_sf_ui_s['label_title']    ?? 'Title' );
+$_sf_str_ph_title       = (string) ( $_sf_ui_s['ph_title']       ?? 'Sales Manager' );
+$_sf_str_label_email    = (string) ( $_sf_ui_s['label_email']    ?? 'Email' );
+$_sf_str_label_phone    = (string) ( $_sf_ui_s['label_phone']    ?? 'Phone Number' );
+$_sf_str_ph_phone       = (string) ( $_sf_ui_s['ph_phone']       ?? '555-912-0088' );
+$_sf_str_submit         = (string) ( $_sf_ui_s['submit']         ?? 'Register' );
+$_sf_str_email_eyebrow  = (string) ( $_sf_ui_s['email_eyebrow']  ?? 'Almost there' );
+$_sf_str_email_h2       = (string) ( $_sf_ui_s['email_h2']       ?? 'Check your email.' );
+$_sf_str_email_body_pre = (string) ( $_sf_ui_s['email_body_pre'] ?? 'We sent a confirmation link to' );
+$_sf_str_email_body_suf = (string) ( $_sf_ui_s['email_body_suf'] ?? '. Click it to complete your registration — the link expires in 48 hours.' );
+$_sf_str_ty_eyebrow     = (string) ( $_sf_ui_s['ty_eyebrow']     ?? 'Message received' );
+$_sf_str_ty_h2          = (string) ( $_sf_ui_s['ty_h2']          ?? 'Here\'s what happens next.' );
+$_sf_str_ty_body        = (string) ( $_sf_ui_s['ty_body']        ?? 'A SaleFish specialist will reach out within 1 business day to walk you through the platform and talk through your specific project needs.' );
+
 $_sf_all_locales = [
 	'default' => [ 'flag' => '🇨🇦🇺🇸', 'label' => 'Canada & USA (English)', 'href' => '/' ],
 	'au'      => [ 'flag' => '🇦🇺',    'label' => 'Australia (English)',     'href' => '/au' ],
@@ -80,7 +188,10 @@ $_sf_lang_options_html .= '</ul>';
 		is_page_template( 'page-blog.php' )            ||
 		is_page_template( 'page-blog-filter.php' )     ||
 		is_singular( 'post' )                          ||
-		is_page( 'thank-you-for-registering' )
+		is_page( 'thank-you-for-registering' )         ||
+		is_archive()                                   ||
+		is_search()                                    ||
+		is_404()
 	);
 	$_sf_theme_color = $_sf_light_header ? '#ffffff' : '#452D8C';
 	?>
@@ -299,7 +410,7 @@ $_sf_lang_options_html .= '</ul>';
 			});
 		});
 
-		// ── Instant mobile hamburger ─────────────────────────────────────────
+		// ── Instant mobile hamburger + language picker ──────────────────────────
 		// `click` fires ~300 ms after touchend (browser tap-delay) and can be
 		// delayed further if the main thread is busy parsing app.js. `pointerdown`
 		// fires the instant the finger contacts the screen — zero perceptible lag.
@@ -313,6 +424,19 @@ $_sf_lang_options_html .= '</ul>';
 					if (e.pointerType === 'mouse') return;
 					e.preventDefault();
 					toggle('nav');
+				});
+			});
+
+			// Language picker is a <div>, not a <button> — touch-action:manipulation
+			// alone is not enough. The same pointerdown pattern ensures instant
+			// response. Guard: if the tap is inside the already-open option panel
+			// (user selecting a language), don't toggle — let the <a> click navigate.
+			document.querySelectorAll('.languages').forEach(function (div) {
+				div.addEventListener('pointerdown', function (e) {
+					if (e.pointerType === 'mouse') return;
+					if (e.target.closest('.languages_option')) return;
+					e.preventDefault();
+					toggle('languages');
 				});
 			});
 		});
@@ -610,9 +734,6 @@ $_sf_lang_options_html .= '</ul>';
 				<li class="features_li">
 					<a href="/tr#features">Özellikleri</a>
 				</li>
-				<li class="contact_us_nav">
-					<a href="/tr/contact">Bize Ulaşın</a>
-				</li>
 				<li class="nav-demo">
 					<a class="button" href="/contact-us/" data-sf-modal="register">Demo Al</a>
 				</li>
@@ -659,16 +780,16 @@ $_sf_lang_options_html .= '</ul>';
 					</li>
 					<li class="mobile menu-sep"></li>
 					<li>
-						<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer">Live Chat Support<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer" aria-label="Live Chat Support (opens in new tab)">Live Chat Support</a>
 					</li>
 					<li>
-						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer" aria-label="Sales App (opens in new tab)">Sales App</a>
 					</li>
 					<li>
-						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer">Highrise Admin<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer" aria-label="Highrise Admin (opens in new tab)">Highrise Admin</a>
 					</li>
 					<li>
-						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise Admin<span class="sr-only"> (opens in new tab)</span></a>
+						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer" aria-label="Lowrise Admin (opens in new tab)">Lowrise Admin</a>
 					</li>
 				</ul>
 			</div>
@@ -685,29 +806,20 @@ $_sf_lang_options_html .= '</ul>';
 					<li class="mobile features_li">
 						<a href="/tr#features">Özellikleri</a>
 					</li>
-					<li class="mobile contact_us_nav">
-						<a href="/tr/contact">Bize Ulaşın</a>
-					</li>
 					<li class="mobile nav-demo-mobile">
 						<a class="button" href="/contact-us/" data-sf-modal="register">Demo Al</a>
 					</li>
-					<li class="mobile">
+					<li class="mobile menu-sep"></li>
+					<li>
 						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer" aria-label="Satış Aplikasyonu (opens in new tab)">Satış Aplikasyonu</a>
 					</li>
-					<li class="mobile">
+					<li>
 						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer" aria-label="Çok Katlı Bina Yönetimi (opens in new tab)">Çok Katlı Bina Yönetimi</a>
 					</li>
-					<li class="mobile">
+					<li>
 						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer" aria-label="Az Katlı Bina Yönetimi (opens in new tab)">Az Katlı Bina Yönetimi</a>
 					</li>
 				</ul>
-			</div>
-			<hr>
-			<div class="bottom">
-				<?php sf_picture( get_template_directory_uri() . '/img/fish.png', [ 'class' => 'fish', 'alt' => 'Salefish', 'width' => 80, 'height' => 80 ] ); ?>
-				<a href="tel:+905333311236" class="hover-main-menu-style">+90 533 331 12 36</a>
-				<a href="tel:+902122341494" class="hover-main-menu-style">+90 212 234 14 94</a>
-				<a class="email hover-main-menu-style-email" href="mailto:hello@salefish.app">hello@salefish.app</a>
 			</div>
 		</div>
 	</div>
@@ -724,23 +836,17 @@ $_sf_lang_options_html .= '</ul>';
 					<li class="mobile nav-demo-mobile">
 						<a class="button" href="/contact-us/" data-sf-modal="register">Demo Anfragen</a>
 					</li>
-					<li class="mobile">
+					<li class="mobile menu-sep"></li>
+					<li>
 						<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer" aria-label="Verkaufs-App (opens in new tab)">Verkaufs-App</a>
 					</li>
-					<li class="mobile">
+					<li>
 						<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer" aria-label="Hochhaus-Verwaltung (opens in new tab)">Hochhaus-Verwaltung</a>
 					</li>
-					<li class="mobile">
+					<li>
 						<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer" aria-label="Haus-Verwaltung (opens in new tab)">Haus-Verwaltung</a>
 					</li>
 				</ul>
-			</div>
-			<hr>
-			<div class="bottom">
-				<?php sf_picture( get_template_directory_uri() . '/img/fish.png', [ 'class' => 'fish', 'alt' => 'Salefish', 'width' => 80, 'height' => 80 ] ); ?>
-				<a href="tel:+18778927741" class="hover-main-menu-style">1.877.892.7741</a>
-				<a href="tel:+19057615364" class="hover-main-menu-style">1.905.761.5364</a>
-				<a class="email hover-main-menu-style-email" href="mailto:hello@salefish.app">hello@salefish.app</a>
 			</div>
 		</div>
 	</div>
@@ -751,16 +857,16 @@ $_sf_lang_options_html .= '</ul>';
 		<div class="wrap">
 			<ul>
 				<li>
-					<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer">Live Chat Support<span class="sr-only"> (opens in new tab)</span></a>
+					<a href="https://chatting.page/salefish" target="_blank" rel="noopener noreferrer" aria-label="Live Chat Support (opens in new tab)">Live Chat Support</a>
 				</li>
 				<li>
-					<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer">Sales App<span class="sr-only"> (opens in new tab)</span></a>
+					<a href="https://salefish.app/sales" target="_blank" rel="noopener noreferrer" aria-label="Sales App (opens in new tab)">Sales App</a>
 				</li>
 				<li>
-					<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer">Highrise Admin<span class="sr-only"> (opens in new tab)</span></a>
+					<a href="https://salefish.app/admin/hm" target="_blank" rel="noopener noreferrer" aria-label="Highrise Admin (opens in new tab)">Highrise Admin</a>
 				</li>
 				<li>
-					<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer">Lowrise Admin<span class="sr-only"> (opens in new tab)</span></a>
+					<a href="https://salefish.app/admin/lm" target="_blank" rel="noopener noreferrer" aria-label="Lowrise Admin (opens in new tab)">Lowrise Admin</a>
 				</li>
 			</ul>
 		</div>
@@ -777,10 +883,10 @@ $_sf_lang_options_html .= '</ul>';
 		<div class="sf-check-email-msg__icon-wrap">
 			<i data-lucide="mail"></i>
 		</div>
-		<span class="sf-check-email-msg__eyebrow">Almost there</span>
-		<h2 class="sf-check-email-msg__heading" id="sf-check-email-heading">Check your email.</h2>
+		<span class="sf-check-email-msg__eyebrow"><?php echo esc_html( $_sf_str_email_eyebrow ); ?></span>
+		<h2 class="sf-check-email-msg__heading" id="sf-check-email-heading"><?php echo esc_html( $_sf_str_email_h2 ); ?></h2>
 		<p class="sf-check-email-msg__body">
-			We sent a confirmation link to <strong class="sf-check-email-msg__address"></strong>. Click it to complete your registration — the link expires in 48 hours.
+			<?php echo esc_html( $_sf_str_email_body_pre ); ?><?php if ( $_sf_str_email_body_pre ) : ?> <?php endif; ?><strong class="sf-check-email-msg__address"></strong><?php echo esc_html( $_sf_str_email_body_suf ); ?>
 		</p>
 	</div>
 </div>
@@ -795,47 +901,47 @@ $_sf_lang_options_html .= '</ul>';
 <div class="sf-reg-modal" id="sf-reg-modal" role="dialog" aria-modal="true" aria-labelledby="sf-reg-modal-title">
 	<div class="sf-reg-modal__backdrop"></div>
 	<div class="sf-reg-modal__panel">
-		<button class="sf-reg-modal__close" aria-label="Close dialog">
+		<button class="sf-reg-modal__close" aria-label="<?php echo esc_attr( $_sf_str_close_modal ); ?>">
 			<i data-lucide="x"></i>
 		</button>
 		<div class="sf-reg-modal__scroll">
 			<div class="sf-reg-modal__inner">
-				<p class="sf-reg-modal__eyebrow">Streamline Sales, Eliminate Mistakes &amp; Increase Your Bottom Line.</p>
-				<h2 id="sf-reg-modal-title">Don't Wait — You're Already Losing Ground.</h2>
+				<p class="sf-reg-modal__eyebrow"><?php echo wp_kses_post( $_sf_str_reg_eyebrow ); ?></p>
+				<h2 id="sf-reg-modal-title"><?php echo esc_html( $_sf_str_reg_title ); ?></h2>
 				<form id="sf_reg_form">
 					<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off">
 					<input type="hidden" name="sf_section" id="sf_reg_section" value="">
 					<div class="row">
 						<div class="col">
-							<label for="sf_reg_name">Name</label>
-							<input type="text" placeholder="First Last" name="name" id="sf_reg_name" required>
+							<label for="sf_reg_name"><?php echo esc_html( $_sf_str_label_name ); ?></label>
+							<input type="text" placeholder="<?php echo esc_attr( $_sf_str_ph_name ); ?>" name="name" id="sf_reg_name" required>
 						</div>
 						<div class="col">
-							<label for="sf_reg_demo">Would you like a demo?</label>
+							<label for="sf_reg_demo"><?php echo esc_html( $_sf_str_label_demo ); ?></label>
 							<select name="demo" id="sf_reg_demo" required>
-								<option value="Yes">Yes</option>
-								<option value="No">No</option>
+								<option value="Yes"><?php echo esc_html( $_sf_str_demo_yes ); ?></option>
+								<option value="No"><?php echo esc_html( $_sf_str_demo_no ); ?></option>
 							</select>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col">
-							<label for="sf_reg_company">Company</label>
-							<input type="text" placeholder="Acme Ltd." name="company" id="sf_reg_company" required>
+							<label for="sf_reg_company"><?php echo esc_html( $_sf_str_label_company ); ?></label>
+							<input type="text" placeholder="<?php echo esc_attr( $_sf_str_ph_company ); ?>" name="company" id="sf_reg_company" required>
 						</div>
 						<div class="col">
-							<label for="sf_reg_title">Title</label>
-							<input type="text" placeholder="Sales Manager" name="title" id="sf_reg_title" required>
+							<label for="sf_reg_title"><?php echo esc_html( $_sf_str_label_title ); ?></label>
+							<input type="text" placeholder="<?php echo esc_attr( $_sf_str_ph_title ); ?>" name="title" id="sf_reg_title" required>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col">
-							<label for="sf_reg_email">Email</label>
+							<label for="sf_reg_email"><?php echo esc_html( $_sf_str_label_email ); ?></label>
 							<input type="email" placeholder="name@developeremail.com" name="email" id="sf_reg_email" required>
 						</div>
 						<div class="col">
-							<label for="sf_reg_phone">Phone Number</label>
-							<input type="tel" placeholder="555-912-0088" name="phone" id="sf_reg_phone" required
+							<label for="sf_reg_phone"><?php echo esc_html( $_sf_str_label_phone ); ?></label>
+							<input type="tel" placeholder="<?php echo esc_attr( $_sf_str_ph_phone ); ?>" name="phone" id="sf_reg_phone" required
 								data-parsley-minlength="12"
 								data-parsley-minlength-message="This value should be a valid phone number.">
 						</div>
@@ -848,7 +954,7 @@ $_sf_lang_options_html .= '</ul>';
 					</div>
 					<?php endif; ?>
 					<div class="row">
-						<input class="button" type="submit" value="Register">
+						<input class="button" type="submit" value="<?php echo esc_attr( $_sf_str_submit ); ?>">
 					</div>
 				</form>
 			</div>
@@ -931,10 +1037,10 @@ $_sf_lang_options_html .= '</ul>';
 		<button class="thank_you_msg__close close_thank_you_msg" aria-label="Close">
 			<i data-lucide="x"></i>
 		</button>
-		<span class="thank_you_msg__eyebrow">Message received</span>
-		<h2 class="thank_you_msg__heading" id="sf-thank-you-heading">Here’s what happens next.</h2>
+		<span class="thank_you_msg__eyebrow"><?php echo esc_html( $_sf_str_ty_eyebrow ); ?></span>
+		<h2 class="thank_you_msg__heading" id="sf-thank-you-heading"><?php echo esc_html( $_sf_str_ty_h2 ); ?></h2>
 		<p class="thank_you_msg__body">
-			A SaleFish specialist will reach out within 1 business day to walk you through the platform and talk through your specific project needs — whether that’s inventory management, online signing, or end-to-end pre-construction sales workflow.
+			<?php echo esc_html( $_sf_str_ty_body ); ?>
 		</p>
 	</div>
 </div>
