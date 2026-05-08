@@ -100,9 +100,13 @@ function sfTrackConversion(leadType, formLocation) {
     window.lintrk('track', { conversion_id: SF_LI_CONVERSION_ID });
   }
 
-  // Microsoft Clarity — tag the session as a lead so recordings are filterable
+  // Microsoft Clarity — tag the session so recordings are filterable by lead
+  // type (demo_request / partner_inquiry / agent_inquiry) and form location
+  // (modal / inline_form). The generate_lead API event also acts as the final
+  // step in a conversion funnel (modal_open → generate_lead).
   if (window.clarity) {
     window.clarity('set', 'lead_type', leadType);
+    window.clarity('set', 'form_location', formLocation);
     window.clarity('event', 'generate_lead');
   }
 }
@@ -469,6 +473,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const regSection = document.getElementById('sf_reg_section');
     if (regSection) regSection.value = section || '';
     sfScrollLock();
+    if (window.clarity) {
+      window.clarity('set', 'modal_type', 'registration');
+      window.clarity('event', 'modal_open');
+    }
     const modal = document.getElementById('sf-reg-modal');
     // Start Turnstile loading immediately — before the fade begins — so the
     // widget has the full 200 ms of fade time to initialise before the user
@@ -554,6 +562,10 @@ document.addEventListener('DOMContentLoaded', function () {
   function sfPartnerModalOpen(partnerType, _section) {
     if (window.sfEnsureModals) window.sfEnsureModals();
     sfScrollLock();
+    if (window.clarity) {
+      window.clarity('set', 'modal_type', 'partner');
+      window.clarity('event', 'modal_open');
+    }
     if (partnerType) {
       const sel = document.getElementById('sf_partner_want_to_do');
       if (sel) sel.value = partnerType;
