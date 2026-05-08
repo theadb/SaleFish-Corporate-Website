@@ -339,8 +339,14 @@ header {
       }
     }
 
-    li:hover {
+    li:hover,
+    li:active {
       background: $light_purple;
+    }
+
+    li:hover a,
+    li:active a {
+      color: #fff;
     }
   }
 }
@@ -449,7 +455,7 @@ header {
         }
 
         a {
-          &:hover { color: $dark_purple; font-family: $PSB; }
+          &:hover { color: $dark_purple; }
 
           &.active {
             font-family: $PSB;
