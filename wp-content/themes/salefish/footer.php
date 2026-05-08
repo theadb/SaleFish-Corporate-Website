@@ -150,18 +150,27 @@ if ( ! $_sf_is_blog && ! $_sf_is_locale ) {
 <?php
 $_sf_path = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
 if ( strpos( $_sf_path, '/de' ) === 0 ) {
-	$_sf_terms   = 'Nutzungsbedingungen';
-	$_sf_privacy = 'Datenschutz-Bestimmungen';
+	$_sf_terms         = 'Nutzungsbedingungen';
+	$_sf_privacy       = 'Datenschutz-Bestimmungen';
+	$_sf_legal_pre     = 'Mit';
+	$_sf_legal_mid     = 'in Toronto gemacht.';
+	$_sf_legal_rights  = 'Alle Rechte vorbehalten.';
 } elseif ( strpos( $_sf_path, '/tr' ) === 0 ) {
-	$_sf_terms   = 'Kullanım Koşulları';
-	$_sf_privacy = 'Gizlilik Politikası';
+	$_sf_terms         = 'Kullanım Koşulları';
+	$_sf_privacy       = 'Gizlilik Politikası';
+	$_sf_legal_pre     = 'Toronto\'da';
+	$_sf_legal_mid     = 'ile yapıldı.';
+	$_sf_legal_rights  = 'Tüm hakları saklıdır.';
 } else {
-	$_sf_terms   = 'Terms of Use';
-	$_sf_privacy = 'Privacy Policy';
+	$_sf_terms         = 'Terms of Use';
+	$_sf_privacy       = 'Privacy Policy';
+	$_sf_legal_pre     = 'Made with';
+	$_sf_legal_mid     = 'in Toronto.';
+	$_sf_legal_rights  = 'All rights reserved.';
 }
 ?>
 				<p>
-					Made with <svg class="heart" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="#e53e3e" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> in Toronto. &copy; <?php echo date( 'Y' ); ?> SaleFish Inc. All rights reserved.<span class="legal-sep">&nbsp;&middot;&nbsp;</span><span class="legal-links"><a href="<?php echo esc_url( home_url( '/terms-of-use/' ) ); ?>"><?php echo esc_html( $_sf_terms ); ?></a> &nbsp;&middot;&nbsp; <a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php echo esc_html( $_sf_privacy ); ?></a></span>
+					<?php echo esc_html( $_sf_legal_pre ); ?> <svg class="heart" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="#e53e3e" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> <?php echo esc_html( $_sf_legal_mid ); ?> &copy; <?php echo date( 'Y' ); ?> SaleFish Inc. <?php echo esc_html( $_sf_legal_rights ); ?><span class="legal-sep">&nbsp;&middot;&nbsp;</span><span class="legal-links"><a href="<?php echo esc_url( home_url( '/terms-of-use/' ) ); ?>"><?php echo esc_html( $_sf_terms ); ?></a> &nbsp;&middot;&nbsp; <a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php echo esc_html( $_sf_privacy ); ?></a></span>
 				</p>
 			</div>
 		</div>
@@ -191,6 +200,9 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
     if (!t || !t.content) return;
     window._sfModalsInjected = true;
     document.body.appendChild(t.content.cloneNode(true));
+    if (typeof applyPhoneMask === 'function') {
+      applyPhoneMask(document.getElementById('sf_reg_phone'));
+    }
     // Replace <i data-lucide="x"> placeholders with the inline X SVG —
     // the page-load shim ran before the modal was in the DOM (templates
     // are NOT live), so the close-button icons need a second pass now
