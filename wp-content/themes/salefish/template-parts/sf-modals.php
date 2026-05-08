@@ -6,8 +6,8 @@
  * markup is parsed but NOT instantiated as live DOM. The footer's
  * sfEnsureModals() function clones the template content into <body> on the
  * first user interaction with a [data-sf-modal] trigger — saving ~140 lines
- * of HTML parsing, plus Parsley validation + Turnstile init costs, on every
- * page where the modal is never opened.
+ * of HTML parsing plus Parsley validation init costs on every page where the
+ * modal is never opened.
  */
 ?>
 <!-- Registration Modal -->
@@ -59,13 +59,6 @@
 								data-parsley-minlength-message="This value should be a valid phone number.">
 						</div>
 					</div>
-					<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
-					<div class="row row-turnstile">
-						<div class="cf-turnstile"
-							data-sitekey="<?php echo esc_attr( SALEFISH_CF_TURNSTILE_SITEKEY ); ?>"
-							data-theme="dark"></div>
-					</div>
-					<?php endif; ?>
 					<div class="row">
 						<input class="button" type="submit" value="Register">
 					</div>
@@ -127,13 +120,6 @@
 							</select>
 						</div>
 					</div>
-					<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
-					<div class="row row-turnstile">
-						<div class="cf-turnstile"
-							data-sitekey="<?php echo esc_attr( SALEFISH_CF_TURNSTILE_SITEKEY ); ?>"
-							data-theme="dark"></div>
-					</div>
-					<?php endif; ?>
 					<div class="row">
 						<input class="button" type="submit" value="Register">
 					</div>

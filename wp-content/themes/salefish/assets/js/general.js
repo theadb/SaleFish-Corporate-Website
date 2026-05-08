@@ -303,9 +303,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ── Focus trap ────────────────────────────────────────────────────────────────
   function sfFocusTrap(modalEl) {
-    // Intentionally excludes <iframe> — the Turnstile widget injects an iframe
-    // with tabindex="0", and focusing it hands keyboard control to a third-party
-    // frame which then makes close-button clicks unreliable.
     const SEL = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled])';
     function getFocusable() {
       return Array.from(modalEl.querySelectorAll(SEL)).filter(function (el) {
@@ -424,29 +421,6 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.addEventListener('click', doCloseThankYou);
   });
 
-  // ── Render Turnstile widget inside a freshly-opened modal ────────────────────
-  function sfRenderTurnstileIn(modalEl) {
-    if (!modalEl) return;
-    const node = modalEl.querySelector('.cf-turnstile');
-    if (!node) return;
-    let attempts = 0;
-    function tryRender() {
-      attempts++;
-      if (window.turnstile && typeof window.turnstile.render === 'function') {
-        if (node.querySelector('iframe')) return;
-        try {
-          window.turnstile.render(node, {
-            sitekey: node.getAttribute('data-sitekey'),
-            theme:   node.getAttribute('data-theme') || 'auto',
-          });
-        } catch (e) { /* turnstile not ready yet */ }
-        return;
-      }
-      if (attempts < 80) setTimeout(tryRender, 100);
-    }
-    tryRender();
-  }
-
   // ── REGISTRATION MODAL ────────────────────────────────────────────────────────
   function sfRegModalOpen(section) {
     const modal = document.getElementById('sf-reg-modal');
@@ -459,10 +433,6 @@ document.addEventListener('DOMContentLoaded', function () {
       window.clarity('set', 'modal_type', 'registration');
       window.clarity('event', 'modal_open');
     }
-    // Start Turnstile loading immediately — before the fade begins — so the
-    // widget has the full 200 ms of fade time to initialise before the user
-    // can interact with the modal.
-    sfRenderTurnstileIn(modal);
     sfFadeIn(modal, 200, function () {
       _sfRegTrap = sfFocusTrap(modal);
     });
@@ -478,7 +448,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (form) form.reset();
       const err = document.getElementById('sf-reg-form-error');
       if (err) err.remove();
-      if (window.turnstile && typeof window.turnstile.reset === 'function') window.turnstile.reset();
       if (returnFocus) returnFocus.focus();
     });
   }
@@ -506,8 +475,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Capture phase (top-down) fires before Turnstile's own event listeners,
-  // which run during widget initialisation and can otherwise swallow clicks.
   document.addEventListener('click', function (e) {
     if (e.target.closest('#sf-reg-modal .sf-reg-modal__backdrop, #sf-reg-modal .sf-reg-modal__close')) {
       sfRegModalClose();
@@ -567,8 +534,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const sel = document.getElementById('sf_partner_want_to_do');
       if (sel) sel.value = partnerType;
     }
-    // Start Turnstile loading before the fade — same rationale as reg modal.
-    sfRenderTurnstileIn(modal);
     sfFadeIn(modal, 200, function () {
       _sfPartnerTrap = sfFocusTrap(modal);
     });
@@ -584,7 +549,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (form) form.reset();
       const err = document.getElementById('sf-partner-form-error');
       if (err) err.remove();
-      if (window.turnstile && typeof window.turnstile.reset === 'function') window.turnstile.reset();
       if (returnFocus) returnFocus.focus();
     });
   }

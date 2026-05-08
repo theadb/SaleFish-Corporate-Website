@@ -30,11 +30,6 @@
 				</div>
 
 			</div>
-			<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
-			<div class="row row-turnstile">
-				<div class="cf-turnstile" data-sitekey="<?php echo esc_attr( SALEFISH_CF_TURNSTILE_SITEKEY ); ?>" data-theme="dark"></div>
-			</div>
-			<?php endif; ?>
 			<div class="row">
 				<input class="button" type="submit" value="Kayıt Olmak">
 			</div>
