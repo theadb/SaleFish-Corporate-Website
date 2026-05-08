@@ -503,6 +503,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  document.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'mouse') return;
+    const trigger = e.target.closest('[data-sf-modal="register"]');
+    if (trigger) {
+      e.preventDefault();
+      _sfRegTrigger = trigger;
+      sfRegModalOpen(trigger.dataset.sfSection || '');
+    }
+  }, { capture: true });
+
   document.addEventListener('click', function (e) {
     const trigger = e.target.closest('[data-sf-modal="register"]');
     if (trigger) {
@@ -593,6 +603,16 @@ document.addEventListener('DOMContentLoaded', function () {
       if (returnFocus) returnFocus.focus();
     });
   }
+
+  document.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'mouse') return;
+    const trigger = e.target.closest('[data-sf-modal="partner"]');
+    if (trigger) {
+      e.preventDefault();
+      _sfPartnerTrigger = trigger;
+      sfPartnerModalOpen(trigger.dataset.sfPartnerType || '', trigger.dataset.sfSection || '');
+    }
+  }, { capture: true });
 
   document.addEventListener('click', function (e) {
     const trigger = e.target.closest('[data-sf-modal="partner"]');
