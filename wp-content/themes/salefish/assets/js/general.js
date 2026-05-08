@@ -125,6 +125,7 @@ function applyPhoneMask(input) {
     }
   });
 }
+window.applyPhoneMask = applyPhoneMask;
 
 // ── Fade helpers (replace jQuery fadeIn / fadeOut) ────────────────────────────
 function sfFadeIn(el, duration, callback) {

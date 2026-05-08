@@ -942,6 +942,8 @@ $_sf_lang_options_html .= '</ul>';
 						<div class="col">
 							<label for="sf_reg_phone"><?php echo esc_html( $_sf_str_label_phone ); ?></label>
 							<input type="tel" placeholder="<?php echo esc_attr( $_sf_str_ph_phone ); ?>" name="phone" id="sf_reg_phone" required
+								pattern="\d{3}-\d{3}-\d{4}"
+								title="Please enter a valid 10-digit phone number (e.g. 555-912-0088)"
 								data-parsley-minlength="12"
 								data-parsley-minlength-message="This value should be a valid phone number.">
 						</div>
