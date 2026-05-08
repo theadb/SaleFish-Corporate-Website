@@ -271,6 +271,7 @@ $_sf_lang_options_html .= '</ul>';
 
 		var openId = null;
 		var lastFocused = null;
+		var _touchToggleAt = 0; // timestamp set by pointerdown; lets the click handler skip the synthetic follow-up tap
 
 		function targetEls(m)  { return Array.from(document.querySelectorAll(m.target)); }
 		function triggerEls(m) { return Array.from(document.querySelectorAll(m.triggerBtn)); }
@@ -330,6 +331,10 @@ $_sf_lang_options_html .= '</ul>';
 					// Don't toggle if the click is inside the panel itself
 					// (e.g. clicking a link inside the languages_option list).
 					if (m.insideTarget && e.target.closest(m.insideTarget)) return;
+					// iOS with touch-action:manipulation fires click after pointerdown even
+					// when e.preventDefault() was called. Skip if pointerdown already toggled
+					// within the last 600ms (well beyond any real double-tap window).
+					if (e.timeStamp - _touchToggleAt < 600) { e.preventDefault(); return; }
 					e.preventDefault();
 					toggle(m.id);
 					return;
@@ -423,6 +428,7 @@ $_sf_lang_options_html .= '</ul>';
 			document.querySelectorAll('.sf-menu-btn').forEach(function (btn) {
 				btn.addEventListener('pointerdown', function (e) {
 					if (e.pointerType === 'mouse') return;
+					_touchToggleAt = e.timeStamp;
 					e.preventDefault();
 					toggle('nav');
 				});
