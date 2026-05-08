@@ -22,7 +22,7 @@ $_sf_icon_chevron   = '<span class="down_arrow"><svg xmlns="http://www.w3.org/20
 // Server-side locale detection for the language picker.
 // Locale links are now rendered in PHP — no JS innerHTML swap needed.
 $_sf_req_path = isset( $_SERVER['REQUEST_URI'] ) ? strtok( $_SERVER['REQUEST_URI'], '?' ) : '/';
-if ( str_starts_with( $_sf_req_path, '/au' ) )     { $_sf_locale = 'au'; }
+if ( $_sf_req_path === '/au' || str_starts_with( $_sf_req_path, '/au/' ) ) { $_sf_locale = 'au'; }
 elseif ( str_starts_with( $_sf_req_path, '/tr' ) ) { $_sf_locale = 'tr'; }
 elseif ( str_starts_with( $_sf_req_path, '/de' ) ) { $_sf_locale = 'de'; }
 else                                                { $_sf_locale = 'default'; }
