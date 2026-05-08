@@ -307,6 +307,7 @@ $_sf_lang_options_html .= '</ul>';
 			if (openId === id) openId = null;
 		}
 		function closeAll() { menus.forEach(function (m) { close(m.id); }); }
+		window.sfMenuClose = closeAll; // public API for general.js handlers
 		function open(id) {
 			if (openId && openId !== id) close(openId);
 			var m = menus.find(function (x) { return x.id === id; });

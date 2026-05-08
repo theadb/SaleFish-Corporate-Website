@@ -177,14 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.addEventListener('click', function () {
       const pp = document.querySelector('.privacy_policy');
       if (pp) pp.classList.add('active');
-      document.querySelectorAll('.sf-menu-btn.is-active').forEach(function (b) {
-        b.classList.remove('is-active');
-        b.setAttribute('aria-expanded', 'false');
-      });
-      document.querySelectorAll('.floating_menu.is-open').forEach(function (m) {
-        m.classList.remove('is-open');
-        m.setAttribute('inert', '');
-      });
+      if (window.sfMenuClose) window.sfMenuClose();
       sfScrollLock();
     });
   });
@@ -208,14 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.addEventListener('click', function () {
       const tp = document.querySelector('.terms_popup');
       if (tp) tp.classList.add('active');
-      document.querySelectorAll('.sf-menu-btn.is-active').forEach(function (b) {
-        b.classList.remove('is-active');
-        b.setAttribute('aria-expanded', 'false');
-      });
-      document.querySelectorAll('.floating_menu.is-open').forEach(function (m) {
-        m.classList.remove('is-open');
-        m.setAttribute('inert', '');
-      });
+      if (window.sfMenuClose) window.sfMenuClose();
       sfScrollLock();
     });
   });
@@ -237,14 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // ── Close floating menu when a link inside it is clicked ─────────────────────
   document.addEventListener('click', function (e) {
     if (e.target.closest('.floating_menu a, .floating_menu .mobile')) {
-      document.querySelectorAll('.sf-menu-btn.is-active').forEach(function (b) {
-        b.classList.remove('is-active');
-        b.setAttribute('aria-expanded', 'false');
-      });
-      document.querySelectorAll('.floating_menu.is-open').forEach(function (m) {
-        m.classList.remove('is-open');
-        m.setAttribute('inert', '');
-      });
+      if (window.sfMenuClose) window.sfMenuClose();
     }
   });
 
@@ -511,6 +490,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const trigger = e.target.closest('[data-sf-modal="register"]');
     if (trigger) {
       e.preventDefault();
+      if (window.sfMenuClose) window.sfMenuClose();
       _sfRegTrigger = trigger;
       sfRegModalOpen(trigger.dataset.sfSection || '');
     }
@@ -520,6 +500,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const trigger = e.target.closest('[data-sf-modal="register"]');
     if (trigger) {
       e.preventDefault();
+      if (window.sfMenuClose) window.sfMenuClose();
       _sfRegTrigger = trigger;
       sfRegModalOpen(trigger.dataset.sfSection || '');
     }
@@ -615,6 +596,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const trigger = e.target.closest('[data-sf-modal="partner"]');
     if (trigger) {
       e.preventDefault();
+      if (window.sfMenuClose) window.sfMenuClose();
       _sfPartnerTrigger = trigger;
       sfPartnerModalOpen(trigger.dataset.sfPartnerType || '', trigger.dataset.sfSection || '');
     }
@@ -624,6 +606,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const trigger = e.target.closest('[data-sf-modal="partner"]');
     if (trigger) {
       e.preventDefault();
+      if (window.sfMenuClose) window.sfMenuClose();
       _sfPartnerTrigger = trigger;
       sfPartnerModalOpen(trigger.dataset.sfPartnerType || '', trigger.dataset.sfSection || '');
     }
