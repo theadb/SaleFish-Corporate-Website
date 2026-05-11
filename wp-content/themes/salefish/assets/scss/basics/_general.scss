@@ -286,19 +286,41 @@ img[loading="lazy"].sf-img-loaded {
   }
 }
 
-// ─── Reveal animation: REMOVED ────────────────────────────────────────────
-// The previous .sf-fade-pre / .sf-fade-in / IntersectionObserver-driven
-// system caused the "second half of the page takes 3-10 seconds to load"
-// symptom on mobile and on cached pages — and the user explicitly
-// asked to remove animations entirely in favour of instant rendering.
-// All [data-aos] / data-fade-* attributes in the templates are now
-// inert (no CSS rules match them). Page elements render at their
-// natural styles immediately on first paint.
-//
-// The CSS is preserved as documentation only — kept intentionally short:
-// don't add keyframes / hide rules back here. If you want page entrance
-// animations again, build a new system that doesn't depend on
-// JS-injected hiding, since that pattern is what kept breaking.
+// ─── Scroll reveal ───────────────────────────────────────────────────────────
+// Progressive enhancement only: JS adds .sf-reveal-pending to below-fold
+// [data-aos] elements after DOMContentLoaded. Without JS, or before JS stages an
+// element, content stays fully visible. This avoids the Safari failure mode
+// where CSS hid content that the observer never got a chance to reveal.
+[data-aos].sf-reveal-pending {
+  --sf-reveal-x: 0;
+  --sf-reveal-y: 22px;
+  --sf-reveal-scale: 0.985;
+  opacity: 0;
+  transform: translate3d(var(--sf-reveal-x), var(--sf-reveal-y), 0) scale(var(--sf-reveal-scale));
+  transition:
+    opacity 720ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+}
+
+[data-aos="fade-left"].sf-reveal-pending { --sf-reveal-x: 28px; --sf-reveal-y: 0; }
+[data-aos="fade-right"].sf-reveal-pending { --sf-reveal-x: -28px; --sf-reveal-y: 0; }
+[data-aos="fade-down"].sf-reveal-pending { --sf-reveal-y: -18px; }
+[data-aos="fade-in"].sf-reveal-pending { --sf-reveal-y: 0; --sf-reveal-scale: 1; }
+[data-aos="zoom-in"].sf-reveal-pending,
+[data-aos="fade-zoom-in"].sf-reveal-pending { --sf-reveal-y: 12px; --sf-reveal-scale: 0.955; }
+
+[data-aos].sf-reveal-pending.sf-reveal-in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+[data-aos].sf-reveal-done {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
 
 input,
 select {
@@ -506,13 +528,6 @@ main {
   }
 }
 
-// ── Scroll-reveal removed (2026-04-28) ──────────────────────────────────────
-// All [data-aos] content renders fully visible — no JS-gated hiding, no
-// fade-in animations. The previous system caused Safari/iOS to render content
-// inconsistently (content sometimes vanishing on scroll-back). Hard-coding
-// content as visible removes every possible failure mode and makes first
-// paint match final paint exactly.
-
 // ── Respect prefers-reduced-motion ───────────────────────────────────────────
 // Disable all decorative animations for users who prefer reduced motion.
 // Scroll-reveal (app.js) already skips its IntersectionObserver entirely when
@@ -558,16 +573,14 @@ main {
   }
 }
 
-// ── AOS / data-reveal: keep all elements permanently visible ──────────────────
-// Templates still emit [data-aos] and [data-reveal] attributes. A WordPress
-// plugin or bundled script may activate AOS. We want elements to stay fully
-// visible after the page loads — "once loaded, keep loaded" — so override
-// every AOS initial-state rule and the data-reveal attribute. Using !important
-// so these beat AOS's own stylesheet (loaded via plugin at unknown priority).
-[data-aos] {
-  opacity: 1 !important;
-  transform: none !important;
-  transition: none !important;
+@media (prefers-reduced-motion: reduce) {
+  [data-aos].sf-reveal-pending,
+  [data-aos].sf-reveal-pending.sf-reveal-in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
 }
 
 [data-reveal] {

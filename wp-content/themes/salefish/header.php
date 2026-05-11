@@ -177,6 +177,21 @@ $_sf_lang_options_html .= '</ul>';
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="application-name" content="SaleFish">
+	<link rel="preconnect" href="https://www.clarity.ms">
+	<script>
+		// Microsoft Clarity must load early for complete session recordings.
+		// The function queue lets conversion code call clarity() before the
+		// external script has finished downloading.
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+		})(window,document,'clarity','script','wmwzqm0oha');
+		window.clarity('consentv2', {
+			ad_Storage: 'granted',
+			analytics_Storage: 'granted'
+		});
+	</script>
 	<?php
 	// Match theme-color to the header that will be shown on this page.
 	// Light-header pages (white bg) → white. All others → brand purple.

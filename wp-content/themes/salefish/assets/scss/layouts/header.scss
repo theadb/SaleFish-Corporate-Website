@@ -308,7 +308,7 @@ header {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.15s ease, visibility 0.15s ease;
+  transition: opacity 80ms ease, visibility 80ms ease;
 
   &.is-open {
     opacity: 1;
@@ -382,7 +382,7 @@ header {
   // controller in header.php) handles keyboard / a11y so we don't need
   // visibility for that either.
   pointer-events: none;
-  transition: opacity 0.18s ease;
+  transition: opacity 90ms ease;
 
   &.is-open {
     opacity: 1;
@@ -1097,7 +1097,7 @@ header {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.18s ease, visibility 0.18s ease;
+  transition: opacity 90ms ease, visibility 90ms ease;
 
   &.is-open {
     opacity: 1;

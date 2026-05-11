@@ -20,9 +20,9 @@
 // All overlays (modals, privacy, terms, check-email, thank-you) call these
 // helpers so the page never jumps on open/close regardless of which overlay
 // opened.
-var _sfScrollLockDepth = 0;   // nested open count (privacy inside modal, etc.)
-var _sfScrollLockY     = 0;   // scroll position saved at first lock
-var _sfScrollIsIOS     = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+let _sfScrollLockDepth = 0;   // nested open count (privacy inside modal, etc.)
+let _sfScrollLockY     = 0;   // scroll position saved at first lock
+const _sfScrollIsIOS   = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 function sfScrollLock() {
   if (_sfScrollLockDepth === 0) {
@@ -46,7 +46,7 @@ function sfScrollLock() {
 function sfScrollUnlock() {
   _sfScrollLockDepth = Math.max(0, _sfScrollLockDepth - 1);
   if (_sfScrollLockDepth > 0) return; // another overlay is still open
-  var y = _sfScrollLockY;
+  const y = _sfScrollLockY;
   if (_sfScrollIsIOS) {
     document.body.style.position = '';
     document.body.style.top      = '';
@@ -69,7 +69,7 @@ function sfScrollUnlock() {
 //
 // LinkedIn setup: obtain a numeric Conversion ID from LinkedIn Campaign Manager
 // → Conversions → Create Conversion, then paste it into LI_CONVERSION_ID below.
-var SF_LI_CONVERSION_ID = 512664862; // LinkedIn Conversion ID — Demo Request
+const SF_LI_CONVERSION_ID = 512664862; // LinkedIn Conversion ID — Demo Request
 
 function sfTrackConversion(leadType, formLocation) {
   // GA4 via GTM dataLayer — works even if pushed before GTM loads;
@@ -86,8 +86,8 @@ function sfTrackConversion(leadType, formLocation) {
   // Direct GA4 via gtag — belt-and-braces in case GTM is not configured
   // with a generate_lead tag. gtag() is defined in header.php and the
   // gtag.js library loads on window.load, well before any form submission.
-  if (typeof gtag === 'function') {
-    gtag('event', 'generate_lead', {
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', 'generate_lead', {
       lead_type:     leadType,
       form_location: formLocation,
     });
@@ -159,6 +159,72 @@ function serializeForm(form) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  // ── One-shot scroll reveal ─────────────────────────────────────────────────
+  // Templates already carry data-aos attributes. This tiny controller replaces
+  // the old AOS dependency with a Safari-friendly IntersectionObserver path:
+  // below-fold elements are staged only after JS runs, then revealed once and
+  // unobserved. Scrolling back up never replays the animation.
+  (function () {
+    const items = Array.prototype.slice.call(document.querySelectorAll('[data-aos]')).filter(function (el) {
+      return !el.closest('header, .floating_menu, template, .sf-reg-modal, .sf-partner-modal, .thank_you_msg, .sf-check-email-msg');
+    });
+    if (!items.length) return;
+
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced || !('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('sf-reveal-done'); });
+      return;
+    }
+
+    const vh = window.innerHeight || document.documentElement.clientHeight || 800;
+    const pending = [];
+    items.forEach(function (el) {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < vh * 0.82) {
+        el.classList.add('sf-reveal-done');
+        return;
+      }
+      const delay = parseInt(el.getAttribute('data-aos-delay') || '0', 10);
+      if (delay > 0) el.style.transitionDelay = Math.min(delay, 550) + 'ms';
+      el.classList.add('sf-reveal-pending');
+      pending.push(el);
+    });
+    if (!pending.length) return;
+
+    function cleanup(el) {
+      el.classList.remove('sf-reveal-pending', 'sf-reveal-in');
+      el.classList.add('sf-reveal-done');
+      el.style.transitionDelay = '';
+    }
+    function reveal(el) {
+      if (el.dataset.sfRevealed === '1') return;
+      el.dataset.sfRevealed = '1';
+      requestAnimationFrame(function () {
+        el.classList.add('sf-reveal-in');
+        let done = false;
+        function finish() {
+          if (done) return;
+          done = true;
+          cleanup(el);
+        }
+        el.addEventListener('transitionend', finish, { once: true });
+        setTimeout(finish, 1100);
+      });
+    }
+
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        reveal(entry.target);
+        io.unobserve(entry.target);
+      });
+    }, {
+      root: null,
+      rootMargin: '0px 0px -10% 0px',
+      threshold: 0.12,
+    });
+    pending.forEach(function (el) { io.observe(el); });
+  }());
 
   // ── Verified email redirect banner ──────────────────────────────────────────
   if (new URLSearchParams(window.location.search).get('salefish_verified') === '1') {
