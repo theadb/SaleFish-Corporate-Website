@@ -18,6 +18,7 @@ function toNativeWatchUrl(embedUrl) {
 }
 
 function openVideoDialog(embedUrl) {
+  if (!embedUrl) return;
   var dialog = getDialog();
   if (!dialog) return;
 
@@ -57,12 +58,14 @@ function closeVideoDialog() {
   var dialog = getDialog();
   if (!dialog) return;
   dialog.classList.remove('is-open');
+  dialog.style.pointerEvents = 'none';
   document.body.style.overflow = '';
   // Wait for fade-out transition, then clear iframe src and hide
   setTimeout(function () {
     var iframe = dialog.querySelector('.sf-video-dialog__iframe');
     if (iframe) iframe.src = '';
     dialog.hidden = true;
+    dialog.style.pointerEvents = '';
   }, 300);
 }
 
