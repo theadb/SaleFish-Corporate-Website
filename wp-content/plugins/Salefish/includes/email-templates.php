@@ -57,39 +57,48 @@ function salefish_collect_context(): array {
 		$os = 'Linux';
 	}
 
-	// --- Geo-location via ip-api.com (skip localhost) ---
-	$location = '';
-	$is_local = in_array( $ip, [ '127.0.0.1', '::1', '' ], true )
-		|| str_starts_with( $ip, '192.168.' )
-		|| str_starts_with( $ip, '10.' );
-
-	if ( $ip && ! $is_local ) {
-		$geo_url  = "http://ip-api.com/json/{$ip}?fields=status,city,regionName,country";
-		$geo_resp = wp_remote_get( $geo_url, [ 'timeout' => 5 ] );
-		if ( ! is_wp_error( $geo_resp ) ) {
-			$geo = json_decode( wp_remote_retrieve_body( $geo_resp ), true );
-			if ( isset( $geo['status'] ) && $geo['status'] === 'success' ) {
-				$parts = array_filter( [
-					$geo['city']       ?? '',
-					$geo['regionName'] ?? '',
-					$geo['country']    ?? '',
-				] );
-				$location = implode( ', ', $parts );
-			}
-		}
-	}
-
 	// --- Source page ---
 	$source = $_SERVER['HTTP_REFERER'] ?? '';
 
 	return [
 		'_ctx_ip'       => $ip,
-		'_ctx_location' => $location,
+		'_ctx_location' => '', // resolved later by salefish_lookup_geo() outside the AJAX path
 		'_ctx_browser'  => $browser,
 		'_ctx_os'       => $os,
 		'_ctx_source'   => $source,
 		'_ctx_ua'       => $ua,
 	];
+}
+
+/**
+ * Resolve a geo-location string from an IP address.
+ * Called from salefish_complete_registration() (runs on email-link click,
+ * not during the user-facing AJAX form submit) so the network round-trip
+ * never adds latency to the user's "Submitting…" state.
+ *
+ * Uses ipapi.co HTTPS free tier (45 req/min, no key required).
+ */
+function salefish_lookup_geo( string $ip ): string {
+	if ( ! $ip ) return '';
+
+	$is_local = in_array( $ip, [ '127.0.0.1', '::1' ], true )
+		|| str_starts_with( $ip, '192.168.' )
+		|| str_starts_with( $ip, '10.' );
+	if ( $is_local ) return '';
+
+	$url  = 'https://ipapi.co/' . rawurlencode( $ip ) . '/json/';
+	$resp = wp_remote_get( $url, [ 'timeout' => 3 ] );
+	if ( is_wp_error( $resp ) ) return '';
+
+	$geo = json_decode( wp_remote_retrieve_body( $resp ), true );
+	if ( empty( $geo ) || ! empty( $geo['error'] ) ) return '';
+
+	$parts = array_filter( [
+		$geo['city']         ?? '',
+		$geo['region']       ?? '',
+		$geo['country_name'] ?? '',
+	] );
+	return implode( ', ', $parts );
 }
 
 /**
@@ -151,10 +160,12 @@ function salefish_format_ac_note( array $fields, string $form_type ): string {
  * @param string $form_type 'general' | 'agent' | 'partner'
  */
 function salefish_notification_email_html( array $fields, string $form_type ): string {
-	$name    = esc_html( $fields['name']    ?? '' );
-	$email   = esc_html( $fields['email']   ?? '' );
-	$phone   = esc_html( $fields['phone']   ?? '' );
-	$company = esc_html( $fields['company'] ?? '' );
+	$name         = esc_html( $fields['name']    ?? '' );
+	$email        = esc_html( $fields['email']   ?? '' );
+	$phone        = esc_html( $fields['phone']   ?? '' );
+	$phone_attr   = esc_attr( $fields['phone']   ?? '' ); // for href="tel:…" attribute
+	$email_attr   = esc_attr( $fields['email']   ?? '' ); // for href="mailto:…" attribute
+	$company      = esc_html( $fields['company'] ?? '' );
 	$date    = ( new DateTime( 'now', new DateTimeZone('America/Toronto') ) )->format( 'l, F j, Y \a\t g:i A T' );
 
 	$form_label = 'Registration';
@@ -188,7 +199,7 @@ function salefish_notification_email_html( array $fields, string $form_type ): s
 		);
 	}
 
-	$phone_row   = $phone   ? '<tr><td style="color:#a1a1a1;font-size:14px;padding:8px 0;border-bottom:1px solid #2a2a2a;width:40%;">Phone</td><td style="color:#ffffff;font-size:14px;padding:8px 0;border-bottom:1px solid #2a2a2a;"><a href="tel:' . $phone . '" style="color:#a78bfa;text-decoration:none;">' . $phone . '</a></td></tr>' : '';
+	$phone_row   = $phone   ? '<tr><td style="color:#a1a1a1;font-size:14px;padding:8px 0;border-bottom:1px solid #2a2a2a;width:40%;">Phone</td><td style="color:#ffffff;font-size:14px;padding:8px 0;border-bottom:1px solid #2a2a2a;"><a href="tel:' . $phone_attr . '" style="color:#a78bfa;text-decoration:none;">' . $phone . '</a></td></tr>' : '';
 	$company_row = $company ? '<tr><td style="color:#a1a1a1;font-size:14px;padding:8px 0;border-bottom:1px solid #2a2a2a;width:40%;">Company</td><td style="color:#ffffff;font-size:14px;padding:8px 0;border-bottom:1px solid #2a2a2a;">' . $company . '</td></tr>' : '';
 
 	// Build Lead Intel section HTML
@@ -221,7 +232,7 @@ function salefish_notification_email_html( array $fields, string $form_type ): s
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <meta name="color-scheme" content="dark">
   <meta name="supported-color-schemes" content="dark">
-  <title>New <?php echo $form_label; ?> — SaleFish</title>
+  <title>New <?php echo esc_html( $form_label ); ?> — SaleFish</title>
 </head>
 <body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background-color:#0f0f0f;color-scheme:dark;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0f0f0f;padding:40px 20px;">
@@ -231,26 +242,26 @@ function salefish_notification_email_html( array $fields, string $form_type ): s
           <!-- Header -->
           <tr>
             <td style="padding:40px 40px 30px;text-align:center;">
-              <img src="<?php echo SALEFISH_EMAIL_LOGO; ?>" alt="SaleFish" style="height:40px;width:auto;margin-bottom:10px;">
+              <img src="<?php echo esc_url( SALEFISH_EMAIL_LOGO ); ?>" alt="SaleFish" style="height:40px;width:auto;margin-bottom:10px;">
             </td>
           </tr>
           <!-- Body -->
           <tr>
             <td style="padding:0 40px 40px;">
-              <h1 style="color:#ffffff;font-size:28px;font-weight:700;line-height:1.2;margin:0 0 20px;text-align:left;">New <?php echo $form_label; ?></h1>
-              <p style="color:#a1a1a1;font-size:16px;line-height:1.7;margin:0 0 30px;">A new contact submitted the <strong style="color:#ffffff;"><?php echo $form_label; ?></strong> form on salefish.app</p>
+              <h1 style="color:#ffffff;font-size:28px;font-weight:700;line-height:1.2;margin:0 0 20px;text-align:left;">New <?php echo esc_html( $form_label ); ?></h1>
+              <p style="color:#a1a1a1;font-size:16px;line-height:1.7;margin:0 0 30px;">A new contact submitted the <strong style="color:#ffffff;"><?php echo esc_html( $form_label ); ?></strong> form on salefish.app</p>
 
               <!-- Contact card -->
               <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;">
                 <tr>
                   <td style="background-color:#0f0f0f;border-radius:8px;padding:24px;">
                     <div style="font-size:28px;font-weight:700;color:#ffffff;margin-bottom:4px;"><?php echo $name; ?></div>
-                    <div style="font-size:14px;color:#7c3aed;margin-bottom:20px;"><?php echo $form_label; ?></div>
+                    <div style="font-size:14px;color:#7c3aed;margin-bottom:20px;"><?php echo esc_html( $form_label ); ?></div>
                     <table width="100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td style="color:#a1a1a1;font-size:14px;padding:8px 0;border-bottom:1px solid #2a2a2a;width:40%;">Email</td>
                         <td style="color:#ffffff;font-size:14px;padding:8px 0;border-bottom:1px solid #2a2a2a;">
-                          <a href="mailto:<?php echo $email; ?>" style="color:#a78bfa;text-decoration:none;"><?php echo $email; ?></a>
+                          <a href="mailto:<?php echo $email_attr; ?>" style="color:#a78bfa;text-decoration:none;"><?php echo $email; ?></a>
                         </td>
                       </tr>
                       <?php echo $phone_row; ?>
@@ -347,7 +358,7 @@ function salefish_autoresponder_email_html( string $first_name, string $form_typ
           <!-- Header -->
           <tr>
             <td style="padding:40px 40px 30px;text-align:center;">
-              <img src="<?php echo SALEFISH_EMAIL_LOGO; ?>" alt="SaleFish" style="height:40px;width:auto;margin-bottom:10px;">
+              <img src="<?php echo esc_url( SALEFISH_EMAIL_LOGO ); ?>" alt="SaleFish" style="height:40px;width:auto;margin-bottom:10px;">
             </td>
           </tr>
           <!-- Body -->
@@ -418,6 +429,12 @@ function salefish_send_notification( array $fields, string $form_type ): bool {
 function salefish_complete_registration( string $type, array $f ): void {
 	require_once plugin_dir_path( __FILE__ ) . 'class-activecampaign.php';
 
+	// Geo lookup deferred from AJAX path — runs here on email-link click so
+	// the user's form-submit response is never blocked by the network call.
+	if ( empty( $f['_ctx']['_ctx_location'] ) && ! empty( $f['_ctx']['_ctx_ip'] ) ) {
+		$f['_ctx']['_ctx_location'] = salefish_lookup_geo( $f['_ctx']['_ctx_ip'] );
+	}
+
 	$parts      = explode( ' ', $f['name'] ?? '', 2 );
 	$first_name = $parts[0] ?? '';
 	$last_name  = $parts[1] ?? '';
@@ -445,11 +462,12 @@ function salefish_complete_registration( string $type, array $f ): void {
 		$auto_id = defined( 'SALEFISH_AC_AUTO_AGENT' ) ? (int) SALEFISH_AC_AUTO_AGENT : 0;
 		$ac->add_to_automation( $contact_id, $auto_id );
 		$note_data = array_merge( [
-			'name'    => $f['name']        ?? '',
-			'email'   => $f['email']       ?? '',
-			'phone'   => $f['phone']       ?? '',
-			'company' => $f['brokerage']   ?? '',
-			'website' => $f['website_url'] ?? '',
+			'name'         => $f['name']         ?? '',
+			'email'        => $f['email']        ?? '',
+			'phone'        => $f['phone']        ?? '',
+			'company'      => $f['brokerage']    ?? '',
+			'website'      => $f['website_url']  ?? '',
+			'linkedin'     => $f['linkedin_url'] ?? '',
 		], $f['_ctx'] ?? [] );
 		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'agent' ) );
 		salefish_send_notification( $note_data, 'agent' );

@@ -37,6 +37,10 @@ $sub_header = get_field('sub_header');
 					<input type="email" placeholder="name@developeremail.com" name="email" id="email" required>
 				</div>
 			</div>
+			<div class="sf-hp-field" aria-hidden="true">
+				<label for="sf_hp_reg">Leave this field blank</label>
+				<input type="text" name="sf_hp" id="sf_hp_reg" tabindex="-1" autocomplete="off" value="">
+			</div>
 			<div class="row submit_row">
 				<input class="button" type="submit" value="Register">
 			</div>

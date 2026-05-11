@@ -491,6 +491,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }, { capture: true });
 
+  function sfInsertFormError(form, id, msg) {
+    const lastRow = form.querySelector('.row:last-child');
+    if (!lastRow) return;
+    const p = document.createElement('p');
+    p.id = id;
+    p.className = 'sf-form-error';
+    p.setAttribute('role', 'alert');
+    p.textContent = msg;
+    lastRow.before(p);
+  }
+
   // REG MODAL FORM SUBMIT — delegated so it works after lazy injection
   document.addEventListener('submit', function (e) {
     if (!e.target.matches('#sf_reg_form')) return;
@@ -509,13 +520,11 @@ document.addEventListener('DOMContentLoaded', function () {
         sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
       } else {
         const msg = (res.data && res.data.message) ? res.data.message : 'Something went wrong — please try again.';
-        const lastRow = form.querySelector('.row:last-child');
-        if (lastRow) lastRow.insertAdjacentHTML('beforebegin', '<p id="sf-reg-form-error" class="sf-form-error" role="alert">' + msg + '</p>');
+        sfInsertFormError(form, 'sf-reg-form-error', msg);
         if (btn) { btn.value = origVal; btn.disabled = false; }
       }
     }, function () {
-      const lastRow = form.querySelector('.row:last-child');
-      if (lastRow) lastRow.insertAdjacentHTML('beforebegin', '<p id="sf-reg-form-error" class="sf-form-error" role="alert">Connection error — please try again.</p>');
+      sfInsertFormError(form, 'sf-reg-form-error', 'Connection error — please try again.');
       if (btn) { btn.value = origVal; btn.disabled = false; }
     });
   });
@@ -608,13 +617,11 @@ document.addEventListener('DOMContentLoaded', function () {
         sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
       } else {
         const msg = (res.data && res.data.message) ? res.data.message : 'Something went wrong — please try again.';
-        const lastRow = form.querySelector('.row:last-child');
-        if (lastRow) lastRow.insertAdjacentHTML('beforebegin', '<p id="sf-partner-form-error" class="sf-form-error" role="alert">' + msg + '</p>');
+        sfInsertFormError(form, 'sf-partner-form-error', msg);
         if (btn) { btn.value = origVal; btn.disabled = false; }
       }
     }, function () {
-      const lastRow = form.querySelector('.row:last-child');
-      if (lastRow) lastRow.insertAdjacentHTML('beforebegin', '<p id="sf-partner-form-error" class="sf-form-error" role="alert">Connection error — please try again.</p>');
+      sfInsertFormError(form, 'sf-partner-form-error', 'Connection error — please try again.');
       if (btn) { btn.value = origVal; btn.disabled = false; }
     });
   });

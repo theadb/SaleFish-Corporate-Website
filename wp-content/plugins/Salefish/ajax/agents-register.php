@@ -12,23 +12,25 @@ function salefish_agents_register() {
 		wp_send_json_success( 'Registered successfully.' );
 	}
 
-	$name        = sanitize_text_field( $_POST['name']        ?? '' );
-	$email       = sanitize_email(       $_POST['email']       ?? '' );
-	$phone       = sanitize_text_field( $_POST['phone']       ?? '' );
-	$brokerage   = sanitize_text_field( $_POST['brokerage']   ?? '' );
-	$website_url = esc_url_raw(          $_POST['website_url'] ?? '' );
+	$name         = sanitize_text_field( $_POST['name']         ?? '' );
+	$email        = sanitize_email(       $_POST['email']        ?? '' );
+	$phone        = sanitize_text_field( $_POST['phone']        ?? '' );
+	$brokerage    = sanitize_text_field( $_POST['brokerage']    ?? '' );
+	$website_url  = esc_url_raw(          $_POST['website_url']  ?? '' );
+	$linkedin_url = esc_url_raw(          $_POST['linkedin_url'] ?? '' );
 
 	if ( ! $email || ! is_email( $email ) ) {
 		wp_send_json_error( 'Invalid email address.' );
 	}
 
 	$token = Salefish_Email_Verify::create( 'agent', [
-		'name'        => $name,
-		'email'       => $email,
-		'phone'       => $phone,
-		'brokerage'   => $brokerage,
-		'website_url' => $website_url,
-		'_ctx'        => salefish_collect_context(),
+		'name'         => $name,
+		'email'        => $email,
+		'phone'        => $phone,
+		'brokerage'    => $brokerage,
+		'website_url'  => $website_url,
+		'linkedin_url' => $linkedin_url,
+		'_ctx'         => salefish_collect_context(),
 	] );
 
 	Salefish_Email_Verify::send_confirmation( $email, $token, 'agent' );

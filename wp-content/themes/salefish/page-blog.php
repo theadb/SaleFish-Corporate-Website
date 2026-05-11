@@ -267,6 +267,12 @@ get_header();
   var currentCat    = 'all';
   var isLoading     = false;
 
+  function escHtml(s) {
+    return String(s).replace(/[&<>"']/g, function(c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
   function buildCard(post) {
     var cat_slug  = post.cat_slug || '';
     var cat_name  = post.cat_name || '';
@@ -278,18 +284,19 @@ get_header();
     card.setAttribute('data-category', cat_slug);
     if (is_video && embed_url) { card.setAttribute('data-video-url', embed_url); }
     var metaParts = [];
-    if (post.date)      metaParts.push(post.date);
-    if (post.author)    metaParts.push(post.author);
-    if (post.read_time) metaParts.push(post.read_time);
+    if (post.date)      metaParts.push(escHtml(post.date));
+    if (post.author)    metaParts.push(escHtml(post.author));
+    if (post.read_time) metaParts.push(escHtml(post.read_time));
     var metaLine = metaParts.length ? '<p class="blog-card__meta">' + metaParts.join(' · ') + '</p>' : '';
     card.setAttribute('aria-label', post.title || '');
+    var ctaText = is_video ? 'Watch Video' : ({'success-stories':'See the Results','press':'Read It','blog':'Dig In'}[cat_slug] || 'Keep Reading');
     card.innerHTML =
       (post.thumb ? '<div class="blog-card__image">' + post.thumb + '</div>' : '') +
       '<div class="blog-card__body">' +
-        ((post.is_featured || cat_name) ? '<div class="blog-card__badges">' + (cat_name ? '<span class="sf-badge sf-badge--' + cat_slug + '">' + cat_name + '</span>' : '') + (post.is_featured ? '<span class="sf-badge sf-badge--featured">Featured</span>' : '') + '</div>' : '') +
+        ((post.is_featured || cat_name) ? '<div class="blog-card__badges">' + (cat_name ? '<span class="sf-badge sf-badge--' + escHtml(cat_slug) + '">' + escHtml(cat_name) + '</span>' : '') + (post.is_featured ? '<span class="sf-badge sf-badge--featured">Featured</span>' : '') + '</div>' : '') +
         metaLine +
-        '<h3 class="blog-card__title">' + post.title + '</h3>' +
-        '<span class="blog-card__link">' + (is_video ? 'Watch Video' : ({ 'success-stories': 'See the Results', 'press': 'Read It', 'blog': 'Dig In' }[cat_slug] || 'Keep Reading')) + '</span>' +
+        '<h3 class="blog-card__title">' + escHtml(post.title) + '</h3>' +
+        '<span class="blog-card__link">' + ctaText + '</span>' +
       '</div>';
     return card;
   }

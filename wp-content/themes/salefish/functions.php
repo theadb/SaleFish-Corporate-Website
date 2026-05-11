@@ -424,7 +424,7 @@ function salefish_og_meta() {
 
     // ── Category / archive pages ──────────────────────────────────────────────
     } else {
-        $title       = wp_title( '|', false, 'right' ) . 'SaleFish';
+        $title       = wp_get_document_title();
         $description = 'Real estate sales insights, success stories, and platform updates from the SaleFish team.';
         $keywords    = 'real estate sales, SaleFish blog, pre-construction sales';
         global $wp;
@@ -750,11 +750,10 @@ function load_more_post()
         wp_reset_postdata();
     }
 
-    echo json_encode([
+    wp_send_json( [
         'max'   => $query->max_num_pages,
         'posts' => $response,
-    ]);
-    wp_die();
+    ] );
 }
 add_action('wp_ajax_load_more_post', 'load_more_post');
 add_action('wp_ajax_nopriv_load_more_post', 'load_more_post');
@@ -891,8 +890,8 @@ function sf_video_thumbnail_url( $url ) {
 function salefish_blog_redirect() {
     $request_uri = $_SERVER['REQUEST_URI'];
     if ( strpos( $request_uri, '/newsroom' ) === 0 ) {
-        $new_uri = '/blog' . substr( $request_uri, strlen( '/newsroom' ) );
-        wp_redirect( $new_uri, 301 );
+        $new_uri = '/blog' . preg_replace( '/[^a-zA-Z0-9\/_\-\.%?=&#]/', '', substr( $request_uri, strlen( '/newsroom' ) ) );
+        wp_safe_redirect( $new_uri, 301 );
         exit;
     }
 }

@@ -59,7 +59,10 @@ class Salefish_Email_Verify {
 			ARRAY_A
 		);
 		foreach ( $rows as $row ) {
-			$data = maybe_unserialize( $row['option_value'] );
+			$raw  = $row['option_value'];
+			$data = is_serialized( $raw )
+				? unserialize( $raw, [ 'allowed_classes' => false ] ) // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize
+				: $raw;
 			if ( ! is_array( $data ) || ( isset( $data['expires'] ) && time() > $data['expires'] ) ) {
 				delete_option( $row['option_name'] );
 			}
