@@ -169,7 +169,12 @@ function salefish_enqueue_assets()
     $page_js_dir  = get_template_directory() . '/dest/pages/';
 
     // Homepage — Swiper + CountUp + homepage CSS
-    if ( is_front_page() ) {
+    // Also load on locale homepages (AU/DE/TR) which share the same layout.
+    $is_homepage = is_front_page()
+        || is_page_template( 'page-homepage-au.php' )
+        || is_page_template( 'page-homepage-de.php' )
+        || is_page_template( 'page-homepage-tr.php' );
+    if ( $is_homepage ) {
         if ( file_exists( $page_js_dir . 'home.js' ) ) {
             wp_enqueue_script( 'script-home', $page_js_base . 'home.js', ['script-name'], filemtime( $page_js_dir . 'home.js' ), true );
         }

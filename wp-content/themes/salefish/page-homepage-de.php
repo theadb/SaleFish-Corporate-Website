@@ -17,8 +17,23 @@ $hero_image  = get_field( 'hero_image' );
 // BUILDERS
 $builders = get_field( 'builders_developers' );
 
-// PILLARS
-$pillars = get_field( 'pillars' );
+// PILLARS — icons are overridden to match the US home page (updated 2026/04 set).
+$pillars     = get_field( 'pillars' );
+$_upload_base = wp_upload_dir()['baseurl'];
+$_pillar_icons = [
+	$_upload_base . '/2026/04/pillars-simple.png',
+	$_upload_base . '/2026/04/pillars-trusted.png',
+	$_upload_base . '/2026/04/pillars-integrated.png',
+	$_upload_base . '/2026/04/pillars-security.png',
+];
+if ( is_array( $pillars ) ) {
+	foreach ( $pillars as $i => &$_p ) {
+		if ( isset( $_pillar_icons[ $i ] ) ) {
+			$_p['icon'] = $_pillar_icons[ $i ];
+		}
+	}
+	unset( $_p );
+}
 
 // THE NUMBERS
 $numbers_header = get_field( 'numbers_header' );
@@ -89,6 +104,40 @@ $the_numbers    = get_field( 'the_numbers' );
 	<?php get_template_part( '/partials/salefish-features-de' ); ?>
 	<!-- END FEATURES -->
 
+	<!-- PILLARS -->
+	<section class="pillars">
+		<div class="max_wrapper">
+			<div data-aos="fade-right">
+				<h1>Die SaleFish-Säulen</h1>
+				<p class="subheader">Alle Tools, die Sie benötigen, um auf dem heutigen Markt erfolgreich zu verkaufen.</p>
+			</div>
+			<div class="swiper pillarsSwiper" data-aos="fade-zoom-in">
+				<div class="swiper-wrapper">
+					<?php foreach ( ( is_array( $pillars ) ? $pillars : [] ) as $row ) :
+						$icon        = $row['icon'];
+						$title       = ucwords( strtolower( $row['title'] ) );
+						$description = $row['description'];
+						?>
+					<div class="swiper-slide">
+						<img class="pillar" src="<?php echo esc_url( $icon ); ?>" alt="" aria-hidden="true">
+						<h3><?php echo esc_html( $title ); ?></h3>
+						<p><?php echo wp_kses_post( $description ); ?></p>
+					</div>
+					<?php endforeach; ?>
+				</div>
+				<div class="controls">
+					<div class="arrow">
+						<img class="left_arrow" src="<?php echo get_template_directory_uri(); ?>/img/left_arrow.png" alt="" aria-hidden="true">
+					</div>
+					<div class="arrow">
+						<img class="right_arrow" src="<?php echo get_template_directory_uri(); ?>/img/right_arrow.png" alt="" aria-hidden="true">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- END PILLARS -->
+
 	<!-- CONTACT -->
 	<section class="contact">
 		<div class="contact_overlay"><div class="width"></div></div>
@@ -149,40 +198,6 @@ $the_numbers    = get_field( 'the_numbers' );
 			</div>
 			<a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish" aria-label="Chatten Sie mit uns (öffnet in neuem Tab)">CHATTEN SIE MIT UNS</a>
 		</div>
-		<!-- PILLARS -->
-		<section class="pillars">
-			<div class="max_wrapper">
-				<div data-aos="fade-right">
-					<h1>Die SaleFish-Säulen</h1>
-					<p class="subheader">Alle Tools, die Sie benötigen, um auf dem heutigen Markt erfolgreich zu verkaufen.</p>
-				</div>
-				<div class="swiper pillarsSwiper" data-aos="fade-zoom-in">
-					<div class="swiper-wrapper">
-						<?php foreach ( ( is_array( $pillars ) ? $pillars : [] ) as $row ) :
-							$icon        = $row['icon'];
-							$title       = ucwords( strtolower( $row['title'] ) );
-							$description = $row['description'];
-							?>
-						<div class="swiper-slide">
-							<img class="pillar" src="<?php echo esc_url( $icon ); ?>" alt="" aria-hidden="true">
-							<h3><?php echo esc_html( $title ); ?></h3>
-							<p><?php echo wp_kses_post( $description ); ?></p>
-						</div>
-						<?php endforeach; ?>
-					</div>
-					<div class="controls">
-						<div class="arrow">
-							<img class="left_arrow" src="<?php echo get_template_directory_uri(); ?>/img/left_arrow.png" alt="" aria-hidden="true">
-						</div>
-						<div class="arrow">
-							<img class="right_arrow" src="<?php echo get_template_directory_uri(); ?>/img/right_arrow.png" alt="" aria-hidden="true">
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- END PILLARS -->
-
 		<?php get_template_part( '/partials/contact-de' ); ?>
 	</section>
 	<!-- END CONTACT -->

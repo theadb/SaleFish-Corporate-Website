@@ -23,7 +23,7 @@
  * old caches and clients re-fetch the new shell.
  */
 
-const CACHE_NAME  = 'salefish-v77-2026-05-05-nav-align';
+const CACHE_NAME  = 'salefish-v78-2026-05-06-cache-scope';
 const OFFLINE_URL = '/offline.html';
 
 // Pre-cache the shell so the very first navigation can use stale-while-
@@ -83,9 +83,21 @@ self.addEventListener('fetch', event => {
 
   const isAsset = /\.(css|js|woff2?|ttf|otf|png|jpe?g|gif|svg|ico|webp|avif)$/i.test(url.pathname);
 
+  // Only put theme assets into Cache Storage. WordPress media uploads, post
+  // images, and any other non-theme files are left for the browser's native
+  // HTTP cache. Caching uploads here caused unbounded Cache Storage growth
+  // that triggered Safari memory warnings as users browsed more pages.
+  const isThemeAsset = url.pathname.startsWith('/wp-content/themes/salefish/');
+
   if (isAsset) {
-    // Cache-first: browser cache is fastest path on repeats. Fresh copy
-    // is fetched in the background to keep the cache up-to-date.
+    if (!isThemeAsset) {
+      // Non-theme files (uploads, favicon, etc.) — pass through to network.
+      // The browser's HTTP cache handles these; no Cache Storage growth.
+      return;
+    }
+
+    // Cache-first: theme CSS, JS, fonts, and icons are versioned at their
+    // URL so they never change without a new path. Safe to serve instantly.
     event.respondWith(
       caches.match(request).then(cached => {
         const networkFetch = fetch(request).then(response => {

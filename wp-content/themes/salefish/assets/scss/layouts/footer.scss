@@ -293,6 +293,9 @@ footer {
           justify-content: center;
           width: 40px;
           height: 40px;
+          // Reset legacy margins from the global .socials a rule in _reusable.scss
+          margin: 0;
+          padding: 0;
           border-radius: var(--sf-radius);
           text-decoration: none;
           transition: opacity 0.2s ease;

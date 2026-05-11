@@ -14,11 +14,49 @@ foreach ( ( is_array( $fade_msg ) ? $fade_msg : [] ) as $msg ) {
 $hero_header = get_field( 'hero_header' );
 $hero_image  = get_field( 'hero_image' );
 
-// BUILDERS
-$builders = get_field( 'builders_developers' );
+// BUILDERS — AU-specific logos are missing from uploads; use US home page logos instead.
+$_upload_base = wp_upload_dir()['baseurl'];
+$builders = [
+	$_upload_base . '/2024/09/arista1-1.png',
+	$_upload_base . '/2024/09/aspen-ridge.png',
+	$_upload_base . '/2024/09/branthaven.png',
+	$_upload_base . '/2024/09/bromont.png',
+	$_upload_base . '/2024/09/cachet.png',
+	$_upload_base . '/2024/09/cortel.png',
+	$_upload_base . '/2024/09/countrywide.png',
+	$_upload_base . '/2024/09/deco.png',
+	$_upload_base . '/2024/09/fernbrook.png',
+	$_upload_base . '/2024/09/goldpark.png',
+	$_upload_base . '/2024/09/great-gulf.png',
+	$_upload_base . '/2024/09/lakeview.png',
+	$_upload_base . '/2024/09/lindvest.png',
+	$_upload_base . '/2024/09/marlin-spring.png',
+	$_upload_base . '/2024/09/opus.png',
+	$_upload_base . '/2024/09/pristine.png',
+	$_upload_base . '/2024/09/signature.png',
+	$_upload_base . '/2024/09/valery.png',
+	$_upload_base . '/2024/09/zancor.png',
+	$_upload_base . '/2024/10/calibrex.png',
+	$_upload_base . '/2024/10/sterling-group.png',
+	$_upload_base . '/2024/10/jd-developments.png',
+];
 
-// PILLARS
-$pillars = get_field( 'pillars' );
+// PILLARS — icons are overridden to match the US home page (updated 2026/04 set).
+$pillars     = get_field( 'pillars' );
+$_pillar_icons = [
+	$_upload_base . '/2026/04/pillars-simple.png',
+	$_upload_base . '/2026/04/pillars-trusted.png',
+	$_upload_base . '/2026/04/pillars-integrated.png',
+	$_upload_base . '/2026/04/pillars-security.png',
+];
+if ( is_array( $pillars ) ) {
+	foreach ( $pillars as $i => &$_p ) {
+		if ( isset( $_pillar_icons[ $i ] ) ) {
+			$_p['icon'] = $_pillar_icons[ $i ];
+		}
+	}
+	unset( $_p );
+}
 
 // THE NUMBERS
 $numbers_header = get_field( 'numbers_header' );
@@ -89,6 +127,40 @@ $the_numbers    = get_field( 'the_numbers' );
 	<?php get_template_part( '/partials/salefish-features' ); ?>
 	<!-- END FEATURES -->
 
+	<!-- PILLARS -->
+	<section class="pillars">
+		<div class="max_wrapper">
+			<div data-aos="fade-right">
+				<h1>The SaleFish Pillars</h1>
+				<p class="subheader">Modern sales tools by the best, for the best.</p>
+			</div>
+			<div class="swiper pillarsSwiper" data-aos="fade-zoom-in">
+				<div class="swiper-wrapper">
+					<?php foreach ( ( is_array( $pillars ) ? $pillars : [] ) as $row ) :
+						$icon        = $row['icon'];
+						$title       = ucwords( strtolower( $row['title'] ) );
+						$description = $row['description'];
+						?>
+					<div class="swiper-slide">
+						<img class="pillar" src="<?php echo esc_url( $icon ); ?>" alt="" aria-hidden="true">
+						<h3><?php echo esc_html( $title ); ?></h3>
+						<p><?php echo wp_kses_post( $description ); ?></p>
+					</div>
+					<?php endforeach; ?>
+				</div>
+				<div class="controls">
+					<div class="arrow">
+						<img class="left_arrow" src="<?php echo get_template_directory_uri(); ?>/img/left_arrow.png" alt="" aria-hidden="true">
+					</div>
+					<div class="arrow">
+						<img class="right_arrow" src="<?php echo get_template_directory_uri(); ?>/img/right_arrow.png" alt="" aria-hidden="true">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- END PILLARS -->
+
 	<!-- CONTACT -->
 	<section class="contact">
 		<div class="contact_overlay"><div class="width"></div></div>
@@ -149,40 +221,6 @@ $the_numbers    = get_field( 'the_numbers' );
 			</div>
 			<a class="button" target="_blank" rel="noopener noreferrer" href="https://chatting.page/salefish">CHAT WITH US<span class="sr-only"> (opens in new tab)</span></a>
 		</div>
-		<!-- PILLARS -->
-		<section class="pillars">
-			<div class="max_wrapper">
-				<div data-aos="fade-right">
-					<h1>The SaleFish Pillars</h1>
-					<p class="subheader">Modern sales tools by the best, for the best.</p>
-				</div>
-				<div class="swiper pillarsSwiper" data-aos="fade-zoom-in">
-					<div class="swiper-wrapper">
-						<?php foreach ( ( is_array( $pillars ) ? $pillars : [] ) as $row ) :
-							$icon        = $row['icon'];
-							$title       = ucwords( strtolower( $row['title'] ) );
-							$description = $row['description'];
-							?>
-						<div class="swiper-slide">
-							<img class="pillar" src="<?php echo esc_url( $icon ); ?>" alt="" aria-hidden="true">
-							<h3><?php echo esc_html( $title ); ?></h3>
-							<p><?php echo wp_kses_post( $description ); ?></p>
-						</div>
-						<?php endforeach; ?>
-					</div>
-					<div class="controls">
-						<div class="arrow">
-							<img class="left_arrow" src="<?php echo get_template_directory_uri(); ?>/img/left_arrow.png" alt="" aria-hidden="true">
-						</div>
-						<div class="arrow">
-							<img class="right_arrow" src="<?php echo get_template_directory_uri(); ?>/img/right_arrow.png" alt="" aria-hidden="true">
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- END PILLARS -->
-
 		<?php get_template_part( '/partials/contact-general' ); ?>
 	</section>
 	<!-- END CONTACT -->

@@ -12,6 +12,7 @@ All code written for this project must adhere to the following non-negotiable st
 - **Performance** — minimise layout thrash (avoid forced reflow in loops), use passive listeners where possible, defer non-critical work, prefer CSS over JS for visual effects, avoid memory leaks
 - **No jQuery** — fully removed from the codebase. All new code must be vanilla JS. Do not re-introduce jQuery under any circumstances
 - **`npm run prod` only** — never deploy `dev` builds. Dev builds are ~5× larger
+- **Fix safety** — before implementing any fix, identify every handler, listener, or code path that touches the affected element or state. Confirm the fix does not break existing behaviour on desktop, mobile, and touch. If a fix to one part of the system could affect another (e.g. event propagation, shared state, CSS specificity), trace the full interaction before writing code
 
 ---
 
@@ -45,9 +46,15 @@ EOF
 ```
 Check that the timestamp is today and the byte size matches the local file (`wc -c localfile`).
 
-### After uploading
-**Always purge the LiteSpeed cache** or visitors will see stale files:
+### After uploading — REQUIRED: purge LiteSpeed cache
+
+> **This step is mandatory. Skipping it means visitors see stale cached files.**
+
+```
 WP Admin → LiteSpeed Cache → Toolbox → Purge All
+```
+
+No deploy is complete until the cache is purged.
 
 ### Critical lftp rule
 **NEVER use `--delete` or `mirror --delete`** — this previously wiped the live server and caused a full outage. Site had to be restored from UpdraftPlus backup.
@@ -74,7 +81,7 @@ cd wp-content/themes/salefish && npm run prod && cd ../../..
 
 # 5. Verify uploads (byte-size check)
 
-# 6. Purge LiteSpeed cache
+# 6. Purge LiteSpeed cache  ← REQUIRED — deploy is not complete until this is done
 ```
 
 ### Rules
