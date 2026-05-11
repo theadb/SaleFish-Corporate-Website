@@ -108,7 +108,7 @@ footer {
   }
 
   @include rs550 {
-    padding: 48px 20px 2.5em;
+    padding: 48px 20px 5rem; // extra bottom clearance for fixed scroll-to-top button (40px + 18px gap)
   }
 
   .salefish {
