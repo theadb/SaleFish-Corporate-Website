@@ -264,14 +264,33 @@ footer {
   }
 
   .bottom {
+    // Desktop: legal text on left, social icons on right
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    text-align: center;
-    gap: 10px;
+    justify-content: space-between;
+    gap: 16px;
     margin-top: 20px;
     padding-top: 20px;
     border-top: 1px solid rgba($dark_purple, 0.12);
+
+    // Mobile: Plinthra-style centred column — links → copyright → icons
+    @include rs600 {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+    }
+
+    .bottom__legal {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      @include rs600 {
+        align-items: center;
+      }
+    }
 
     .bottom__links {
       font-size: 0.8em;
@@ -309,7 +328,11 @@ footer {
     .socials {
       display: flex;
       gap: 10px;
-      margin-top: 4px;
+      flex-shrink: 0;
+
+      @include rs600 {
+        margin-top: 4px;
+      }
 
       a {
         color: $dark_purple;

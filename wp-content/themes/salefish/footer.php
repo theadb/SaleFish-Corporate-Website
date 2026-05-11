@@ -156,14 +156,16 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
 }
 ?>
 		<div class="bottom" data-reveal data-reveal-delay="200">
-			<p class="bottom__links">
-				<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php echo esc_html( $_sf_privacy ); ?></a>
-				<span class="legal-sep">&nbsp;|&nbsp;</span>
-				<a href="<?php echo esc_url( home_url( '/terms-of-use/' ) ); ?>"><?php echo esc_html( $_sf_terms ); ?></a>
-			</p>
-			<p class="bottom__copy">
-				<?php echo esc_html( $_sf_legal_pre ); ?> <svg class="heart" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="#e53e3e" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> <?php echo wp_kses( $_sf_legal_mid, [] ); ?> &copy; <?php echo date( 'Y' ); ?> SaleFish Inc. <?php echo esc_html( $_sf_legal_rights ); ?>
-			</p>
+			<div class="bottom__legal">
+				<p class="bottom__links">
+					<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php echo esc_html( $_sf_privacy ); ?></a>
+					<span class="legal-sep">&nbsp;|&nbsp;</span>
+					<a href="<?php echo esc_url( home_url( '/terms-of-use/' ) ); ?>"><?php echo esc_html( $_sf_terms ); ?></a>
+				</p>
+				<p class="bottom__copy">
+					<?php echo esc_html( $_sf_legal_pre ); ?> <svg class="heart" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="#e53e3e" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> <?php echo wp_kses( $_sf_legal_mid, [] ); ?> &copy; <?php echo date( 'Y' ); ?> SaleFish Inc. <?php echo esc_html( $_sf_legal_rights ); ?>
+				</p>
+			</div>
 			<div class="socials">
 				<!-- Inline SVG instead of Lucide brand icons. Lucide v0.453+
 				     removed the linkedin/instagram icons from the main package
