@@ -102,6 +102,22 @@ function salefish_lookup_geo( string $ip ): string {
 }
 
 /**
+ * Build a probable LinkedIn profile URL from a registrant's name.
+ * Uses LinkedIn's most common vanity URL pattern (firstname-lastname).
+ * The result is a best-effort guess — label it "Possible LinkedIn URL" in UI.
+ */
+function salefish_possible_linkedin_url( string $first_name, string $last_name ): string {
+	$clean = function( string $s ): string {
+		return strtolower( preg_replace( '/[^a-zA-Z0-9]/', '', $s ) );
+	};
+	$first = $clean( $first_name );
+	$last  = $clean( $last_name );
+	$slug  = $first . ( $last ? '-' . $last : '' );
+	if ( ! $slug ) return '';
+	return 'https://www.linkedin.com/in/' . $slug . '/';
+}
+
+/**
  * Format all form fields + context into a plain-text ActiveCampaign note.
  *
  * @param array  $fields    Merged form fields + _ctx_* context keys.
@@ -187,15 +203,26 @@ function salefish_notification_email_html( array $fields, string $form_type ): s
 	}
 
 	// Build extra field rows, skipping core fields and _ctx_ fields already handled
-	$skip       = [ 'name', 'email', 'phone', 'company', 'action', 'nonce' ];
+	$skip            = [ 'name', 'email', 'phone', 'company', 'action', 'nonce' ];
+	$field_label_map = [
+		'possible_linkedin_url' => 'Possible LinkedIn URL',
+		'linkedin_url'          => 'LinkedIn URL',
+		'linkedin'              => 'LinkedIn URL',
+		'website_url'           => 'Website',
+		'website'               => 'Website',
+	];
 	$extra_rows = '';
 	foreach ( $fields as $key => $val ) {
-		if ( in_array( $key, $skip, true ) || str_starts_with( $key, '_ctx_' ) || $val === '' ) continue;
-		$label       = ucwords( str_replace( '_', ' ', $key ) );
+		if ( in_array( $key, $skip, true ) || str_starts_with( $key, '_ctx_' ) || (string) $val === '' ) continue;
+		$label    = $field_label_map[ $key ] ?? ucwords( str_replace( '_', ' ', $key ) );
+		$is_url   = filter_var( $val, FILTER_VALIDATE_URL ) !== false;
+		$cell_val = $is_url
+			? '<a href="' . esc_url( (string) $val ) . '" style="color:#a78bfa;text-decoration:none;">' . esc_html( (string) $val ) . '</a>'
+			: esc_html( (string) $val );
 		$extra_rows .= sprintf(
 			'<tr><td style="color:#a1a1a1;font-size:14px;padding:8px 0;border-bottom:1px solid #2a2a2a;width:40%%;">%s</td><td style="color:#ffffff;font-size:14px;padding:8px 0;border-bottom:1px solid #2a2a2a;">%s</td></tr>',
 			esc_html( $label ),
-			esc_html( (string) $val )
+			$cell_val
 		);
 	}
 
@@ -435,9 +462,10 @@ function salefish_complete_registration( string $type, array $f ): void {
 		$f['_ctx']['_ctx_location'] = salefish_lookup_geo( $f['_ctx']['_ctx_ip'] );
 	}
 
-	$parts      = explode( ' ', $f['name'] ?? '', 2 );
-	$first_name = $parts[0] ?? '';
-	$last_name  = $parts[1] ?? '';
+	$parts             = explode( ' ', $f['name'] ?? '', 2 );
+	$first_name        = $parts[0] ?? '';
+	$last_name         = $parts[1] ?? '';
+	$possible_linkedin = salefish_possible_linkedin_url( $first_name, $last_name );
 
 	$ac         = new Salefish_ActiveCampaign();
 	$contact_id = $ac->upsert_contact( [
@@ -461,13 +489,18 @@ function salefish_complete_registration( string $type, array $f ): void {
 		}
 		$auto_id = defined( 'SALEFISH_AC_AUTO_AGENT' ) ? (int) SALEFISH_AC_AUTO_AGENT : 0;
 		$ac->add_to_automation( $contact_id, $auto_id );
+		$explicit_linkedin = $f['linkedin_url'] ?? '';
 		$note_data = array_merge( [
-			'name'         => $f['name']         ?? '',
-			'email'        => $f['email']        ?? '',
-			'phone'        => $f['phone']        ?? '',
-			'company'      => $f['brokerage']    ?? '',
-			'website'      => $f['website_url']  ?? '',
-			'linkedin'     => $f['linkedin_url'] ?? '',
+			'name'         => $f['name']      ?? '',
+			'email'        => $f['email']     ?? '',
+			'phone'        => $f['phone']     ?? '',
+			'company'      => $f['brokerage'] ?? '',
+			'website'      => $f['website_url'] ?? '',
+			// Show explicit LinkedIn URL if provided; otherwise show the generated guess.
+			...( $explicit_linkedin
+				? [ 'linkedin_url'          => $explicit_linkedin ]
+				: ( $possible_linkedin ? [ 'possible_linkedin_url' => $possible_linkedin ] : [] )
+			),
 		], $f['_ctx'] ?? [] );
 		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'agent' ) );
 		salefish_send_notification( $note_data, 'agent' );
@@ -490,6 +523,7 @@ function salefish_complete_registration( string $type, array $f ): void {
 			'company'    => $f['company']    ?? '',
 			'want_to_do' => $f['want_to_do'] ?? '',
 			'clients'    => $f['clients']    ?? '',
+			...( $possible_linkedin ? [ 'possible_linkedin_url' => $possible_linkedin ] : [] ),
 		], $f['_ctx'] ?? [] );
 		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'partner' ) );
 		salefish_send_notification( $note_data, 'partner' );
@@ -507,6 +541,7 @@ function salefish_complete_registration( string $type, array $f ): void {
 			'email'   => $f['email']   ?? '',
 			'phone'   => $f['phone']   ?? '',
 			'company' => $f['company'] ?? '',
+			...( $possible_linkedin ? [ 'possible_linkedin_url' => $possible_linkedin ] : [] ),
 		], $f['_ctx'] ?? [] );
 		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'general' ) );
 		salefish_send_notification( $note_data, 'general' );
