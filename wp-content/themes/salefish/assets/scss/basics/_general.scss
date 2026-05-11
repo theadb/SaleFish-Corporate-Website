@@ -322,6 +322,16 @@ img[loading="lazy"].sf-img-loaded {
   will-change: auto;
 }
 
+// Safety net: any [data-aos] element that JS has NOT yet staged stays fully
+// visible. This beats the AOS library's own opacity:0 initial-state rule
+// (which has the same [data-aos] specificity) so a plugin update that
+// re-activates AOS can never hide content we haven't deliberately staged.
+[data-aos]:not(.sf-reveal-pending):not(.sf-reveal-in) {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
 input,
 select {
   -webkit-appearance: none;

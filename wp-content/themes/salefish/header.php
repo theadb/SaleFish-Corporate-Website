@@ -187,10 +187,6 @@ $_sf_lang_options_html .= '</ul>';
 			t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
 			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 		})(window,document,'clarity','script','wmwzqm0oha');
-		window.clarity('consentv2', {
-			ad_Storage: 'granted',
-			analytics_Storage: 'granted'
-		});
 	</script>
 	<?php
 	// Match theme-color to the header that will be shown on this page.

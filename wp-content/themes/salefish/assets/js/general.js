@@ -220,10 +220,31 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }, {
       root: null,
-      rootMargin: '0px 0px -10% 0px',
-      threshold: 0.12,
+      // 300px positive bottom margin so elements are revealed before they reach
+      // the viewport edge — prevents iOS Safari fast-fling leaving them hidden.
+      rootMargin: '0px 0px 300px 0px',
+      threshold: 0,
     });
     pending.forEach(function (el) { io.observe(el); });
+
+    // Scroll-stop sweep: iOS Safari batches IO callbacks aggressively during
+    // fast flings and may never fire for elements that passed through quickly.
+    // After scrolling pauses, force-reveal anything already in (or near) view.
+    let _sfRevealTimer;
+    window.addEventListener('scroll', function () {
+      clearTimeout(_sfRevealTimer);
+      _sfRevealTimer = setTimeout(function () {
+        const winH = window.innerHeight || document.documentElement.clientHeight;
+        pending.forEach(function (el) {
+          if (el.dataset.sfRevealed === '1') return;
+          const rect = el.getBoundingClientRect();
+          if (rect.top < winH + 100) {
+            reveal(el);
+            io.unobserve(el);
+          }
+        });
+      }, 120);
+    }, { passive: true });
   }());
 
   // ── Verified email redirect banner ──────────────────────────────────────────

@@ -281,13 +281,29 @@ If spam ever becomes a real problem, prefer a server-side rate limiter or hCaptc
 
 ## Scroll-reveal / AOS — current state (important)
 
-The reveal system has been fully disabled. Key facts:
+A lightweight scroll-reveal system is active. It is a **progressive-enhancement-only** implementation designed to avoid the iOS Safari "content hidden on scroll-back" failures that plagued earlier attempts.
 
-- **No CSS hides anything by default** — all elements render at natural opacity from first paint
-- `[data-aos]`, `[data-reveal]`, `.sf-fade-pre` attributes/classes still exist in HTML but are all inert
-- `_general.scss` overrides: `[data-aos] { opacity: 1 !important; transform: none !important; transition: none !important; }` and `[data-reveal] { opacity: 1 !important; visibility: visible !important; transform: none !important; }`
-- **Do not add new `data-aos`, `data-aos-delay`, `data-fade-dir` attributes** expecting animation — they will do nothing
-- `header.php` has a `DOMContentLoaded` stub that strips `.sf-fade-pre` from stale cached HTML
+**How it works:**
+
+- **No CSS hides anything by default** — bare `[data-aos]` elements render fully visible on first paint
+- After `DOMContentLoaded`, JS adds `.sf-reveal-pending` to below-fold elements (those below 82% of viewport height at load time). Only then does CSS apply `opacity: 0`
+- An `IntersectionObserver` with `rootMargin: '0px 0px 300px 0px'` and `threshold: 0` reveals elements before they reach the viewport edge
+- A 120ms scroll-stop sweep (`scroll` event + `setTimeout`) force-reveals any elements that iOS Safari's batched IO callbacks may have missed during a fast fling
+- Elements above the fold get `.sf-reveal-done` (fully visible, `will-change: auto`) immediately — they are never hidden
+- Header, modals, floating menus, and overlay messages are excluded from staging entirely
+
+**CSS classes** (in `_general.scss`):
+- `.sf-reveal-pending` — staged below-fold element: `opacity: 0`, transition queued
+- `.sf-reveal-in` — transition playing: `opacity: 1`, `transform: none`
+- `.sf-reveal-done` — animation complete: `opacity: 1`, `will-change: auto`
+
+**Safety net**: `[data-aos]:not(.sf-reveal-pending):not(.sf-reveal-in) { opacity: 1 !important; }` — ensures any element not explicitly staged by JS stays visible, even if the AOS library is ever re-activated by a plugin update.
+
+**`[data-reveal]`** still overridden to always-visible (unrelated to the above).
+
+**Adding new animations**: `data-aos`, `data-aos-delay` attributes on below-fold elements will animate. Above-fold elements or those inside `header`, modals, or overlays will not animate (they get `.sf-reveal-done` immediately or are excluded).
+
+**`prefers-reduced-motion`**: the JS skips staging entirely and marks all elements `.sf-reveal-done` immediately.
 
 ---
 

@@ -52,8 +52,9 @@ add_action( 'init', function() {
 	update_option( 'salefish_thankyou_page_created_v1', 1 );
 }, 10 );
 
-// Daily cron: purge expired sf_reg_* options from wp_options.
+// Daily cron: purge expired sf_reg_* and sf_rl_* options from wp_options.
 add_action( 'salefish_purge_expired_regs', [ 'Salefish_Email_Verify', 'purge_expired' ] );
+add_action( 'salefish_purge_expired_regs', 'salefish_rate_limit_purge_expired' );
 if ( ! wp_next_scheduled( 'salefish_purge_expired_regs' ) ) {
 	wp_schedule_event( time(), 'daily', 'salefish_purge_expired_regs' );
 }
