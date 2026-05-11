@@ -955,13 +955,6 @@ $_sf_lang_options_html .= '</ul>';
 								data-parsley-minlength-message="This value should be a valid phone number.">
 						</div>
 					</div>
-					<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
-					<div class="row row-turnstile">
-						<div class="cf-turnstile"
-							data-sitekey="<?php echo esc_attr( SALEFISH_CF_TURNSTILE_SITEKEY ); ?>"
-							data-theme="dark"></div>
-					</div>
-					<?php endif; ?>
 					<div class="row">
 						<input class="button" type="submit" value="<?php echo esc_attr( $_sf_str_submit ); ?>">
 					</div>
@@ -1023,13 +1016,6 @@ $_sf_lang_options_html .= '</ul>';
 							</select>
 						</div>
 					</div>
-					<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
-					<div class="row row-turnstile">
-						<div class="cf-turnstile"
-							data-sitekey="<?php echo esc_attr( SALEFISH_CF_TURNSTILE_SITEKEY ); ?>"
-							data-theme="dark"></div>
-					</div>
-					<?php endif; ?>
 					<div class="row">
 						<input class="button" type="submit" value="Register">
 					</div>

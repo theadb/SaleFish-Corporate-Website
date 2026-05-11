@@ -199,7 +199,7 @@ Parsley validation initialises lazily when the modal first opens — **not** at 
 
 Form submit handlers are document-delegated so they work on freshly-injected forms.
 
-**Close handlers** are registered with `{ capture: true }` to fire before Cloudflare Turnstile's capture-phase listeners.
+**Close handlers** are registered with `{ capture: true }` so backdrop and X-button taps win over any other listeners on the document.
 
 **Key JS functions**:
 - `sfRegModalOpen()` / `sfRegModalClose()` — includes focus trap; returns focus to trigger on close
@@ -208,13 +208,19 @@ Form submit handlers are document-delegated so they work on freshly-injected for
 
 ---
 
-## Cloudflare Turnstile
+## Bot protection
 
-- **Invisible mode** — no visible checkbox, token generated silently
-- Lazy-loaded: script not fetched until user hovers/touches/focuses a `[data-sf-modal]` button
-- Auto-load on contact form pages only (when `.cf-turnstile` exists outside modals)
-- `<link rel="preconnect" href="https://challenges.cloudflare.com">` in `<head>`
-- Server-side validation of `cf-turnstile-response` is required on all form POST handlers
+Turnstile was removed — it injected an iframe with capture-phase listeners that
+made the menu sluggish after a modal closed, and on mobile sometimes blocked
+the close-button tap entirely.
+
+The remaining defences are sufficient for a low-volume marketing site:
+- **Honeypot field** (`<input name="sf_hp">`) on every form — bots fill hidden inputs; humans don't. Submissions with `sf_hp` populated are silently accepted with a fake success response.
+- **Email confirmation** — every registration requires a click on a verification link before AC is contacted, an internal notification fires, or the autoresponder sends. Anything that can't receive mail at the submitted address is filtered out automatically.
+- **Nonce check** (`check_ajax_referer( 'salefish_nonce' )`) — blocks cross-origin replay.
+- **Daily cron** — purges expired/unverified `sf_reg_*` options so abandoned attempts never accumulate.
+
+If spam ever becomes a real problem, prefer a server-side rate limiter or hCaptcha invisible v2 — both keep all logic out of `general.js` so the menu never has to compete with a third-party listener.
 
 ---
 

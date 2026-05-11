@@ -161,7 +161,6 @@ function salefish_enqueue_assets()
         'ajaxurl'        => admin_url('admin-ajax.php'),
         'nonce'          => wp_create_nonce('salefish_nonce'),
         'loadMoreNonce'  => wp_create_nonce('salefish_load_more'),
-        'turnstileSitekey' => defined('SALEFISH_CF_TURNSTILE_SITEKEY') ? SALEFISH_CF_TURNSTILE_SITEKEY : '',
     ]);
 
     // ── Page-specific JS & CSS — only loaded on pages that need them ──────────

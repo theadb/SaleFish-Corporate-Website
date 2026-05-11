@@ -810,11 +810,6 @@ header {
           align-items: flex-end;
         }
 
-        &.row-turnstile {
-          justify-content: flex-start;
-          margin: 4px 0;
-        }
-
         .col {
           width: 50%;
 
@@ -1011,11 +1006,6 @@ header {
         @include rs550 {
           flex-direction: column;
           align-items: flex-end;
-        }
-
-        &.row-turnstile {
-          justify-content: flex-start;
-          margin: 4px 0;
         }
 
         .col {
