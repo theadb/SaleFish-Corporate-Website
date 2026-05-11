@@ -1,6 +1,8 @@
 # WordPress sensitive files
 wp-config.php
 wp-config-local.php
+wp-content/wp-cache-config.php
+wp-content/wp-cache-config.php-old
 
 # Generated / transient content (uploads are tracked — see wp-content/uploads/)
 wp-content/upgrade/

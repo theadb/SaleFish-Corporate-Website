@@ -54,6 +54,8 @@ mirror --reverse --verbose --parallel=4 \
     --exclude "^\.gitignore$" \
     --exclude "^\.DS_Store$" \
     --exclude "^wp-config\.php$" \
+    --exclude "^wp-content/wp-cache-config\.php$" \
+    --exclude "^wp-content/wp-cache-config\.php-old$" \
     --exclude "^wp-content/themes/[^/]+/config\.local\.php$" \
     --exclude "^sftest\.php$" \
     --exclude "^readme\.html$" \
