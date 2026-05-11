@@ -2,7 +2,7 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Replace the missing Mailchimp AJAX handlers with a full ActiveCampaign integration that captures all three registration forms, sends a dark-themed admin notification email (preview → andrewdb@salefish.app, live → hello@salefish.app), and sends a styled autoresponder to the registrant.
+**Goal:** Replace the missing legacy registration AJAX handlers with a full ActiveCampaign integration that captures all three registration forms, sends a dark-themed admin notification email (preview → andrewdb@salefish.app, live → hello@salefish.app), and sends a styled autoresponder to the registrant.
 
 **Architecture:** Three PHP AJAX handler files fill the missing `ajax/` slots in the Salefish plugin. A shared AC API helper handles all REST calls to ActiveCampaign (list ID 4 — "Website Registrations"). Email notifications use `wp_mail()` in preview mode with the Plinthra dark HTML template; the autoresponder is sent the same way for preview, then handed off to an AC automation in production. A `SALEFISH_PREVIEW_MODE` constant in wp-config.php governs which address gets emails.
 
@@ -490,7 +490,7 @@ git commit -m "feat: add Plinthra-styled email template functions"
 ## Task 3: Create the general registration handler
 
 **Files:**
-- Create: `wp-content/plugins/Salefish/ajax/mailchimp-register.php`
+- Create: `wp-content/plugins/Salefish/ajax/activecampaign-register.php`
 
 This handler serves the main `#reg_form` on the homepage (and AU/DE/TR variants). Fields: name, email, phone, company, title, demo.
 
@@ -498,14 +498,14 @@ This handler serves the main `#reg_form` on the homepage (and AU/DE/TR variants)
 
 ```php
 <?php
-// wp-content/plugins/Salefish/ajax/mailchimp-register.php
+// wp-content/plugins/Salefish/ajax/activecampaign-register.php
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 require_once plugin_dir_path( __FILE__ ) . '../includes/class-activecampaign.php';
 require_once plugin_dir_path( __FILE__ ) . '../includes/email-templates.php';
 
-function mailchimp_register_handler() {
+function salefish_register() {
     // 1. Verify nonce
     if ( ! isset($_POST['nonce']) || ! wp_verify_nonce( sanitize_text_field($_POST['nonce']), 'salefish_reg_nonce' ) ) {
         wp_send_json_error( ['message' => 'Invalid request.'], 403 );
@@ -560,13 +560,13 @@ function mailchimp_register_handler() {
     wp_send_json_success( ['message' => 'Registration received.'] );
 }
 
-add_action( 'wp_ajax_mailchimp_register',        'mailchimp_register_handler' );
-add_action( 'wp_ajax_nopriv_mailchimp_register', 'mailchimp_register_handler' );
+add_action( 'wp_ajax_salefish_register',        'salefish_register' );
+add_action( 'wp_ajax_nopriv_salefish_register', 'salefish_register' );
 ```
 
 **Step 2: Commit**
 ```bash
-git add wp-content/plugins/Salefish/ajax/mailchimp-register.php
+git add wp-content/plugins/Salefish/ajax/activecampaign-register.php
 git commit -m "feat: add general registration AJAX handler with AC + email"
 ```
 
@@ -827,7 +827,7 @@ Find the existing `// REG FORM` block (lines ~240-265) and replace with:
     $.ajax({
       url: salefishAjax.ajaxurl,
       type: "POST",
-      data: `action=mailchimp_register&nonce=${salefishAjax.regNonce}&${data}`,
+      data: `action=salefish_register&nonce=${salefishAjax.regNonce}&${data}`,
       success: function (data) {
         data = JSON.parse(data);
         if (data.success) {
@@ -1052,10 +1052,10 @@ Submit a form with a real email address. Confirm:
 **Step 4: Remove dead code**
 
 ```bash
-rm -rf wp-content/themes/salefish/mailchimp-api-master/
+rm -rf wp-content/themes/salefish/legacy-newsletter-api-master/
 rm -rf wp-content/themes/salefish/vendor/sendgrid/
 git add -A
-git commit -m "chore: remove unused Mailchimp and SendGrid vendor libraries"
+git commit -m "chore: remove unused legacy newsletter and SendGrid vendor libraries"
 ```
 
 ---
@@ -1066,7 +1066,7 @@ git commit -m "chore: remove unused Mailchimp and SendGrid vendor libraries"
 |--------|------|
 | Create | `wp-content/plugins/Salefish/includes/class-activecampaign.php` |
 | Create | `wp-content/plugins/Salefish/includes/email-templates.php` |
-| Create | `wp-content/plugins/Salefish/ajax/mailchimp-register.php` |
+| Create | `wp-content/plugins/Salefish/ajax/activecampaign-register.php` |
 | Create | `wp-content/plugins/Salefish/ajax/agents-register.php` |
 | Create | `wp-content/plugins/Salefish/ajax/partner-register.php` |
 | Modify | `wp-content/themes/salefish/functions.php` |
@@ -1077,7 +1077,7 @@ git commit -m "chore: remove unused Mailchimp and SendGrid vendor libraries"
 | Modify | `wp-content/themes/salefish/partials/contact-au.php` |
 | Modify | `wp-content/themes/salefish/partials/contact-agents.php` |
 | Server | `wp-config.php` (add 3 constants — done on server, not in git) |
-| Delete | `wp-content/themes/salefish/mailchimp-api-master/` (Task 10) |
+| Delete | `wp-content/themes/salefish/legacy-newsletter-api-master/` (Task 10) |
 | Delete | `wp-content/themes/salefish/vendor/sendgrid/` (Task 10) |
 
 ## AC data model per registration

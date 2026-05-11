@@ -1,6 +1,6 @@
 === Tidio – Live Chat & AI Chatbots ===
 Contributors: tytus-tytus, lucastidio, marcingwizdala, kkopaczyktidio, ksladek, adrianmtidio
-Tags: free live chat, live chat, chat, chatbot, livechat, tidio, widget, zendesk, mailchimp, messenger
+Tags: free live chat, live chat, chat, chatbot, livechat, tidio, widget, zendesk, messenger
 Requires at least: 4.7
 Tested up to: 6.9
 Stable tag: 7.0.0
