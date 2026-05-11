@@ -84,11 +84,14 @@ RewriteRule ^wp-config\.php$ - [F,L]
 RewriteRule ^db-backups(/.*)?$ - [F,L]
 RewriteRule ^bin(/.*)?$ - [F,L]
 RewriteRule ^docs(/.*)?$ - [F,L]
+RewriteRule (^|/)node_modules(/.*)?$ - [F,L]
+RewriteRule ^tools(/.*)?$ - [F,L]
 RewriteRule ^readme\.html$ - [F,L]
 RewriteRule ^license\.txt$ - [F,L]
 RewriteRule (^|/)(.*-old|.*\.old)(/.*)?$ - [F,L]
 RewriteRule \.(sql|sql\.gz|zip|zip-old|tar|tgz|gz|bak|backup|log)$ - [F,L]
 RewriteRule ^wp-content/(upgrade-temp-backup|upgrade-temp-backup-old)(/.*)?$ - [F,L]
+RewriteRule ^wp-content/themes/[^/]+/(config\.local\.php|webpack\.mix\.js|package(-lock)?\.json|composer\.(json|lock))$ - [F,L]
 </IfModule>
 # END Sensitive Path Blocking
 

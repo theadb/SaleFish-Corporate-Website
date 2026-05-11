@@ -9,7 +9,7 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 FTP_USER="appsfish"
-FTP_HOST="salefish.app"
+FTP_HOST="mail.rankbydesign.com"
 REMOTE_ROOT="public_html"
 
 # ── Retrieve FTP password from macOS Keychain ─────────────────────────────────
@@ -47,14 +47,18 @@ mirror --reverse --verbose --parallel=4 \
     --exclude "^db-backups/" \
     --exclude "^bin/" \
     --exclude "^docs/" \
+    --exclude "^tools/" \
     --exclude "(^|/)node_modules/" \
     --exclude "^\.git/" \
     --exclude "^\.claude/" \
     --exclude "^\.gitignore$" \
     --exclude "^\.DS_Store$" \
     --exclude "^wp-config\.php$" \
+    --exclude "^wp-content/themes/[^/]+/config\.local\.php$" \
     --exclude "^sftest\.php$" \
     --exclude "^readme\.html$" \
+    --exclude "^license\.txt$" \
+    --exclude "^wp-content/themes/[^/]+/(webpack\.mix\.js|package(-lock)?\.json|composer\.(json|lock))$" \
     --exclude-glob "*.md" \
     --exclude-glob "*.sql" \
     --exclude-glob "*.sql.gz" \

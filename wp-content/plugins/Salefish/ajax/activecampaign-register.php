@@ -12,6 +12,8 @@ function salefish_register() {
 		wp_send_json_success( 'Registered successfully.' );
 	}
 
+	salefish_enforce_rate_limit( 'register_general' );
+
 	$name       = sanitize_text_field( $_POST['name']       ?? '' );
 	$email      = sanitize_email(       $_POST['email']      ?? '' );
 	$phone      = sanitize_text_field( $_POST['phone']      ?? '' );
@@ -23,6 +25,8 @@ function salefish_register() {
 	if ( ! $email || ! is_email( $email ) ) {
 		wp_send_json_error( 'Invalid email address.' );
 	}
+
+	salefish_enforce_rate_limit( 'register_general_email_' . md5( strtolower( $email ) ), 3, HOUR_IN_SECONDS );
 
 	$ctx = salefish_collect_context();
 	if ( $sf_section ) {
