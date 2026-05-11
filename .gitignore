@@ -43,3 +43,6 @@ node_modules/
 
 # Local secrets — never commit
 wp-content/themes/salefish/config.local.php
+
+# Third-party plugins that contained secrets in initial commit — keep untracked
+wp-content/plugins/copy-delete-posts/
