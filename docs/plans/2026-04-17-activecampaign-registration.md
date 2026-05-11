@@ -181,7 +181,7 @@ class Salefish_ActiveCampaign {
 The developer or site owner must add these two lines to `wp-config.php` before the `/* That's all, stop editing! */` line:
 
 ```php
-define( 'SALEFISH_AC_KEY', '383f6863ef1a4d9f95e1e2f21c2395650306ff83b12d447e9ffaeb47a58a158996df9c41' );
+define( 'SALEFISH_AC_KEY', 'REPLACE_WITH_ACTIVE_CAMPAIGN_API_KEY' );
 define( 'SALEFISH_AC_URL', 'https://salefishapp.api-us1.com' );
 define( 'SALEFISH_PREVIEW_MODE', true );  // set false when going live
 ```
@@ -999,7 +999,7 @@ This is a one-time test step to verify both email templates render correctly bef
 **Step 1: Add credentials to wp-config.php on the server**
 
 ```php
-define( 'SALEFISH_AC_KEY', '383f6863ef1a4d9f95e1e2f21c2395650306ff83b12d447e9ffaeb47a58a158996df9c41' );
+define( 'SALEFISH_AC_KEY', 'REPLACE_WITH_ACTIVE_CAMPAIGN_API_KEY' );
 define( 'SALEFISH_AC_URL', 'https://salefishapp.api-us1.com' );
 define( 'SALEFISH_PREVIEW_MODE', true );
 ```
