@@ -1,7 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-require_once plugin_dir_path( __FILE__ ) . '../includes/class-activecampaign.php';
 require_once plugin_dir_path( __FILE__ ) . '../includes/class-email-verify.php';
 require_once plugin_dir_path( __FILE__ ) . '../includes/email-templates.php';
 

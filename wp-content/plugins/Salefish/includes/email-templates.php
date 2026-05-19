@@ -454,7 +454,6 @@ function salefish_send_notification( array $fields, string $form_type ): bool {
  * Called by Salefish_Email_Verify::handle_verification() after the user clicks the link.
  */
 function salefish_complete_registration( string $type, array $f ): void {
-	require_once plugin_dir_path( __FILE__ ) . 'class-activecampaign.php';
 	require_once plugin_dir_path( __FILE__ ) . 'class-plinthra.php';
 
 	// Geo lookup deferred from AJAX path — runs here on email-link click so
@@ -468,68 +467,37 @@ function salefish_complete_registration( string $type, array $f ): void {
 	$last_name         = $parts[1] ?? '';
 	$possible_linkedin = salefish_possible_linkedin_url( $first_name, $last_name );
 
-	$ac         = new Salefish_ActiveCampaign();
-	$contact_id = $ac->upsert_contact( [
-		'email'      => $f['email']  ?? '',
-		'first_name' => $first_name,
-		'last_name'  => $last_name,
-		'phone'      => $f['phone']  ?? '',
-	] );
-
-	if ( ! $contact_id ) {
-		return;
-	}
-
-	$ac->subscribe_to_list( $contact_id );
+	$crm_base = [
+		'firstName'          => $first_name,
+		'lastName'           => $last_name,
+		'email'              => $f['email'] ?? '',
+		'phone'              => $f['phone'] ?? '',
+		'workingWithRealtor' => 'No',
+		'leadSource'         => 'Website',
+		'emailConsent'       => true,
+		'smsConsent'         => false,
+		'source'             => 'website',
+		'regtype'            => Salefish_Plinthra::page_from_url( $f['_ctx']['_ctx_source'] ?? '' ),
+	];
 
 	if ( $type === 'agent' ) {
-		$ac->add_tag( $contact_id, 'agent-registration' );
-		$ac->set_field( $contact_id, 1, 'Real Estate Agent' );
-		if ( ! empty( $f['brokerage'] ) ) {
-			$ac->set_field( $contact_id, 2, $f['brokerage'] );
-		}
-		$auto_id = defined( 'SALEFISH_AC_AUTO_AGENT' ) ? (int) SALEFISH_AC_AUTO_AGENT : 0;
-		$ac->add_to_automation( $contact_id, $auto_id );
 		$explicit_linkedin = $f['linkedin_url'] ?? '';
 		$note_data = array_merge( [
-			'name'         => $f['name']      ?? '',
-			'email'        => $f['email']     ?? '',
-			'phone'        => $f['phone']     ?? '',
-			'company'      => $f['brokerage'] ?? '',
-			'website'      => $f['website_url'] ?? '',
-			// Show explicit LinkedIn URL if provided; otherwise show the generated guess.
+			'name'    => $f['name']        ?? '',
+			'email'   => $f['email']       ?? '',
+			'phone'   => $f['phone']       ?? '',
+			'company' => $f['brokerage']   ?? '',
+			'website' => $f['website_url'] ?? '',
 			...( $explicit_linkedin
 				? [ 'linkedin_url'          => $explicit_linkedin ]
 				: ( $possible_linkedin ? [ 'possible_linkedin_url' => $possible_linkedin ] : [] )
 			),
 		], $f['_ctx'] ?? [] );
-		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'agent' ) );
 		salefish_send_notification( $note_data, 'agent' );
 		salefish_send_autoresponder( $f['email'] ?? '', $first_name, 'agent' );
-		Salefish_Plinthra::register( [
-			'firstName'          => $first_name,
-			'lastName'           => $last_name,
-			'email'              => $f['email'] ?? '',
-			'phone'              => $f['phone'] ?? '',
-			'isRealtor'          => 'Yes',
-			'workingWithRealtor' => 'No',
-			'leadSource'         => 'Website',
-			'emailConsent'       => true,
-			'smsConsent'         => false,
-			'source'             => 'website',
-			'regtype'            => Salefish_Plinthra::page_from_url( $f['_ctx']['_ctx_source'] ?? '' ),
-		] );
+		Salefish_Plinthra::register( array_merge( $crm_base, [ 'isRealtor' => 'Yes' ] ) );
 
 	} elseif ( $type === 'partner' ) {
-		$ac->add_tag( $contact_id, 'partner-registration' );
-		if ( ! empty( $f['want_to_do'] ) ) {
-			$ac->set_field( $contact_id, 1, $f['want_to_do'] );
-		}
-		if ( ! empty( $f['company'] ) ) {
-			$ac->set_field( $contact_id, 2, $f['company'] );
-		}
-		$auto_id = defined( 'SALEFISH_AC_AUTO_PARTNER' ) ? (int) SALEFISH_AC_AUTO_PARTNER : 0;
-		$ac->add_to_automation( $contact_id, $auto_id );
 		$note_data = array_merge( [
 			'name'       => $f['name']       ?? '',
 			'email'      => $f['email']      ?? '',
@@ -539,30 +507,11 @@ function salefish_complete_registration( string $type, array $f ): void {
 			'clients'    => $f['clients']    ?? '',
 			...( $possible_linkedin ? [ 'possible_linkedin_url' => $possible_linkedin ] : [] ),
 		], $f['_ctx'] ?? [] );
-		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'partner' ) );
 		salefish_send_notification( $note_data, 'partner' );
 		salefish_send_autoresponder( $f['email'] ?? '', $first_name, 'partner' );
-		Salefish_Plinthra::register( [
-			'firstName'          => $first_name,
-			'lastName'           => $last_name,
-			'email'              => $f['email'] ?? '',
-			'phone'              => $f['phone'] ?? '',
-			'isRealtor'          => 'No',
-			'workingWithRealtor' => 'No',
-			'leadSource'         => 'Website',
-			'emailConsent'       => true,
-			'smsConsent'         => false,
-			'source'             => 'website',
-			'regtype'            => Salefish_Plinthra::page_from_url( $f['_ctx']['_ctx_source'] ?? '' ),
-		] );
+		Salefish_Plinthra::register( array_merge( $crm_base, [ 'isRealtor' => 'No' ] ) );
 
 	} elseif ( $type === 'general' ) {
-		$ac->add_tag( $contact_id, 'website-registration' );
-		if ( ! empty( $f['company'] ) ) {
-			$ac->set_field( $contact_id, 2, $f['company'] );
-		}
-		$auto_id = defined( 'SALEFISH_AC_AUTO_GENERAL' ) ? (int) SALEFISH_AC_AUTO_GENERAL : 0;
-		$ac->add_to_automation( $contact_id, $auto_id );
 		$note_data = array_merge( [
 			'name'    => $f['name']    ?? '',
 			'email'   => $f['email']   ?? '',
@@ -570,22 +519,9 @@ function salefish_complete_registration( string $type, array $f ): void {
 			'company' => $f['company'] ?? '',
 			...( $possible_linkedin ? [ 'possible_linkedin_url' => $possible_linkedin ] : [] ),
 		], $f['_ctx'] ?? [] );
-		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'general' ) );
 		salefish_send_notification( $note_data, 'general' );
 		salefish_send_autoresponder( $f['email'] ?? '', $first_name, 'general' );
-		Salefish_Plinthra::register( [
-			'firstName'          => $first_name,
-			'lastName'           => $last_name,
-			'email'              => $f['email'] ?? '',
-			'phone'              => $f['phone'] ?? '',
-			'isRealtor'          => 'No',
-			'workingWithRealtor' => 'No',
-			'leadSource'         => 'Website',
-			'emailConsent'       => true,
-			'smsConsent'         => false,
-			'source'             => 'website',
-			'regtype'            => Salefish_Plinthra::page_from_url( $f['_ctx']['_ctx_source'] ?? '' ),
-		] );
+		Salefish_Plinthra::register( array_merge( $crm_base, [ 'isRealtor' => 'No' ] ) );
 	}
 }
 
