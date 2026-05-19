@@ -927,7 +927,7 @@ $_sf_lang_options_html .= '</ul>';
 				<p class="sf-reg-modal__eyebrow"><?php echo wp_kses_post( $_sf_str_reg_eyebrow ); ?></p>
 				<h2 id="sf-reg-modal-title"><?php echo esc_html( $_sf_str_reg_title ); ?></h2>
 				<form id="sf_reg_form">
-					<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off">
+					<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
 					<input type="hidden" name="sf_page_ts" class="sf-page-ts">
 					<input type="hidden" name="sf_section" id="sf_reg_section" value="">
 					<div class="row">
@@ -993,7 +993,7 @@ $_sf_lang_options_html .= '</ul>';
 				<p class="sf-partner-modal__eyebrow">Got Clients, Code, or Just Great Contacts? SaleFish Makes It Easy to Earn and Integrate.</p>
 				<h2 id="sf-partner-modal-title">Want In? Pick Your Lane. <span>We'll Handle the Rest.</span></h2>
 				<form id="sf_partner_form">
-					<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off">
+					<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
 					<input type="hidden" name="sf_page_ts" class="sf-page-ts">
 					<div class="row">
 						<div class="col">
