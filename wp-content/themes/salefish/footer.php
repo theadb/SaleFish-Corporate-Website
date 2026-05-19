@@ -359,6 +359,34 @@ window.sfReplaceLucide();
   }
 }());
 </script>
+
+<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
+<!-- Cloudflare Turnstile — invisible, single shared widget.
+     ============================================================================
+     UX-safe strategy (see CLAUDE.md → Bot protection):
+
+     1. ONE widget for ALL registration forms (inline + modal). Rendered into a
+        single off-screen <div id="sf-turnstile-host">. The widget is NEVER
+        rendered inside any modal subtree — its iframe therefore cannot
+        compete with modal close handlers or focus traps. This was the root
+        cause of the previous Turnstile-related menu sluggishness.
+
+     2. Widget mode = "invisible" + execution = "execute". No UI ever shows,
+        the challenge only runs when general.js calls turnstile.execute().
+
+     3. Script is NOT loaded on page render. It is primed (downloaded +
+        rendered) only when the user signals real intent — first focusin or
+        pointerdown on an input inside a known registration form. By that
+        point any open menu has closed, the modal (if used) is stable, so
+        Turnstile's document-level listeners cannot interfere with menu /
+        close interactions.
+
+     4. preconnect on document load is safe — opens the TCP/TLS socket only,
+        no script behaviour. -->
+<link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin>
+<div id="sf-turnstile-host" aria-hidden="true" tabindex="-1"
+     style="position:fixed;left:-9999px;bottom:0;width:0;height:0;overflow:hidden;pointer-events:none;"></div>
+<?php endif; ?>
 </body>
 
 </html>

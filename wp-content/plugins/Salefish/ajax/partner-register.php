@@ -12,6 +12,13 @@ function salefish_partner_register() {
 		wp_send_json_success( 'Registered successfully.' );
 	}
 
+	$turnstile_token = isset( $_POST['cf-turnstile-response'] )
+		? sanitize_text_field( wp_unslash( $_POST['cf-turnstile-response'] ) )
+		: '';
+	if ( ! Salefish_Email_Verify::verify_turnstile( $turnstile_token ) ) {
+		wp_send_json_error( [ 'message' => 'Security check failed — please refresh and try again.' ] );
+	}
+
 	salefish_enforce_rate_limit( 'register_partner' );
 
 	$name       = sanitize_text_field( $_POST['name']       ?? '' );

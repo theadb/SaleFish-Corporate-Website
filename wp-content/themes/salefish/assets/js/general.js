@@ -158,7 +158,202 @@ function serializeForm(form) {
   return new URLSearchParams(new FormData(form)).toString();
 }
 
+// ── Cloudflare Turnstile orchestration ────────────────────────────────────────
+// One shared invisible widget for every registration form on the site.
+//
+// Why one shared widget (not one per form):
+//   • Cloudflare's iframe is a third-party doc — fewer iframes means fewer
+//     document-level capture-phase listeners competing with our menu/modal
+//     close handlers (this was the bug that originally got Turnstile removed)
+//   • The widget div lives OUTSIDE any modal subtree (#sf-turnstile-host is in
+//     <body>, see footer.php), so the iframe can never sit between a user's
+//     finger and a modal close button
+//
+// Lifecycle:
+//   prime()   — kick off lazy load of api.js and (after onload) render the
+//               widget once. Idempotent. Called the first time the user shows
+//               real intent to register (focus/pointerdown on a known
+//               registration form input). By that moment the menu/modal is
+//               stable, so Turnstile's listeners can't interfere with it.
+//   execute() — returns Promise<token>. Resets the widget then runs the
+//               challenge. If the script never loads (network/ad-blocker
+//               error) the promise resolves with '' after ~4 s so the form
+//               still submits — server-side verify_turnstile() is fail-open
+//               on missing tokens when no secret is configured, and the
+//               honeypot + email-verification flow handle residual risk.
+const sfTurnstile = (function () {
+  const SITEKEY     = (window.salefishAjax && salefishAjax.turnstileSitekey) || '';
+  const HOST_ID     = 'sf-turnstile-host';
+  const SCRIPT_URL  = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=_sfTurnstileApiReady';
+  const EXEC_TIMEOUT_MS = 4000;
+
+  let _scriptStarted = false;
+  let _scriptReady   = false;
+  let _widgetId      = null;
+  let _waiters       = [];      // callbacks waiting for script-ready
+  let _resolve       = null;    // current execute() resolve
+  let _reject        = null;    // current execute() reject (unused — we resolve '' on error)
+  let _execTimer     = null;
+
+  function _disabled() { return !SITEKEY; }
+
+  function _flushWaiters() {
+    const list = _waiters;
+    _waiters = [];
+    list.forEach(function (cb) { try { cb(); } catch (e) {} });
+  }
+
+  function _renderWidget() {
+    if (_widgetId !== null) return;
+    if (!window.turnstile) return;
+    const host = document.getElementById(HOST_ID);
+    if (!host) return;
+    try {
+      _widgetId = window.turnstile.render(host, {
+        sitekey:    SITEKEY,
+        size:       'invisible',
+        execution:  'execute',
+        retry:      'auto',
+        'refresh-expired': 'auto',
+        callback: function (token) {
+          if (_execTimer) { clearTimeout(_execTimer); _execTimer = null; }
+          const r = _resolve; _resolve = _reject = null;
+          if (r) r(token || '');
+        },
+        'error-callback': function () {
+          if (_execTimer) { clearTimeout(_execTimer); _execTimer = null; }
+          const r = _resolve; _resolve = _reject = null;
+          if (r) r(''); // fail-open
+        },
+        'timeout-callback': function () {
+          if (_execTimer) { clearTimeout(_execTimer); _execTimer = null; }
+          const r = _resolve; _resolve = _reject = null;
+          if (r) r('');
+        },
+      });
+    } catch (e) {
+      _widgetId = null;
+    }
+  }
+
+  function _loadScript() {
+    if (_disabled() || _scriptStarted) return;
+    _scriptStarted = true;
+    // Global onload hook — Turnstile calls this once api.js is parsed.
+    window._sfTurnstileApiReady = function () {
+      _scriptReady = true;
+      _renderWidget();
+      _flushWaiters();
+    };
+    const s = document.createElement('script');
+    s.src   = SCRIPT_URL;
+    s.async = true;
+    s.defer = true;
+    s.onerror = function () {
+      // Network / ad-blocker error — release any waiters so forms can submit
+      // without a token (server-side verify_turnstile is fail-open).
+      _scriptReady = true;
+      _flushWaiters();
+    };
+    document.head.appendChild(s);
+  }
+
+  return {
+    /**
+     * Begin loading + rendering the widget. Cheap to call repeatedly.
+     * Call when the user shows intent to use a form (focus / pointerdown on
+     * any registration form input, or when a modal opens).
+     */
+    prime: function () { _loadScript(); },
+
+    /**
+     * Run the challenge and resolve with a token (or '' on failure/timeout).
+     * Never rejects — form submission must always be able to proceed.
+     */
+    execute: function () {
+      return new Promise(function (resolve) {
+        if (_disabled()) { resolve(''); return; }
+        _loadScript();
+
+        // Cancel any pending execute by resolving it empty
+        if (_resolve) { const old = _resolve; _resolve = _reject = null; old(''); }
+        if (_execTimer) { clearTimeout(_execTimer); _execTimer = null; }
+
+        _resolve = resolve;
+
+        // Hard timeout — never let a wedged Turnstile block a real user.
+        _execTimer = setTimeout(function () {
+          _execTimer = null;
+          const r = _resolve; _resolve = _reject = null;
+          if (r) r('');
+        }, EXEC_TIMEOUT_MS);
+
+        function go() {
+          if (_widgetId === null) _renderWidget();
+          if (_widgetId === null || !window.turnstile) {
+            // Render failed — release immediately
+            if (_execTimer) { clearTimeout(_execTimer); _execTimer = null; }
+            const r = _resolve; _resolve = _reject = null;
+            if (r) r('');
+            return;
+          }
+          try {
+            window.turnstile.reset(_widgetId);
+            window.turnstile.execute(_widgetId);
+          } catch (e) {
+            if (_execTimer) { clearTimeout(_execTimer); _execTimer = null; }
+            const r = _resolve; _resolve = _reject = null;
+            if (r) r('');
+          }
+        }
+
+        if (_scriptReady) go();
+        else _waiters.push(go);
+      });
+    },
+
+    /** Reset the widget (e.g. after a failed form submission). */
+    reset: function () {
+      if (_widgetId !== null && window.turnstile) {
+        try { window.turnstile.reset(_widgetId); } catch (e) {}
+      }
+    },
+  };
+})();
+window.sfTurnstile = sfTurnstile;
+
+// ── sfSubmitWithTurnstile ─────────────────────────────────────────────────────
+// Centralised form-submit helper. Calls sfTurnstile.execute() to get a token,
+// then forwards `params&cf-turnstile-response=<token>` to sfAjax. If the token
+// is empty (Turnstile disabled, blocked, or timed out) the param is omitted
+// and the server-side verify falls open. This keeps every form-submit handler
+// short and consistent.
+function sfSubmitWithTurnstile(form, action, sfAjax, onSuccess, onError) {
+  sfTurnstile.execute().then(function (token) {
+    let params = serializeForm(form) + '&action=' + encodeURIComponent(action) +
+                 '&nonce=' + encodeURIComponent(salefishAjax.nonce);
+    if (token) params += '&cf-turnstile-response=' + encodeURIComponent(token);
+    sfAjax(params, onSuccess, onError);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
+  // ── Prime Turnstile on real intent ──────────────────────────────────────────
+  // First focusin / pointerdown / input on any field inside a known reg form
+  // begins script load + widget render. By the time the user submits, the
+  // widget is warm and execute() resolves in ~50 ms.
+  const _SF_PRIME_SEL = '#reg_form, #agent_form, #partner_form, #sf_reg_form, #sf_partner_form';
+  let _sfTsPrimed = false;
+  function _sfMaybePrimeTurnstile(target) {
+    if (_sfTsPrimed || !target || !target.closest) return;
+    if (target.closest(_SF_PRIME_SEL)) {
+      _sfTsPrimed = true;
+      sfTurnstile.prime();
+    }
+  }
+  document.addEventListener('focusin',     function (e) { _sfMaybePrimeTurnstile(e.target); }, { passive: true, capture: true });
+  document.addEventListener('pointerdown', function (e) { _sfMaybePrimeTurnstile(e.target); }, { passive: true, capture: true });
+
   // ── One-shot scroll reveal ─────────────────────────────────────────────────
   // Templates already carry data-aos attributes. This tiny controller replaces
   // the old AOS dependency with a Safari-friendly IntersectionObserver path:
@@ -436,8 +631,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (regForm) {
     regForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      const params = serializeForm(this) + '&action=salefish_register&nonce=' + salefishAjax.nonce;
-      sfAjax(params, function (res) {
+      sfSubmitWithTurnstile(this, 'salefish_register', sfAjax, function (res) {
         if (res.success) {
           sfTrackConversion('demo_request', 'inline_form');
           sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
@@ -451,8 +645,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (agentForm) {
     agentForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      const params = serializeForm(this) + '&action=agents_register&nonce=' + salefishAjax.nonce;
-      sfAjax(params, function (res) {
+      sfSubmitWithTurnstile(this, 'agents_register', sfAjax, function (res) {
         if (res.success) {
           sfTrackConversion('agent_inquiry', 'inline_form');
           sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
@@ -466,8 +659,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (partnerForm) {
     partnerForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      const params = serializeForm(this) + '&action=partner_register&nonce=' + salefishAjax.nonce;
-      sfAjax(params, function (res) {
+      sfSubmitWithTurnstile(this, 'partner_register', sfAjax, function (res) {
         if (res.success) {
           sfTrackConversion('partner_inquiry', 'inline_form');
           sfShowCheckEmail(res.data && res.data.email ? res.data.email : '');
@@ -520,6 +712,10 @@ document.addEventListener('DOMContentLoaded', function () {
       window.clarity('set', 'modal_type', 'registration');
       window.clarity('event', 'modal_open');
     }
+    // Begin Turnstile load now — the menu has already been closed by the
+    // pointerdown/click trigger that opened the modal, so loading the
+    // script here cannot interfere with menu interaction.
+    sfTurnstile.prime();
     sfFadeIn(modal, 200, function () {
       _sfRegTrap = sfFocusTrap(modal);
     });
@@ -599,8 +795,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (btn) { btn.value = 'Submitting…'; btn.disabled = true; }
     const errEl = document.getElementById('sf-reg-form-error');
     if (errEl) errEl.remove();
-    const params = serializeForm(form) + '&action=salefish_register&nonce=' + salefishAjax.nonce;
-    sfAjax(params, function (res) {
+    sfSubmitWithTurnstile(form, 'salefish_register', sfAjax, function (res) {
       if (res.success) {
         sfTrackConversion('demo_request', 'modal');
         sfRegModalClose();
@@ -630,6 +825,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const sel = document.getElementById('sf_partner_want_to_do');
       if (sel) sel.value = partnerType;
     }
+    sfTurnstile.prime();
     sfFadeIn(modal, 200, function () {
       _sfPartnerTrap = sfFocusTrap(modal);
     });
@@ -696,8 +892,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (btn) { btn.value = 'Submitting…'; btn.disabled = true; }
     const errEl = document.getElementById('sf-partner-form-error');
     if (errEl) errEl.remove();
-    const params = serializeForm(form) + '&action=partner_register&nonce=' + salefishAjax.nonce;
-    sfAjax(params, function (res) {
+    sfSubmitWithTurnstile(form, 'partner_register', sfAjax, function (res) {
       if (res.success) {
         sfTrackConversion('partner_inquiry', 'modal');
         sfPartnerModalClose();

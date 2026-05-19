@@ -9,7 +9,8 @@
     "sourceType": "module"
   },
   "globals": {
-    "salefishAjax": "readonly"
+    "salefishAjax": "readonly",
+    "turnstile": "readonly"
   },
   "rules": {
     "no-var": "error",

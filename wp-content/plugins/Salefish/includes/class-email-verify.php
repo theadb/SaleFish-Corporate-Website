@@ -112,6 +112,43 @@ class Salefish_Email_Verify {
 	}
 
 	/**
+	 * Verify a Cloudflare Turnstile token against the siteverify endpoint.
+	 *
+	 * Returns true if:
+	 *   • No sitekey/secret is configured (feature disabled) — fail-open by design
+	 *     so an unconfigured site continues to work
+	 *   • The token verifies successfully
+	 *   • The Cloudflare endpoint is unreachable (network error) — fail-open so
+	 *     a brief outage at Cloudflare can never block a legitimate signup
+	 *
+	 * Returns false only when Cloudflare positively responds that the token
+	 * is invalid. The honeypot + email verification flow handles the residual
+	 * spam risk during a fail-open window.
+	 */
+	public static function verify_turnstile( string $token ): bool {
+		if ( ! defined( 'SALEFISH_CF_TURNSTILE_SECRET' ) || ! SALEFISH_CF_TURNSTILE_SECRET ) {
+			return true;
+		}
+		if ( $token === '' ) {
+			return false;
+		}
+		$response = wp_remote_post( 'https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+			'body' => [
+				'secret'   => SALEFISH_CF_TURNSTILE_SECRET,
+				'response' => $token,
+				'remoteip' => $_SERVER['REMOTE_ADDR'] ?? '',
+			],
+			'timeout' => 5,
+		] );
+		if ( is_wp_error( $response ) ) {
+			error_log( '[SaleFish] Turnstile verify network error: ' . $response->get_error_message() );
+			return true; // fail-open on transport errors
+		}
+		$body = json_decode( wp_remote_retrieve_body( $response ), true );
+		return ! empty( $body['success'] );
+	}
+
+	/**
 	 * Send the confirmation email to the registrant.
 	 */
 	public static function send_confirmation( string $email, string $token, string $type ): bool {

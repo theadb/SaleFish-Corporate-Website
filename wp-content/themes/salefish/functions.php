@@ -158,9 +158,10 @@ function salefish_enqueue_assets()
     wp_enqueue_style('style-name', get_template_directory_uri() . '/dest/app.css', [], filemtime(get_template_directory() . '/dest/app.css'));
     wp_enqueue_script('script-name', get_template_directory_uri() . '/dest/app.js', [], filemtime(get_template_directory() . '/dest/app.js'), true);
     wp_localize_script('script-name', 'salefishAjax', [
-        'ajaxurl'        => admin_url('admin-ajax.php'),
-        'nonce'          => wp_create_nonce('salefish_nonce'),
-        'loadMoreNonce'  => wp_create_nonce('salefish_load_more'),
+        'ajaxurl'          => admin_url('admin-ajax.php'),
+        'nonce'            => wp_create_nonce('salefish_nonce'),
+        'loadMoreNonce'    => wp_create_nonce('salefish_load_more'),
+        'turnstileSitekey' => defined('SALEFISH_CF_TURNSTILE_SITEKEY') ? SALEFISH_CF_TURNSTILE_SITEKEY : '',
     ]);
 
     // ── Page-specific JS & CSS — only loaded on pages that need them ──────────

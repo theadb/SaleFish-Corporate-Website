@@ -210,17 +210,25 @@ Form submit handlers are document-delegated so they work on freshly-injected for
 
 ## Bot protection
 
-Turnstile was removed — it injected an iframe with capture-phase listeners that
-made the menu sluggish after a modal closed, and on mobile sometimes blocked
-the close-button tap entirely.
+Layered defence — every registration form passes through all of these:
 
-The remaining defences are sufficient for a low-volume marketing site:
-- **Honeypot field** (`<input name="sf_hp">`) on every form — bots fill hidden inputs; humans don't. Submissions with `sf_hp` populated are silently accepted with a fake success response.
-- **Email confirmation** — every registration requires a click on a verification link before AC is contacted, an internal notification fires, or the autoresponder sends. Anything that can't receive mail at the submitted address is filtered out automatically.
-- **Nonce check** (`check_ajax_referer( 'salefish_nonce' )`) — blocks cross-origin replay.
-- **Daily cron** — purges expired/unverified `sf_reg_*` options so abandoned attempts never accumulate.
+1. **Cloudflare Turnstile — invisible, lazy, single shared widget**.
+   - Configured via two PHP constants in `wp-config.php`:
+     - `SALEFISH_CF_TURNSTILE_SITEKEY` — public sitekey (rendered into JS)
+     - `SALEFISH_CF_TURNSTILE_SECRET` — secret (server-side `siteverify`)
+   - With either constant unset, Turnstile is fully disabled at runtime — the site behaves as if it weren't installed (JS bootstrap and PHP verify both fall open). This makes local/dev work without configuration.
+   - **One** widget per page, mode `size: 'invisible'` + `execution: 'execute'`, rendered into an off-screen `<div id="sf-turnstile-host">` in `<body>` — NOT inside any modal subtree. This is the critical UX fix that distinguishes this implementation from the original: the iframe can never sit on top of a modal close button or compete with the focus trap, which was the root cause of the previous Turnstile-related menu sluggishness.
+   - **Lazy load**: `api.js` is fetched only when the user shows real intent — first `focusin`/`pointerdown` on any input inside a known registration form (`#reg_form`, `#agent_form`, `#partner_form`, `#sf_reg_form`, `#sf_partner_form`), or when a registration / partner modal opens. By that moment the menu has closed, so Turnstile's document listeners cannot interfere with menu interaction.
+   - **`sfTurnstile.execute()`** returns a `Promise<token>` that resolves with the token on success, or with `''` after a 4 s timeout (or on `error-callback`/`timeout-callback`). Submission **never blocks** — server-side verification falls open if the token is absent or the Cloudflare endpoint is unreachable. Honeypot + email verification handle residual spam risk during a fail-open window.
+   - **`sfSubmitWithTurnstile(form, action, sfAjax, onSuccess, onError)`** is the central helper used by all 5 form-submit paths (3 inline + 2 modal). It calls `sfTurnstile.execute()`, then forwards `serializeForm() + &cf-turnstile-response=<token>` to `sfAjax`.
+   - Server side: `Salefish_Email_Verify::verify_turnstile($token)` in `class-email-verify.php` validates against `https://challenges.cloudflare.com/turnstile/v0/siteverify` with a 5 s timeout, fail-open on network error or unconfigured secret.
+2. **Honeypot field** (`<input name="sf_hp">`) on every form — bots fill hidden inputs; humans don't. Submissions with `sf_hp` populated are silently accepted with a fake success response (no Cloudflare round-trip).
+3. **Email confirmation** — every registration requires a click on a verification link before AC is contacted, an internal notification fires, or the autoresponder sends. Anything that can't receive mail at the submitted address is filtered out automatically.
+4. **Nonce check** (`check_ajax_referer( 'salefish_nonce' )`) — blocks cross-origin replay.
+5. **Rate limit** (`salefish_enforce_rate_limit()`) — per-IP and per-email throttles in the AJAX handlers.
+6. **Daily cron** — purges expired/unverified `sf_reg_*` options so abandoned attempts never accumulate.
 
-If spam ever becomes a real problem, prefer a server-side rate limiter or hCaptcha invisible v2 — both keep all logic out of `general.js` so the menu never has to compete with a third-party listener.
+**Never** re-add Turnstile markup inside the modal or contact partials — the widget must live in the single shared off-screen host in `footer.php` only. Adding `.cf-turnstile` divs anywhere else re-creates the menu-sluggishness bug.
 
 ---
 
