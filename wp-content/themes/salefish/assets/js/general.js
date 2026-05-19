@@ -431,6 +431,8 @@ document.addEventListener('DOMContentLoaded', function () {
       .catch(onError);
   }
 
+  sfSetFormTimestamps(document);
+
   // ── REG FORM (inline on contact pages) ───────────────────────────────────────
   const regForm = document.getElementById('reg_form');
   if (regForm) {
@@ -532,6 +534,12 @@ document.addEventListener('DOMContentLoaded', function () {
     tryRender();
   }
 
+  function sfSetFormTimestamps(root) {
+    var ts = String(Date.now());
+    var inputs = (root || document).querySelectorAll('.sf-page-ts');
+    for (var i = 0; i < inputs.length; i++) { inputs[i].value = ts; }
+  }
+
   // ── REGISTRATION MODAL ────────────────────────────────────────────────────────
   function sfRegModalOpen(section) {
     const modal = document.getElementById('sf-reg-modal');
@@ -546,6 +554,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     sfFadeIn(modal, 200, function () {
       sfRenderTurnstileIn(modal);
+      sfSetFormTimestamps(modal);
       _sfRegTrap = sfFocusTrap(modal);
     });
   }
@@ -658,6 +667,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     sfFadeIn(modal, 200, function () {
       sfRenderTurnstileIn(modal);
+      sfSetFormTimestamps(modal);
       _sfPartnerTrap = sfFocusTrap(modal);
     });
   }

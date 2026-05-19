@@ -30,6 +30,8 @@ function salefish_agents_register() {
 		wp_send_json_error( 'Invalid email address.' );
 	}
 
+	salefish_validate_bot_protection( $email, sanitize_text_field( $_POST['sf_page_ts'] ?? '' ) );
+
 	salefish_enforce_rate_limit( 'register_agent_email_' . md5( strtolower( $email ) ), 3, HOUR_IN_SECONDS );
 
 	$token = Salefish_Email_Verify::create( 'agent', [

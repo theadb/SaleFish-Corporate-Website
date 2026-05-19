@@ -54,6 +54,7 @@
 			<div class="sf-hp-field" aria-hidden="true">
 				<label for="sf_hp_partner">Leave this field blank</label>
 				<input type="text" name="sf_hp" id="sf_hp_partner" tabindex="-1" autocomplete="off" value="">
+				<input type="hidden" name="sf_page_ts" class="sf-page-ts">
 			</div>
 			<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
 			<div class="row">

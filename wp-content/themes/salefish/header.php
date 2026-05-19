@@ -928,6 +928,7 @@ $_sf_lang_options_html .= '</ul>';
 				<h2 id="sf-reg-modal-title"><?php echo esc_html( $_sf_str_reg_title ); ?></h2>
 				<form id="sf_reg_form">
 					<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off">
+					<input type="hidden" name="sf_page_ts" class="sf-page-ts">
 					<input type="hidden" name="sf_section" id="sf_reg_section" value="">
 					<div class="row">
 						<div class="col">
@@ -993,6 +994,7 @@ $_sf_lang_options_html .= '</ul>';
 				<h2 id="sf-partner-modal-title">Want In? Pick Your Lane. <span>We'll Handle the Rest.</span></h2>
 				<form id="sf_partner_form">
 					<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off">
+					<input type="hidden" name="sf_page_ts" class="sf-page-ts">
 					<div class="row">
 						<div class="col">
 							<label for="sf_partner_name">Name</label>

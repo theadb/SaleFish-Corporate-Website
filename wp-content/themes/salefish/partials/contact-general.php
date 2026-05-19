@@ -32,6 +32,8 @@
 					<input type="email" placeholder="name@developeremail.com" name="email" id="email" required>
 				</div>
 			</div>
+			<input type="text" name="sf_hp" style="display:none" tabindex="-1" autocomplete="off">
+			<input type="hidden" name="sf_page_ts" class="sf-page-ts">
 			<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
 			<div class="row">
 				<div class="cf-turnstile" data-sitekey="<?php echo esc_attr( SALEFISH_CF_TURNSTILE_SITEKEY ); ?>" data-theme="auto"></div>

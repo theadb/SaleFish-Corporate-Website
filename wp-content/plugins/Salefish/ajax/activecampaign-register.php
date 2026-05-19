@@ -31,6 +31,8 @@ function salefish_register() {
 		wp_send_json_error( 'Invalid email address.' );
 	}
 
+	salefish_validate_bot_protection( $email, sanitize_text_field( $_POST['sf_page_ts'] ?? '' ) );
+
 	salefish_enforce_rate_limit( 'register_general_email_' . md5( strtolower( $email ) ), 3, HOUR_IN_SECONDS );
 
 	$ctx = salefish_collect_context();
