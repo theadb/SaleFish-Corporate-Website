@@ -130,6 +130,32 @@ class Salefish_Email_Verify {
 	}
 
 	/**
+	 * Verify a Cloudflare Turnstile token.
+	 * Returns true if valid, or if SALEFISH_CF_TURNSTILE_SECRET is not configured.
+	 */
+	public static function verify_turnstile( string $token ): bool {
+		if ( ! defined( 'SALEFISH_CF_TURNSTILE_SECRET' ) || ! SALEFISH_CF_TURNSTILE_SECRET ) {
+			return true;
+		}
+
+		$response = wp_remote_post( 'https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+			'body' => [
+				'secret'   => SALEFISH_CF_TURNSTILE_SECRET,
+				'response' => $token,
+				'remoteip' => $_SERVER['REMOTE_ADDR'] ?? '',
+			],
+			'timeout' => 10,
+		] );
+
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+
+		$body = json_decode( wp_remote_retrieve_body( $response ), true );
+		return ! empty( $body['success'] );
+	}
+
+	/**
 	 * Hook: process email verification link clicks.
 	 * Attached to template_redirect in salefish.php.
 	 *

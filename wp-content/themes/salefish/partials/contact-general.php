@@ -32,6 +32,11 @@
 					<input type="email" placeholder="name@developeremail.com" name="email" id="email" required>
 				</div>
 			</div>
+			<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
+			<div class="row">
+				<div class="cf-turnstile" data-sitekey="<?php echo esc_attr( SALEFISH_CF_TURNSTILE_SITEKEY ); ?>" data-theme="auto"></div>
+			</div>
+			<?php endif; ?>
 			<div class="row submit_row">
 				<input class="button" type="submit" value="Register">
 			</div>

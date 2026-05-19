@@ -967,6 +967,11 @@ $_sf_lang_options_html .= '</ul>';
 						</div>
 					</div>
 					<div class="row">
+						<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
+						<div class="cf-turnstile" data-sitekey="<?php echo esc_attr( SALEFISH_CF_TURNSTILE_SITEKEY ); ?>" data-theme="auto"></div>
+						<?php endif; ?>
+					</div>
+					<div class="row">
 						<input class="button" type="submit" value="<?php echo esc_attr( $_sf_str_submit ); ?>">
 					</div>
 				</form>
@@ -1026,6 +1031,11 @@ $_sf_lang_options_html .= '</ul>';
 								<option value="10+">10+</option>
 							</select>
 						</div>
+					</div>
+					<div class="row">
+						<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
+						<div class="cf-turnstile" data-sitekey="<?php echo esc_attr( SALEFISH_CF_TURNSTILE_SITEKEY ); ?>" data-theme="auto"></div>
+						<?php endif; ?>
 					</div>
 					<div class="row">
 						<input class="button" type="submit" value="Register">

@@ -237,6 +237,50 @@ if ( strpos( $_sf_path, '/de' ) === 0 ) {
 }());
 </script>
 
+<?php if ( defined( 'SALEFISH_CF_TURNSTILE_SITEKEY' ) && SALEFISH_CF_TURNSTILE_SITEKEY ) : ?>
+<!-- Cloudflare Turnstile — deferred until the user hovers/touches a modal trigger.
+     Explicit render mode: sfTurnstileReady() renders inline widgets on load;
+     sfRenderTurnstileIn() renders modal widgets after the modal fades in. -->
+<link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin>
+<script>
+window.sfTurnstileReady = function () {
+  document.querySelectorAll('.cf-turnstile').forEach(function (node) {
+    if (node.closest('#sf-reg-modal, #sf-partner-modal')) return;
+    try {
+      window.turnstile.render(node, {
+        sitekey: node.getAttribute('data-sitekey'),
+        theme:   node.getAttribute('data-theme') || 'auto',
+      });
+    } catch (e) {}
+  });
+};
+(function () {
+  var _tsLoaded = false;
+  function _loadTurnstile() {
+    if (_tsLoaded) return;
+    _tsLoaded = true;
+    var s = document.createElement('script');
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=sfTurnstileReady';
+    s.async = true;
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+  var triggerSel = '[data-sf-modal], .cf-turnstile';
+  ['pointerenter', 'touchstart', 'focusin'].forEach(function (evt) {
+    document.addEventListener(evt, function (e) {
+      if (e.target && e.target.closest && e.target.closest(triggerSel)) _loadTurnstile();
+    }, { once: false, passive: true, capture: true });
+  });
+  document.addEventListener('click', function (e) {
+    if (e.target && e.target.closest && e.target.closest(triggerSel)) _loadTurnstile();
+  }, { passive: true, capture: true });
+  window.addEventListener('load', function () {
+    if (document.querySelector('.cf-turnstile')) setTimeout(_loadTurnstile, 1000);
+  });
+}());
+</script>
+<?php endif; ?>
+
 <!-- app.js is bundled via webpack (Laravel Mix) — no CDN requests needed -->
 <!-- isotope-layout: removed — was imported but never called; CDN request was dead weight -->
 <script>

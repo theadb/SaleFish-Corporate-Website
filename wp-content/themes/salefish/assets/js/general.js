@@ -508,6 +508,30 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.addEventListener('click', doCloseThankYou);
   });
 
+  // ── CLOUDFLARE TURNSTILE ──────────────────────────────────────────────────────
+  // Explicit render mode: sfTurnstileReady() handles inline (non-modal) widgets;
+  // sfRenderTurnstileIn() handles modal widgets once the modal is visible.
+  function sfRenderTurnstileIn(modal) {
+    var node = modal ? modal.querySelector('.cf-turnstile') : null;
+    if (!node) return;
+    var attempts = 0;
+    function tryRender() {
+      attempts++;
+      if (window.turnstile && typeof window.turnstile.render === 'function') {
+        if (node.querySelector('iframe')) return;
+        try {
+          window.turnstile.render(node, {
+            sitekey: node.getAttribute('data-sitekey'),
+            theme:   node.getAttribute('data-theme') || 'auto',
+          });
+        } catch (e) {}
+        return;
+      }
+      if (attempts < 80) setTimeout(tryRender, 100);
+    }
+    tryRender();
+  }
+
   // ── REGISTRATION MODAL ────────────────────────────────────────────────────────
   function sfRegModalOpen(section) {
     const modal = document.getElementById('sf-reg-modal');
@@ -521,6 +545,7 @@ document.addEventListener('DOMContentLoaded', function () {
       window.clarity('event', 'modal_open');
     }
     sfFadeIn(modal, 200, function () {
+      sfRenderTurnstileIn(modal);
       _sfRegTrap = sfFocusTrap(modal);
     });
   }
@@ -533,6 +558,7 @@ document.addEventListener('DOMContentLoaded', function () {
     sfFadeOut(document.getElementById('sf-reg-modal'), 0, function () {
       const form = document.getElementById('sf_reg_form');
       if (form) form.reset();
+      if (window.turnstile && typeof window.turnstile.reset === 'function') window.turnstile.reset();
       const err = document.getElementById('sf-reg-form-error');
       if (err) err.remove();
       if (returnFocus) returnFocus.focus();
@@ -631,6 +657,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (sel) sel.value = partnerType;
     }
     sfFadeIn(modal, 200, function () {
+      sfRenderTurnstileIn(modal);
       _sfPartnerTrap = sfFocusTrap(modal);
     });
   }
@@ -643,6 +670,7 @@ document.addEventListener('DOMContentLoaded', function () {
     sfFadeOut(document.getElementById('sf-partner-modal'), 0, function () {
       const form = document.getElementById('sf_partner_form');
       if (form) form.reset();
+      if (window.turnstile && typeof window.turnstile.reset === 'function') window.turnstile.reset();
       const err = document.getElementById('sf-partner-form-error');
       if (err) err.remove();
       if (returnFocus) returnFocus.focus();
