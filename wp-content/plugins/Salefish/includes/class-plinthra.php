@@ -27,6 +27,7 @@ class Salefish_Plinthra {
 			'headers' => [
 				'Content-Type' => 'application/json',
 				'X-API-Key'    => $api_key,
+				'Origin'       => home_url(),
 			],
 			'body'    => wp_json_encode( $data ),
 			'timeout' => 15,
