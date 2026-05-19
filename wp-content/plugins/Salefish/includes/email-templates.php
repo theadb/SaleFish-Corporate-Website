@@ -455,6 +455,7 @@ function salefish_send_notification( array $fields, string $form_type ): bool {
  */
 function salefish_complete_registration( string $type, array $f ): void {
 	require_once plugin_dir_path( __FILE__ ) . 'class-activecampaign.php';
+	require_once plugin_dir_path( __FILE__ ) . 'class-plinthra.php';
 
 	// Geo lookup deferred from AJAX path — runs here on email-link click so
 	// the user's form-submit response is never blocked by the network call.
@@ -505,6 +506,19 @@ function salefish_complete_registration( string $type, array $f ): void {
 		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'agent' ) );
 		salefish_send_notification( $note_data, 'agent' );
 		salefish_send_autoresponder( $f['email'] ?? '', $first_name, 'agent' );
+		Salefish_Plinthra::register( [
+			'firstName'          => $first_name,
+			'lastName'           => $last_name,
+			'email'              => $f['email'] ?? '',
+			'phone'              => $f['phone'] ?? '',
+			'isRealtor'          => 'Yes',
+			'workingWithRealtor' => 'No',
+			'leadSource'         => 'Website',
+			'emailConsent'       => true,
+			'smsConsent'         => false,
+			'source'             => 'website',
+			'regtype'            => Salefish_Plinthra::page_from_url( $f['_ctx']['_ctx_source'] ?? '' ),
+		] );
 
 	} elseif ( $type === 'partner' ) {
 		$ac->add_tag( $contact_id, 'partner-registration' );
@@ -528,6 +542,19 @@ function salefish_complete_registration( string $type, array $f ): void {
 		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'partner' ) );
 		salefish_send_notification( $note_data, 'partner' );
 		salefish_send_autoresponder( $f['email'] ?? '', $first_name, 'partner' );
+		Salefish_Plinthra::register( [
+			'firstName'          => $first_name,
+			'lastName'           => $last_name,
+			'email'              => $f['email'] ?? '',
+			'phone'              => $f['phone'] ?? '',
+			'isRealtor'          => 'No',
+			'workingWithRealtor' => 'No',
+			'leadSource'         => 'Website',
+			'emailConsent'       => true,
+			'smsConsent'         => false,
+			'source'             => 'website',
+			'regtype'            => Salefish_Plinthra::page_from_url( $f['_ctx']['_ctx_source'] ?? '' ),
+		] );
 
 	} elseif ( $type === 'general' ) {
 		$ac->add_tag( $contact_id, 'website-registration' );
@@ -546,6 +573,19 @@ function salefish_complete_registration( string $type, array $f ): void {
 		$ac->add_note( $contact_id, salefish_format_ac_note( $note_data, 'general' ) );
 		salefish_send_notification( $note_data, 'general' );
 		salefish_send_autoresponder( $f['email'] ?? '', $first_name, 'general' );
+		Salefish_Plinthra::register( [
+			'firstName'          => $first_name,
+			'lastName'           => $last_name,
+			'email'              => $f['email'] ?? '',
+			'phone'              => $f['phone'] ?? '',
+			'isRealtor'          => 'No',
+			'workingWithRealtor' => 'No',
+			'leadSource'         => 'Website',
+			'emailConsent'       => true,
+			'smsConsent'         => false,
+			'source'             => 'website',
+			'regtype'            => Salefish_Plinthra::page_from_url( $f['_ctx']['_ctx_source'] ?? '' ),
+		] );
 	}
 }
 
