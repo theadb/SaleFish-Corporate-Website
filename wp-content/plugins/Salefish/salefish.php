@@ -64,6 +64,11 @@ if ( is_admin() ) {
 	require_once 'admin/email-preview.php';
 }
 
+// ── Allow WordPress auto-updates despite .git in webroot ─────────────────────
+// WordPress disables background updates when it detects a VCS checkout (.git).
+// The repo is intentional; override so security patches still apply automatically.
+add_filter( 'automatic_updates_is_vcs_checkout', '__return_false' );
+
 // ── Remove Marketplace CPT entirely ──────────────────────────────────────────
 // CPT UI registered it in the DB; unregister it at runtime and hide it from
 // wp-admin so it no longer appears anywhere in the back-end.
