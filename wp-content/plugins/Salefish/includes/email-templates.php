@@ -462,10 +462,9 @@ function salefish_complete_registration( string $type, array $f ): void {
 		$f['_ctx']['_ctx_location'] = salefish_lookup_geo( $f['_ctx']['_ctx_ip'] );
 	}
 
-	$parts             = explode( ' ', $f['name'] ?? '', 2 );
-	$first_name        = $parts[0] ?? '';
-	$last_name         = $parts[1] ?? '';
-	$possible_linkedin = salefish_possible_linkedin_url( $first_name, $last_name );
+	$parts      = explode( ' ', $f['name'] ?? '', 2 );
+	$first_name = $parts[0] ?? '';
+	$last_name  = $parts[1] ?? '';
 
 	$crm_base = [
 		'firstName'          => $first_name,
@@ -481,45 +480,14 @@ function salefish_complete_registration( string $type, array $f ): void {
 	];
 
 	if ( $type === 'agent' ) {
-		$explicit_linkedin = $f['linkedin_url'] ?? '';
-		$note_data = array_merge( [
-			'name'    => $f['name']        ?? '',
-			'email'   => $f['email']       ?? '',
-			'phone'   => $f['phone']       ?? '',
-			'company' => $f['brokerage']   ?? '',
-			'website' => $f['website_url'] ?? '',
-			...( $explicit_linkedin
-				? [ 'linkedin_url'          => $explicit_linkedin ]
-				: ( $possible_linkedin ? [ 'possible_linkedin_url' => $possible_linkedin ] : [] )
-			),
-		], $f['_ctx'] ?? [] );
-		salefish_send_notification( $note_data, 'agent' );
 		salefish_send_autoresponder( $f['email'] ?? '', $first_name, 'agent' );
 		Salefish_Plinthra::register( array_merge( $crm_base, [ 'isRealtor' => 'Yes' ] ) );
 
 	} elseif ( $type === 'partner' ) {
-		$note_data = array_merge( [
-			'name'       => $f['name']       ?? '',
-			'email'      => $f['email']      ?? '',
-			'phone'      => $f['phone']      ?? '',
-			'company'    => $f['company']    ?? '',
-			'want_to_do' => $f['want_to_do'] ?? '',
-			'clients'    => $f['clients']    ?? '',
-			...( $possible_linkedin ? [ 'possible_linkedin_url' => $possible_linkedin ] : [] ),
-		], $f['_ctx'] ?? [] );
-		salefish_send_notification( $note_data, 'partner' );
 		salefish_send_autoresponder( $f['email'] ?? '', $first_name, 'partner' );
 		Salefish_Plinthra::register( array_merge( $crm_base, [ 'isRealtor' => 'No' ] ) );
 
 	} elseif ( $type === 'general' ) {
-		$note_data = array_merge( [
-			'name'    => $f['name']    ?? '',
-			'email'   => $f['email']   ?? '',
-			'phone'   => $f['phone']   ?? '',
-			'company' => $f['company'] ?? '',
-			...( $possible_linkedin ? [ 'possible_linkedin_url' => $possible_linkedin ] : [] ),
-		], $f['_ctx'] ?? [] );
-		salefish_send_notification( $note_data, 'general' );
 		salefish_send_autoresponder( $f['email'] ?? '', $first_name, 'general' );
 		Salefish_Plinthra::register( array_merge( $crm_base, [ 'isRealtor' => 'No' ] ) );
 	}
